@@ -1,0 +1,11 @@
+/**
+* $Id: upgrade.txt,v 1.3 2005/02/24 13:59:02 malanciault Exp $
+* Module: SmartFAQ
+* Author: The SmartFactory <www.smartfactory.ca>
+* Licence: GNU
+*/
+
+How to uprade from SmartFAQ 1.x
+===============================
+
+Simply upload the 'smartfaq' folder into xoops_root/modules/ and update the module via System Admin > Modules > SmartFAQ > Update.

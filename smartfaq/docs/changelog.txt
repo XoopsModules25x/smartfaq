@@ -1,0 +1,168 @@
+---------------------------------------
+1.11 RC 2  2013-07-31
+---------------------------------------
+- made Import function visible in Admin (Irmtfan/Mamba)
+- adjusted group permissions for XOOPS 2.5.6 (Mamba)
+- added missing index.html files (Mamba)
+
+---------------------------------------
+1.11 RC 1  2013-01-04
+---------------------------------------
+- added: in tables show name of person who asked the question (Mamba)
+- added: in tables show name of person who answered the question (Mamba)
+- added: dynamic selection of Editors for Users and Admin in Preferences (Mamba)
+- fixed: icons in answer.php (Mamba)
+- fixed: redirect bug when submitting answer (Mamba)
+
+---------------------------------------
+1.10 Final  2012-12-18
+---------------------------------------
+- Converted to XOOPS 2.5.5 Admin GUI (Mamba)
+
+
+=> Version 1.09 Final (Release Date : 2010-09-25)
+=====================
+- Improved : some php5 compatibility (Trabis)
+- IMproved :Replacing deprecated methods (Trabis)
+- Fixed :XoopsUser not defined (Trabis)
+- Fixed : query not working on smartfaq (Trabis)
+
+=> Version 1.08 Beta 3 (Private release)
+========================================
+
+- Fixed : some reference bugs have been fixed
+- Fixed : the update process is now also fixing any Q&R or Open question that could have been created with categoryid=0
+- Fixed : bug when inserting new record since MySQL 5.x
+- Added : Link to "Update module" in the admin menu links
+
+=> Version 1.08 Beta 2 (Private release)
+========================================
+
+- Databse was not getting updated with new field of this version
+- The SmartDBUpdater was added to the module to easily manage DB modifications
+- DB modifications are now done automatically wen Updating the module
+- Variable passed by reference notice fixed
+- Adding the new module logo, thanks to xpider
+
+=> Version 1.08 Beta 1 (Private release)
+========================================
+
+- Some bugs with XOOPS 2.0.14 and 2.0.15
+- A bug prevented the creation of a category with an id greater than 128. This has been fixed, thanks to tommyz
+
+=> Version 1.04 Final (Release Date : 2005-01-12)
+================================================
+
+- 1.04 RC 2 was considered stable
+
+=> Version 1.04 RC 2 (Release Date : 2005-01-11)
+================================================
+
+- A fatal error was found in xoops_version that prevented a fresh install of the module. Thanks to Xavier !
+- Enable HTML tags - not working #bug 1645 was fixed, thanks to Marius
+- When an admin submit a Q&A from the user side, it is now automatically published
+
+=> Version 1.04 RC 1 (Release Date : 2005-01-10)
+================================================
+
+- A preview function has been added when Submitting a Q&A from the user side
+- In the FAQ template, the question has a link to the same page. This has been fixed
+- When no Opened Questions exists or the user don't have access to any Open Questions, he does not see the Open Question link anymore
+- A new config option has been added to allow or not the submission of new answer for already published FAQ
+- The 'New answer' icon at the bottom of an FAQ is not displayed anymore when the user does not have the right to submit new answer
+- A bug was fixed regarding the get_class function used in the SmartFAQ's classes (thanks to BigDDave)
+- When Anonymous was requesting a question it was still displayed 'Requested by Admin'. This has been fixed
+- HTML entities not escaped were fixed (bug #1646) thanks to Marius
+- Setting a block to display question from a specific category was not working. It has been fixed
+
+=> Version 1.04 Beta 1 (Release Date : 2004-12-30)
+==================================================
+
+- Layout and efficiency improvments in the template
+- Add a config option to display or not the last Q&As in the index page
+- Add a config option to display or not the top categories description
+- Add a config option to display or not the sub-categories in the index page
+- Add a block for Most Viewed Q&As
+- All form now uses templates
+
+=> Version 1.03 Final (Release Date : 2004-12-17)
+==================================================
+
+- 1.03 Beta 2 was considered stable
+
+=> Version 1.03 Beta 2 (Release Date : 2004-12-13)
+==================================================
+
+- Error fixed when admin answers an Asked question
+- Characters problem fix when merging answers
+
+=> Version 1.03 Beta 1 (Release Date : 2004-12-12)
+==================================================
+
+- When a user Requests a Q&A, the moderator can now answer this question and publish it aftwerwards. The question does not transit by the Open Question section.
+- When a new answer is submited for a Published Q&A, the moderator can now edit the answer before approving it, as well as merge the new answer with the original one and then edit this new answer.
+- The form to submit a new answer now displays the original answer of the Q&A.
+- When merging a new answer, the name of the poster is now inlcuded in the text as : 'Contribution by...'
+- When moderating questions or Q&A's, the name of the poster was changed for the name of the moderator. This has been fixed.
+
+=> Version 1.02 Final (Release Date : 2004-11-20)
+=================================================
+
+- A lot of tiny bugs have been corrected.
+- When editing a category, the list of Q&A's within that category is displayed after the form.
+
+=> Version 1.02 RC 1 (Release Date : 2004-10-12)
+================================================
+
+- Addition of a config option to display or not the 'Hits' column in Summary display type
+- Addition of a config option to display or not the 'Published on' column in Summary display type
+- Addition of a config option to configure the size of the question as a title in the Q&A page
+
+=> Version 1.02 Beta 1 (Release Date : 2004-10-10)
+==================================================
+
+- Addition of a config option to let the admin display or not the last Q&A for each categories
+- Addition of a config option to set the size of the last Q&A for each category
+- Addition of a config option to let the admin display or not the sub-categories description
+- Correction of some undefined offset on index, request and category page
+- Fix of the french translation
+
+=> Version 1.01 Beta 2 (Release Date : 2004-10-08)
+==================================================
+
+- Rewrite of a great part of the code to dramatically reduce the queries count (Thank you so much Mithrandir !!!!)
+
+=> Version 1.0 Final
+====================
+
+- Bug fixed
+
+=> version 1.0 RC1
+=====================
+
+- Addition of the new Blocks And group admin by GiJOe
+- Many big fixed
+
+=> version 1.0 Beta 2
+=====================
+
+- An new feature has been implemented for importing FAQs from XoopsFAQ and WF-FAQ.
+- Printing an FAQ was not working. It has been fixed.
+- When the category decsription was too long, the category could not be created. This has been fixed.
+- Deleting a category was causing an Fatal Error. It has been fixed.
+- The search function was not working. It has been fixed.
+- When editing an FAQ, the uid was changed for the one editing it. This has been fixed.
+- On a clean install, without adding any content, cliking on SmartFAQ in the main menu was causing an infinite loop of redirect message. This has been fixed.
+- The intro message displayed in the Open Question section was the intro message of the Request a Q&A form. It has been fixed.
+- When adding open questions with Auto-Approve Request ON, in the Open Question section, the questions were displayed but not the categories. This has been fixed.
+- When deleting and FAQ, its answers were not deleted. It has been fixed.
+- The 'Send to a friend' feature was not working. It has been fixed.
+
+
+=> version 1.0 Beta
+===================
+
+- Initial full release of the module, with all features implemented (at least for version 1.0)
+
+
+
