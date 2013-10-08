@@ -1,0 +1,14 @@
+/**
+* $Id: install.txt,v 1.6 2004/11/20 16:52:32 malanciault Exp $
+* Module: SmartFAQ
+* Author: The SmartFactory
+* Licence: GNU
+*/
+
+How to install SmartFAQ
+=======================
+
+SmartFAQ is installed as a regular XOOPS module, which means you should copy the complete /smartfaq folder into the
+/modules directory of your website. Then, log in to your site as administrator, go to System Admin > Modules, look for
+the SmartFAQ icon in the list of uninstalled modules and click in the install icon. Follow the directions in the screen
+and you'll be ready to go.
