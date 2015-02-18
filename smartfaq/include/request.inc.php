@@ -6,9 +6,7 @@
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
 */
-if (!defined("XOOPS_ROOT_PATH")) { 
- 	die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 global $_POST;
 
@@ -36,12 +34,10 @@ $button_tray->addElement(new XoopsFormButton('', 'post', _SUBMIT, 'submit'));
 $form->addElement($button_tray);
 // NOTIFY ON PUBLISH
 if (is_object($xoopsUser)) {
-	$notify_checkbox = new XoopsFormCheckBox('', 'notifypub', 1);
-	$notify_checkbox->addOption(1, _MD_SF_NOTIFY);
-	$form->addElement($notify_checkbox);
+    $notify_checkbox = new XoopsFormCheckBox('', 'notifypub', 1);
+    $notify_checkbox->addOption(1, _MD_SF_NOTIFY);
+    $form->addElement($notify_checkbox);
 }
 
 $form->assign($xoopsTpl);
 unset($hidden);
-
-?>

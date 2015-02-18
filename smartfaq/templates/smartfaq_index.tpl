@@ -11,7 +11,7 @@
 	{
 		window.location.href = object.options[object.selectedIndex].value;
 	}
-	
+
 	function toggle(id)
 	{
 		if (document.getElementById) { obj = document.getElementById(id); }
@@ -26,12 +26,12 @@
 		}
 		return false;
 	}
-	
+
 	var iconClose = new Image();
-	iconClose.src = 'images/icon/close12.gif';
+	iconClose.src = 'assets/images/icon/close12.gif';
 	var iconOpen = new Image();
-	iconOpen.src = 'images/icon/open12.gif';
-	
+	iconOpen.src = 'assets/images/icon/open12.gif';
+
 	function toggleIcon ( iconName )
 	{
 		if ( document.images[iconName].src == window.iconOpen.src ) {
@@ -41,20 +41,20 @@
 		}
 		return;
 	}
-	
+
 	//-->
 	</script>
 <{/if}>
-	
+
 	<{if $lang_mainintro != ''}>
 		<span class="sf_infotitle"><{$lang_mainhead}></span>
-		<span class="sf_infotext"><{$lang_mainintro}></span>	
+		<span class="sf_infotext"><{$lang_mainintro}></span>
 		<br />
 	<{/if}>
-	
-	
+
+
 	<{if $displaycollaps == 1}>
-		<div class="sf_collaps_title"><a href='#' onclick="toggle('toptable'); toggleIcon('toptableicon')";><img id='toptableicon' src='<{$xoops_url}>/modules/smartfaq/images/icon/close12.gif' alt='' /></a>&nbsp;<{$lang_categories_summary}></div>
+		<div class="sf_collaps_title"><a href='#' onclick="toggle('toptable'); toggleIcon('toptableicon')";><img id='toptableicon' src='<{$xoops_url}>/modules/smartfaq/assets/images/icon/close12.gif' alt='' /></a>&nbsp;<{$lang_categories_summary}></div>
 		<div id='toptable'>
 		<span class="sf_collaps_info"><{$lang_categories_summary_info}></span>
 
@@ -64,7 +64,7 @@
 	<{/if}>
 		<div align="right"><{$catnavbar}></div>
 		<table border="0" width="90%" cellspacing="1" cellpadding="0" align="center" class = "outer">
-  		<tr> 
+  		<tr>
     		<td align="left" class="itemHead"><b><{$lang_category}></b></td>
     		<td align="center" width="50px" class="itemHead"><b><{$lang_smartfaqs}></b></td>
     		<{if $displaylastfaq == 1}>
@@ -73,12 +73,12 @@
   		</tr>
 		<!-- Start categories loop -->
 		<{foreach item=category from=$categories}>
-  		<tr> 
+  		<tr>
     		<td valign="middle" class="even" align="left">
     		<{if $isAdmin == 1}>
-    			<a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$category.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/images/icon/cat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>&nbsp;<b><{$category.categorylink}></b>
+    			<a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$category.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>&nbsp;<b><{$category.categorylink}></b>
     		<{else}>
-				<img src="<{$xoops_url}>/modules/smartfaq/images/icon/cat.gif" alt="" />&nbsp;<b><{$category.categorylink}></b>    		
+				<img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif" alt="" />&nbsp;<b><{$category.categorylink}></b>
     		<{/if}>
 
     		 <br />
@@ -93,13 +93,13 @@
   		</tr>
 
 	  		<{foreach item=subcat from=$category.subcats}>
-  			<tr> 
+  			<tr>
 	  			<td valign="middle" class="odd" align="left">
 	  			<div style="padding-left: 10px;">
 	  				<{if $isAdmin == 1}>
-	  					<a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$subcat.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/images/icon/subcat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>&nbsp;<{$subcat.categorylink}>
+	  					<a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$subcat.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>&nbsp;<{$subcat.categorylink}>
   					<{else}>
-		  				<img src="<{$xoops_url}>/modules/smartfaq/images/icon/subcat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/>&nbsp;<{$subcat.categorylink}>
+		  				<img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/>&nbsp;<{$subcat.categorylink}>
     				<{/if}>
     				<{if $displaysubcatdsc == 1}>
     					<span class="sf_category_dsc"><{$subcat.description}></span>
@@ -111,11 +111,11 @@
     				<td valign="middle" class="odd" align="right"><{$subcat.last_question_link}></td>
     			<{/if}>
   			</tr>
-   			<{/foreach}>  		
-  		
+   			<{/foreach}>
+
   		<{/foreach}>
 		<!-- End categories loop -->
-  		<tr> 
+  		<tr>
   		</tr>
 		</table>
 		<div align="right"><{$catnavbar}></div>
@@ -125,12 +125,12 @@
 <br />
 
 <{if $displaylastfaqs}>
-	<{include file="db:smartfaq_lastfaqs.html"}>
+	<{include file="db:smartfaq_lastfaqs.tpl"}>
 <{/if}>
-	
+
 	<{if $isAdmin == 1}>
   		<div class="sf_adminlinks"><{$sf_adminpage}></div>
 	<{/if}>
-	
+
 
 <{include file='db:system_notification_select.html'}>

@@ -6,9 +6,7 @@
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
 */
-if (!defined("XOOPS_ROOT_PATH")) { 
- 	die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 global $_POST;
 
@@ -43,14 +41,14 @@ $form->addElement($editorTray);
 
 // NOTIFY ON PUBLISH
 if (is_object($xoopsUser)) {
-	$notify_checkbox = new XoopsFormCheckBox('', 'notifypub', 1);
-	$notify_checkbox->addOption(1, _MD_SF_NOTIFY);
-	$form->addElement($notify_checkbox);
+    $notify_checkbox = new XoopsFormCheckBox('', 'notifypub', 1);
+    $notify_checkbox->addOption(1, _MD_SF_NOTIFY);
+    $form->addElement($notify_checkbox);
 }
 
-if (($faqObj->status() == _SF_STATUS_PUBLISHED) || ($faqObj->status() == _SF_STATUS_NEW_ANSWER) ){
-	$answerObj =& $faqObj->answer();
-	$form->addElement(new XoopsFormLabel(_MD_SF_ORIGINAL_ANSWER, $answerObj->answer()), false);
+if (($faqObj->status() == _SF_STATUS_PUBLISHED) || ($faqObj->status() == _SF_STATUS_NEW_ANSWER) ) {
+    $answerObj =& $faqObj->answer();
+    $form->addElement(new XoopsFormLabel(_MD_SF_ORIGINAL_ANSWER, $answerObj->answer()), false);
 }
 
 $form->addElement(new XoopsFormHidden('faqid', $faqObj->faqid()));
@@ -68,5 +66,3 @@ $form->addElement($button_tray);
 $form->assign($xoopsTpl);
 
 unset($hidden);
-
-?>

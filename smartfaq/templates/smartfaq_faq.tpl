@@ -7,7 +7,7 @@
 
 <br />
 	
-<{include file="db:smartfaq_singlefaq.html" faq=$faq}>
+<{include file="db:smartfaq_singlefaq.tpl" faq=$faq}>
 <!--next line is to include smarttie -->
 <{if $smarttie==1}>
 	<{include file='db:smarttie_links.html'}>

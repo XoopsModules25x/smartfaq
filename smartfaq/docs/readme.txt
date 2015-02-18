@@ -58,11 +58,11 @@ I would also like to thank Mariuss (Marius Scurtescu) for adapting FAQ for New X
 
 Another special thank-you to Carnuke (Richard Strauss) for writing such impressive documentation for this module. You have now set up a new quality standard for XOOPS module documentation. I'm confident that all the Xoopsers of the world are gratefull for this :-) !
 
-Finally, thanks to all the people who made this module possible : Herko, phppp, Solo71, Yoyo2021, Christian, Hervé and so many others ! Also, a final thank to Zabou who has been really understanding during all the hours I spent behind my laptop developing SmartFAQ.
+Finally, thanks to all the people who made this module possible : Herko, phppp, Solo71, Yoyo2021, Christian, HervÃ© and so many others ! Also, a final thank to Zabou who has been really understanding during all the hours I spent behind my laptop developing SmartFAQ.
 
 So I guess this is it, I could thank the Academy, my Mother and Father but that would be pushing it I think ! (lol)
 
 Enjoy SmartFAQ !
 
 .:: The SmartFactory ::.
-.:: marcan (aka mal aka Marc-André) ::.
+.:: marcan (aka mal aka Marc-AndrÃ©) ::.

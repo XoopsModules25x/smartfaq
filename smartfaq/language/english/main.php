@@ -6,7 +6,7 @@
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
 */
- 
+
 define("_MD_SF_ACTION","Action");
 define("_MD_SF_ALL","All");
 define("_MD_SF_ADMIN_PAGE",":: Admin Section ::");
@@ -152,4 +152,15 @@ define("_MD_SF_UNKNOWNERROR","ERROR.  Returning you to where you where!");
 define("_MD_SF_WEIGHT","Weight");
 define("_MD_SF_OPEN_WELCOME","Welcome to the Open Questions section of %s");
 define("_MD_SF_YES","Yes");
-?>
+
+//-----------------------------
+
+define('_MD_SF_THIS_FILE_WAS_ATTACHED_TO_THIS_POST','Attached file:');
+define('_MD_SF_ALLOWED_EXTENSIONS','Allowed extensions');
+define('_MD_SF_MAX_FILESIZE','Maximum file size');
+define('_MD_SF_ATTACHMENT','Attach file');
+define('_MD_SF_FILESIZE','Size');
+define('_MD_SF_MAXPIC','Images at the max. Size %s X %s pixels.');
+define('_MD_SF_REMOVE','Remove');
+define('_MD_SF_UPLOAD','Upload');
+define('_MD_SF_ATTACHED_FILES','Attached files: <br />Check those that you want to delete');

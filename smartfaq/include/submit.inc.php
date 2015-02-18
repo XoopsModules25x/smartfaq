@@ -6,9 +6,7 @@
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
 */
-if (!defined("XOOPS_ROOT_PATH")) { 
- 	die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 global $_POST, $xoopsDB;
 
@@ -56,7 +54,6 @@ $editorTray = new XoopsFormElementTray(_MD_SF_ANSWER_FAQ, '<br />');
 
 $form->addElement($editorTray);
 
-
 // HOW DO I
 $howdoi_text = new XoopsFormText(_MD_SF_HOWDOI_FAQ, 'howdoi', 50, 255, $faqObj->howdoi());
 $howdoi_text->setDescription(_MD_SF_HOWDOI_FAQ_DSC);
@@ -66,6 +63,47 @@ $form->addElement($howdoi_text, false);
 $diduno_text = new XoopsFormTextArea(_MD_SF_DIDUNO_FAQ, 'diduno', $faqObj->diduno(), 3, 60);
 $diduno_text->setDescription(_MD_SF_DIDUNO_FAQ_DSC);
 $form->addElement($diduno_text);
+
+//**************************************************
+
+//if ($topic_handler->getPermission($forum_obj, $topic_status, 'attach')) {
+    $upload_tray = new XoopsFormElementTray(_MD_SF_ATTACHMENT);
+//    $upload_tray->addElement(new XoopsFormFile('', 'userfile', ($forum_obj->getVar('attach_maxkb') * 1024)));
+    $upload_tray->addElement(new XoopsFormFile('', 'userfile', ($xoopsModuleConfig['max_image_size'] * 1024)));
+    $upload_tray->addElement(new XoopsFormButton('', 'contents_upload', _MD_SF_UPLOAD, "submit"));
+    $upload_tray->addElement(new XoopsFormLabel("<br /><br />" . _MD_SF_MAX_FILESIZE . ":", $xoopsModuleConfig['max_image_size'] . "Kb; "));
+    $extensions = trim(str_replace('|',' ',$xoopsModuleConfig['attach_ext']));
+    $extensions = (empty($extensions) || $extensions == "*") ? _ALL : $extensions;
+    $upload_tray->addElement(new XoopsFormLabel(_MD_SF_ALLOWED_EXTENSIONS . ":", $extensions));
+    $upload_tray->addElement(new XoopsFormLabel("<br />".sprintf(_MD_SF_MAXPIC,$xoopsModuleConfig['max_img_height'],$xoopsModuleConfig['max_img_width'])));
+    $form->addElement($upload_tray);
+//}
+
+if (!empty($attachments) && is_array($attachments) && count($attachments)) {
+    $delete_attach_checkbox = new XoopsFormCheckBox(_MD_SF_ATTACHED_FILES, 'delete_attach[]');
+    foreach ($attachments as $key => $attachment) {
+        $attach = " " . _DELETE . ' <a href=' . XOOPS_URL . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $attachment['name_saved'] . ' rel="external">' . $attachment['name_display'] . '</a><br />';
+        $delete_attach_checkbox->addOption($key, $attach);
+    }
+    $form->addElement($delete_attach_checkbox);
+    unset($delete_attach_checkbox);
+}
+
+if (!empty($attachments_tmp) && is_array($attachments_tmp) && count($attachments_tmp)) {
+    $delete_attach_checkbox = new XoopsFormCheckBox(_MD_REMOVE, 'delete_tmp[]');
+    $url_prefix = str_replace(XOOPS_ROOT_PATH, XOOPS_URL, XOOPS_CACHE_PATH);
+    foreach ($attachments_tmp as $key => $attachment) {
+        $attach = ' <a href="' . $url_prefix . '/' . $attachment[0] . '" rel="external">' . $attachment[1] . '</a><br />';
+        $delete_attach_checkbox->addOption($key, $attach);
+    }
+    $form->addElement($delete_attach_checkbox);
+    unset($delete_attach_checkbox);
+    $attachments_tmp =  base64_encode(serialize($attachments_tmp));
+    $form->addElement(new XoopsFormHidden('attachments_tmp', $attachments_tmp));
+
+    }
+
+//************************************************
 
 // CONTEXT MODULE LINK
 // Retreive the list of module currently installed. The key value is the dirname
@@ -90,13 +128,13 @@ $form->addElement($excaturl_radio);
 */
 // NOTIFY ON PUBLISH
 if (is_object($xoopsUser)) {
-	$notify_checkbox = new XoopsFormCheckBox('', 'notifypub', $notifypub);
-	$notify_checkbox->addOption(1, _MD_SF_NOTIFY);
-	$form->addElement($notify_checkbox);
+    $notify_checkbox = new XoopsFormCheckBox('', 'notifypub', $notifypub);
+    $notify_checkbox->addOption(1, _MD_SF_NOTIFY);
+    $form->addElement($notify_checkbox);
 }
 
 $button_tray = new XoopsFormElementTray('', '');
-	
+
 $butt_create = new XoopsFormButton('', 'post', _MD_SF_CREATE, 'submit');
 $button_tray->addElement($butt_create);
 
@@ -108,5 +146,3 @@ $form->assign($xoopsTpl);
 
 unset($hidden);
 unset($hidden2);
-
-?>

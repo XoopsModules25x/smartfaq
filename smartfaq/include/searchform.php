@@ -26,9 +26,9 @@ if ($xoopsModuleConfig['multicats'] == 1) {
 
     while (list($categoryID, $name) = $xoopsDB->fetchRow($resultcat)) {
         $searchcat->addOption ("categoryID", "$categoryID : $name");
-    } 
+    }
     $sform->addElement($searchcat, true);
-} 
+}
 
 $searchterm = new XoopsFormText(_MD_WB_TERM, "term", 25, 100, $term);
 $sform->addElement($searchterm, true);
@@ -38,10 +38,7 @@ $sform->addElement($submit_button);
 
 /*
 add this in search.php
-include_once "include/searchform.php";
+include_once 'include/searchform.php';
 $sform->assign($xoopsTpl);
 
 */
-
-?>
-

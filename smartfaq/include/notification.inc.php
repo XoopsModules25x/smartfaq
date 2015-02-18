@@ -19,13 +19,14 @@ function smartfaq_notify_iteminfo($category, $item_id)
     } else {
         $module = &$xoopsModule;
         $config = &$xoopsModuleConfig;
-    } 
+    }
 
     if ($category == 'global') {
         $item['name'] = '';
         $item['url'] = '';
+
         return $item;
-    } 
+    }
 
     global $xoopsDB;
 
@@ -36,8 +37,9 @@ function smartfaq_notify_iteminfo($category, $item_id)
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['name'];
         $item['url'] = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/category.php?categoryid=' . $item_id;
+
         return $item;
-    } 
+    }
 
     if ($category == 'faq') {
         // Assume we have a valid story id
@@ -46,8 +48,7 @@ function smartfaq_notify_iteminfo($category, $item_id)
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['question'];
         $item['url'] = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/faq.php?faqid=' . $item_id;
-        return $item;
-    } 
-} 
 
-?>
+        return $item;
+    }
+}
