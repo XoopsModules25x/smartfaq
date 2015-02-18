@@ -7,19 +7,17 @@
 * Licence: GNU
 */
 
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
-
-$path = dirname(dirname(dirname(dirname(__FILE__))));
+$path = dirname(dirname(dirname(__DIR__)));
 include_once $path . '/mainfile.php';
 
-$dirname         = basename(dirname(dirname(__FILE__)));
+$dirname         = basename(dirname(__DIR__));
 $module_handler  = xoops_gethandler('module');
 $module          = $module_handler->getByDirname($dirname);
 $pathIcon32      = $module->getInfo('icons32');
 $pathModuleAdmin = $module->getInfo('dirmoduleadmin');
 $pathLanguage    = $path . $pathModuleAdmin;
-
 
 if (!file_exists($fileinc = $pathLanguage . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/' . 'main.php')) {
     $fileinc = $pathLanguage . '/language/english/main.php';
@@ -32,36 +30,36 @@ $i=0;
 $adminmenu[$i]["title"] = _AM_MODULEADMIN_HOME;
 $adminmenu[$i]['link'] = "admin/index.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/home.png';
-$i++;
+++$i;
 $adminmenu[$i]['title'] = _MI_SF_ADMENU1;
 $adminmenu[$i]['link'] = "admin/main.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/manage.png';
 
-$i++;
+++$i;
 $adminmenu[$i]['title'] = _MI_SF_ADMENU2;
 $adminmenu[$i]['link'] = "admin/category.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/category.png';
-$i++;
+++$i;
 $adminmenu[$i]['title'] = _MI_SF_ADMENU3;
 $adminmenu[$i]['link'] = "admin/faq.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/search.png';
-$i++;
+++$i;
 $adminmenu[$i]['title'] = _MI_SF_ADMENU4;
 $adminmenu[$i]['link'] = "admin/question.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/faq.png';
-$i++;
+++$i;
 $adminmenu[$i]['title'] = _MI_SF_ADMENU5;
 $adminmenu[$i]['link'] = "admin/permissions.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/permissions.png';
-$i++;
+++$i;
 $adminmenu[$i]['title'] = _MI_SF_ADMENU8;
 $adminmenu[$i]['link'] = "admin/import.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/download.png';
-$i++;
+++$i;
 $adminmenu[$i]['title'] = _AM_MODULEADMIN_ABOUT;
 $adminmenu[$i]["link"]  = "admin/about.php";
 $adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';
-//$i++;
+//++$i;
 //$adminmenu[$i]['title'] = _AM_MODULEADMIN_ABOUT;
 //$adminmenu[$i]["link"]  = "admin/about2.php";
 //$adminmenu[$i]["icon"]  = $pathIcon32 . '/about.png';

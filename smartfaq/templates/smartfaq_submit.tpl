@@ -7,7 +7,7 @@
 
 <{if $op == 'preview'}>
 	<br />
-	<{include file="db:smartfaq_singlefaq.html" faq=$faq}>
+	<{include file="db:smartfaq_singlefaq.tpl" faq=$faq}>
 <{/if}>
 
 <div class="sf_infotitle"><{$lang_intro_title}></div>

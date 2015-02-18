@@ -316,5 +316,3 @@ define("_AM_SF_ALLFAQS","Q&amp;A in the module");
 define("_AM_SF_ALLFAQSMSG","Select a status to see all available questions and/or answers in the selected status.");
 
 define("_AM_SF_UPDATE","Update module");
-
-?>

@@ -78,6 +78,7 @@ CREATE TABLE `smartfaq_answers` (
   `status` int(1) NOT NULL default '-1',
   `datesub` int(11) NOT NULL default '0',
   `notifypub` tinyint(1) NOT NULL default '1',
+  `attachment` 			text,
   PRIMARY KEY  (`answerid`),
   UNIQUE KEY `answerid` (`answerid`),
   FULLTEXT KEY `answer` (`answer`)

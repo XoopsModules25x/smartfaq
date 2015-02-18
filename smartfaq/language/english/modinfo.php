@@ -110,15 +110,15 @@ define('_MI_SF_PERPAGEINDEXDSC','Maximum number of Q&amp;A  to be displayed per 
 
 define('_MI_SF_INDEXWELCOMEMSG','Index welcome message:');
 define('_MI_SF_INDEXWELCOMEMSGDSC','Welcome message to be displayed in the index page of the module.');
-define('_MI_SF_INDEXWELCOMEMSGDEF',"In this area of our site, you will find the answers to the frequently asked questions, as well as answers to <b>How do I</b> and <b>Did you know</b> questions. Please feel free to post a comment on any Q&amp;A."); 
+define('_MI_SF_INDEXWELCOMEMSGDEF',"In this area of our site, you will find the answers to the frequently asked questions, as well as answers to <b>How do I</b> and <b>Did you know</b> questions. Please feel free to post a comment on any Q&amp;A.");
 
 define('_MI_SF_REQUESTINTROMSG','Request introduction message:');
 define('_MI_SF_REQUESTINTROMSGDSC','Introduction message to be displayed in the Request a Q&amp;A page of the module.');
-define('_MI_SF_REQUESTINTROMSGDEF',"You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!"); 
+define('_MI_SF_REQUESTINTROMSGDEF',"You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!");
 
 define('_MI_SF_OPENINTROMSG','Open Questions section introduction message:');
 define('_MI_SF_OPENINTROMSGDSC','Introduction message to be displayed in the Open Questions section of the module.');
-define('_MI_SF_OPENINTROMSGDEF',"Here is a list of Open Questions, that is, questions that have been submitted by users of this site but are still without answer. You can click on an open question if you want to help us with an answer."); 
+define('_MI_SF_OPENINTROMSGDEF',"Here is a list of Open Questions, that is, questions that have been submitted by users of this site but are still without answer. You can click on an open question if you want to help us with an answer.");
 
 define('_MI_SF_USEREALNAME','Use the Real Name of users');
 define('_MI_SF_USEREALNAMEDSC','When displaying a username, use the real name of that user if he has a set his real name.');
@@ -154,7 +154,6 @@ define("_MI_SF_ARTSCONTEXT","Contextual Q&amp;A");
 define("_MI_SF_RECENTFAQS","Recent Q&amp;A (Detail)");
 define("_MI_SF_RECENT_QUESTIONS","Recent Open Questions");
 define("_MI_SF_MOST_VIEWED","Most viewed Q&amp;As");
-
 
 // Text for notifications
 
@@ -202,93 +201,93 @@ define('_MI_SF_GLOBAL_FAQ_ANSWER_PUBLISHED_NOTIFY_DSC','Receive notification whe
 define('_MI_SF_GLOBAL_FAQ_ANSWER_PUBLISHED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New answer published');
 
 define('_MI_SF_CATEGORY_FAQ_SUBMITTED_NOTIFY','Q&amp;A submitted');
-define('_MI_SF_CATEGORY_FAQ_SUBMITTED_NOTIFY_CAP','Notify me when a new Q&amp;A is submitted in the current category.');   
-define('_MI_SF_CATEGORY_FAQ_SUBMITTED_NOTIFY_DSC','Receive notification when a new Q&amp;A is submitted in the current category.');      
-define('_MI_SF_CATEGORY_FAQ_SUBMITTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New Q&amp;A submitted in category'); 
+define('_MI_SF_CATEGORY_FAQ_SUBMITTED_NOTIFY_CAP','Notify me when a new Q&amp;A is submitted in the current category.');
+define('_MI_SF_CATEGORY_FAQ_SUBMITTED_NOTIFY_DSC','Receive notification when a new Q&amp;A is submitted in the current category.');
+define('_MI_SF_CATEGORY_FAQ_SUBMITTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New Q&amp;A submitted in category');
 
 define('_MI_SF_CATEGORY_FAQ_PUBLISHED_NOTIFY','New Q&amp;A published');
-define('_MI_SF_CATEGORY_FAQ_PUBLISHED_NOTIFY_CAP','Notify me when a new Q&amp;A is published in the current category.');   
-define('_MI_SF_CATEGORY_FAQ_PUBLISHED_NOTIFY_DSC','Receive notification when a new Q&amp;A is published in the current category.');      
-define('_MI_SF_CATEGORY_FAQ_PUBLISHED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New Q&amp;A published in category'); 
+define('_MI_SF_CATEGORY_FAQ_PUBLISHED_NOTIFY_CAP','Notify me when a new Q&amp;A is published in the current category.');
+define('_MI_SF_CATEGORY_FAQ_PUBLISHED_NOTIFY_DSC','Receive notification when a new Q&amp;A is published in the current category.');
+define('_MI_SF_CATEGORY_FAQ_PUBLISHED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New Q&amp;A published in category');
 
 define('_MI_SF_CATEGORY_FAQ_ANSWER_PROPOSED_NOTIFY','New answer proposed');
-define('_MI_SF_CATEGORY_FAQ_ANSWER_PROPOSED_NOTIFY_CAP','Notify me when a new answer is proposed for a Q&amp;A in this category.');   
-define('_MI_SF_CATEGORY_FAQ_ANSWER_PROPOSED_NOTIFY_DSC','Receive notification when a new answer is proposed for a Q&amp;A in this category.');      
+define('_MI_SF_CATEGORY_FAQ_ANSWER_PROPOSED_NOTIFY_CAP','Notify me when a new answer is proposed for a Q&amp;A in this category.');
+define('_MI_SF_CATEGORY_FAQ_ANSWER_PROPOSED_NOTIFY_DSC','Receive notification when a new answer is proposed for a Q&amp;A in this category.');
 define('_MI_SF_CATEGORY_FAQ_ANSWER_PROPOSED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New answer proposed');
 
 define('_MI_SF_CATEGORY_FAQ_ANSWER_PUBLISHED_NOTIFY','New answer published');
-define('_MI_SF_CATEGORY_FAQ_ANSWER_PUBLISHED_NOTIFY_CAP','Notify me when a new answer is published for a Q&amp;A in this category.');   
-define('_MI_SF_CATEGORY_FAQ_ANSWER_PUBLISHED_NOTIFY_DSC','Receive notification when a new answer is published for a Q&amp;A in this category.');      
+define('_MI_SF_CATEGORY_FAQ_ANSWER_PUBLISHED_NOTIFY_CAP','Notify me when a new answer is published for a Q&amp;A in this category.');
+define('_MI_SF_CATEGORY_FAQ_ANSWER_PUBLISHED_NOTIFY_DSC','Receive notification when a new answer is published for a Q&amp;A in this category.');
 define('_MI_SF_CATEGORY_FAQ_ANSWER_PUBLISHED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New answer published');
 
 define('_MI_SF_FAQ_REJECTED_NOTIFY','Q&amp;A rejected');
-define('_MI_SF_FAQ_REJECTED_NOTIFY_CAP','Notify me if this Q&amp;A is rejected.');   
-define('_MI_SF_FAQ_REJECTED_NOTIFY_DSC','Receive notification if this Q&amp;A is rejected.');      
-define('_MI_SF_FAQ_REJECTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Q&amp;A rejected'); 
+define('_MI_SF_FAQ_REJECTED_NOTIFY_CAP','Notify me if this Q&amp;A is rejected.');
+define('_MI_SF_FAQ_REJECTED_NOTIFY_DSC','Receive notification if this Q&amp;A is rejected.');
+define('_MI_SF_FAQ_REJECTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Q&amp;A rejected');
 
 define('_MI_SF_FAQ_APPROVED_NOTIFY','Q&amp;A approved');
-define('_MI_SF_FAQ_APPROVED_NOTIFY_CAP','Notify me when this Q&amp;A is approved.');   
-define('_MI_SF_FAQ_APPROVED_NOTIFY_DSC','Receive notification when this Q&amp;A is approved.');      
-define('_MI_SF_FAQ_APPROVED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Q&amp;A approved'); 
+define('_MI_SF_FAQ_APPROVED_NOTIFY_CAP','Notify me when this Q&amp;A is approved.');
+define('_MI_SF_FAQ_APPROVED_NOTIFY_DSC','Receive notification when this Q&amp;A is approved.');
+define('_MI_SF_FAQ_APPROVED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Q&amp;A approved');
 
 define('_MI_SF_FAQ_ANSWER_APPROVED_NOTIFY','Answer approved');
-define('_MI_SF_FAQ_ANSWER_APPROVED_NOTIFY_CAP','Notify me when this answer is approved.');   
-define('_MI_SF_FAQ_ANSWER_APPROVED_NOTIFY_DSC','Receive notification when this answer is approved.');      
-define('_MI_SF_FAQ_ANSWER_APPROVED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Answer approved'); 
+define('_MI_SF_FAQ_ANSWER_APPROVED_NOTIFY_CAP','Notify me when this answer is approved.');
+define('_MI_SF_FAQ_ANSWER_APPROVED_NOTIFY_DSC','Receive notification when this answer is approved.');
+define('_MI_SF_FAQ_ANSWER_APPROVED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Answer approved');
 
 define('_MI_SF_FAQ_ANSWER_REJECTED_NOTIFY','Answer rejected');
-define('_MI_SF_FAQ_ANSWER_REJECTED_NOTIFY_CAP','Notify me if this answer is rejected.');   
-define('_MI_SF_FAQ_ANSWER_REJECTED_NOTIFY_DSC','Receive notification if this answer is rejected.');      
-define('_MI_SF_FAQ_ANSWER_REJECTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Answer rejected'); 
+define('_MI_SF_FAQ_ANSWER_REJECTED_NOTIFY_CAP','Notify me if this answer is rejected.');
+define('_MI_SF_FAQ_ANSWER_REJECTED_NOTIFY_DSC','Receive notification if this answer is rejected.');
+define('_MI_SF_FAQ_ANSWER_REJECTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Answer rejected');
 
 define('_MI_SF_GLOBAL_QUESTION_SUBMITTED_NOTIFY','Question submitted');
-define('_MI_SF_GLOBAL_QUESTION_SUBMITTED_NOTIFY_CAP','Notify me when any question is submitted and is waiting approval.');   
-define('_MI_SF_GLOBAL_QUESTION_SUBMITTED_NOTIFY_DSC','Receive notification when any question is submitted and is waiting approval.');      
+define('_MI_SF_GLOBAL_QUESTION_SUBMITTED_NOTIFY_CAP','Notify me when any question is submitted and is waiting approval.');
+define('_MI_SF_GLOBAL_QUESTION_SUBMITTED_NOTIFY_DSC','Receive notification when any question is submitted and is waiting approval.');
 define('_MI_SF_GLOBAL_QUESTION_SUBMITTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New question submitted');
 
 define('_MI_SF_GLOBAL_QUESTION_PUBLISHED_NOTIFY','Question published');
-define('_MI_SF_GLOBAL_QUESTION_PUBLISHED_NOTIFY_CAP','Notify me when any question is published in the Open Questions section.');   
-define('_MI_SF_GLOBAL_QUESTION_PUBLISHED_NOTIFY_DSC','Receive notification when any question is published in the Open Questions section.');      
+define('_MI_SF_GLOBAL_QUESTION_PUBLISHED_NOTIFY_CAP','Notify me when any question is published in the Open Questions section.');
+define('_MI_SF_GLOBAL_QUESTION_PUBLISHED_NOTIFY_DSC','Receive notification when any question is published in the Open Questions section.');
 define('_MI_SF_GLOBAL_QUESTION_PUBLISHED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New question published');
 
 define('_MI_SF_GLOBAL_QUESTION_ANSWER_PROPOSED_NOTIFY','Answer proposed');
-define('_MI_SF_GLOBAL_QUESTION_ANSWER_PROPOSED_NOTIFY_CAP','Notify me when an answer is proposed for any open question.');   
-define('_MI_SF_GLOBAL_QUESTION_ANSWER_PROPOSED_NOTIFY_DSC','Receive notification when an answer is proposed for any open question.');      
+define('_MI_SF_GLOBAL_QUESTION_ANSWER_PROPOSED_NOTIFY_CAP','Notify me when an answer is proposed for any open question.');
+define('_MI_SF_GLOBAL_QUESTION_ANSWER_PROPOSED_NOTIFY_DSC','Receive notification when an answer is proposed for any open question.');
 define('_MI_SF_GLOBAL_QUESTION_ANSWER_PROPOSED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New answer proposed');
 
 define('_MI_SF_CATEGORY_QUESTION_SUBMITTED_NOTIFY','Question submitted');
-define('_MI_SF_CATEGORY_QUESTION_SUBMITTED_NOTIFY_CAP','Notify me when a question is submitted in the current category.');   
-define('_MI_SF_CATEGORY_QUESTION_SUBMITTED_NOTIFY_DSC','Receive notification when a question is submitted in the current category.');      
+define('_MI_SF_CATEGORY_QUESTION_SUBMITTED_NOTIFY_CAP','Notify me when a question is submitted in the current category.');
+define('_MI_SF_CATEGORY_QUESTION_SUBMITTED_NOTIFY_DSC','Receive notification when a question is submitted in the current category.');
 define('_MI_SF_CATEGORY_QUESTION_SUBMITTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New question submitted');
 
 define('_MI_SF_CATEGORY_QUESTION_PUBLISHED_NOTIFY','Question published');
-define('_MI_SF_CATEGORY_QUESTION_PUBLISHED_NOTIFY_CAP','Notify me when a question is published in the current category.');   
-define('_MI_SF_CATEGORY_QUESTION_PUBLISHED_NOTIFY_DSC','Receive notification when a question is published in the current category.');      
+define('_MI_SF_CATEGORY_QUESTION_PUBLISHED_NOTIFY_CAP','Notify me when a question is published in the current category.');
+define('_MI_SF_CATEGORY_QUESTION_PUBLISHED_NOTIFY_DSC','Receive notification when a question is published in the current category.');
 define('_MI_SF_CATEGORY_QUESTION_PUBLISHED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New question published');
 
 define('_MI_SF_CATEGORY_QUESTION_ANSWER_PROPOSED_NOTIFY','Answer proposed');
-define('_MI_SF_CATEGORY_QUESTION_ANSWER_PROPOSED_NOTIFY_CAP','Notify me when a new answer is proposed for an opened question in this category.');   
-define('_MI_SF_CATEGORY_QUESTION_ANSWER_PROPOSED_NOTIFY_DSC','Receive notification when a new answer is proposed for an opened question in this category.');      
+define('_MI_SF_CATEGORY_QUESTION_ANSWER_PROPOSED_NOTIFY_CAP','Notify me when a new answer is proposed for an opened question in this category.');
+define('_MI_SF_CATEGORY_QUESTION_ANSWER_PROPOSED_NOTIFY_DSC','Receive notification when a new answer is proposed for an opened question in this category.');
 define('_MI_SF_CATEGORY_QUESTION_ANSWER_PROPOSED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : New answer proposed');
 
 define('_MI_SF_QUESTION_REJECTED_NOTIFY','Question rejected');
-define('_MI_SF_QUESTION_REJECTED_NOTIFY_CAP','Notify me if this question is rejected.');   
-define('_MI_SF_QUESTION_REJECTED_NOTIFY_DSC','Receive notification if this question is rejected.');      
+define('_MI_SF_QUESTION_REJECTED_NOTIFY_CAP','Notify me if this question is rejected.');
+define('_MI_SF_QUESTION_REJECTED_NOTIFY_DSC','Receive notification if this question is rejected.');
 define('_MI_SF_QUESTION_REJECTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Question rejected');
 
 define('_MI_SF_QUESTION_APPROVED_NOTIFY','Question approved');
-define('_MI_SF_QUESTION_APPROVED_NOTIFY_CAP','Notify me when this question is approved.');   
-define('_MI_SF_QUESTION_APPROVED_NOTIFY_DSC','Receive notification when this question is approved.');      
+define('_MI_SF_QUESTION_APPROVED_NOTIFY_CAP','Notify me when this question is approved.');
+define('_MI_SF_QUESTION_APPROVED_NOTIFY_DSC','Receive notification when this question is approved.');
 define('_MI_SF_QUESTION_APPROVED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Question approved');
 
 define('_MI_SF_QUESTION_ANSWER_APPROVED_NOTIFY','Answer approved');
-define('_MI_SF_QUESTION_ANSWER_APPROVED_NOTIFY_CAP','Notify me when this answer is approved.');   
-define('_MI_SF_QUESTION_ANSWER_APPROVED_NOTIFY_DSC','Receive notification when this answer is approved.');      
+define('_MI_SF_QUESTION_ANSWER_APPROVED_NOTIFY_CAP','Notify me when this answer is approved.');
+define('_MI_SF_QUESTION_ANSWER_APPROVED_NOTIFY_DSC','Receive notification when this answer is approved.');
 define('_MI_SF_QUESTION_ANSWER_APPROVED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Answer approved');
 
 define('_MI_SF_QUESTION_ANSWER_REJECTED_NOTIFY','Answer rejected');
-define('_MI_SF_QUESTION_ANSWER_REJECTED_NOTIFY_CAP','Notify me if this answer is rejected.');   
-define('_MI_SF_QUESTION_ANSWER_REJECTED_NOTIFY_DSC','Receive notification if this answer is rejected.');      
+define('_MI_SF_QUESTION_ANSWER_REJECTED_NOTIFY_CAP','Notify me if this answer is rejected.');
+define('_MI_SF_QUESTION_ANSWER_REJECTED_NOTIFY_DSC','Receive notification if this answer is rejected.');
 define('_MI_SF_QUESTION_ANSWER_REJECTED_NOTIFY_SBJ','[{X_SITENAME}] {X_MODULE} auto-notify : Answer rejected');
 
 // About.php constants
@@ -311,20 +310,20 @@ define('_MI_SF_AUTHOR_WORD',"The Author's Word");
 define('_MI_SF_VERSION_HISTORY',"Version History");
 
 // Beta
-define('_MI_SF_WARNING_BETA',"This module comes as is, without any guarantees whatsoever. 
+define('_MI_SF_WARNING_BETA',"This module comes as is, without any guarantees whatsoever.
 This module is BETA, meaning it is still under active development. This release is meant for
-<b>testing purposes only</b> and we <b>strongly</b> recommend that you do not use it on a live 
+<b>testing purposes only</b> and we <b>strongly</b> recommend that you do not use it on a live
 website or in a production environment.");
 
 // RC
-define('_MI_SF_WARNING_RC',"This module comes as is, without any guarantees whatsoever. This module 
-is a Release Candidate and should not be used on a production web site. The module is still under 
+define('_MI_SF_WARNING_RC',"This module comes as is, without any guarantees whatsoever. This module
+is a Release Candidate and should not be used on a production web site. The module is still under
 active development and its use is under your own responsibility, which means the author is not responsible.");
 
 // Final
-define('_MI_SF_WARNING_FINAL',"This module comes as is, without any guarantees whatsoever. Although this 
-module is not beta, it is still under active development. This release can be used in a live website 
-or a production environment, but its use is under your own responsibility, which means the author 
+define('_MI_SF_WARNING_FINAL',"This module comes as is, without any guarantees whatsoever. Although this
+module is not beta, it is still under active development. This release can be used in a live website
+or a production environment, but its use is under your own responsibility, which means the author
 is not responsible.");
 
 //1.11 RC1
@@ -333,3 +332,48 @@ define('_MI_SF_EDITOR',"Editor to use (admin):");
 define('_MI_SF_EDITORCHOICE',"Select the editor to use for admin side. If you have a 'simple' install (e.g you use only XOOPS core editor class, provided in the standard xoops core package), then you can just select DHTML and Compact");
 define('_MI_SF_EDITORUSER',"Editor to use (user):");
 define('_MI_SF_EDITORCHOICEUSER',"Select the editor to use for user side. If you have a 'simple' install (e.g you use only XOOPS core editor class, provided in the standard xoops core package), then you can just select DHTML and Compact");
+
+//1.11 RC2
+
+define("_MI_SF_MAGICK", "ImageMagick");
+define("_MI_SF_NETPBM", "Netpbm");
+define("_MI_SF_GD1", "GD1 Library");
+define("_MI_SF_GD2", "GD2 Library");
+define("_MI_SF_AUTO", "AUTO");
+
+//------------------------------
+
+define("_MI_SF_DIR_ATTACHMENT","Attachments physical path.");
+define("_MI_SF_DIR_ATTACHMENT_DESC","Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/newbb the path entered would then be '/uploads/newbb' never include a trailing slash '/' the thumbnails path becomes '/uploads/newbb/thumbs'");
+define("_MI_SF_PATH_MAGICK","Path for ImageMagick");
+define("_MI_SF_PATH_MAGICK_DESC","Usually it is '/usr/bin/X11'. Leave it BLANK if you do not have ImageMagicK installed or for autodetecting.");
+define("_MI_SF_SUBFORUM_DISPLAY","Display Mode of subforums on index page");
+define("_MI_SF_SUBFORUM_DISPLAY_DESC","Choose one of the methods to display subforums");
+define("_MI_SF_SUBFORUM_EXPAND","Expand");
+define("_MI_SF_SUBFORUM_COLLAPSE","Collapse");
+define("_MI_SF_SUBFORUM_HIDDEN","Hidden");
+define("_MI_SF_POST_EXCERPT","Post excerpt on forum page");
+define("_MI_SF_POST_EXCERPT_DESC","Length of post excerpt by mouse over. 0 for no excerpt.");
+define("_MI_SF_PATH_NETPBM","Path for Netpbm");
+define("_MI_SF_PATH_NETPBM_DESC","Usually it is '/usr/bin'. Leave it BLANK if you do not have Netpbm installed or  for autodetecting.");
+define("_MI_SF_IMAGELIB","Select the Image library to use");
+define("_MI_SF_IMAGELIB_DESC","Select which Image library to use for creating Thumbnails. Leave AUTO for automatic choice.");
+define("_MI_SF_MAX_IMG_WIDTH","Maximum Image Width");
+define("_MI_SF_MAX_IMG_WIDTH_DESC","Sets the maximum allowed <strong>Width</strong> size of an uploaded image otherwise thumbnail will be used. <br >Input 0 if you do not want to create thumbnails.");
+define("_MI_SF_MAX_IMG_HEIGHT","Maximum height of an image");
+define("_MI_SF_MAX_IMG_HEIGHT_DESC","Sets the maximum allowed height of an uploaded image.");
+define("_MI_SF_MAX_IMAGE_WIDTH","Maximum Image Width for creating thumbnail");
+define("_MI_SF_MAX_IMAGE_WIDTH_DESC","Sets the maximum width of an uploaded image to create thumbnail. <br >Image with width larger than the value will not use thumbnail.");
+define("_MI_SF_MAX_IMAGE_HEIGHT","Maximum Image Height for creating thumbnail");
+define("_MI_SF_MAX_IMAGE_HEIGHT_DESC","Sets the maximum height of an uploaded image to create thumbnail. <br >Image with height larger than the value will not use thumbnail.");
+
+define("_MI_SF_MAX_IMAGE_SIZE","Size in KB");
+define("_MI_SF_MAX_IMAGE_SIZE_DESC","Indicate the maximum file size in KB");
+
+define("_AM_SF_ALLOWED_EXTENSIONS","Allowed Extensions:<span style='font-size: xx-small; font-weight: normal; display: block;'>'*' indicates no limititations.<br /> Extensions delimited by '|'</span>");
+
+define("_MI_SF_USERATTACH_ENABLE","Display attachments only for registered users");
+define("_MI_SF_USERATTACH_ENABLE_DESC","shows attachments in the forum only after logging in.");
+
+define("_MI_SF_MEDIA_ENABLE","Enable Media Features");
+define("_MI_SF_MEDIA_ENABLE_DESC","Display attached Images directly in the post.");

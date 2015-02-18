@@ -6,9 +6,7 @@
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
 */
-if (!defined("XOOPS_ROOT_PATH")) { 
- 	die("XOOPS root path not defined");
-}
+// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
 define("_SDU_IMPORT", "Import");
 define("_SDU_CURRENTVER", "Current version: <span class='currentVer'>%s</span>");
@@ -29,6 +27,3 @@ define("_SDU_UPDATE_NOW", "Update Now!");
 define("_SDU_UPDATE_OK", "Successfully updated to version %s");
 define("_SDU_UPDATE_TO", "Updating to version %s");
 define("_SDU_UPDATE_UPDATING_DATABASE", "Updating database...");
-
-
-?>

@@ -30,5 +30,3 @@ $xoopsTpl->assign("displaytopcatdsc", $xoopsModuleConfig['displaytopcatdsc']);
 $xoopsTpl->assign("ref_smartfaq", "SmartFAQ is developed by The SmartFactory (http://www.smartfactory.ca), a division of InBox Solutions (http://www.inboxsolutions.net)");
 
 $xoopsTpl->assign("xoops_module_header", "<link rel='stylesheet' type='text/css' href='" . XOOPS_URL . "/modules/smartfaq/smartfaq.css'/>");
-
-?>
