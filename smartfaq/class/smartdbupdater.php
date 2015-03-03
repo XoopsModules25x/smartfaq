@@ -108,7 +108,7 @@ class SmartDbTable
 
     /**
      * @var array $_updatedFields containing fields which values will be updated
-     */	//felix
+     */    //felix
     var $_updatedWhere;
 
    /**
@@ -261,7 +261,7 @@ class SmartDbTable
     * @param string $old old propertie
     * @param string $new new propertie
     *
-    */	//felix
+    */    //felix
     function addUpdatedWhere($name, $newValue, $oldValue)
     {
         $field['name'] = $name;
@@ -336,7 +336,7 @@ class SmartDbTable
     *
     * @return array fields which values need to be updated
     *
-    */	//felix
+    */    //felix
     function getUpdatedWhere()
     {
         return $this->_updatedWhere;
@@ -500,7 +500,7 @@ class SmartDbTable
     *
     * @return bool true if success, false if an error occured
     *
-    */		//felix
+    */        //felix
     function updateWhereValues()
     {
         global $xoopsDB;

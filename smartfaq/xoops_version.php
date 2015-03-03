@@ -505,125 +505,125 @@ $modversion['config'][$i] = array(
 //define('_MI_SF_SHOTWIDTH2','<font color="#FF0000" size="6"><b>Upload Files/Images</b></font> ');
 
 $modversion['config'][] = array(
-    'name'			=> 'logfile',
-    'title'			=> '_MI_SF_SHOTWIDTH2',
-    'description'	=> '_MI_SF_USERLOG_CONFCAT_LOGFILE_DSC',
-    'formtype'		=> 'line_break',
-    'valuetype'		=> 'textbox',
-    'default'		=> 'odd');
+    'name'            => 'logfile',
+    'title'            => '_MI_SF_SHOTWIDTH2',
+    'description'    => '_MI_SF_USERLOG_CONFCAT_LOGFILE_DSC',
+    'formtype'        => 'line_break',
+    'valuetype'        => 'textbox',
+    'default'        => 'odd');
 
 $modversion['config'][] = array(
-    'name'			=> 'attach_ext',
-    'title'			=> '_AM_SF_ALLOWED_EXTENSIONS',
-    'description'	=> '_AM_SF_ALLOWED_EXTENSIONS_DESC',
-    'formtype'		=> 'textbox',
-    'valuetype'		=> 'text',
-    'default'		=> 'zip|jpg|gif|png');
+    'name'            => 'attach_ext',
+    'title'            => '_AM_SF_ALLOWED_EXTENSIONS',
+    'description'    => '_AM_SF_ALLOWED_EXTENSIONS_DESC',
+    'formtype'        => 'textbox',
+    'valuetype'        => 'text',
+    'default'        => 'zip|jpg|gif|png');
 
 $modversion['config'][] = array(
-    'name'			=> 'dir_attachments',
-    'title'			=> '_MI_SF_DIR_ATTACHMENT',
-    'description'	=> '_MI_SF_DIR_ATTACHMENT_DESC',
-    'formtype'		=> 'textbox',
-    'valuetype'		=> 'text',
-    'default'		=> 'uploads/smartfaq');
+    'name'            => 'dir_attachments',
+    'title'            => '_MI_SF_DIR_ATTACHMENT',
+    'description'    => '_MI_SF_DIR_ATTACHMENT_DESC',
+    'formtype'        => 'textbox',
+    'valuetype'        => 'text',
+    'default'        => 'uploads/smartfaq');
 
 $modversion['config'][] = array(
-    'name'			=> 'media_allowed',
-    'title'			=> '_MI_SF_MEDIA_ENABLE',
-    'description'	=> '_MI_SF_MEDIA_ENABLE_DESC',
-    'formtype'		=> 'yesno',
-    'valuetype'		=> 'int',
-    'default'		=> 1);
+    'name'            => 'media_allowed',
+    'title'            => '_MI_SF_MEDIA_ENABLE',
+    'description'    => '_MI_SF_MEDIA_ENABLE_DESC',
+    'formtype'        => 'yesno',
+    'valuetype'        => 'int',
+    'default'        => 1);
 
 $modversion['config'][] = array(
-    'name'			=> 'path_magick',
-    'title'			=> '_MI_SF_PATH_MAGICK',
-    'description'	=> '_MI_SF_PATH_MAGICK_DESC',
-    'formtype'		=> 'textbox',
-    'valuetype'		=> 'text',
-    'default'		=> '/usr/bin/X11');
+    'name'            => 'path_magick',
+    'title'            => '_MI_SF_PATH_MAGICK',
+    'description'    => '_MI_SF_PATH_MAGICK_DESC',
+    'formtype'        => 'textbox',
+    'valuetype'        => 'text',
+    'default'        => '/usr/bin/X11');
 
 $modversion['config'][] = array(
-    'name'			=> 'path_netpbm',
-    'title'			=> '_MI_SF_PATH_NETPBM',
-    'description'	=> '_MI_SF_PATH_NETPBM_DESC',
-    'formtype'		=> 'textbox',
-    'valuetype'		=> 'text',
-    'default'		=> '/usr/bin');
+    'name'            => 'path_netpbm',
+    'title'            => '_MI_SF_PATH_NETPBM',
+    'description'    => '_MI_SF_PATH_NETPBM_DESC',
+    'formtype'        => 'textbox',
+    'valuetype'        => 'text',
+    'default'        => '/usr/bin');
 
 $modversion['config'][] = array(
-    'name'			=> 'image_lib',
-    'title'			=> '_MI_SF_IMAGELIB',
-    'description'	=> '_MI_SF_IMAGELIB_DESC',
-    'formtype'		=> 'select',
-    'valuetype'		=> 'int',
-    'default'		=> 0,
-    'options'		=> array(
-                        _MI_SF_AUTO	=> 0,
-                        _MI_SF_MAGICK	=> 1,
-                        _MI_SF_NETPBM	=> 2,
-                        _MI_SF_GD1		=> 3,
-                        _MI_SF_GD2		=> 4 )
+    'name'            => 'image_lib',
+    'title'            => '_MI_SF_IMAGELIB',
+    'description'    => '_MI_SF_IMAGELIB_DESC',
+    'formtype'        => 'select',
+    'valuetype'        => 'int',
+    'default'        => 0,
+    'options'        => array(
+                        _MI_SF_AUTO    => 0,
+                        _MI_SF_MAGICK    => 1,
+                        _MI_SF_NETPBM    => 2,
+                        _MI_SF_GD1        => 3,
+                        _MI_SF_GD2        => 4 )
                         );
 
 $modversion['config'][] = array(
-    'name'			=> 'show_userattach',
-    'title'			=> '_MI_SF_USERATTACH_ENABLE',
-    'description'	=> '_MI_SF_USERATTACH_ENABLE_DESC',
-    'formtype'		=> 'yesno',
-    'valuetype'		=> 'int',
-    'default'		=> 1);
+    'name'            => 'show_userattach',
+    'title'            => '_MI_SF_USERATTACH_ENABLE',
+    'description'    => '_MI_SF_USERATTACH_ENABLE_DESC',
+    'formtype'        => 'yesno',
+    'valuetype'        => 'int',
+    'default'        => 1);
 
 $modversion['config'][] = array(
-    'name'			=> 'max_img_width',
-    'title'			=> '_MI_SF_MAX_IMG_WIDTH',
-    'description'	=> '_MI_SF_MAX_IMG_WIDTH_DESC',
-    'formtype'		=> 'textbox',
-    'valuetype'		=> 'int',
-    'default'		=> 800);
+    'name'            => 'max_img_width',
+    'title'            => '_MI_SF_MAX_IMG_WIDTH',
+    'description'    => '_MI_SF_MAX_IMG_WIDTH_DESC',
+    'formtype'        => 'textbox',
+    'valuetype'        => 'int',
+    'default'        => 800);
 
 $modversion['config'][] = array(
-    'name'			=> 'max_img_height',
-    'title'			=> '_MI_SF_MAX_IMG_HEIGHT',
-    'description'	=> '_MI_SF_MAX_IMG_HEIGHT_DESC',
-    'formtype'		=> 'textbox',
-    'valuetype'		=> 'int',
-    'default'		=> 640);
+    'name'            => 'max_img_height',
+    'title'            => '_MI_SF_MAX_IMG_HEIGHT',
+    'description'    => '_MI_SF_MAX_IMG_HEIGHT_DESC',
+    'formtype'        => 'textbox',
+    'valuetype'        => 'int',
+    'default'        => 640);
 
 $modversion['config'][] = array(
-    'name'			=> 'max_image_width',
-    'title'			=> '_MI_SF_MAX_IMAGE_WIDTH',
-    'description'	=> '_MI_SF_MAX_IMAGE_WIDTH_DESC',
-    'formtype'		=> 'textbox',
-    'valuetype'		=> 'int',
-    'default'		=> 150);
+    'name'            => 'max_image_width',
+    'title'            => '_MI_SF_MAX_IMAGE_WIDTH',
+    'description'    => '_MI_SF_MAX_IMAGE_WIDTH_DESC',
+    'formtype'        => 'textbox',
+    'valuetype'        => 'int',
+    'default'        => 150);
 
 $modversion['config'][] = array(
-    'name'			=> 'max_image_height',
-    'title'			=> '_MI_SF_MAX_IMAGE_HEIGHT',
-    'description'	=> '_MI_SF_MAX_IMAGE_HEIGHT_DESC',
-    'formtype'		=> 'textbox',
-    'valuetype'		=> 'int',
-    'default'		=> 150);
+    'name'            => 'max_image_height',
+    'title'            => '_MI_SF_MAX_IMAGE_HEIGHT',
+    'description'    => '_MI_SF_MAX_IMAGE_HEIGHT_DESC',
+    'formtype'        => 'textbox',
+    'valuetype'        => 'int',
+    'default'        => 150);
 
 $modversion['config'][] = array(
-    'name'			=> 'max_image_size',
-    'title'			=> '_MI_SF_MAX_IMAGE_SIZE',
-    'description'	=> '_MI_SF_MAX_IMAGE_SIZE_DESC',
-    'formtype'		=> 'textbox',
-    'valuetype'		=> 'int',
-    'default'		=> 1024);
+    'name'            => 'max_image_size',
+    'title'            => '_MI_SF_MAX_IMAGE_SIZE',
+    'description'    => '_MI_SF_MAX_IMAGE_SIZE_DESC',
+    'formtype'        => 'textbox',
+    'valuetype'        => 'int',
+    'default'        => 1024);
 
 //define('_MI_XDIR_SHOTWIDTH3','<font color="#FF0000" size="6"><b>Comments/Notifications</b></font> ');
 
 $modversion['config'][] = array(
-    'name'			=> 'logfile',
-    'title'			=> '_MI_XDIR_SHOTWIDTH3',
-    'description'	=> '_MI_USERLOG_CONFCAT_LOGFILE_DSC',
-    'formtype'		=> 'line_break',
-    'valuetype'		=> 'textbox',
-    'default'		=> 'odd');
+    'name'            => 'logfile',
+    'title'            => '_MI_XDIR_SHOTWIDTH3',
+    'description'    => '_MI_USERLOG_CONFCAT_LOGFILE_DSC',
+    'formtype'        => 'line_break',
+    'valuetype'        => 'textbox',
+    'default'        => 'odd');
 
 //mb ------------- end --------------------------
 

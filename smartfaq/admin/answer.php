@@ -39,8 +39,8 @@ function editfaq($faqid = '')
     switch ($faqObj->status()) {
 
         case _SF_STATUS_ANSWERED :
-        $breadcrumb_action1 = 	_AM_SF_SUBMITTED;
-        $breadcrumb_action2 = 	_AM_SF_APPROVING;
+        $breadcrumb_action1 =    _AM_SF_SUBMITTED;
+        $breadcrumb_action2 =    _AM_SF_APPROVING;
         $collapsableBar_title = _AM_SF_SUBMITTED_TITLE;
         $collapsableBar_info = _AM_SF_SUBMITTED_INFO;
         $button_caption = _AM_SF_APPROVE;

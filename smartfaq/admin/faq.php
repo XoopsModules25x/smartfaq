@@ -54,8 +54,8 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge=false)
         switch ($faqObj->status()) {
 
             case _SF_STATUS_ASKED :
-            $breadcrumb_action1 = 	_AM_SF_ASKED;
-            $breadcrumb_action2 = 	_AM_SF_APPROVING;
+            $breadcrumb_action1 =    _AM_SF_ASKED;
+            $breadcrumb_action2 =    _AM_SF_APPROVING;
             $collapsableBar_title = _AM_SF_ASKED_TITLE;
             $collapsableBar_info = _AM_SF_ASKED_TITLE_INFO;
             $button_caption = _AM_SF_PUBLISHED;
@@ -64,18 +64,17 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge=false)
             break;
 
             case _SF_STATUS_ANSWERED :
-            $breadcrumb_action1 = 	_AM_SF_ANSWERED;
-            $breadcrumb_action2 = 	_AM_SF_APPROVING;
+            $breadcrumb_action1 =    _AM_SF_ANSWERED;
+            $breadcrumb_action2 =    _AM_SF_APPROVING;
             $collapsableBar_title = _AM_SF_ANSWERED_TITLE;
             $collapsableBar_info = _AM_SF_ANSWERED_TITLE_INFO;
             $button_caption = _AM_SF_APPROVE;
             $an_status = _SF_AN_STATUS_PROPOSED;
             break;
 
-
             case _SF_STATUS_SUBMITTED :
-            $breadcrumb_action1 = 	_AM_SF_SUBMITTED;
-            $breadcrumb_action2 = 	_AM_SF_APPROVING;
+            $breadcrumb_action1 =    _AM_SF_SUBMITTED;
+            $breadcrumb_action2 =    _AM_SF_APPROVING;
             $collapsableBar_title = _AM_SF_SUBMITTED_TITLE;
             $collapsableBar_info = _AM_SF_SUBMITTED_INFO;
             $button_caption = _AM_SF_APPROVE;
@@ -83,8 +82,8 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge=false)
             break;
 
             case _SF_STATUS_PUBLISHED :
-            $breadcrumb_action1 = 	_AM_SF_PUBLISHED;
-            $breadcrumb_action2 = 	_AM_SF_EDITING;
+            $breadcrumb_action1 =    _AM_SF_PUBLISHED;
+            $breadcrumb_action2 =    _AM_SF_EDITING;
             $collapsableBar_title = _AM_SF_PUBLISHEDEDITING;
             $collapsableBar_info = _AM_SF_PUBLISHEDEDITING_INFO;
             $button_caption = _AM_SF_MODIFY;
@@ -92,8 +91,8 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge=false)
             break;
 
             case _SF_STATUS_OFFLINE :
-            $breadcrumb_action1 = 	_AM_SF_OFFLINE;
-            $breadcrumb_action2 = 	_AM_SF_EDITING;
+            $breadcrumb_action1 =    _AM_SF_OFFLINE;
+            $breadcrumb_action2 =    _AM_SF_EDITING;
             $collapsableBar_title = _AM_SF_OFFLINEEDITING;
             $collapsableBar_info = _AM_SF_OFFLINEEDITING_INFO;
             $button_caption = _AM_SF_MODIFY;
@@ -101,8 +100,8 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge=false)
             break;
 
             case _SF_STATUS_OPENED :
-            $breadcrumb_action1 = 	_AM_SF_OPEN_QUESTIONS;
-            $breadcrumb_action2 = 	_AM_SF_ANSWERING;
+            $breadcrumb_action1 =    _AM_SF_OPEN_QUESTIONS;
+            $breadcrumb_action2 =    _AM_SF_ANSWERING;
             $collapsableBar_title = _AM_SF_OPEN_QUESTION_ANSWERING;
             $collapsableBar_info = _AM_SF_OPEN_QUESTION_ANSWERING_INFO;
             $button_caption = _AM_SF_PUBLISH;
@@ -111,8 +110,8 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge=false)
             break;
 
             case _SF_STATUS_NEW_ANSWER :
-            $breadcrumb_action1 = 	_AM_SF_PUBLISHED;
-            $breadcrumb_action2 = 	_AM_SF_EDITING;
+            $breadcrumb_action1 =    _AM_SF_PUBLISHED;
+            $breadcrumb_action2 =    _AM_SF_EDITING;
             $collapsableBar_title = _AM_SF_NEW_ANSWER_EDITING;
             $collapsableBar_info = _AM_SF_NEW_ANSWER_EDITING_INFO;
             $button_caption = _AM_SF_PUBLISH;
@@ -123,7 +122,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge=false)
             default :
             break;
         }
-
 
 /*		if (!$answerObj) {
             redirect_header("faq.php", 2, _AM_SF_ANSWERNOTFOUND);
@@ -169,7 +167,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge=false)
     // faq answered by
     $sform->addElement(new XoopsFormLabel(_AM_SF_ANSWERED_BY, sf_getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname'])));
 
-
     // CATEGORY
     /*
     * Get information for pulldown menu using XoopsTree.
@@ -213,8 +210,6 @@ $editorTray = new XoopsFormElementTray(_AM_SF_ANSWER_FAQ, '<br />');
    }
 
 $sform->addElement($editorTray);
-
-
 
     // HOW DO I
     $sform->addElement(new XoopsFormText(_AM_SF_HOWDOI_FAQ, 'howdoi', 50, 255, $faqObj->howdoi('e')), false);
@@ -489,7 +484,6 @@ switch ($op) {
         $an_status = _SF_AN_STATUS_APPROVED;
         //$notifToDo = array(_SF_NOT_FAQ_PUBLISHED);
         break;
-
 
         case _SF_STATUS_OFFLINE :
         break;

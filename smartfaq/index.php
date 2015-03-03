@@ -61,7 +61,7 @@ if ($xoopsModuleConfig['displaylastfaq'] == 1) {
     // Get the last smartfaq in each category
     $last_qnaObj = $faq_handler->getLastPublishedByCat();
 }
-$lastfaqsize = intval($xoopsModuleConfig['lastfaqsize'])	;
+$lastfaqsize = intval($xoopsModuleConfig['lastfaqsize'])    ;
 $categories = array();
 foreach ($categoriesObj as $cat_id => $category) {
     $total = 0;
