@@ -39,7 +39,7 @@ function editfaq($showmenu = false, $faqid = -1)
         switch ($faqObj->status()) {
 
             case _SF_STATUS_ASKED :
-            $breadcrumb_action = 	_AM_SF_APPROVING;
+            $breadcrumb_action =    _AM_SF_APPROVING;
             $collapsableBar_title = _AM_SF_QUESTION_APPROVING;
             $collapsableBar_info = _AM_SF_QUESTION_APPROVING_INFO;
             $button_caption = _AM_SF_QUEUE;
@@ -47,7 +47,7 @@ function editfaq($showmenu = false, $faqid = -1)
 
             case "default" :
             default :
-            $breadcrumb_action = 	_AM_SF_EDITING;
+            $breadcrumb_action =    _AM_SF_EDITING;
             $collapsableBar_title = _AM_SF_EDITQUES;
             $collapsableBar_info = _AM_SF_EDITING_INFO;
             $button_caption = _AM_SF_MODIFY;

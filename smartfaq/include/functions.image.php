@@ -189,7 +189,7 @@ function sf_createThumbnail($source, $thumb_width)
         }
     }
 
-    if (file_exists($new_file))	return true;
+    if (file_exists($new_file))    return true;
     else return false;
 }
 

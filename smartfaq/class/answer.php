@@ -66,6 +66,7 @@ class sfAnswer extends XoopsObject
         $attachment = $this->getVar('attachment');
         if (empty($attachment)) $this->attachment_array = null;
         else $this->attachment_array = @unserialize(base64_decode($attachment));
+
         return $this->attachment_array;
     }
 
@@ -278,7 +279,6 @@ class sfAnswer extends XoopsObject
         }
     }
 
-
 }
 
 /**
@@ -433,7 +433,6 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
 
         return $result;
     }
-
 
     /**
     * retrieve answers from the database

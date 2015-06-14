@@ -96,7 +96,6 @@ switch ($op) {
     $faq['answer'] = $answerObj->answer();
     $faq['who_when'] = $faqObj->getWhoAndWhen();
 
-
     $faq['comments'] = -1;
     $xoopsTpl->assign('faq', $faq);
     $xoopsTpl->assign('op', 'preview');
@@ -109,7 +108,6 @@ switch ($op) {
     include_once 'include/submit.inc.php';
 
     include_once XOOPS_ROOT_PATH . '/footer.php';
-
 
     exit();
     break;
@@ -275,7 +273,6 @@ switch ($op) {
     }
 
     redirect_header("index.php", 2, $redirect_msg);
-
 
     exit();
     break;

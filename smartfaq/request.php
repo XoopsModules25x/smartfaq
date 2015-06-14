@@ -39,7 +39,6 @@ $op = '';
 if (isset($_GET['op'])) $op = $_GET['op'];
 if (isset($_POST['op'])) $op = $_POST['op'];
 
-
 switch ($op) {
     case 'post':
 
