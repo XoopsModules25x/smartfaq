@@ -1,8 +1,3 @@
-#SmartFaq
-[![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](LICENSE) 
-
-SmartFAQ, as you would probably have guessed it by the name, is a Frequently Asked Questions system for XOOPS 2.x web sites.
-
 ![alt XOOPS CMS](http://xoops.org/images/logoXoops4GithubRepository.png)
 ## SmartFAQ for  [XOOPS CMS 2.5.8+](https://xoops.org)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](LICENSE)
