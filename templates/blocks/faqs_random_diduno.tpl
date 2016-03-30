@@ -1,7 +1,7 @@
 <{$block.content}>
-<br />
-<br />
+<br/>
+<br/>
 
 <div align='right'>
-<a href='<{$xoops_url}>/modules/smartfaq/faq.php?faqid=<{$block.id}>'><{$block.lang_answer}></a>
+    <a href='<{$xoops_url}>/modules/smartfaq/faq.php?faqid=<{$block.id}>'><{$block.lang_answer}></a>
 </div>

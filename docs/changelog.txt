@@ -1,19 +1,21 @@
-1.11 RC3       NOT RELEASED
+1.12 RC 1              2016-3-28
 =================================
 - moved all images, CSS, and JS files to /assets (mamba)
 - renamed .html Smarty templates to .tpl (mamba)
 - replaced dirname(__FILE__) with __DIR__ (mamba)
 - replaced $i++ with ++$i for performance (mamba)
+- replaced eregi (mamba)
 - few code cosmetics (mamba)
+- XOOPS 2.5.8 and PHP 7 updates (mamba)
 
-1.11 RC 2  2013-07-31
+1.11 RC 2             2013-07-31
 =================================
 - made Import function visible in Admin (Irmtfan/Mamba)
 - adjusted group permissions for XOOPS 2.5.6 (Mamba)
 - added missing index.html files (Mamba)
 
 
-1.11 RC 1  2013-01-04
+1.11 RC 1              2013-01-04
 =================================
 - added: in tables show name of person who asked the question (Mamba)
 - added: in tables show name of person who answered the question (Mamba)
@@ -22,7 +24,7 @@
 - fixed: redirect bug when submitting answer (Mamba)
 
 
-1.10 Final  2012-12-18
+1.10 Final             2012-12-18
 =================================
 - Converted to XOOPS 2.5.5 Admin GUI (Mamba)
 

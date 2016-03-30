@@ -1,13 +1,17 @@
 <?php
 
-// defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
+// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
+/**
+ * @param $module
+ * @return bool
+ */
 function xoops_module_update_smartfaq($module)
 {
     // Load SmartDbUpdater from the SmartObject Framework if present
-    $smartdbupdater =  XOOPS_ROOT_PATH . "/modules/smartobject/class/smartdbupdater.php";
+    $smartdbupdater = XOOPS_ROOT_PATH . '/modules/smartobject/class/smartdbupdater.php';
     if (!file_exists($smartdbupdater)) {
-        $smartdbupdater = XOOPS_ROOT_PATH . "/modules/smartfaq/class/smartdbupdater.php";
+        $smartdbupdater = XOOPS_ROOT_PATH . '/modules/smartfaq/class/smartdbupdater.php';
     }
     include_once($smartdbupdater);
 
@@ -15,7 +19,7 @@ function xoops_module_update_smartfaq($module)
 
     ob_start();
 
-    echo "<code>" . _SDU_UPDATE_UPDATING_DATABASE . "<br />";
+    echo '<code>' . _SDU_UPDATE_UPDATING_DATABASE . '<br />';
 
     // Adding partialview field
     $table = new SmartDbTable('smartfaq_faq');
@@ -24,7 +28,7 @@ function xoops_module_update_smartfaq($module)
     }
 
     // Changing categoryid type to int(11)
-       $table->addAlteredField('categoryid', "int(11) NOT NULL default '0'", false);
+    $table->addAlteredField('categoryid', "int(11) NOT NULL default '0'", false);
 
     if (!$dbupdater->updateTable($table)) {
         /**
@@ -36,10 +40,10 @@ function xoops_module_update_smartfaq($module)
     // Editing smartfaq_categories table
     $table = new SmartDbTable('smartfaq_categories');
     // Changing categoryid type to int(11)
-       $table->addAlteredField('categoryid', "int(11) NOT NULL default '0'", false);
+    $table->addAlteredField('categoryid', "int(11) NOT NULL default '0'", false);
 
     // Changing parentid type to int(11)
-       $table->addAlteredField('parentid', "int(11) NOT NULL default '0'", false);
+    $table->addAlteredField('parentid', "int(11) NOT NULL default '0'", false);
 
     if (!$dbupdater->updateTable($table)) {
         /**
@@ -51,10 +55,10 @@ function xoops_module_update_smartfaq($module)
     // Editing smartfaq_answers table
     $table = new SmartDbTable('smartfaq_answers');
     // Changing categoryid type to int(11)
-       $table->addAlteredField('answerid', "int(11) NOT NULL default '0'", false);
+    $table->addAlteredField('answerid', "int(11) NOT NULL default '0'", false);
 
     // Changing parentid type to int(11)
-       $table->addAlteredField('faqid', "int(11) NOT NULL default '0'", false);
+    $table->addAlteredField('faqid', "int(11) NOT NULL default '0'", false);
 
     if (!$dbupdater->updateTable($table)) {
         /**
@@ -66,24 +70,24 @@ function xoops_module_update_smartfaq($module)
     /**
      * Check for items with categoryid=0
      */
-    include_once(XOOPS_ROOT_PATH . "/modules/smartfaq/include/functions.php");
-    $smartfaq_faq_handler = $answer_handler =& sf_gethandler('faq');
-    $smartfaq_category_handler = $answer_handler =& sf_gethandler('category');
+    include_once(XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php');
+    $smartfaq_faqHandler      = $answerHandler = sf_gethandler('faq');
+    $smartfaq_categoryHandler = $answerHandler = sf_gethandler('category');
 
     //find a valid categoryid
-    $categoriesObj = $smartfaq_category_handler->getCategories(1, 0, 0, 'weight', 'ASC', false);
+    $categoriesObj = $smartfaq_categoryHandler->getCategories(1, 0, 0, 'weight', 'ASC', false);
     if (count($categoriesObj) > 0) {
         $categoryid = $categoriesObj[0]->getVar('categoryid');
-        $criteria = new CriteriaCompo();
+        $criteria   = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', 0));
-        $smartfaq_faq_handler->updateAll('categoryid', $categoryid, $criteria);
-        echo "&nbsp;&nbsp;Cleaning up questions with categoryid=0<br />";
+        $smartfaq_faqHandler->updateAll('categoryid', $categoryid, $criteria);
+        echo '&nbsp;&nbsp;Cleaning up questions with categoryid=0<br />';
     }
 
-    echo "</code>";
+    echo '</code>';
 
     $feedback = ob_get_clean();
-    if (method_exists($module, "setMessage")) {
+    if (method_exists($module, 'setMessage')) {
         $module->setMessage($feedback);
     } else {
         echo $feedback;
@@ -92,14 +96,18 @@ function xoops_module_update_smartfaq($module)
     return true;
 }
 
+/**
+ * @param $module
+ * @return bool
+ */
 function xoops_module_install_smartfaq($module)
 {
     ob_start();
 
-    include_once(XOOPS_ROOT_PATH . "/modules/" . $module->getVar('dirname') . "/include/functions.php");
+    include_once(XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/include/functions.php');
 
     $feedback = ob_get_clean();
-    if (method_exists($module, "setMessage")) {
+    if (method_exists($module, 'setMessage')) {
         $module->setMessage($feedback);
     } else {
         echo $feedback;

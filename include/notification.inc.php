@@ -1,53 +1,55 @@
 <?php
 
 /**
-* $Id: notification.inc.php,v 1.6 2004/11/20 16:52:33 malanciault Exp $
-* Module: SmartFAQ
-* Author: The SmartFactory <www.smartfactory.ca>
-* Licence: GNU
-*/
+ * Module: SmartFAQ
+ * Author: The SmartFactory <www.smartfactory.ca>
+ * Licence: GNU
+ * @param $category
+ * @param $item_id
+ * @return mixed
+ */
 
 function smartfaq_notify_iteminfo($category, $item_id)
 {
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
 
-    if (empty($xoopsModule) || $xoopsModule->getVar('dirname') != 'smartfaq') {
-        $module_handler = &xoops_gethandler('module');
-        $module = &$module_handler->getByDirname('smartfaq');
-        $config_handler = &xoops_gethandler('config');
-        $config = &$config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    if (empty($xoopsModule) || $xoopsModule->getVar('dirname') !== 'smartfaq') {
+        $moduleHandler = xoops_getHandler('module');
+        $module        = &$moduleHandler->getByDirname('smartfaq');
+        $configHandler = xoops_getHandler('config');
+        $config        = &$configHandler->getConfigsByCat(0, $module->getVar('mid'));
     } else {
         $module = &$xoopsModule;
         $config = &$xoopsModuleConfig;
     }
 
-    if ($category == 'global') {
+    if ($category === 'global') {
         $item['name'] = '';
-        $item['url'] = '';
+        $item['url']  = '';
 
         return $item;
     }
 
     global $xoopsDB;
 
-    if ($category == 'category') {
+    if ($category === 'category') {
         // Assume we have a valid category id
-        $sql = 'SELECT name FROM ' . $xoopsDB->prefix('smartfaq_categories') . ' WHERE categoryid  = ' . $item_id;
-        $result = $xoopsDB->query($sql); // TODO: error check
+        $sql          = 'SELECT name FROM ' . $xoopsDB->prefix('smartfaq_categories') . ' WHERE categoryid  = ' . $item_id;
+        $result       = $xoopsDB->query($sql); // TODO: error check
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['name'];
-        $item['url'] = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/category.php?categoryid=' . $item_id;
+        $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/category.php?categoryid=' . $item_id;
 
         return $item;
     }
 
-    if ($category == 'faq') {
+    if ($category === 'faq') {
         // Assume we have a valid story id
-        $sql = 'SELECT question FROM ' . $xoopsDB->prefix('smartfaq_faq') . ' WHERE faqid = ' . $item_id;
-        $result = $xoopsDB->query($sql); // TODO: error check
+        $sql          = 'SELECT question FROM ' . $xoopsDB->prefix('smartfaq_faq') . ' WHERE faqid = ' . $item_id;
+        $result       = $xoopsDB->query($sql); // TODO: error check
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['question'];
-        $item['url'] = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/faq.php?faqid=' . $item_id;
+        $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/faq.php?faqid=' . $item_id;
 
         return $item;
     }
