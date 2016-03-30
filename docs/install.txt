@@ -1,5 +1,4 @@
 /**
-* $Id: install.txt,v 1.6 2004/11/20 16:52:32 malanciault Exp $
 * Module: SmartFAQ
 * Author: The SmartFactory
 * Licence: GNU

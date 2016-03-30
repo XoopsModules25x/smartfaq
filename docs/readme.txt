@@ -1,5 +1,4 @@
 /**
-* $Id: readme.txt,v 1.10 2005/08/15 16:51:58 fx2024 Exp $
 * Module: SmartFAQ
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU

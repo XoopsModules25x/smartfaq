@@ -1,31 +1,28 @@
 <?php
 
 /**
-* $Id: faq.php,v 1.31 2006/09/29 18:49:10 malanciault Exp $
-* Module: SmartFAQ
-* Author: The SmartFactory <www.smartfactory.ca>
-* Licence: GNU
-*/
+ * Module: SmartFAQ
+ * Author: The SmartFactory <www.smartfactory.ca>
+ * Licence: GNU
+ */
 
 include_once __DIR__ . '/header.php';
 
-$faqid = isset($_GET['faqid']) ? intval($_GET['faqid']) : 0;
+$faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
 
 if ($faqid == 0) {
-    redirect_header("javascript:history.go(-1)", 1, _MD_SF_NOFAQSELECTED);
-    exit();
+    redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
 }
 
 // Creating the FAQ handler object
-$faq_handler =& sf_gethandler('faq');
+$faqHandler = sf_gethandler('faq');
 
 // Creating the FAQ object for the selected FAQ
 $faqObj = new sfFaq($faqid);
 
 // If the selected FAQ was not found, exit
 if ($faqObj->notLoaded()) {
-    redirect_header("javascript:history.go(-1)", 1, _MD_SF_NOFAQSELECTED);
-    exit();
+    redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
 }
 
 // Creating the category object that holds the selected FAQ
@@ -37,8 +34,7 @@ $answerObj = $faqObj->answer();
 // Check user permissions to access that category of the selected FAQ
 $faqAccessGrantedResult = faqAccessGranted($faqObj);
 if ($faqAccessGrantedResult < 0) {
-    redirect_header("javascript:history.go(-1)", 1, _NOPERM);
-    exit;
+    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
 }
 
 // Update the read counter of the selected FAQ
@@ -46,7 +42,7 @@ if (!$xoopsUser || ($xoopsUser->isAdmin($xoopsModule->mid()) && $xoopsModuleConf
     $faqObj->updateCounter();
 }
 $xoopsOption['template_main'] = 'smartfaq_faq.tpl';
-include_once(XOOPS_ROOT_PATH . "/header.php");
+include_once(XOOPS_ROOT_PATH . '/header.php');
 include_once __DIR__ . '/footer.php';
 
 $faq = $faqObj->toArray(null, $categoryObj, false);
@@ -64,7 +60,7 @@ $faq['comments'] = $faqObj->comments();
 $faq['cancomment'] = $faqObj->cancomment();
 */
 $faq['categoryPath'] = $categoryObj->getCategoryPath(true);
-$faq['answer'] = $answerObj->answer();
+$faq['answer']       = $answerObj->answer();
 
 // Check to see if we need to display partial answer. This should probably be in a the FAQ class...
 if ($faqAccessGrantedResult == 0) {
@@ -103,13 +99,13 @@ $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $categoryObj->name()
 
 // Include the comments if the selected FAQ supports comments
 if ($faqObj->cancomment() == 1) {
-    include_once XOOPS_ROOT_PATH . "/include/comment_view.php";
+    include_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 }
 
 //code to include smartie
 if (file_exists(XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php')) {
     include_once XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php';
-        $xoopsTpl->assign('smarttie',1);
+    $xoopsTpl->assign('smarttie', 1);
 }
 //end code for smarttie
 
