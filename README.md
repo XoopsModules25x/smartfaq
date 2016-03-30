@@ -9,7 +9,7 @@ SmartFAQ, as you would probably have guessed it by the name, is a Frequently Ask
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/mambax7/smartfaq.svg?style=flat)](https://scrutinizer-ci.com/g/mambax7/smartfaq/?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/2d27c0023ee54f0b9ba2b5d17a68b2a5)](https://www.codacy.com/app/mambax7/smartfaq)
 [![Code Climate](https://img.shields.io/codeclimate/github/mambax7/smartfaq.svg?style=flat)](https://codeclimate.com/github/mambax7/smartfaq)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/eb6f450b-8c46-4755-a30b-d3203def13cc/mini.png)](https://insight.sensiolabs.com/projects/eb6f450b-8c46-4755-a30b-d3203def13cc)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/10555054-c772-45fb-9d69-231ca48bb8a0/mini.png)](https://insight.sensiolabs.com/projects/10555054-c772-45fb-9d69-231ca48bb8a0)
 [![Latest Pre-Resease](https://img.shields.io/github/tag/XoopsModules25x/smartfaq.svg?style=flat)](https://github.com/XoopsModules25x/smartfaq/tags/)
 [![Latest Version](https://img.shields.io/github/release/XoopsModules25x/smartfaq.svg?style=flat)](https://github.com/XoopsModules25x/smartfaq/releases/)
 
