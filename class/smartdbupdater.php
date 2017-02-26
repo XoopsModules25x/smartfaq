@@ -380,6 +380,15 @@ class SmartDbTable
     }
 
     /**
+     * Get the flag to drop the table
+     *
+     */
+    public function getFlagForDrop()
+    {
+        return $this->_flagForDrop;
+    }
+
+    /**
      * Use to create a table
      *
      * @return bool true if success, false if an error occured
@@ -646,7 +655,7 @@ class SmartobjectDbupdater
         }
 
         // If table is flag for drop, drop it
-        if ($table->_flagForDrop) {
+        if ($table->getFlagForDrop()) {
             $ret = $table->dropTable() && $ret;
         }
 
