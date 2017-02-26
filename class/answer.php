@@ -384,9 +384,7 @@ class sfAnswer extends XoopsObject
                 case _SF_NOT_ANSWER_APPROVED:
                     // This notification is not working for PM, but is for email... and I don't understand why???
                     $notificationHandler->triggerEvent('faq', $this->answerid(), 'answer_approved', $tags);
-
                     break;
-
                 case -1:
                 default:
                     break;
@@ -480,7 +478,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
                            $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
         }
 
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -515,7 +513,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
 
         //echo "<br>" . $sql . "<br>";
 
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);

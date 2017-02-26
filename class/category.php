@@ -338,7 +338,7 @@ class sfCategoryHandler extends XoopsObjectHandler
             $sql = sprintf('UPDATE %s SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $parentid,
                            $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, $created, $categoryid);
         }
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -385,7 +385,7 @@ class sfCategoryHandler extends XoopsObjectHandler
         $smartModule = sf_getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);

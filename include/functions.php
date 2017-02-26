@@ -87,7 +87,7 @@ function sf_formatErrors($errors = array())
 }
 
 /**
- * @param         $categoryObj
+ * @param  XoopsObject $categoryObj
  * @param  int    $selectedid
  * @param  int    $level
  * @param  string $ret

@@ -3,7 +3,7 @@
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
- * @param $module
+ * @param XoopsModule $module
  * @return bool
  */
 function xoops_module_update_smartfaq($module)
@@ -97,7 +97,7 @@ function xoops_module_update_smartfaq($module)
 }
 
 /**
- * @param $module
+ * @param XoopsModule $module
  * @return bool
  */
 function xoops_module_install_smartfaq($module)

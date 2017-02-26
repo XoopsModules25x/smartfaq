@@ -110,7 +110,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
 
         $imginfo = @getimagesize($src_file);
 
-        if (null == $imginfo) {
+        if (null === $imginfo) {
             return false;
         }
         if ($imginfo[0] < $thumb_width) {

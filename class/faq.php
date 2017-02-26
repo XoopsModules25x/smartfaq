@@ -618,7 +618,7 @@ class sfFaq extends XoopsObject
         $requestdate = $this->datesub();
 
         if (($this->status() == _SF_STATUS_PUBLISHED) || $this->status() == _SF_STATUS_NEW_ANSWER) {
-            if ($answerObj == null) {
+            if ($answerObj === null) {
                 $answerObj = $this->answer();
             }
             $submitdate = $answerObj->datesub();
@@ -787,7 +787,7 @@ class sfFaqHandler extends XoopsObjectHandler
                            $counter, $weight, $html, $smiley, $xcodes, $cancomment, $comments, $notifypub, $this->db->quoteString($modulelink), $this->db->quoteString($contextpage), $exacturl,
                            $partialview, $faqid);
         }
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -831,7 +831,7 @@ class sfFaqHandler extends XoopsObjectHandler
 
         $sql = sprintf('DELETE FROM %s WHERE faqid = %u', $this->db->prefix('smartfaq_faq'), $faq->getVar('faqid'));
 
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);

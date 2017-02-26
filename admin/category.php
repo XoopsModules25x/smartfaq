@@ -24,7 +24,7 @@ if (isset($_POST['op'])) {
 $startcategory = isset($_GET['startcategory']) ? (int)$_GET['startcategory'] : 0;
 
 /**
- * @param     $categoryObj
+ * @param XoopsObject $categoryObj
  * @param int $level
  */
 function displayCategory($categoryObj, $level = 0)
