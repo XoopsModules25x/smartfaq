@@ -58,15 +58,15 @@ function sf_getHelpPath()
 {
     $smartConfig = sf_getModuleConfig();
     switch ($smartConfig['helppath_select']) {
-        case 'docs.xoops.org' :
+        case 'docs.xoops.org':
             return 'http://docs.xoops.org/help/sfaqh/index.htm';
             break;
 
-        case 'inside' :
+        case 'inside':
             return XOOPS_URL . '/modules/smartfaq/doc/';
             break;
 
-        case 'custom' :
+        case 'custom':
             return $smartConfig['helppath_custom'];
             break;
     }
@@ -80,7 +80,7 @@ function sf_formatErrors($errors = array())
 {
     $ret = '';
     foreach ($errors as $key => $value) {
-        $ret .= '<br /> - ' . $value;
+        $ret .= '<br> - ' . $value;
     }
 
     return $ret;
@@ -105,7 +105,7 @@ function sf_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = 
 
     $ret .= "<option value='" . $categoryObj->categoryid() . "'";
     if ($selectedid == $categoryObj->categoryid()) {
-        $ret .= " selected='selected'";
+        $ret .= ' selected';
     }
     $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
@@ -201,7 +201,15 @@ function sf_modFooter()
 
     $modfootertxt = 'Module ' . $smartModule->getInfo('name') . ' - Version ' . $smartModule->getInfo('version') . '';
 
-    $modfooter = "<a href='" . $smartModule->getInfo('support_site_url') . "' target='_blank'><img src='" . XOOPS_URL . "/modules/smartfaq/assets/images/sfcssbutton.gif' title='" . $modfootertxt . "' alt='" . $modfootertxt . "'/></a>";
+    $modfooter = "<a href='"
+                 . $smartModule->getInfo('support_site_url')
+                 . "' target='_blank'><img src='"
+                 . XOOPS_URL
+                 . "/modules/smartfaq/assets/images/sfcssbutton.gif' title='"
+                 . $modfootertxt
+                 . "' alt='"
+                 . $modfootertxt
+                 . "'/></a>";
 
     return $modfooter;
 }
@@ -435,22 +443,71 @@ function sf_getAdminLinks($faqid = 0, $open = false)
     $page       = $open ? 'question.php' : 'faq.php';
     if ($xoopsUser && $xoopsUser->isAdmin($xoopsModule->getVar('mid'))) {
         // Edit button
-        $adminLinks .= "<a href='" . $modulePath . "admin/$page?op=mod&amp;faqid=" . $faqid . "'><img src='" . $modulePath . "assets/images/links/edit.gif'" . " title='" . _MD_SF_EDIT . "' alt='" . _MD_SF_EDIT . "'/></a>";
+        $adminLinks .= "<a href='"
+                       . $modulePath
+                       . "admin/$page?op=mod&amp;faqid="
+                       . $faqid
+                       . "'><img src='"
+                       . $modulePath
+                       . "assets/images/links/edit.gif'"
+                       . " title='"
+                       . _MD_SF_EDIT
+                       . "' alt='"
+                       . _MD_SF_EDIT
+                       . "'/></a>";
         $adminLinks .= ' ';
         // Delete button
-        $adminLinks .= "<a href='" . $modulePath . "admin/$page?op=del&amp;faqid=" . $faqid . "'><img src='" . $modulePath . "assets/images/links/delete.gif'" . " title='" . _MD_SF_DELETE . "' alt='" . _MD_SF_DELETE . "'/></a>";
+        $adminLinks .= "<a href='"
+                       . $modulePath
+                       . "admin/$page?op=del&amp;faqid="
+                       . $faqid
+                       . "'><img src='"
+                       . $modulePath
+                       . "assets/images/links/delete.gif'"
+                       . " title='"
+                       . _MD_SF_DELETE
+                       . "' alt='"
+                       . _MD_SF_DELETE
+                       . "'/></a>";
         $adminLinks .= ' ';
     }
     // Print button
-    $adminLinks .= "<a href='" . $modulePath . 'print.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/print.gif' title='" . _MD_SF_PRINT . "' alt='" . _MD_SF_PRINT . "'/></a>";
+    $adminLinks .= "<a href='"
+                   . $modulePath
+                   . 'print.php?faqid='
+                   . $faqid
+                   . "'><img src='"
+                   . $modulePath
+                   . "assets/images/links/print.gif' title='"
+                   . _MD_SF_PRINT
+                   . "' alt='"
+                   . _MD_SF_PRINT
+                   . "'/></a>";
     $adminLinks .= ' ';
     // Email button
-    $maillink = 'mailto:?subject=' . sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename']) . '&amp;body=' . sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename']) . ':  ' . $modulePath . 'faq.php?faqid=' . $faqid;
-    $adminLinks .= "<a href=\"" . $maillink . "\"><img src='" . $modulePath . "assets/images/links/friend.gif' title='" . _MD_SF_MAIL . "' alt='" . _MD_SF_MAIL . "'/></a>";
+    $maillink   = 'mailto:?subject='
+                  . sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename'])
+                  . '&amp;body='
+                  . sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename'])
+                  . ':  '
+                  . $modulePath
+                  . 'faq.php?faqid='
+                  . $faqid;
+    $adminLinks .= '<a href="' . $maillink . "\"><img src='" . $modulePath . "assets/images/links/friend.gif' title='" . _MD_SF_MAIL . "' alt='" . _MD_SF_MAIL . "'/></a>";
     $adminLinks .= ' ';
     // Submit New Answer button
     if ($xoopsModuleConfig['allownewanswer'] && (is_object($xoopsUser) || $xoopsModuleConfig['anonpost'])) {
-        $adminLinks .= "<a href='" . $modulePath . 'answer.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/newanswer.gif' title='" . _MD_SF_SUBMITANSWER . "' alt='" . _MD_SF_SUBMITANSWER . "'/></a>";
+        $adminLinks .= "<a href='"
+                       . $modulePath
+                       . 'answer.php?faqid='
+                       . $faqid
+                       . "'><img src='"
+                       . $modulePath
+                       . "assets/images/links/newanswer.gif' title='"
+                       . _MD_SF_SUBMITANSWER
+                       . "' alt='"
+                       . _MD_SF_SUBMITANSWER
+                       . "'/></a>";
         $adminLinks .= ' ';
     }
 
@@ -548,7 +605,7 @@ function sf_collapsableBar($tablename = '', $iconname = '')
                 obj = document.layers[id];
             }
             if (obj) {
-                if (obj.style.display == "none") {
+                if (obj.style.display === "none") {
                     obj.style.display = "";
                 } else {
                     obj.style.display = "none";
@@ -600,7 +657,7 @@ function sf_gethandler($name, $optional = false)
         }
     }
     if (!$optional && !isset($handlers[$name])) {
-        trigger_error('Class <b>' . $class . '</b> does not exist<br />Handler Name: ' . $name, E_USER_ERROR);
+        trigger_error('Class <b>' . $class . '</b> does not exist<br>Handler Name: ' . $name, E_USER_ERROR);
     }
     $false = false;
 

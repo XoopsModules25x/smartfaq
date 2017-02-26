@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 $op = '';
 
@@ -57,7 +57,9 @@ function editfaq($faqid = '')
     $gpermHandler = xoops_getHandler('groupperm');
     $groups       = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
-    if (!sf_userIsAdmin() && (!$gpermHandler->checkRight('category_admin', $faqObj->categoryid(), $groups, $module_id))) {
+    if (!sf_userIsAdmin()
+        && (!$gpermHandler->checkRight('category_admin', $faqObj->categoryid(), $groups, $module_id))
+    ) {
         redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     }
     // Retreiving the official answer
@@ -66,7 +68,7 @@ function editfaq($faqid = '')
     sf_collapsableBar('bottomtable', 'bottomtableicon');
     echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_SUBMITTED_ANSWER . '</h3>';
     echo "<div id='bottomtable'>";
-    echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_SF_SUBMITTED_ANSWER_INFO . '</span>';
+    echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_SUBMITTED_ANSWER_INFO . '</span>';
 
     $proposed_answers = $answerHandler->getAllAnswers($faqid, _SF_AN_STATUS_PROPOSED);
 
@@ -90,7 +92,7 @@ function editfaq($faqid = '')
               <td class='even'>" . $official_answer->answer() . '</td>
             </tr>';
     }
-    echo "</table><br />\n";
+    echo "</table><br>\n";
 
     echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
     echo '<tr>';
@@ -108,11 +110,56 @@ function editfaq($faqid = '')
     $approve = '';
     foreach ($proposed_answers as $proposed_answer) {
         if ($faqObj->status() == _SF_STATUS_NEW_ANSWER) {
-            $merge   = "<a href='faq.php?op=merge&amp;faqid=" . $faqObj->faqid() . '&amp;answerid=' . $proposed_answer->answerid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/merge.gif' title='" . _AM_SF_FAQ_MERGE . "' alt='" . _AM_SF_FAQ_MERGE . "' /></a>&nbsp;";
-            $approve = "<a href='answer.php?op=selectanswer&amp;faqid=" . $faqid . '&amp;answerid=' . $proposed_answer->answerid() . "'><img src='" . $pathIcon16 . '/on.png' . "' title='" . _AM_SF_FAQ_APPROVE_NEW_ANSWER . "' alt='" . _AM_SF_APPROVESUB . "' /></a>";
+            $merge   = "<a href='faq.php?op=merge&amp;faqid="
+                       . $faqObj->faqid()
+                       . '&amp;answerid='
+                       . $proposed_answer->answerid()
+                       . "'><img src='"
+                       . XOOPS_URL
+                       . '/modules/'
+                       . $xoopsModule->dirname()
+                       . "/assets/images/icon/merge.gif' title='"
+                       . _AM_SF_FAQ_MERGE
+                       . "' alt='"
+                       . _AM_SF_FAQ_MERGE
+                       . "' /></a>&nbsp;";
+            $approve = "<a href='answer.php?op=selectanswer&amp;faqid="
+                       . $faqid
+                       . '&amp;answerid='
+                       . $proposed_answer->answerid()
+                       . "'><img src='"
+                       . $pathIcon16
+                       . '/on.png'
+                       . "' title='"
+                       . _AM_SF_FAQ_APPROVE_NEW_ANSWER
+                       . "' alt='"
+                       . _AM_SF_APPROVESUB
+                       . "' /></a>";
         }
-        $modify = "<a href='faq.php?op=mod&amp;faqid=" . $faqObj->faqid() . '&amp;answerid=' . $proposed_answer->answerid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_FAQ_REVIEW . "' alt='" . _AM_SF_FAQ_REVIEW . "' /></a>&nbsp;";
-        $delete = "<a href='answer.php?op=del&amp;faqid=" . $faqObj->faqid() . '&amp;answerid=' . $proposed_answer->answerid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETESUBM . "' alt='" . _AM_SF_DELETESUBM . "' /></a>";
+        $modify = "<a href='faq.php?op=mod&amp;faqid="
+                  . $faqObj->faqid()
+                  . '&amp;answerid='
+                  . $proposed_answer->answerid()
+                  . "'><img src='"
+                  . $pathIcon16
+                  . '/edit.png'
+                  . "' title='"
+                  . _AM_SF_FAQ_REVIEW
+                  . "' alt='"
+                  . _AM_SF_FAQ_REVIEW
+                  . "' /></a>&nbsp;";
+        $delete = "<a href='answer.php?op=del&amp;faqid="
+                  . $faqObj->faqid()
+                  . '&amp;answerid='
+                  . $proposed_answer->answerid()
+                  . "'><img src='"
+                  . $pathIcon16
+                  . '/delete.png'
+                  . "' title='"
+                  . _AM_SF_DELETESUBM
+                  . "' alt='"
+                  . _AM_SF_DELETESUBM
+                  . "' /></a>";
         echo '<tr>';
         echo "<td class='head' align='center'>" . $proposed_answer->answerid() . '</td>';
         echo "<td class='even' align='left'>" . $proposed_answer->answer() . '</td>';
@@ -126,7 +173,7 @@ function editfaq($faqid = '')
         echo '</tr>';
     }
 
-    echo "</table>\n<br />";
+    echo "</table>\n<br>";
 }
 
 /* -- Available operations -- */
@@ -271,4 +318,4 @@ switch ($op) {
         break;
 }
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

@@ -1,4 +1,21 @@
 <?php
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright    XOOPS Project http://xoops.org/
+ * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @package
+ * @since
+ * @author       XOOPS Development Team, Kazumi Ono (AKA onokazu)
+ */
 
 /**
  * Module: SmartFAQ
@@ -6,35 +23,6 @@
  * Licence: GNU
  */
 
-// 
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                  Copyright (c) 2000-2016 XOOPS.org                        //
-//                         <http://xoops.org/>                               //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: Kazumi Ono (AKA onokazu)                                          //
-// URL: http://www.myweb.ne.jp/, http://www.xoops.org/, http://jp.xoops.org/ //
-// Project: The XOOPS Project                                                //
-// ------------------------------------------------------------------------- //
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
@@ -51,7 +39,10 @@ if (isset($HTTP_POST_VARS)) {
 }
 
 if (isset($HTTP_GET_VARS['op'])) {
-    if ($HTTP_GET_VARS['op'] === 'edit' || $HTTP_GET_VARS['op'] === 'delete' || $HTTP_GET_VARS['op'] === 'delete_ok' || $HTTP_GET_VARS['op'] === 'clone' || $HTTP_GET_VARS['op'] === 'previewpopup') {
+    if ($HTTP_GET_VARS['op'] === 'edit' || $HTTP_GET_VARS['op'] === 'delete' || $HTTP_GET_VARS['op'] === 'delete_ok'
+        || $HTTP_GET_VARS['op'] === 'clone'
+        || $HTTP_GET_VARS['op'] === 'previewpopup'
+    ) {
         $op  = $HTTP_GET_VARS['op'];
         $bid = isset($HTTP_GET_VARS['bid']) ? (int)$HTTP_GET_VARS['bid'] : 0;
     }
@@ -79,7 +70,19 @@ if (isset($previewblock)) {
     $myts = MyTextSanitizer::getInstance();
     $myblock->setVar('title', $myts->stripSlashesGPC($btitle));
     $myblock->setVar('content', $myts->stripSlashesGPC($bcontent));
-    $dummyhtml = '<html><head><meta http-equiv="content-type" content="text/html; charset=' . _CHARSET . '" /><meta http-equiv="content-language" content="' . _LANGCODE . '" /><title>' . $xoopsConfig['sitename'] . '</title><link rel="stylesheet" type="text/css" media="all" href="' . getcss($xoopsConfig['theme_set']) . '" /></head><body><table><tr><th>' . $myblock->getVar('title') . '</th></tr><tr><td>' . $myblock->getContent('S', $bctype) . '</td></tr></table></body></html>';
+    $dummyhtml = '<html><head><meta http-equiv="content-type" content="text/html; charset='
+                 . _CHARSET
+                 . '" /><meta http-equiv="content-language" content="'
+                 . _LANGCODE
+                 . '" /><title>'
+                 . $xoopsConfig['sitename']
+                 . '</title><link rel="stylesheet" type="text/css" media="all" href="'
+                 . getcss($xoopsConfig['theme_set'])
+                 . '" /></head><body><table><tr><th>'
+                 . $myblock->getVar('title')
+                 . '</th></tr><tr><td>'
+                 . $myblock->getContent('S', $bctype)
+                 . '</td></tr></table></body></html>';
 
     $dummyfile = '_dummyfile_' . time() . '.html';
     $fp        = fopen(XOOPS_CACHE_PATH . '/' . $dummyfile, 'w');
@@ -97,7 +100,7 @@ if (isset($previewblock)) {
     $block['ctype']     = isset($bctype) ? $bctype : $myblock->getVar('c_type');
     $block['is_custom'] = true;
     $block['cachetime'] = (int)$bcachetime;
-    echo '<a href="admin.php?fct=blocksadmin">' . _AM_BADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . $block['form_title'] . '<br /><br />';
+    echo '<a href="admin.php?fct=blocksadmin">' . _AM_BADMIN . '</a>&nbsp;<span style="font-weight:bold;">&raquo;&raquo;</span>&nbsp;' . $block['form_title'] . '<br><br>';
     include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blockform.php';
     $form->display();
     xoops_cp_footer();
@@ -178,20 +181,30 @@ if ($op === 'edit') {
 
 // import from modules/system/admin/blocksadmin/blocksadmin.php
 /**
- * @param        $bid
- * @param        $bside
- * @param        $bweight
- * @param        $bvisible
- * @param        $btitle
- * @param        $bcontent
- * @param        $bctype
- * @param        $bcachetime
- * @param        $bmodule
- * @param  array $options
+ * @param         $bid
+ * @param         $bside
+ * @param         $bweight
+ * @param         $bvisible
+ * @param         $btitle
+ * @param         $bcontent
+ * @param         $bctype
+ * @param         $bcachetime
+ * @param         $bmodule
+ * @param  array  $options
  * @return string
  */
-function myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, $bcontent, $bctype, $bcachetime, $bmodule, $options = array())
-{
+function myblocksadmin_update_block(
+    $bid,
+    $bside,
+    $bweight,
+    $bvisible,
+    $btitle,
+    $bcontent,
+    $bctype,
+    $bcachetime,
+    $bmodule,
+    $options = array()
+) {
     global $xoopsConfig;
     if (empty($bmodule)) {
         xoops_cp_header();
@@ -234,7 +247,7 @@ function myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, 
         $myblock->setVar('c_type', 'H');
     }
     $msg = _AM_DBUPDATED;
-    if ($myblock->store() != false) {
+    if ($myblock->store() !== false) {
         $db  = XoopsDatabaseFactory::getDatabaseConnection();
         $sql = sprintf('DELETE FROM %s WHERE block_id = %u', $db->prefix('block_module_link'), $bid);
         $db->query($sql);
@@ -252,8 +265,8 @@ function myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, 
                 }
             }
         } else {
-            if ($xoopsTpl->is_cached('db:system_dummy.html', 'block' . $bid)) {
-                if (!$xoopsTpl->clear_cache('db:system_dummy.html', 'block' . $bid)) {
+            if ($xoopsTpl->is_cached('db:system_dummy.tpl', 'block' . $bid)) {
+                if (!$xoopsTpl->clear_cache('db:system_dummy.tpl', 'block' . $bid)) {
                     $msg = 'Unable to clear cache for block ID' . $bid;
                 }
             }

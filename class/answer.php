@@ -198,8 +198,8 @@ class sfAnswer extends XoopsObject
             $mime_path   = $iconHandler->getPath('mime');
             include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/include/functions.image.php';
             $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'bmp'); // need improve !!!
-            $post_attachment .= '<br /><strong>' . _MD_ATTACHMENT . '</strong>:';
-            $post_attachment .= '<br /><hr size="1" noshade="noshade" /><br />';
+            $post_attachment  .= '<br><strong>' . _MD_ATTACHMENT . '</strong>:';
+            $post_attachment  .= '<br><hr size="1" noshade="noshade" /><br>';
             foreach ($attachments as $key => $att) {
                 $file_extension = ltrim(strrchr($att['name_saved'], '.'), '.');
                 $filetype       = $file_extension;
@@ -211,20 +211,62 @@ class sfAnswer extends XoopsObject
                 $file_size = @filesize(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $att['name_saved']);
                 $file_size = number_format($file_size / 1024, 2) . ' KB';
                 if ($xoopsModuleConfig['media_allowed'] && in_array(strtolower($file_extension), $image_extensions)) {
-                    $post_attachment .= '<br /><img src="' . $icon_filetype . '" alt="' . $filetype . '" /><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>(' . $file_size . ')</small>';
-                    $post_attachment .= '<br />' . sf_attachmentImage($att['name_saved']);
-                    $isDisplayed = true;
+                    $post_attachment .= '<br><img src="' . $icon_filetype . '" alt="' . $filetype . '" /><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>(' . $file_size . ')</small>';
+                    $post_attachment .= '<br>' . sf_attachmentImage($att['name_saved']);
+                    $isDisplayed     = true;
                 } else {
                     global $xoopsUser;
                     if (empty($xoopsModuleConfig['show_userattach'])) {
-                        $post_attachment .= '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': ' . $file_size . '; ' . _MD_HITS . ': ' . $att['num_download'];
+                        $post_attachment .= '<a href="'
+                                            . XOOPS_URL
+                                            . '/modules/'
+                                            . $xoopsModule->getVar('dirname', 'n')
+                                            . '/dl_attachment.php?attachid='
+                                            . $key
+                                            . '&amp;post_id='
+                                            . $this->getVar('post_id')
+                                            . '"> <img src="'
+                                            . $icon_filetype
+                                            . '" alt="'
+                                            . $filetype
+                                            . '" /> '
+                                            . $att['name_display']
+                                            . '</a> '
+                                            . _MD_FILESIZE
+                                            . ': '
+                                            . $file_size
+                                            . '; '
+                                            . _MD_HITS
+                                            . ': '
+                                            . $att['num_download'];
                     } elseif ($xoopsUser && $xoopsUser->uid() > 0 && $xoopsUser->isactive()) {
-                        $post_attachment .= '<a href="' . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/dl_attachment.php?attachid=' . $key . '&amp;post_id=' . $this->getVar('post_id') . '"> <img src="' . $icon_filetype . '" alt="' . $filetype . '" /> ' . $att['name_display'] . '</a> ' . _MD_FILESIZE . ': ' . $file_size . '; ' . _MD_HITS . ': ' . $att['num_download'];
+                        $post_attachment .= '<a href="'
+                                            . XOOPS_URL
+                                            . '/modules/'
+                                            . $xoopsModule->getVar('dirname', 'n')
+                                            . '/dl_attachment.php?attachid='
+                                            . $key
+                                            . '&amp;post_id='
+                                            . $this->getVar('post_id')
+                                            . '"> <img src="'
+                                            . $icon_filetype
+                                            . '" alt="'
+                                            . $filetype
+                                            . '" /> '
+                                            . $att['name_display']
+                                            . '</a> '
+                                            . _MD_FILESIZE
+                                            . ': '
+                                            . $file_size
+                                            . '; '
+                                            . _MD_HITS
+                                            . ': '
+                                            . $att['num_download'];
                     } else {
                         $post_attachment .= _MD_NEWBB_SEENOTGUEST;
                     }
                 }
-                $post_attachment .= '<br />';
+                $post_attachment .= '<br>';
             }
         }
 
@@ -383,8 +425,8 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve an answer
      *
-     * @param  int $id answerid of the answer
-     * @param null $fields
+     * @param  int  $id answerid of the answer
+     * @param  null $fields
      * @return mixed reference to the <a href='psi_element://sfAnswer'>sfAnswer</a> object, FALSE if failed
      */
     public function get($id = null, $fields = null)
@@ -431,9 +473,11 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
         }
 
         if ($answerObj->isNew()) {
-            $sql = sprintf('INSERT INTO %s (answerid, `status`, faqid, answer, uid, datesub, notifypub) VALUES (NULL, %u, %u, %s, %u, %u, %u)', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, time(), $notifypub);
+            $sql = sprintf('INSERT INTO %s (answerid, `status`, faqid, answer, uid, datesub, notifypub) VALUES (NULL, %u, %u, %s, %u, %u, %u)', $this->db->prefix('smartfaq_answers'), $status, $faqid,
+                           $this->db->quoteString($answer), $uid, time(), $notifypub);
         } else {
-            $sql = sprintf('UPDATE %s SET status = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
+            $sql = sprintf('UPDATE %s SET STATUS = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid,
+                           $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
         }
 
         if (false != $force) {
@@ -469,7 +513,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
         }
         $sql = sprintf('DELETE FROM %s WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $answer->getVar('answerid'));
 
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
 
         if (false != $force) {
             $result = $this->db->queryF($sql);
@@ -486,8 +530,8 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
     /**
      * delete an answer from the database
      *
-     * @param object $faqObj reference to the answer to delete
-     * @return bool FALSE if failed.
+     * @param  object $faqObj reference to the answer to delete
+     * @return bool   FALSE if failed.
      * @internal param bool $force
      */
     public function deleteFaqAnswers($faqObj)
@@ -511,8 +555,8 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
      *
      * @param  CriteriaElement $criteria  {@link CriteriaElement} conditions to be met
      * @param  bool            $id_as_key use the answerid as key for the array?
-     * @param bool             $as_object
-     * @return array array of <a href='psi_element://sfAnswer'>sfAnswer</a> objects
+     * @param  bool            $as_object
+     * @return array           array of <a href='psi_element://sfAnswer'>sfAnswer</a> objects
      */
     public function &getObjects(CriteriaElement $criteria = null, $id_as_key = false, $as_object = true)
     {
@@ -527,7 +571,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
         $result = $this->db->query($sql, $limit, $start);
         if (!$result) {
             return $ret;
@@ -574,8 +618,14 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
      * @param  string $order
      * @return array  array of <a href='psi_element://sfAnswer'>sfAnswer</a> objects
      */
-    public function getAllAnswers($faqid = 0, $status = -1, $limit = 0, $start = 0, $sort = 'datesub', $order = 'DESC')
-    {
+    public function getAllAnswers(
+        $faqid = 0,
+        $status = -1,
+        $limit = 0,
+        $start = 0,
+        $sort = 'datesub',
+        $order = 'DESC'
+    ) {
         $hasStatusCriteria = false;
         $criteriaStatus    = new CriteriaCompo();
         if (is_array($status)) {
@@ -640,7 +690,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
             $sql .= ' ' . $criteria->getGroupby();
         }
 
-        //echo "<br />$sql<br />";
+        //echo "<br>$sql<br>";
 
         $result = $this->db->query($sql);
         if (!$result) {
@@ -658,9 +708,9 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
      * delete answers matching a set of conditions
      *
      * @param  CriteriaElement $criteria {@link CriteriaElement}
-     * @param bool             $force
-     * @param bool             $asObject
-     * @return bool FALSE if deletion failed
+     * @param  bool            $force
+     * @param  bool            $asObject
+     * @return bool            FALSE if deletion failed
      */
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false)
     {
@@ -678,10 +728,10 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
     /**
      * Change a value for answers with a certain criteria
      *
-     * @param string          $fieldname  Name of the field
-     * @param string          $fieldvalue Value to write
-     * @param CriteriaElement $criteria   {@link CriteriaElement}
-     * @param bool            $force
+     * @param  string          $fieldname  Name of the field
+     * @param  string          $fieldvalue Value to write
+     * @param  CriteriaElement $criteria   {@link CriteriaElement}
+     * @param  bool            $force
      * @return bool
      */
     public function updateAll($fieldname, $fieldvalue, CriteriaElement $criteria = null, $force = false)
@@ -691,7 +741,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
         if (!$this->db->queryF($sql)) {
             return false;
         }

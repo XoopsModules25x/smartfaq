@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 $op = 'none';
 
@@ -28,21 +28,21 @@ switch ($op) {
             $errs[] = sprintf(_AM_SF_IMPORT_FILE_NOT_FOUND, $importfile_path);
             $error  = true;
         } else {
-            include_once($importfile_path);
+            include_once $importfile_path;
         }
         foreach ($msgs as $m) {
-            echo $m . '<br />';
+            echo $m . '<br>';
         }
-        echo '<br />';
+        echo '<br>';
         $endMsg = _AM_SF_IMPORT_SUCCESS;
-        if ($error == true) {
+        if ($error === true) {
             $endMsg = _AM_SF_IMPORT_ERROR;
         }
 
         echo $endMsg;
-        echo '<br /><br />';
+        echo '<br><br>';
         echo "<a href='import.php'>" . _AM_SF_IMPORT_BACK . '</a>';
-        echo '<br /><br />';
+        echo '<br><br>';
         break;
 
     case 'default':
@@ -55,12 +55,13 @@ switch ($op) {
         sf_collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_IMPORT_TITLE . '</h3>';
         echo "<div id='bottomtable'>";
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_SF_IMPORT_INFO . '</span>';
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_IMPORT_INFO . '</span>';
 
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts;
 
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
+        /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         if ($moduleHandler->getByDirname('xoopsfaq')) {
             $importfile_select_array['xoopsfaq'] = _AM_SF_IMPORT_XOOPSFAQ_110;
@@ -98,7 +99,7 @@ switch ($op) {
             $sform->display();
             unset($hidden);
         } else {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-weight: bold; font-size: small; display: block; \">" . _AM_SF_IMPORT_NO_MODULE . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-weight: bold; font-size: small; display: block; ">' . _AM_SF_IMPORT_NO_MODULE . '</span>';
         }
 
         // End of collapsable bar
@@ -107,4 +108,4 @@ switch ($op) {
         break;
 }
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

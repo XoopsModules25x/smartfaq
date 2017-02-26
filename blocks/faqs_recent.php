@@ -11,7 +11,7 @@
 
 function b_faqs_recent_show($options)
 {
-    include_once(XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php');
+    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     $myts = MyTextSanitizer::getInstance();
 
     $smartModule       = sf_getModuleInfo();
@@ -60,7 +60,7 @@ function b_faqs_recent_show($options)
             $faqs['categoryname'] = $allcategories[$faqsObj[$i]->categoryid()]->getVar('name');
 
             // Creating the answer object
-            $answerObj =& $allanswers[$faqsObj[$i]->faqid()];
+            $answerObj = $allanswers[$faqsObj[$i]->faqid()];
 
             $faqs['date'] = $faqsObj[$i]->datesub();
 
@@ -86,7 +86,7 @@ function b_faqs_recent_show($options)
  */
 function b_faqs_recent_edit($options)
 {
-    include_once(XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php');
+    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $form = sf_createCategorySelect($options[0]);
 
@@ -94,19 +94,19 @@ function b_faqs_recent_edit($options)
 
     $form .= "<option value='datesub'";
     if ($options[1] === 'datesub') {
-        $form .= " selected='selected'";
+        $form .= ' selected';
     }
     $form .= '>' . _MB_SF_DATE . "</option>\n";
 
     $form .= "<option value='counter'";
     if ($options[1] === 'counter') {
-        $form .= " selected='selected'";
+        $form .= ' selected';
     }
     $form .= '>' . _MB_SF_HITS . "</option>\n";
 
     $form .= "<option value='weight'";
     if ($options[1] === 'weight') {
-        $form .= " selected='selected'";
+        $form .= ' selected';
     }
     $form .= '>' . _MB_SF_WEIGHT . "</option>\n";
 

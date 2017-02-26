@@ -153,7 +153,7 @@ class sfCategory extends XoopsObject
     public function getCategoryPath($withAllLink = false, $open = false)
     {
         $filename = 'category.php';
-        if ($open != false) {
+        if ($open !== false) {
             $filename = 'open_category.php';
         }
         if ($withAllLink) {
@@ -238,7 +238,7 @@ class sfCategory extends XoopsObject
     {
         $category['categoryid'] = $this->categoryid();
         $category['name']       = $this->name();
-        if ($open != false) {
+        if ($open !== false) {
             $category['categorylink'] = "<a href='" . XOOPS_URL . '/modules/smartfaq/open_category.php?categoryid=' . $this->categoryid() . "'>" . $this->name() . '</a>';
         } else {
             $category['categorylink'] = "<a href='" . XOOPS_URL . '/modules/smartfaq/category.php?categoryid=' . $this->categoryid() . "'>" . $this->name() . '</a>';
@@ -332,9 +332,11 @@ class sfCategoryHandler extends XoopsObjectHandler
         }
 
         if ($category->isNew()) {
-            $sql = sprintf('INSERT INTO %s (categoryid, parentid, name, description, total, weight, created) VALUES (NULL, %u, %s, %s, %u, %u, %u)', $this->db->prefix('smartfaq_categories'), $parentid, $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, time());
+            $sql = sprintf('INSERT INTO %s (categoryid, parentid, name, description, total, weight, created) VALUES (NULL, %u, %s, %s, %u, %u, %u)', $this->db->prefix('smartfaq_categories'),
+                           $parentid, $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, time());
         } else {
-            $sql = sprintf('UPDATE %s SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $parentid, $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, $created, $categoryid);
+            $sql = sprintf('UPDATE %s SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $parentid,
+                           $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, $created, $categoryid);
         }
         if (false != $force) {
             $result = $this->db->queryF($sql);
@@ -419,7 +421,7 @@ class sfCategoryHandler extends XoopsObjectHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
         $result = $this->db->query($sql, $limit, $start);
         if (!$result) {
             return $ret;
@@ -448,8 +450,14 @@ class sfCategoryHandler extends XoopsObjectHandler
      * @param  bool   $id_as_key
      * @return array
      */
-    public function &getCategories($limit = 0, $start = 0, $parentid = 0, $sort = 'weight', $order = 'ASC', $id_as_key = true)
-    {
+    public function &getCategories(
+        $limit = 0,
+        $start = 0,
+        $parentid = 0,
+        $sort = 'weight',
+        $order = 'ASC',
+        $id_as_key = true
+    ) {
         include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $criteria = new CriteriaCompo();
@@ -481,8 +489,13 @@ class sfCategoryHandler extends XoopsObjectHandler
      * @param  string $order
      * @return array
      */
-    public function &getCategoriesWithOpenQuestion($limit = 0, $start = 0, $parentid = 0, $sort = 'weight', $order = 'ASC')
-    {
+    public function &getCategoriesWithOpenQuestion(
+        $limit = 0,
+        $start = 0,
+        $parentid = 0,
+        $sort = 'weight',
+        $order = 'ASC'
+    ) {
         include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $criteria = new CriteriaCompo();
@@ -506,7 +519,11 @@ class sfCategoryHandler extends XoopsObjectHandler
 
         $ret   = array();
         $limit = $start = 0;
-        $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
+        $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM '
+                 . $this->db->prefix('smartfaq_categories')
+                 . ' AS c INNER JOIN '
+                 . $this->db->prefix('smartfaq_faq')
+                 . ' AS f ON c.categoryid = f.categoryid';
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ($criteria->getSort() != '') {
@@ -515,7 +532,7 @@ class sfCategoryHandler extends XoopsObjectHandler
             $limit = $criteria->getLimit();
             $start = $criteria->getStart();
         }
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
         $result = $this->db->query($sql, $limit, $start);
         if (!$result) {
             return $ret;

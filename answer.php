@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
+
 include_once __DIR__ . '/header.php';
 
 global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
@@ -26,8 +28,8 @@ if (isset($_POST['op'])) {
 }
 
 // Getting the faqid
-$faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
-$faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : $faqid;
+$faqid = Request::getInt('faqid', 0, 'GET');
+$faqid = Request::getInt('faqid', $faqid, 'POST');
 
 // If no FAQ is selected, exit
 if ($faqid == 0) {
@@ -209,8 +211,8 @@ switch ($op) {
             redirect_header('javascript:history.go(-1)', 1, _NOPERM);
         }
 
-        $xoopsOption['template_main'] = 'smartfaq_submit.tpl';
-        include_once(XOOPS_ROOT_PATH . '/header.php');
+        $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
+        include_once XOOPS_ROOT_PATH . '/header.php';
         include_once __DIR__ . '/footer.php';
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
@@ -222,7 +224,7 @@ switch ($op) {
         $xoopsTpl->assign('lang_intro_title', sprintf(_MD_SF_SUBMITANSWERTO, ucwords($xoopsModule->name())));
         $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . _MD_SF_SUBMITANSWER_INTRO);
 
-        include_once 'include/answer.inc.php';
+        include_once __DIR__ . '/include/answer.inc.php';
 
         include_once XOOPS_ROOT_PATH . '/footer.php';
         break;

@@ -11,7 +11,7 @@
 
 function b_faqs_new_show($options)
 {
-    include_once(XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php');
+    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = array();
 
@@ -57,7 +57,7 @@ function b_faqs_new_show($options)
 function b_faqs_new_edit($options)
 {
     global $xoopsDB, $xoopsModule, $xoopsUser;
-    include_once(XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php');
+    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $form = sf_createCategorySelect($options[0]);
 
@@ -65,19 +65,19 @@ function b_faqs_new_edit($options)
 
     $form .= "<option value='datesub'";
     if ($options[1] === 'datesub') {
-        $form .= " selected='selected'";
+        $form .= ' selected';
     }
     $form .= '>' . _MB_SF_DATE . "</option>\n";
 
     $form .= "<option value='counter'";
     if ($options[1] === 'counter') {
-        $form .= " selected='selected'";
+        $form .= ' selected';
     }
     $form .= '>' . _MB_SF_HITS . "</option>\n";
 
     $form .= "<option value='weight'";
     if ($options[1] === 'weight') {
-        $form .= " selected='selected'";
+        $form .= ' selected';
     }
     $form .= '>' . _MB_SF_WEIGHT . "</option>\n";
 
@@ -86,13 +86,13 @@ function b_faqs_new_edit($options)
     $form .= '&nbsp;' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "' />&nbsp;" . _MB_SF_FAQS . '';
     $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[3] . "' />&nbsp;" . _MB_SF_LENGTH . '';
 
-    $form .= '<br />' . _MB_SF_SHOW_DATE . "&nbsp;<input type='radio' id='options[]' name='options[]' value='1'";
+    $form .= '<br>' . _MB_SF_SHOW_DATE . "&nbsp;<input type='radio' id='options[]' name='options[]' value='1'";
     if ($options[4] == 1) {
-        $form .= " checked='checked'";
+        $form .= ' checked';
     }
     $form .= ' />&nbsp;' . _YES . "<input type='radio' id='options[]' name='options[]' value='0'";
     if ($options[4] == 0) {
-        $form .= " checked='checked'";
+        $form .= ' checked';
     }
     $form .= ' />&nbsp;' . _NO . '';
 

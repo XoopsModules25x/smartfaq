@@ -58,7 +58,7 @@ if (!file_exists($common_file)) {
     $common_file = XOOPS_ROOT_PATH . '/modules/smartfaq/language/english/smartdbupdater.php';
 }
 
-include($common_file);
+include $common_file;
 
 /**
  * Class SmartDbTable
@@ -235,9 +235,9 @@ class SmartDbTable
             $query = sprintf('INSERT INTO %s VALUES (%s)', $this->name(), $data);
             $ret   = $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA_ERR, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA_ERR, $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA, $this->name()) . '<br>';
             }
         }
 
@@ -402,9 +402,9 @@ class SmartDbTable
 
         $ret = $xoopsDB->query($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE_ERR, $this->name()) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE_ERR, $this->name()) . '<br>';
         } else {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE, $this->name()) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE, $this->name()) . '<br>';
         }
 
         return $ret;
@@ -423,11 +423,11 @@ class SmartDbTable
         $query = sprintf('DROP TABLE %s', $this->name());
         $ret   = $xoopsDB->query($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE_ERR, $this->name()) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE_ERR, $this->name()) . '<br>';
 
             return false;
         } else {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE, $this->name()) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE, $this->name()) . '<br>';
 
             return true;
         }
@@ -451,9 +451,9 @@ class SmartDbTable
             $ret = $ret && $xoopsDB->query($query);
             if ($alteredField['showerror']) {
                 if (!$ret) {
-                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD_ERR, $alteredField['name'], $this->name()) . '<br />';
+                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD_ERR, $alteredField['name'], $this->name()) . '<br>';
                 } else {
-                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD, $alteredField['name'], $this->name()) . '<br />';
+                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD, $alteredField['name'], $this->name()) . '<br>';
                 }
             }
         }
@@ -477,9 +477,9 @@ class SmartDbTable
             //echo $query;
             $ret = $ret && $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD_ERR, $newField['name'], $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD_ERR, $newField['name'], $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD, $newField['name'], $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD, $newField['name'], $this->name()) . '<br>';
             }
         }
 
@@ -502,9 +502,9 @@ class SmartDbTable
             $query = sprintf('UPDATE %s SET %s = %s', $this->name(), $updatedField['name'], $updatedField['value']);
             $ret   = $ret && $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br>';
             }
         }
 
@@ -527,9 +527,9 @@ class SmartDbTable
             //echo $query."<br>";
             $ret = $ret && $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br>';
             }
         }
 
@@ -553,9 +553,9 @@ class SmartDbTable
 
             $ret = $ret && $xoopsDB->query($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD_ERR, $droppedField, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD_ERR, $droppedField, $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD, $droppedField, $this->name()) . '<br />';
+                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD, $droppedField, $this->name()) . '<br>';
             }
         }
 
@@ -596,11 +596,11 @@ class SmartobjectDbupdater
         global $xoopsDB;
         $ret = $xoopsDB->query($query);
         if (!$ret) {
-            echo "&nbsp;&nbsp;$badmsg<br />";
+            echo "&nbsp;&nbsp;$badmsg<br>";
 
             return false;
         } else {
-            echo "&nbsp;&nbsp;$goodmsg<br />";
+            echo "&nbsp;&nbsp;$goodmsg<br>";
 
             return true;
         }
@@ -624,11 +624,11 @@ class SmartobjectDbupdater
         $query = sprintf('ALTER TABLE %s RENAME %s', $from, $to);
         $ret   = $xoopsDB->query($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br>';
 
             return false;
         } else {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE, $from, $to) . '<br />';
+            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE, $from, $to) . '<br>';
 
             return true;
         }
@@ -655,7 +655,7 @@ class SmartobjectDbupdater
         }
 
         // If table is flag for drop, drop it
-        if ($table->getFlagForDrop()) {
+        if ($table->getFlagForDrop) {
             $ret = $table->dropTable() && $ret;
         }
 

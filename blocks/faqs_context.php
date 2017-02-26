@@ -11,7 +11,7 @@
 
 function b_faqs_context_show($options)
 {
-    include_once(XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php');
+    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = array();
 

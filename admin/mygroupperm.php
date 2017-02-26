@@ -4,7 +4,7 @@
  * Module: SmartFAQ
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
- * @param       $DB
+ * @param       $db
  * @param       $gperm_modid
  * @param  null $gperm_name
  * @param  null $gperm_itemid
@@ -13,7 +13,7 @@
 
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
+function myDeleteByModule(XoopsDatabase $db, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
 {
     $criteria = new CriteriaCompo(new Criteria('gperm_modid', (int)$gperm_modid));
     if (isset($gperm_name)) {
@@ -22,20 +22,21 @@ function myDeleteByModule($DB, $gperm_modid, $gperm_name = null, $gperm_itemid =
             $criteria->add(new Criteria('gperm_itemid', (int)$gperm_itemid));
         }
     }
-    $sql = 'DELETE FROM ' . $DB->prefix('group_permission') . ' ' . $criteria->renderWhere();
-    if (!$result = $DB->query($sql)) {
+    $sql = 'DELETE FROM ' . $db->prefix('group_permission') . ' ' . $criteria->renderWhere();
+    if (!$result = $db->query($sql)) {
         return false;
     }
 
     return true;
 }
 
-// include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php'; GIJ
+// include_once __DIR__ . '/../../../include/cp_header.php'; GIJ
 $modid = isset($HTTP_POST_VARS['modid']) ? (int)$HTTP_POST_VARS['modid'] : 1;
 // we dont want system module permissions to be changed here ( 1 -> 0 GIJ)
 if ($modid <= 0 || !is_object($xoopsUser) || !$xoopsUser->isAdmin($modid)) {
     redirect_header(XOOPS_URL . '/user.php', 1, _NOPERM);
 }
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $module        = $moduleHandler->get($modid);
 if (!is_object($module) || !$module->getVar('isactive')) {
@@ -65,7 +66,10 @@ if (is_array($HTTP_POST_VARS['perms']) && !empty($HTTP_POST_VARS['perms'])) {
                             foreach ($parent_ids as $pid) {
                                 if ($pid != 0 && !in_array($pid, array_keys($item_ids))) {
                                     // one of the parent items were not selected, so skip this item
-                                    $msg[] = sprintf(_MD_AM_PERMADDNG, '<b>' . $perm_name . '</b>', '<b>' . $perm_data['itemname'][$item_id] . '</b>', '<b>' . $group_list[$group_id] . '</b>') . ' (' . _MD_AM_PERMADDNGP . ')';
+                                    $msg[] = sprintf(_MD_AM_PERMADDNG, '<b>' . $perm_name . '</b>', '<b>' . $perm_data['itemname'][$item_id] . '</b>', '<b>' . $group_list[$group_id] . '</b>')
+                                             . ' ('
+                                             . _MD_AM_PERMADDNGP
+                                             . ')';
                                     continue 2;
                                 }
                             }
@@ -98,7 +102,7 @@ if ($module->getVar('hasadmin')) {
     }
 }
 
-$msg[] = '<br /><br /><a href="'.$backlink.'">'._BACK.'</a>';
+$msg[] = '<br><br><a href="'.$backlink.'">'._BACK.'</a>';
 xoops_cp_header();
 xoops_result($msg);
 xoops_cp_footer();  GIJ */

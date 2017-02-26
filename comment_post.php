@@ -6,5 +6,5 @@
  * Licence: GNU
  */
 
-include dirname(dirname(__DIR__)) . '/mainfile.php';
+include __DIR__ . '/../../mainfile.php';
 include_once XOOPS_ROOT_PATH . '/include/comment_post.php';

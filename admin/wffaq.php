@@ -10,7 +10,7 @@
  *
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 $importFromModuleName = 'WF-FAQ';
 $scriptname           = 'wffaq.php';
@@ -24,31 +24,38 @@ if (isset($_POST['op']) && ($_POST['op'] === 'go')) {
 if ($op === 'start') {
     include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     xoops_cp_header();
-    $result = $xoopsDB->query('select count(*) from ' . $xoopsDB->prefix('faqcategories'));
+    $result = $xoopsDB->query('SELECT count(*) FROM ' . $xoopsDB->prefix('faqcategories'));
     list($totalCat) = $xoopsDB->fetchRow($result);
 
     sf_collapsableBar('bottomtable', 'bottomtableicon');
-    echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . sprintf(_AM_SF_IMPORT_FROM, $importFromModuleName) . '</h3>';
+    echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . sprintf(_AM_SF_IMPORT_FROM,
+                                                                                                                                                                $importFromModuleName) . '</h3>';
     echo "<div id='bottomtable'>";
 
     if ($totalCat == 0) {
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_SF_IMPORT_NO_CATEGORY . '</span>';
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_IMPORT_NO_CATEGORY . '</span>';
     } else {
         include_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
 
-        $result = $xoopsDB->query('select count(*) from ' . $xoopsDB->prefix('faqtopics'));
+        $result = $xoopsDB->query('SELECT count(*) FROM ' . $xoopsDB->prefix('faqtopics'));
         list($totalFAQ) = $xoopsDB->fetchRow($result);
 
         if ($totalFAQ == 0) {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_SF_IMPORT_MODULE_FOUND_NO_FAQ, $importFromModuleName, $totalCat) . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_SF_IMPORT_MODULE_FOUND_NO_FAQ, $importFromModuleName, $totalCat) . '</span>';
         } else {
-            echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . sprintf(_AM_SF_IMPORT_MODULE_FOUND, $importFromModuleName, $totalCat, $totalFAQ) . '</span>';
+            echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">'
+                 . sprintf(_AM_SF_IMPORT_MODULE_FOUND, $importFromModuleName, $totalCat, $totalFAQ)
+                 . '</span>';
 
             $form = new XoopsThemeForm(_AM_SF_IMPORT_SETTINGS, 'import_form', XOOPS_URL . '/modules/smartfaq/admin/' . $scriptname);
 
             // Categories to be imported
             $cat_cbox = new XoopsFormCheckBox(sprintf(_AM_SF_IMPORT_CATEGORIES, $importFromModuleName), 'import_category', -1);
-            $result   = $xoopsDB->query('select c.catID, c.name, count(t.topicID) from ' . $xoopsDB->prefix('faqcategories') . ' as c, ' . $xoopsDB->prefix('faqtopics') . ' as t where c.catID=t.catID group by t.catID order by c.weight');
+            $result   = $xoopsDB->query('SELECT c.catID, c.name, count(t.topicID) FROM '
+                                        . $xoopsDB->prefix('faqcategories')
+                                        . ' AS c, '
+                                        . $xoopsDB->prefix('faqtopics')
+                                        . ' AS t WHERE c.catID=t.catID GROUP BY t.catID ORDER BY c.weight');
             while (list($cid, $cat_title, $count) = $xoopsDB->fetchRow($result)) {
                 $cat_cbox->addOption($cid, "$cat_title ($count)<br\>");
             }
@@ -104,13 +111,14 @@ if ($op === 'go') {
         redirect_header($scriptname, 2, _AM_SF_NOCATSELECTED);
     }
 
-    include_once __DIR__ . '/admin_header.php';
+    require_once __DIR__ . '/admin_header.php';
     xoops_cp_header();
 
     sf_collapsableBar('bottomtable', 'bottomtableicon');
-    echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . sprintf(_AM_SF_IMPORT_FROM, $importFromModuleName) . '</h3>';
+    echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . sprintf(_AM_SF_IMPORT_FROM,
+                                                                                                                                                                $importFromModuleName) . '</h3>';
     echo "<div id='bottomtable'>";
-    echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_SF_IMPORT_RESULT . '</span>';
+    echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_IMPORT_RESULT . '</span>';
 
     $cnt_imported_cat = 0;
     $cnt_imported_faq = 0;
@@ -131,12 +139,12 @@ if ($op === 'go') {
     $faqHandler      = sf_gethandler('faq');
     $answerHandler   = sf_gethandler('answer');
 
-    /*echo "Parent Category ID: $parentId<br/>";
-    echo "Groups Read: " . implode (",", $groups_read) . "<br/>";
-    echo "Import Categories: $import_category_list<br/>";
-    echo "User ID: $uid<br/>";
-    echo "Can Comment: $cancomment<br/>";
-    echo "Auto aprove: $autoaprove<br/>";*/
+    /*echo "Parent Category ID: $parentId<br>";
+    echo "Groups Read: " . implode (",", $groups_read) . "<br>";
+    echo "Import Categories: $import_category_list<br>";
+    echo "User ID: $uid<br>";
+    echo "Can Comment: $cancomment<br>";
+    echo "Auto aprove: $autoaprove<br>";*/
 
     $resultCat = $xoopsDB->query('select * from ' . $xoopsDB->prefix('faqcategories') . " where catID in ($import_category_list) order by weight");
 
@@ -153,7 +161,7 @@ if ($op === 'go') {
         $categoryObj->setVar('description', $wfc_description);
 
         if (!$categoryObj->store(false)) {
-            echo sprintf(_AM_SF_IMPORT_CATEGORY_ERROR, $xcat_name) . '<br/>';
+            echo sprintf(_AM_SF_IMPORT_CATEGORY_ERROR, $xcat_name) . '<br>';
             continue;
         }
 
@@ -195,7 +203,7 @@ if ($op === 'go') {
             $faqObj->setVar('exacturl', 0);
 
             if (!$faqObj->store(false)) {
-                echo sprintf('  ' . _AM_SF_IMPORT_FAQ_ERROR, $wft_question) . '<br/>';
+                echo sprintf('  ' . _AM_SF_IMPORT_FAQ_ERROR, $wft_question) . '<br>';
                 continue;
             } else {
                 $answerObj->setVar('faqid', $faqObj->faqid());
@@ -204,21 +212,21 @@ if ($op === 'go') {
                 $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
 
                 if (!$answerObj->store()) {
-                    echo sprintf('  ' . _AM_SF_IMPORT_FAQ_ERROR) . '<br/>';
+                    echo sprintf('  ' . _AM_SF_IMPORT_FAQ_ERROR) . '<br>';
                     continue;
                 } else {
-                    echo '&nbsp;&nbsp;' . sprintf(_AM_SF_IMPORTED_QUESTION, $faqObj->question(50)) . '<br />';
+                    echo '&nbsp;&nbsp;' . sprintf(_AM_SF_IMPORTED_QUESTION, $faqObj->question(50)) . '<br>';
                     ++$cnt_imported_faq;
                 }
             }
         }
 
-        echo '<br/>';
+        echo '<br>';
     }
 
-    echo 'Done.<br/>';
-    echo sprintf(_AM_SF_IMPORTED_CATEGORIES, $cnt_imported_cat) . '<br/>';
-    echo sprintf(_AM_SF_IMPORTED_QUESTIONS, $cnt_imported_faq) . '<br/>';
+    echo 'Done.<br>';
+    echo sprintf(_AM_SF_IMPORTED_CATEGORIES, $cnt_imported_cat) . '<br>';
+    echo sprintf(_AM_SF_IMPORTED_QUESTIONS, $cnt_imported_faq) . '<br>';
 
     exit();
 }

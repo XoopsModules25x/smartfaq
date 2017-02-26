@@ -19,7 +19,7 @@
     <div class="itemBody">
         <div class="itemText"><{$faq.answer}></div>
     </div>
-    <br/>
+    <br>
 
     <div class="itemInfo" style="height: 14px;">
         <{if $faq.cancomment && $faq.comments != -1}>
@@ -31,4 +31,4 @@
         <div style="height: 0; display: inline; clear: both;"></div>
     </div>
 </div>
-<br/>
+<br>

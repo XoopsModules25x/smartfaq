@@ -2,7 +2,8 @@
 <div style="display: none;"><{$ref_smartfaq}></div>
 
 <div class="sf_headertable">
-    <span class="sf_modulename"><a href="<{$xoops_url}>/modules/<{$modulename}>/index.php"><{$whereInSection}></a></span><span class="sf_breadcrumb"> &gt; <{$category.categoryPath}></span>
+    <span class="sf_modulename"><a href="<{$xoops_url}>/modules/<{$modulename}>/index.php"><{$whereInSection}></a></span><span
+            class="sf_breadcrumb"> &gt; <{$category.categoryPath}></span>
 </div>
 <{if $displaycollaps == 1}>
     <script type="text/javascript"><!--
@@ -21,7 +22,7 @@
                 obj = document.layers[id];
             }
             if (obj) {
-                if (obj.style.display == "none") {
+                if (obj.style.display === "none") {
                     obj.style.display = "";
                 } else {
                     obj.style.display = "none";
@@ -47,12 +48,16 @@
         //-->
     </script>
 
-    <div class="sf_collaps_title"><a href='javascript:;' onclick="toggle('toptable'); toggleIcon('toptableicon')"><img id='toptableicon' src='<{$xoops_url}>/modules/smartfaq/assets/images/icon/close12.gif' alt=''/></a>&nbsp;<{$lang_category_summary}></div>
+    <div class="sf_collaps_title"><a href='javascript:' onclick="toggle('toptable'); toggleIcon('toptableicon')"><img
+                    id='toptableicon'
+                    src='<{$xoops_url}>/modules/smartfaq/assets/images/icon/close12.gif'
+                    alt=''/></a>&nbsp;<{$lang_category_summary}>
+    </div>
 <div id='toptable'>
     <span class="sf_collaps_info"><{$lang_category_summary_info}></span>
     <!-- Content under the collapsable bar //-->
     <{else}>
-    <br/>
+    <br>
     <{/if}>
     <!-- Start sub categories loop -->
     <table border="0" width="90%" cellspacing="1" cellpadding="0" align="center" class="outer">
@@ -66,7 +71,9 @@
         <tr>
             <td valign="middle" class="even" align="left">
                 <{if $isAdmin == 1}>
-                    <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&amp;categoryid=<{$category.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>
+                    <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&amp;categoryid=<{$category.categoryid}>"><img
+                                src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif"
+                                title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>
                     &nbsp;
                     <b><{$category.name}></b>
                 <{else}>
@@ -74,7 +81,7 @@
                     &nbsp;
                     <b><{$category.name}></b>
                 <{/if}>
-                <br/>
+                <br>
                 <span style="margin: 3px 0 10px 0; font-size: small; display: block; "><{$category.description}></span>
             </td>
             <td valign="middle" class="even" align="center"><{$category.total}></td>
@@ -89,10 +96,12 @@
                 <td valign="middle" class="odd" align="left">
                     <div style="padding-left: 10px;">
                         <{if $isAdmin == 1}>
-                            <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&amp;categoryid=<{$subcat.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>
+                            <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&amp;categoryid=<{$subcat.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif"
+                                        title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>
                             &nbsp;<{$subcat.categorylink}>
                         <{else}>
-                            <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/>
+                            <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif"
+                                 title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/>
                             &nbsp;<{$subcat.categorylink}>
                         <{/if}>
                         <{if $displaysubcatdsc == 1}>
@@ -114,14 +123,14 @@
     <{if $displaycollaps == 1}>
 </div>
 <{/if}>
-<br/>
+<br>
 <{if $displaylastfaqs}>
     <{include file="db:smartfaq_lastfaqs.tpl"}>
 <{/if}>
 
 <!--next line is to include smarttie -->
 <{if $smarttie==1}>
-    <{include file='db:smarttie_links.html'}>
+    <{include file='db:smarttie_links.tpl'}>
 <{/if}>
 <!--end smarttie -->
 

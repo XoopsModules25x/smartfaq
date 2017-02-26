@@ -10,7 +10,8 @@
     <{foreach item=faq from=$block.faqs}>
         <tr class="<{cycle values="even,odd"}>">
             <td><a href="<{$xoops_url}>/modules/smartfaq/faq.php?faqid=<{$faq.faqid}>"><{$faq.question}></a></td>
-            <td align="left"><a href="<{$xoops_url}>/modules/smartfaq/category.php?categoryid=<{$faq.categoryid}>"><{$faq.categoryname}></a>
+            <td align="left"><a
+                        href="<{$xoops_url}>/modules/smartfaq/category.php?categoryid=<{$faq.categoryid}>"><{$faq.categoryname}></a>
             <td align="center"><{$faq.poster}></td>
             <td align="right"><{$faq.date}></td>
         </tr>

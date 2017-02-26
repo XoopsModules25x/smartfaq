@@ -14,7 +14,13 @@ $isAdmin = (sf_userIsAdmin() || sf_moderator());
 $xoopsTpl->assign('sf_adminpage', "<a href='" . XOOPS_URL . "/modules/smartfaq/admin/index.php'>" . _MD_SF_ADMIN_PAGE . '</a>');
 $xoopsTpl->assign('isAdmin', $isAdmin);
 
-$xoopsTpl->assign(array('lang_on' => _MD_SF_ON, 'lang_postedby' => _MD_SF_POSTEDBY, 'lang_faq' => _MD_SF_QUESTION, 'lang_datesub' => _MD_SF_DATESUB, 'lang_hits' => _MD_SF_HITS));
+$xoopsTpl->assign(array(
+                      'lang_on'       => _MD_SF_ON,
+                      'lang_postedby' => _MD_SF_POSTEDBY,
+                      'lang_faq'      => _MD_SF_QUESTION,
+                      'lang_datesub'  => _MD_SF_DATESUB,
+                      'lang_hits'     => _MD_SF_HITS
+                  ));
 $xoopsTpl->assign('sectionname', $myts->displayTarea($xoopsModule->getVar('name')));
 
 $xoopsTpl->assign('modulename', $xoopsModule->dirname());

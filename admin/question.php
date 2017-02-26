@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 // Creating the faq handler object
 $faqHandler = sf_gethandler('faq');
@@ -63,14 +63,14 @@ function editfaq($showmenu = false, $faqid = -1)
         // Creating the category of this FAQ
         $categoryObj = $categoryHandler->get($faqObj->categoryid());
 
-        echo "<br />\n";
+        echo "<br>\n";
         sf_collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . $collapsableBar_title . '</h3>';
         echo "<div id='bottomtable'>";
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . $collapsableBar_info . '</span>';
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $collapsableBar_info . '</span>';
     } else {
         // there's no parameter, so we're adding a faq
-        $faqObj =& $faqHandler->create();
+        $faqObj = $faqHandler->create();
         $faqObj->setVar('uid', $xoopsUser->getVar('uid'));
         $categoryObj = $categoryHandler->create();
 
@@ -180,10 +180,10 @@ switch ($op) {
             }
         }
 
-        $indexAdmin = new ModuleAdmin();
+        $adminObject  = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
 
-        echo $indexAdmin->addNavigation(basename(__FILE__));
+        $adminObject->displayNavigation(basename(__FILE__));
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         editfaq(true, $faqid);
@@ -283,7 +283,12 @@ switch ($op) {
             // no confirm: show deletion condition
             $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
             xoops_cp_header();
-            xoops_confirm(array('op' => 'del', 'faqid' => $faqObj->faqid(), 'confirm' => 1, 'name' => $faqObj->question()), 'question.php', _AM_SF_DELETETHISQUESTION . " <br />'" . $faqObj->question() . "'. <br /> <br />", _AM_SF_DELETE);
+            xoops_confirm(array(
+                              'op'      => 'del',
+                              'faqid'   => $faqObj->faqid(),
+                              'confirm' => 1,
+                              'name'    => $faqObj->question()
+                          ), 'question.php', _AM_SF_DELETETHISQUESTION . " <br>'" . $faqObj->question() . "'. <br> <br>", _AM_SF_DELETE);
             xoops_cp_footer();
         }
 
@@ -292,29 +297,29 @@ switch ($op) {
 
     case 'default':
     default:
-        $indexAdmin = new ModuleAdmin();
+        $adminObject  = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
-        echo $indexAdmin->addNavigation(basename(__FILE__));
+        $adminObject->displayNavigation(basename(__FILE__));
 
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $smartModuleConfig;
 
-        echo "<br />\n";
+        echo "<br>\n";
 
         sf_collapsableBar('toptable', 'toptableicon');
 
         echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_OPENED_TITLE . '</h3>';
         echo "<div id='toptable'>";
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . _AM_SF_OPENED_DSC . '</span>';
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_OPENED_DSC . '</span>';
 
         // Get the total number of published FAQs
         $totalfaqs = $faqHandler->getFaqsCount(-1, array(_SF_STATUS_OPENED));
         // creating the FAQ objects that are published
         $faqsObj         = $faqHandler->getFaqs($xoopsModuleConfig['perpage'], $startfaq, _SF_STATUS_OPENED);
         $totalFaqsOnPage = count($faqsObj);
-        $allcats         = $categoryHandler->getObjects(null, true);
+        $allCats         = $categoryHandler->getObjects(null, true);
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
         echo '<tr>';
         echo "<th width='40' class='bg3' align='center'><b>" . _AM_SF_ARTID . '</b></td>';
@@ -330,17 +335,43 @@ switch ($op) {
         if ($totalfaqs > 0) {
             global $pathIcon16;
             foreach (array_keys($faqsObj) as $i) {
-                $categoryObj =& $allcats[$faqsObj[$i]->categoryid()];
+                $categoryObj = $allCats[$faqsObj[$i]->categoryid()];
 
-                $modify = "<a href='question.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_EDITART . "'></a>";
-                $delete = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
+                $modify = "<a href='question.php?op=mod&amp;faqid="
+                          . $faqsObj[$i]->faqid()
+                          . "'><img src='"
+                          . $pathIcon16
+                          . '/edit.png'
+                          . "' title='"
+                          . _AM_SF_EDITART
+                          . "' alt='"
+                          . _AM_SF_EDITART
+                          . "'></a>";
+                $delete = "<a href='question.php?op=del&amp;faqid="
+                          . $faqsObj[$i]->faqid()
+                          . "'><img src='"
+                          . $pathIcon16
+                          . '/delete.png'
+                          . "' title='"
+                          . _AM_SF_DELETEART
+                          . "' alt='"
+                          . _AM_SF_DELETEART
+                          . "'></a>";
 
                 $requester = sf_getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $faqsObj[$i]->faqid() . '</td>';
                 echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
-                echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/answer.php?faqid=' . $faqsObj[$i]->faqid() . "'>" . $faqsObj[$i]->question(100) . '</a></td>';
+                echo "<td class='even' align='left'><a href='"
+                     . XOOPS_URL
+                     . '/modules/'
+                     . $xoopsModule->dirname()
+                     . '/answer.php?faqid='
+                     . $faqsObj[$i]->faqid()
+                     . "'>"
+                     . $faqsObj[$i]->question(100)
+                     . '</a></td>';
 
                 echo "<td class='even' align='center'>" . $requester . '</td>';
 
@@ -355,7 +386,7 @@ switch ($op) {
             echo '</tr>';
         }
         echo "</table>\n";
-        echo "<br />\n";
+        echo "<br>\n";
 
         $pagenav = new XoopsPageNav($totalfaqs, $xoopsModuleConfig['perpage'], $startfaq, 'startfaq');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
@@ -369,4 +400,4 @@ switch ($op) {
         break;
 }
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

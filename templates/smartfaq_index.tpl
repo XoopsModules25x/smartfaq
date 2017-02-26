@@ -22,7 +22,7 @@
                 obj = document.layers[id];
             }
             if (obj) {
-                if (obj.style.display == "none") {
+                if (obj.style.display === "none") {
                     obj.style.display = "";
                 } else {
                     obj.style.display = "none";
@@ -52,18 +52,20 @@
 <{if $lang_mainintro != ''}>
     <span class="sf_infotitle"><{$lang_mainhead}></span>
     <span class="sf_infotext"><{$lang_mainintro}></span>
-    <br/>
+    <br>
 <{/if}>
 
 
 <{if $displaycollaps == 1}>
-    <div class="sf_collaps_title"><a href='#' onclick="toggle('toptable'); toggleIcon('toptableicon')" ;><img id='toptableicon' src='<{$xoops_url}>/modules/smartfaq/assets/images/icon/close12.gif' alt=''/></a>&nbsp;<{$lang_categories_summary}></div>
+    <div class="sf_collaps_title"><a href='#' onclick="toggle('toptable'); toggleIcon('toptableicon')" ;><img
+                    id='toptableicon' src='<{$xoops_url}>/modules/smartfaq/assets/images/icon/close12.gif'
+                    alt=''/></a>&nbsp;<{$lang_categories_summary}></div>
 <div id='toptable'>
     <span class="sf_collaps_info"><{$lang_categories_summary_info}></span>
 
     <!-- Content under the collapsable bar //-->
     <{else}>
-    <br/>
+    <br>
     <{/if}>
     <div align="right"><{$catnavbar}></div>
     <table border="0" width="90%" cellspacing="1" cellpadding="0" align="center" class="outer">
@@ -79,7 +81,8 @@
             <tr>
                 <td valign="middle" class="even" align="left">
                     <{if $isAdmin == 1}>
-                        <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$category.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>
+                        <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$category.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif"
+                                    title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>
                         &nbsp;
                         <b><{$category.categorylink}></b>
                     <{else}>
@@ -88,7 +91,7 @@
                         <b><{$category.categorylink}></b>
                     <{/if}>
 
-                    <br/>
+                    <br>
                     <{if $displaytopcatdsc}>
                         <span class="sf_category_dsc"><{$category.description}></span>
                     <{/if}>
@@ -103,11 +106,13 @@
                     <td valign="middle" class="odd" align="left">
                         <div style="padding-left: 10px;">
                             <{if $isAdmin == 1}>
-                                <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$subcat.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"
-                                                                                                                                           alt="<{$lang_editcategory}>"/></a>
+                                <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$subcat.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif"
+                                            title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"
+                                            alt="<{$lang_editcategory}>"/></a>
                                 &nbsp;<{$subcat.categorylink}>
                             <{else}>
-                                <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif" title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/>
+                                <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif"
+                                     title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/>
                                 &nbsp;<{$subcat.categorylink}>
                             <{/if}>
                             <{if $displaysubcatdsc == 1}>
@@ -131,7 +136,7 @@
     <{if $displaycollaps == 1}>
 </div>
 <{/if}>
-<br/>
+<br>
 
 <{if $displaylastfaqs}>
     <{include file="db:smartfaq_lastfaqs.tpl"}>

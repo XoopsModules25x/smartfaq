@@ -1,33 +1,21 @@
 <?php
-// 
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                  Copyright (c) 2000-2016 XOOPS.org                        //
-//                         <http://xoops.org/>                               //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-//  Author: phppp (D.J., infomax@gmail.com)                                  //
-//  URL: http://xoopsforge.com, http://xoops.org.cn                          //
-//  Project: Article Project                                                 //
-//  ------------------------------------------------------------------------ //
+/*
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/**
+ * @copyright      {@link http://xoops.org/ XOOPS Project}
+ * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @package
+ * @since
+ * @author         XOOPS Development Team, phppp (D.J., infomax@gmail.com)
+ */
 
 if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
     define('NEWBB_FUNCTIONS_IMAGE', true);
@@ -54,20 +42,26 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
         $img_info = (count($imginfo) > 0) ? $imginfo[0] . 'X' . $imginfo[1] . ' px' : '';
 
         if ($xoopsModuleConfig['max_image_width'] > 0 && $xoopsModuleConfig['max_image_height'] > 0) {
-            if ($imginfo[0] > $xoopsModuleConfig['max_image_width'] || $imginfo[1] > $xoopsModuleConfig['max_image_height']) {
+            if ($imginfo[0] > $xoopsModuleConfig['max_image_width']
+                || $imginfo[1] > $xoopsModuleConfig['max_image_height']
+            ) {
                 //if (!file_exists($thumb_path.'/'.$source) && $imginfo[0] > $xoopsModuleConfig['max_img_width']) {
                 if (!file_exists($thumb_path . '/' . $source)) {
                     sf_createThumbnail($source, $xoopsModuleConfig['max_image_width']);
                 }
             }
 
-            if ($imginfo[0] > $xoopsModuleConfig['max_image_width'] || $imginfo[1] > $xoopsModuleConfig['max_image_height']) {
+            if ($imginfo[0] > $xoopsModuleConfig['max_image_width']
+                || $imginfo[1] > $xoopsModuleConfig['max_image_height']
+            ) {
                 $pseudo_width  = $xoopsModuleConfig['max_image_width'];
                 $pseudo_height = $xoopsModuleConfig['max_image_width'] * ($imginfo[1] / $imginfo[0]);
                 $pseudo_size   = "width='" . $pseudo_width . "px' height='" . $pseudo_height . "px'";
             }
             // irmtfan to fix Undefined variable: pseudo_height
-            if (!empty($pseudo_height) && $xoopsModuleConfig['max_image_height'] > 0 && $pseudo_height > $xoopsModuleConfig['max_image_height']) {
+            if (!empty($pseudo_height) && $xoopsModuleConfig['max_image_height'] > 0
+                && $pseudo_height > $xoopsModuleConfig['max_image_height']
+            ) {
                 $pseudo_height = $xoopsModuleConfig['max_image_height'];
                 $pseudo_width  = $xoopsModuleConfig['max_image_height'] * ($imginfo[0] / $imginfo[1]);
                 $pseudo_size   = "width='" . $pseudo_width . "px' height='" . $pseudo_height . "px'";

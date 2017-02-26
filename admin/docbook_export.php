@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+include_once __DIR__ . '/../../../include/cp_header.php';
 
 $op = 'go';//'start';
 
@@ -44,7 +44,7 @@ if ($op === 'go') {
 
     echo "  <title>{module title}</title>\r\n";
 
-    $resultC = $xoopsDB->query('select * from ' . $xoopsDB->prefix('smartfaq_categories'));
+    $resultC = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('smartfaq_categories'));
     while ($arrC = $xoopsDB->fetchArray($resultC)) {
         extract($arrC, EXTR_PREFIX_ALL, 'c');
 
@@ -56,7 +56,9 @@ if ($op === 'go') {
         while ($arrQ = $xoopsDB->fetchArray($resultQ)) {
             extract($arrQ, EXTR_PREFIX_ALL, 'q');
 
-            echo "    <qandaentry ID=\"q$q_faqid\" Revision=\"$q_datesub\" Condition=\"$q_html $q_smiley $q_xcodes\" XrefLabel=\"$q_modulelink $q_contextpage\" Vendor=\"" . getUserFullName($q_uid) . "\">\r\n";
+            echo "    <qandaentry ID=\"q$q_faqid\" Revision=\"$q_datesub\" Condition=\"$q_html $q_smiley $q_xcodes\" XrefLabel=\"$q_modulelink $q_contextpage\" Vendor=\""
+                 . getUserFullName($q_uid)
+                 . "\">\r\n";
             echo "      <question>\r\n";
             echo '        <para>' . encodeText($q_question) . "</para>\r\n";
             if (!empty($q_howdoi)) {
@@ -81,11 +83,11 @@ if ($op === 'go') {
                 echo '        <para>' . encodeText($a_answer) . "</para>\r\n";
                 echo "      </answer>\r\n";
             }
-            mysqli_free_result($resultA);
+            $xoopsDB->freeRecordSet($resultA);
 
             echo "    </qandaentry>\r\n";
         }
-        mysqli_free_result($resultQ);
+        $xoopsDB->freeRecordSet($resultQ);
 
         echo "  </qandadiv>\r\n";
     }

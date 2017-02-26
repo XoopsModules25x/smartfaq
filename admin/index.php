@@ -17,12 +17,12 @@
  * @author       XOOPS Development Team
  */
 
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 
-$indexAdmin = new ModuleAdmin();
+$adminObject  = \Xmf\Module\Admin::getInstance();
 
 //----------------------
 
@@ -69,42 +69,42 @@ $totalrejectedsmartfaq = isset($totalfaqbystatus[_SF_STATUS_REJECTED_SMARTFAQ]) 
 $totalnewanswers = isset($totalfaqbystatus[_SF_STATUS_NEW_ANSWER]) ? $totalfaqbystatus[_SF_STATUS_NEW_ANSWER] : 0;
 
 //set info block
-$indexAdmin->addInfoBox(_AM_SF_INVENTORY);
+$adminObject->addInfoBox(_AM_SF_INVENTORY);
 
 if ($totalcategories > 0) {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . '<a href="category.php">' . _AM_SF_TOTALCAT . '</a><b>' . '</infolabel>', $totalcategories, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . '<a href="category.php">' . _AM_SF_TOTALCAT . '</a><b>' . '</infolabel>', $totalcategories), '', 'Green');
 } else {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . _AM_SF_TOTALCAT . '</infolabel>', $totalcategories, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_SF_TOTALCAT . '</infolabel>', $totalcategories), '', 'Green');
 }
 if ($totalasked > 0) {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . '<a href="main.php">' . _AM_SF_TOTALASKED . '</a><b>' . '</infolabel>', $totalasked, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . '<a href="main.php">' . _AM_SF_TOTALASKED . '</a><b>' . '</infolabel>', $totalasked), '', 'Green');
 } else {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . _AM_SF_TOTALASKED . '</infolabel>', $totalasked, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_SF_TOTALASKED . '</infolabel>', $totalasked), '', 'Green');
 }
 if ($totalopened > 0) {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . '<a href="question.php">' . _AM_SF_TOTALOPENED . '</a><b>' . '</infolabel>', $totalopened, 'Red');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . '<a href="question.php">' . _AM_SF_TOTALOPENED . '</a><b>' . '</infolabel>', $totalopened), '', 'Red');
 } else {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . _AM_SF_TOTALOPENED . '</infolabel>', $totalopened, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_SF_TOTALOPENED . '</infolabel>', $totalopened), '', 'Green');
 }
 if ($totalsubmitted > 0) {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . '<a href="category.php">' . _AM_SF_TOTALSUBMITTED . '</a><b>' . '</infolabel>', $totalsubmitted, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . '<a href="category.php">' . _AM_SF_TOTALSUBMITTED . '</a><b>' . '</infolabel>', $totalsubmitted), '', 'Green');
 } else {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . _AM_SF_TOTALSUBMITTED . '</infolabel>', $totalsubmitted, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_SF_TOTALSUBMITTED . '</infolabel>', $totalsubmitted), '', 'Green');
 }
 if ($totalpublished > 0) {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . '<a href="faq.php">' . _AM_SF_TOTALPUBLISHED . '</a><b>' . '</infolabel>', $totalpublished, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . '<a href="faq.php">' . _AM_SF_TOTALPUBLISHED . '</a><b>' . '</infolabel>', $totalpublished), '', 'Green');
 } else {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . _AM_SF_TOTALPUBLISHED . '</infolabel>', $totalpublished, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_SF_TOTALPUBLISHED . '</infolabel>', $totalpublished), '', 'Green');
 }
 if ($totalnewanswers > 0) {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . '<a href="main.php">' . _AM_SF_TOTALNEWANSWERS . '</a><b>' . '</infolabel>', $totalnewanswers, 'Red');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . '<a href="main.php">' . _AM_SF_TOTALNEWANSWERS . '</a><b>' . '</infolabel>', $totalnewanswers), '', 'Red');
 } else {
-    $indexAdmin->addInfoBoxLine(_AM_SF_INVENTORY, '<infolabel>' . _AM_SF_TOTALNEWANSWERS . '</infolabel>', $totalnewanswers, 'Green');
+    $adminObject->addInfoBoxLine(sprintf('<infolabel>' . _AM_SF_TOTALNEWANSWERS . '</infolabel>', $totalnewanswers), '', 'Green');
 }
 
 //----------------------
 
-echo $indexAdmin->addNavigation(basename(__FILE__));
-echo $indexAdmin->renderIndex();
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject->displayIndex();
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

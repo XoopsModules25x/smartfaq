@@ -37,7 +37,7 @@ $sform->addElement($submit_button);
 
 /*
 add this in search.php
-include_once 'include/searchform.php';
+include_once __DIR__ . '/include/searchform.php';
 $sform->assign($xoopsTpl);
 
 */

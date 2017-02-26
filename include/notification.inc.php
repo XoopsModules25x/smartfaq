@@ -14,13 +14,14 @@ function smartfaq_notify_iteminfo($category, $item_id)
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
 
     if (empty($xoopsModule) || $xoopsModule->getVar('dirname') !== 'smartfaq') {
+        /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
-        $module        = &$moduleHandler->getByDirname('smartfaq');
+        $module        = $moduleHandler->getByDirname('smartfaq');
         $configHandler = xoops_getHandler('config');
-        $config        = &$configHandler->getConfigsByCat(0, $module->getVar('mid'));
+        $config        = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
     } else {
-        $module = &$xoopsModule;
-        $config = &$xoopsModuleConfig;
+        $module = $xoopsModule;
+        $config = $xoopsModuleConfig;
     }
 
     if ($category === 'global') {
