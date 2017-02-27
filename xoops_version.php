@@ -6,6 +6,7 @@
  * Licence: GNU
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+$moduleDirName = basename(__DIR__);
 
 $modversion['version']       = 1.12;
 $modversion['module_status'] = 'RC 2';
