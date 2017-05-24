@@ -33,7 +33,7 @@ $totalfaqs = $faqHandler->getFaqsCount($sel_cat, array(_SF_STATUS_PUBLISHED, _SF
 // creating the FAQ objects that are published
 $faqsObj         = $faqHandler->getAllPublished($xoopsModuleConfig['perpage'], $startfaq, $sel_cat);
 $totalFaqsOnPage = count($faqsObj);
-$allCats         =& $categoryHandler->getObjects(null, true);
+$allCats         = $categoryHandler->getObjects(null, true);
 echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
 echo '<tr>';
 echo "<th width='40' class='bg3' align='center'><b>" . _AM_SF_ARTID . '</b></td>';

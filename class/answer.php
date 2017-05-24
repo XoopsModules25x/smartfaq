@@ -648,7 +648,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
         $criteria->setOrder($order);
         $criteria->setLimit($limit);
         $criteria->setStart($start);
-        $ret =& $this->getObjects($criteria);
+        $ret = $this->getObjects($criteria);
 
         return $ret;
     }
