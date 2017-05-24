@@ -17,38 +17,49 @@
  * @author       XOOPS Development Team
  */
 
-$path = dirname(dirname(dirname(__DIR__)));
-include_once $path . '/mainfile.php';
-include_once $path . '/include/cp_functions.php';
-require_once $path . '/include/cp_header.php';
+include_once __DIR__ . '/../../../include/cp_header.php';
+//include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
+//require __DIR__ . '/../class/utility.php';
+//require_once __DIR__ . '/../include/common.php';
+
+if (!isset($moduleDirName)) {
+    $moduleDirName = basename(dirname(__DIR__));
+}
+
+$path = dirname(dirname(dirname(__DIR__)));
 include_once $path . '/kernel/module.php';
 include_once $path . '/class/xoopstree.php';
 include_once $path . '/class/xoopslists.php';
 include_once $path . '/class/pagenav.php';
 include_once $path . '/class/xoopsformloader.php';
 
-include_once $path . '/modules/smartfaq/include/functions.php';
-include_once $path . '/modules/smartfaq/class/category.php';
-include_once $path . '/modules/smartfaq/class/faq.php';
-include_once $path . '/modules/smartfaq/class/answer.php';
+include_once __DIR__ . '/../include/functions.php';
+include_once __DIR__ . '/../class/category.php';
+include_once __DIR__ . '/../class/faq.php';
+include_once __DIR__ . '/../class/answer.php';
+//require __DIR__ . '/../class/utility.php';
+//require_once __DIR__ . '/../include/common.php';
+
+
+if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+} else {
+    $moduleHelper = Xmf\Module\Helper::getHelper('system');
+}
+$adminObject = \Xmf\Module\Admin::getInstance();
+
+$pathIcon16      = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32      = \Xmf\Module\Admin::iconUrl('', 32);
+$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
+
+// Load language files
+$moduleHelper->loadLanguage('admin');
+$moduleHelper->loadLanguage('modinfo');
+$moduleHelper->loadLanguage('main');
 
 $myts = MyTextSanitizer::getInstance();
 
-global $xoopsModule;
-
-$moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
-
-//if functions.php file exist
-//require_once dirname(__DIR__) . '/include/functions.php';
-
-// Load language files
-xoops_loadLanguage('admin', $moduleDirName);
-xoops_loadLanguage('modinfo', $moduleDirName);
-xoops_loadLanguage('main', $moduleDirName);
-
-$pathIcon16      = '../' . $xoopsModule->getInfo('icons16');
-$pathIcon32      = '../' . $xoopsModule->getInfo('icons32');
-$pathModuleAdmin =& $xoopsModule->getInfo('dirmoduleadmin');
-
-include_once $GLOBALS['xoops']->path($pathModuleAdmin . '/moduleadmin.php');
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+    include_once $GLOBALS['xoops']->path('class/template.php');
+    $xoopsTpl = new XoopsTpl();
+}

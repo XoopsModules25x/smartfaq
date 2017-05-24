@@ -3,7 +3,7 @@
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
- * @param $module
+ * @param XoopsModule $module
  * @return bool
  */
 function xoops_module_update_smartfaq($module)
@@ -13,13 +13,13 @@ function xoops_module_update_smartfaq($module)
     if (!file_exists($smartdbupdater)) {
         $smartdbupdater = XOOPS_ROOT_PATH . '/modules/smartfaq/class/smartdbupdater.php';
     }
-    include_once($smartdbupdater);
+    include_once $smartdbupdater;
 
     $dbupdater = new SmartobjectDbupdater();
 
     ob_start();
 
-    echo '<code>' . _SDU_UPDATE_UPDATING_DATABASE . '<br />';
+    echo '<code>' . _SDU_UPDATE_UPDATING_DATABASE . '<br>';
 
     // Adding partialview field
     $table = new SmartDbTable('smartfaq_faq');
@@ -70,7 +70,7 @@ function xoops_module_update_smartfaq($module)
     /**
      * Check for items with categoryid=0
      */
-    include_once(XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php');
+    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     $smartfaq_faqHandler      = $answerHandler = sf_gethandler('faq');
     $smartfaq_categoryHandler = $answerHandler = sf_gethandler('category');
 
@@ -81,7 +81,7 @@ function xoops_module_update_smartfaq($module)
         $criteria   = new CriteriaCompo();
         $criteria->add(new Criteria('categoryid', 0));
         $smartfaq_faqHandler->updateAll('categoryid', $categoryid, $criteria);
-        echo '&nbsp;&nbsp;Cleaning up questions with categoryid=0<br />';
+        echo '&nbsp;&nbsp;Cleaning up questions with categoryid=0<br>';
     }
 
     echo '</code>';
@@ -97,14 +97,14 @@ function xoops_module_update_smartfaq($module)
 }
 
 /**
- * @param $module
+ * @param XoopsModule $module
  * @return bool
  */
 function xoops_module_install_smartfaq($module)
 {
     ob_start();
 
-    include_once(XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/include/functions.php');
+    include_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/include/functions.php';
 
     $feedback = ob_get_clean();
     if (method_exists($module, 'setMessage')) {

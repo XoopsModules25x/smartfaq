@@ -38,11 +38,14 @@ if ($faqAccessGrantedResult < 0) {
 }
 
 // Update the read counter of the selected FAQ
-if (!$xoopsUser || ($xoopsUser->isAdmin($xoopsModule->mid()) && $xoopsModuleConfig['adminhits'] == 1) || ($xoopsUser && !$xoopsUser->isAdmin($xoopsModule->mid()))) {
+if (!$xoopsUser || ($xoopsUser->isAdmin($xoopsModule->mid()) && $xoopsModuleConfig['adminhits'] == 1)
+    || ($xoopsUser
+        && !$xoopsUser->isAdmin($xoopsModule->mid()))
+) {
     $faqObj->updateCounter();
 }
-$xoopsOption['template_main'] = 'smartfaq_faq.tpl';
-include_once(XOOPS_ROOT_PATH . '/header.php');
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_faq.tpl';
+include_once XOOPS_ROOT_PATH . '/header.php';
 include_once __DIR__ . '/footer.php';
 
 $faq = $faqObj->toArray(null, $categoryObj, false);
@@ -78,7 +81,16 @@ $xoopsTpl->assign('faq', $faq);
 $xoopsTpl->assign('display_categoryname', false);
 
 $xoopsTpl->assign('xcodes', $faqObj->getVar('xcodes'));
-$xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename']) . '&amp;body=' . sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename']) . ':  ' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/faq.php?faqid=' . $faqObj->getVar('faqid'));
+$xoopsTpl->assign('mail_link', 'mailto:?subject='
+                               . sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename'])
+                               . '&amp;body='
+                               . sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename'])
+                               . ':  '
+                               . XOOPS_URL
+                               . '/modules/'
+                               . $xoopsModule->dirname()
+                               . '/faq.php?faqid='
+                               . $faqObj->getVar('faqid'));
 $xoopsTpl->assign('lang_printerpage', _MD_SF_PRINTERFRIENDLY);
 $xoopsTpl->assign('lang_sendstory', _MD_SF_SENDSTORY);
 $xoopsTpl->assign('faqid', $faqObj->getVar('faqid'));

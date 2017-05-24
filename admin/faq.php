@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 // Creating the faq handler object
 $faqHandler = sf_gethandler('faq');
@@ -138,14 +138,14 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
         // Creating the category of this FAQ
         $categoryObj = $faqObj->category();
 
-        echo "<br />\n";
+        echo "<br>\n";
         sf_collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . $collapsableBar_title . '</h3>';
         echo "<div id='bottomtable'>";
-        echo "<span style=\"color: #567; margin: 3px 0 12px 0; font-size: small; display: block; \">" . $collapsableBar_info . '</span>';
+        echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $collapsableBar_info . '</span>';
     } else {
         // there's no parameter, so we're adding a faq
-        $faqObj =& $faqHandler->create();
+        $faqObj = $faqHandler->create();
         $faqObj->setVar('uid', $xoopsUser->getVar('uid'));
         $categoryObj = $categoryHandler->create();
         $answerObj   = $answerHandler->create();
@@ -187,14 +187,15 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
     // ANSWER
     if ($merge) {
-        $theanswer = $originalAnswerObj->answer('e') . "\n\n" . sprintf(_AM_SF_NEW_CONTRIBUTION, sf_getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname']), $answerObj->datesub(), $answerObj->answer('e'));
+        $theanswer = $originalAnswerObj->answer('e') . "\n\n" . sprintf(_AM_SF_NEW_CONTRIBUTION, sf_getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname']), $answerObj->datesub(),
+                                                                        $answerObj->answer('e'));
     } else {
         $theanswer = $answerObj->answer('e');
     }
 
     //$sform->addElement(new XoopsFormDhtmlTextArea(_AM_SF_ANSWER_FAQ, 'answer', $theanswer, 15, 60), true);
 
-    $editorTray = new XoopsFormElementTray(_AM_SF_ANSWER_FAQ, '<br />');
+    $editorTray = new XoopsFormElementTray(_AM_SF_ANSWER_FAQ, '<br>');
     if (class_exists('XoopsFormEditor')) {
         $options['name']   = 'answer';
         $options['value']  = $theanswer;
@@ -219,6 +220,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
     // CONTEXT MODULE LINK
     // Retreive the list of module currently installed. The key value is the dirname
+    /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler           = xoops_getHandler('module');
     $modules_array           = $moduleHandler->getList(null, true);
     $modulelink_select_array = array('url' => _AM_SF_SPECIFIC_URL_SELECT);
@@ -260,7 +262,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $sform->addElement($partial_view);
 
     // VARIOUS OPTIONS
-    $options_tray = new XoopsFormElementTray(_AM_SF_OPTIONS, '<br />');
+    $options_tray = new XoopsFormElementTray(_AM_SF_OPTIONS, '<br>');
 
     $html_checkbox = new XoopsFormCheckBox('', 'html', $faqObj->html());
     $html_checkbox->addOption(1, _AM_SF_DOHTML);
@@ -370,10 +372,10 @@ switch ($op) {
             }
         }
 
-        $indexAdmin = new ModuleAdmin();
+        $adminObject  = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
 
-        echo $indexAdmin->addNavigation(basename(__FILE__));
+        $adminObject->displayNavigation(basename(__FILE__));
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         editfaq(true, $faqid, $answerid);
@@ -487,7 +489,7 @@ switch ($op) {
                 break;
 
             case 'default':
-            default :
+            default:
                 $redirect_msg = _AM_SF_SUBMITTED_APPROVE_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTCREATED;
                 // Setting the new status
@@ -546,7 +548,12 @@ switch ($op) {
             // no confirm: show deletion condition
             $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
             xoops_cp_header();
-            xoops_confirm(array('op' => 'del', 'faqid' => $faqObj->faqid(), 'confirm' => 1, 'name' => $faqObj->question()), 'faq.php', _AM_SF_DELETETHISARTICLE . " <br />'" . $faqObj->question() . "'. <br /> <br />", _AM_SF_DELETE);
+            xoops_confirm(array(
+                              'op'      => 'del',
+                              'faqid'   => $faqObj->faqid(),
+                              'confirm' => 1,
+                              'name'    => $faqObj->question()
+                          ), 'faq.php', _AM_SF_DELETETHISARTICLE . " <br>'" . $faqObj->question() . "'. <br> <br>", _AM_SF_DELETE);
             xoops_cp_footer();
         }
 
@@ -555,10 +562,10 @@ switch ($op) {
 
     case 'default':
     default:
-        $indexAdmin = new ModuleAdmin();
+        $adminObject  = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
 
-        echo $indexAdmin->addNavigation(basename(__FILE__));
+        $adminObject->displayNavigation(basename(__FILE__));
 
         include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
@@ -573,4 +580,4 @@ switch ($op) {
         break;
 }
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

@@ -1,5 +1,8 @@
 <{if $displaycollaps == 1}>
-    <div class="sf_collaps_title"><a href='#' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon');"><img id='bottomtableicon' src='<{$xoops_url}>/modules/smartfaq/assets/images/icon/close12.gif' alt=''/></a>&nbsp;<{$lang_index_faqs}></div>
+    <div class="sf_collaps_title"><a href='#' onclick="toggle('bottomtable'); toggleIcon('bottomtableicon');"><img
+                    id='bottomtableicon' src='<{$xoops_url}>/modules/smartfaq/assets/images/icon/close12.gif'
+                    alt=''/></a>&nbsp;<{$lang_index_faqs}>
+    </div>
 <div id='bottomtable'>
     <span class="sf_collaps_info"><{$lang_index_faqs_info}></span>
     <!-- Content under the collapsable bar //-->
@@ -42,7 +45,7 @@
             <tr>
             </tr>
         </table>
-        <br/>
+        <br>
     <{/if}>
     <div align="right"><{$navbar}></div>
     <{if $displaycollaps == 1}>

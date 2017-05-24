@@ -10,9 +10,9 @@ include_once __DIR__ . '/header.php';
 
 global $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
 
-$xoopsOption['template_main'] = 'smartfaq_category.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 
-include_once(XOOPS_ROOT_PATH . '/header.php');
+include_once XOOPS_ROOT_PATH . '/header.php';
 include_once __DIR__ . '/footer.php';
 
 $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
@@ -81,7 +81,7 @@ if ($total_subcats != 0) {
             }
             $subcat->setVar('faqcount', $totalQnas[$subcat_id]);
             $subcats[$subcat_id] = $subcat->toArray(null, true);
-            $catQnasWithSub += $subcats[$subcat_id]['total'];
+            $catQnasWithSub      += $subcats[$subcat_id]['total'];
         }
     }
     $xoopsTpl->assign('subcats', $subcats);
@@ -139,4 +139,4 @@ $module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
 $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category['name']);
 // End Page Title Hack by marcan
 
-include_once(XOOPS_ROOT_PATH . '/footer.php');
+include_once XOOPS_ROOT_PATH . '/footer.php';

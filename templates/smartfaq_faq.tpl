@@ -2,15 +2,17 @@
 <div style="display: none;"><{$ref_smartfaq}></div>
 
 <div class="sf_headertable">
-    <span class="sf_modulename"><a href="<{$xoops_url}>/modules/<{$modulename}>/index.php"><{$sectionname}></a></span><span class="sf_breadcrumb"> &gt; <{$faq.categoryPath}></span>
+    <span class="sf_modulename"><a
+                href="<{$xoops_url}>/modules/<{$modulename}>/index.php"><{$sectionname}></a></span><span
+            class="sf_breadcrumb"> &gt; <{$faq.categoryPath}></span>
 </div>
 
-<br/>
+<br>
 
 <{include file="db:smartfaq_singlefaq.tpl" faq=$faq}>
 <!--next line is to include smarttie -->
 <{if $smarttie==1}>
-    <{include file='db:smarttie_links.html'}>
+    <{include file='db:smarttie_links.tpl'}>
 <{/if}>
 <!--end smarttie -->
 <{if $isAdmin == 1}>

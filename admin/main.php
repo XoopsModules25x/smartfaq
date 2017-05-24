@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 $faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : 0;
@@ -58,9 +58,9 @@ $faqHandler = sf_gethandler('faq');
 
 $startentry = isset($_GET['startentry']) ? (int)$_GET['startentry'] : 0;
 
-$indexAdmin = new ModuleAdmin();
+$adminObject  = \Xmf\Module\Admin::getInstance();
 xoops_cp_header();
-echo $indexAdmin->addNavigation(basename(__FILE__));
+$adminObject->displayNavigation(basename(__FILE__));
 global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $faqid;
 
 // Total FAQs -- includes everything on the table
@@ -103,7 +103,7 @@ $totalnewanswers = isset($totalfaqbystatus[_SF_STATUS_NEW_ANSWER]) ? $totalfaqby
 //sf_collapsableBar('toptable', 'toptableicon');
 //echo "<img onclick='toggle('toptable'); toggleIcon('toptableicon');' id='toptableicon' name='toptableicon' src=" . XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_INVENTORY . "</h3>";
 //echo "<div id='toptable'>";
-//echo "<br />";
+//echo "<br>";
 //echo "<table width='100%' class='outer' cellspacing='1' cellpadding='3' border='0' ><tr>";
 //echo "<td class='head'>" . _AM_SF_TOTALCAT . "</td><td align='center' class='even'>" . $totalcategories . "</td>";
 //echo "<td class='head'>" . _AM_SF_TOTALASKED . "</td><td align='center' class='even'>" . $totalasked . "</td>";
@@ -112,13 +112,13 @@ $totalnewanswers = isset($totalfaqbystatus[_SF_STATUS_NEW_ANSWER]) ? $totalfaqby
 //echo "<td class='head'>" . _AM_SF_TOTALPUBLISHED . "</td><td align='center' class='even'>" . $totalpublished . "</td>";
 //echo "<td class='head'>" . _AM_SF_TOTALNEWANSWERS . "</td><td align='center' class='even'>" . $totalnewanswers . "</td>";
 //echo "</tr></table>";
-//echo "<br />";
+//echo "<br>";
 
-//$indexAdmin = new ModuleAdmin();
-$indexAdmin->addItemButton(_AM_SF_CATEGORY_CREATE, 'category.php?op=mod', 'add', '');
-$indexAdmin->addItemButton(_AM_SF_CREATEART, 'faq.php?op=mod', 'add', '');
-$indexAdmin->addItemButton(_AM_SF_CREATEQUESTION, 'question.php?op=mod', 'add', '');
-echo $indexAdmin->renderButton('left', '');
+//$adminObject  = \Xmf\Module\Admin::getInstance();
+$adminObject->addItemButton(_AM_SF_CATEGORY_CREATE, 'category.php?op=mod', 'add', '');
+$adminObject->addItemButton(_AM_SF_CREATEART, 'faq.php?op=mod', 'add', '');
+$adminObject->addItemButton(_AM_SF_CREATEQUESTION, 'question.php?op=mod', 'add', '');
+$adminObject->displayButton('left', '');
 
 //echo "<form><div style=\"margin-bottom: 24px;\">";
 //echo "<input type='button' name='button' onclick=\"location='category.php?op=mod'\" value='" . _AM_SF_CATEGORY_CREATE . "'>&nbsp;&nbsp;";
@@ -131,7 +131,7 @@ echo $indexAdmin->renderButton('left', '');
 sf_collapsableBar('bottomtable', 'bottomtableicon');
 echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_ALLFAQS . '</h3>';
 echo "<div id='bottomtable'>";
-echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display: block; \">" . _AM_SF_ALLFAQSMSG . '</span>';
+echo '<span style="color: #567; margin: 3px 0 18px 0; font-size: small; display: block; ">' . _AM_SF_ALLFAQSMSG . '</span>';
 
 $showingtxt    = '';
 $selectedtxt   = '';
@@ -159,102 +159,102 @@ $ordertxtdesc = '';
 
 switch ($sortsel) {
     case 'faq.question':
-        $sorttxtquestion = "selected='selected'";
+        $sorttxtquestion = 'selected';
         break;
 
     case 'category.name':
-        $sorttxtcategory = "selected='selected'";
+        $sorttxtcategory = 'selected';
         break;
 
     case 'faq.datesub':
-        $sorttxtcreated = "selected='selected'";
+        $sorttxtcreated = 'selected';
         break;
 
     case 'faq.weight':
-        $sorttxtweight = "selected='selected'";
+        $sorttxtweight = 'selected';
         break;
 
     default:
-        $sorttxtfaqid = "selected='selected'";
+        $sorttxtfaqid = 'selected';
         break;
 }
 
 switch ($ordersel) {
     case 'ASC':
-        $ordertxtasc = "selected='selected'";
+        $ordertxtasc = 'selected';
         break;
 
     default:
-        $ordertxtdesc = "selected='selected'";
+        $ordertxtdesc = 'selected';
         break;
 }
 
 switch ($statussel) {
     case _SF_STATUS_ALL:
-        $selectedtxt0        = "selected='selected'";
+        $selectedtxt0        = 'selected';
         $caption             = _AM_SF_ALL;
         $cond                = '';
         $status_explaination = _AM_SF_ALL_EXP;
         break;
 
     case _SF_STATUS_ASKED:
-        $selectedtxt1        = "selected='selected'";
+        $selectedtxt1        = 'selected';
         $caption             = _AM_SF_ASKED;
         $cond                = ' WHERE status = ' . _SF_STATUS_ASKED . ' ';
         $status_explaination = _AM_SF_ASKED_EXP;
         break;
 
     case _SF_STATUS_OPENED:
-        $selectedtxt2        = "selected='selected'";
+        $selectedtxt2        = 'selected';
         $caption             = _AM_SF_OPENED;
         $cond                = ' WHERE status = ' . _SF_STATUS_OPENED . ' ';
         $status_explaination = _AM_SF_OPENED_EXP;
         break;
 
     case _SF_STATUS_ANSWERED:
-        $selectedtxt3        = "selected='selected'";
+        $selectedtxt3        = 'selected';
         $caption             = _AM_SF_ANSWERED;
         $cond                = ' WHERE status = ' . _SF_STATUS_ANSWERED . ' ';
         $status_explaination = _AM_SF_ANSWERED_EXP;
         break;
 
     case _SF_STATUS_SUBMITTED:
-        $selectedtxt4        = "selected='selected'";
+        $selectedtxt4        = 'selected';
         $caption             = _AM_SF_SUBMITTED;
         $cond                = ' WHERE status = ' . _SF_STATUS_SUBMITTED . ' ';
         $status_explaination = _AM_SF_SUBMITTED_EXP;
         break;
 
     case _SF_STATUS_PUBLISHED:
-        $selectedtxt5        = "selected='selected'";
+        $selectedtxt5        = 'selected';
         $caption             = _AM_SF_PUBLISHED;
         $cond                = ' WHERE status = ' . _SF_STATUS_PUBLISHED . ' ';
         $status_explaination = _AM_SF_PUBLISHED_EXP;
         break;
 
     case _SF_STATUS_NEW_ANSWER:
-        $selectedtxt6        = "selected='selected'";
+        $selectedtxt6        = 'selected';
         $caption             = _AM_SF_NEW_ANSWER;
         $cond                = ' WHERE status = ' . _SF_STATUS_NEW_ANSWER . ' ';
         $status_explaination = _AM_SF_NEW_ANSWER_EXP;
         break;
 
     case _SF_STATUS_OFFLINE:
-        $selectedtxt7        = "selected='selected'";
+        $selectedtxt7        = 'selected';
         $caption             = _AM_SF_OFFLINE;
         $cond                = ' WHERE status = ' . _SF_STATUS_OFFLINE . ' ';
         $status_explaination = _AM_SF_OFFLINE_EXP;
         break;
 
     case _SF_STATUS_REJECTED_QUESTION:
-        $selectedtxt8        = "selected='selected'";
+        $selectedtxt8        = 'selected';
         $caption             = _AM_SF_REJECTED_QUESTION;
         $cond                = ' WHERE status = ' . _SF_STATUS_REJECTED_QUESTION . ' ';
         $status_explaination = _AM_SF_REJECTED_QUESTION_EXP;
         break;
 
     case _SF_STATUS_REJECTED_SMARTFAQ:
-        $selectedtxt9        = "selected='selected'";
+        $selectedtxt9        = 'selected';
         $caption             = _AM_SF_REJECTED_SMARTFAQ;
         $cond                = ' WHERE status = ' . _SF_STATUS_REJECTED_SMARTFAQ . ' ';
         $status_explaination = _AM_SF_REJECTED_SMARTFAQ_EXP;
@@ -306,7 +306,7 @@ $statusSelected = ($statussel == 0) ? _SF_STATUS_ALL : $statussel;
 $faqsObj = $faqHandler->getFaqsAdminSide($xoopsModuleConfig['perpage'], $startentry, $statusSelected, -1, $sortsel, $ordersel);
 
 // fetching all categories
-$allcats          = $categoryHandler->getObjects(null, true);
+$allCats          = $categoryHandler->getObjects(null, true);
 $totalItemsOnPage = count($faqsObj);
 buildTable();
 
@@ -319,7 +319,7 @@ if ($numrows > 0) {
 
     foreach (array_keys($faqsObj) as $i) {
         // Creating the category object to which this faq is linked
-        $categoryObj =& $allcats[$faqsObj[$i]->categoryid()];
+        $categoryObj = $allCats[$faqsObj[$i]->categoryid()];
         global $pathIcon16, $smartModuleConfig;
 
         //$answers = $answer_arr[$i];
@@ -329,65 +329,233 @@ if ($numrows > 0) {
         switch ($faqsObj[$i]->status()) {
             case _SF_STATUS_ASKED:
                 $statustxt = _AM_SF_ASKED;
-                $approve   = "<a href='question.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/on.png' . "'  title='" . _AM_SF_QUESTION_MODERATE . "'  alt='" . _AM_SF_QUESTION_MODERATE . "' /></a>&nbsp;";
+                $approve   = "<a href='question.php?op=mod&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/on.png'
+                             . "'  title='"
+                             . _AM_SF_QUESTION_MODERATE
+                             . "'  alt='"
+                             . _AM_SF_QUESTION_MODERATE
+                             . "' /></a>&nbsp;";
                 $modify    = '';
-                $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "' /></a>";
+                $delete    = "<a href='question.php?op=del&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/delete.png'
+                             . "' title='"
+                             . _AM_SF_DELETEQUESTION
+                             . "' alt='"
+                             . _AM_SF_DELETEQUESTION
+                             . "' /></a>";
                 break;
 
             case _SF_STATUS_OPENED:
                 $statustxt = _AM_SF_OPENED;
                 $approve   = '';
-                $modify    = "<a href='question.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_QUESTION_EDIT . "' alt='" . _AM_SF_QUESTION_EDIT . "' /></a>&nbsp;";
-                $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "' /></a>";
+                $modify    = "<a href='question.php?op=mod&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/edit.png'
+                             . "' title='"
+                             . _AM_SF_QUESTION_EDIT
+                             . "' alt='"
+                             . _AM_SF_QUESTION_EDIT
+                             . "' /></a>&nbsp;";
+                $delete    = "<a href='question.php?op=del&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/delete.png'
+                             . "' title='"
+                             . _AM_SF_DELETEQUESTION
+                             . "' alt='"
+                             . _AM_SF_DELETEQUESTION
+                             . "' /></a>";
                 break;
 
             case _SF_STATUS_ANSWERED:
                 $statustxt = _AM_SF_ANSWERED;
-                $approve   = "<a href='answer.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/approve.gif' title='" . _AM_SF_ANSWERED_MODERATE . "' alt='" . _AM_SF_ANSWERED_MODERATE . "' /></a>&nbsp;";
+                $approve   = "<a href='answer.php?op=mod&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . XOOPS_URL
+                             . '/modules/'
+                             . $xoopsModule->dirname()
+                             . "/assets/images/icon/approve.gif' title='"
+                             . _AM_SF_ANSWERED_MODERATE
+                             . "' alt='"
+                             . _AM_SF_ANSWERED_MODERATE
+                             . "' /></a>&nbsp;";
                 $modify    = '';
-                $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/delete.gif' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "' /></a>";
+                $delete    = "<a href='question.php?op=del&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . XOOPS_URL
+                             . '/modules/'
+                             . $xoopsModule->dirname()
+                             . "/assets/images/icon/delete.gif' title='"
+                             . _AM_SF_DELETEQUESTION
+                             . "' alt='"
+                             . _AM_SF_DELETEQUESTION
+                             . "' /></a>";
                 break;
 
             case _SF_STATUS_SUBMITTED:
                 $statustxt = _AM_SF_SUBMITTED;
-                $approve   = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/approve.gif' title='" . _AM_SF_SUBMISSION_MODERATE . "' alt='" . _AM_SF_SUBMISSION_MODERATE . "' /></a>&nbsp;";
-                $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/delete.gif' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "' /></a>";
+                $approve   = "<a href='faq.php?op=mod&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . XOOPS_URL
+                             . '/modules/'
+                             . $xoopsModule->dirname()
+                             . "/assets/images/icon/approve.gif' title='"
+                             . _AM_SF_SUBMISSION_MODERATE
+                             . "' alt='"
+                             . _AM_SF_SUBMISSION_MODERATE
+                             . "' /></a>&nbsp;";
+                $delete    = "<a href='faq.php?op=del&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . XOOPS_URL
+                             . '/modules/'
+                             . $xoopsModule->dirname()
+                             . "/assets/images/icon/delete.gif' title='"
+                             . _AM_SF_DELETEART
+                             . "' alt='"
+                             . _AM_SF_DELETEART
+                             . "' /></a>";
                 $modify    = '';
                 break;
 
             case _SF_STATUS_PUBLISHED:
                 $statustxt = _AM_SF_PUBLISHED;
                 $approve   = '';
-                $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_FAQ_EDIT . "' alt='" . _AM_SF_FAQ_EDIT . "' /></a>&nbsp;";
-                $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "' /></a>";
+                $modify    = "<a href='faq.php?op=mod&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/edit.png'
+                             . "' title='"
+                             . _AM_SF_FAQ_EDIT
+                             . "' alt='"
+                             . _AM_SF_FAQ_EDIT
+                             . "' /></a>&nbsp;";
+                $delete    = "<a href='faq.php?op=del&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/delete.png'
+                             . "' title='"
+                             . _AM_SF_DELETEART
+                             . "' alt='"
+                             . _AM_SF_DELETEART
+                             . "' /></a>";
                 break;
 
             case _SF_STATUS_NEW_ANSWER:
                 $statustxt = _AM_SF_NEWANSWER;
-                $approve   = "<a href='answer.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/approve.gif' title='" . _AM_SF_FAQ_EDIT . "' alt='" . _AM_SF_FAQ_EDIT . "' /></a>&nbsp;";
-                $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/delete.gif' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "' /></a>";
+                $approve   = "<a href='answer.php?op=mod&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . XOOPS_URL
+                             . '/modules/'
+                             . $xoopsModule->dirname()
+                             . "/assets/images/icon/approve.gif' title='"
+                             . _AM_SF_FAQ_EDIT
+                             . "' alt='"
+                             . _AM_SF_FAQ_EDIT
+                             . "' /></a>&nbsp;";
+                $delete    = "<a href='faq.php?op=del&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . XOOPS_URL
+                             . '/modules/'
+                             . $xoopsModule->dirname()
+                             . "/assets/images/icon/delete.gif' title='"
+                             . _AM_SF_DELETEART
+                             . "' alt='"
+                             . _AM_SF_DELETEART
+                             . "' /></a>";
                 $modify    = '';
                 break;
 
             case _SF_STATUS_OFFLINE:
                 $statustxt = _AM_SF_OFFLINE;
                 $approve   = '';
-                $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_FAQ_EDIT . "' alt='" . _AM_SF_FAQ_EDIT . "' /></a>&nbsp;";
-                $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "' /></a>";
+                $modify    = "<a href='faq.php?op=mod&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/edit.png'
+                             . "' title='"
+                             . _AM_SF_FAQ_EDIT
+                             . "' alt='"
+                             . _AM_SF_FAQ_EDIT
+                             . "' /></a>&nbsp;";
+                $delete    = "<a href='faq.php?op=del&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/delete.png'
+                             . "' title='"
+                             . _AM_SF_DELETEART
+                             . "' alt='"
+                             . _AM_SF_DELETEART
+                             . "' /></a>";
                 break;
 
             case _SF_STATUS_REJECTED_QUESTION:
                 $statustxt = _AM_SF_REJECTED_QUESTION;
                 $approve   = '';
-                $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_REJECTED_EDIT . "' alt='" . _AM_SF_REJECTED_EDIT . "' /></a>&nbsp;";
-                $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "' /></a>";
+                $modify    = "<a href='faq.php?op=mod&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/edit.png'
+                             . "' title='"
+                             . _AM_SF_REJECTED_EDIT
+                             . "' alt='"
+                             . _AM_SF_REJECTED_EDIT
+                             . "' /></a>&nbsp;";
+                $delete    = "<a href='question.php?op=del&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/delete.png'
+                             . "' title='"
+                             . _AM_SF_DELETEQUESTION
+                             . "' alt='"
+                             . _AM_SF_DELETEQUESTION
+                             . "' /></a>";
                 break;
 
             case _SF_STATUS_REJECTED_SMARTFAQ:
                 $statustxt = _AM_SF_REJECTED_SMARTFAQ;
                 $approve   = '';
-                $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_REJECTED_EDIT . "' alt='" . _AM_SF_REJECTED_EDIT . "' /></a>&nbsp;";
-                $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "' /></a>";
+                $modify    = "<a href='faq.php?op=mod&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/edit.png'
+                             . "' title='"
+                             . _AM_SF_REJECTED_EDIT
+                             . "' alt='"
+                             . _AM_SF_REJECTED_EDIT
+                             . "' /></a>&nbsp;";
+                $delete    = "<a href='faq.php?op=del&amp;faqid="
+                             . $faqsObj[$i]->faqid()
+                             . "'><img src='"
+                             . $pathIcon16
+                             . '/delete.png'
+                             . "' title='"
+                             . _AM_SF_DELETEART
+                             . "' alt='"
+                             . _AM_SF_DELETEART
+                             . "' /></a>";
                 break;
 
             case 'default':
@@ -462,4 +630,4 @@ echo '</div>';
 echo '</div>';
 echo '</div>';
 
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

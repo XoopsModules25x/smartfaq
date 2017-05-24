@@ -9,7 +9,7 @@
 
 function b_faqs_random_faq_show()
 {
-    include_once(XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php');
+    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = array();
 

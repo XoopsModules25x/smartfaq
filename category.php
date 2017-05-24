@@ -30,9 +30,9 @@ $totalQnas = $categoryHandler->publishedFaqsCount($categoryid);
 if (!isset($totalQnas[$categoryid]) || $totalQnas[$categoryid] == 0) {
     //redirect_header("index.php", 1, _MD_SF_MAINNOFAQS);
 }
-$xoopsOption['template_main'] = 'smartfaq_category.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 
-include_once(XOOPS_ROOT_PATH . '/header.php');
+include_once XOOPS_ROOT_PATH . '/header.php';
 include_once __DIR__ . '/footer.php';
 
 // At which record shall we start
@@ -87,7 +87,7 @@ if ($total_subcats != 0) {
         }
         $subcatsObj[$i]->setVar('faqcount', $totalQnas[$subcat_id]);
         $subcats[$subcat_id] = $subcatsObj[$i]->toArray();
-        $total_faqs += $totalQnas[$subcat_id];
+        $total_faqs          += $totalQnas[$subcat_id];
         //}replacé ligne 92
     }
     $xoopsTpl->assign('subcats', $subcats);
@@ -115,7 +115,7 @@ if (count($faqsObj) > 0) {
         $faq = $faqsObj[$i]->toArray(null, $categoryObj);
 
         // Creating the answer object
-        $answerObj =& $allanswers[$faqsObj[$i]->faqid()];
+        $answerObj = $allanswers[$faqsObj[$i]->faqid()];
 
         $answerObj->setVar('dohtml', $faqsObj[$i]->getVar('html'));
         $answerObj->setVar('doxcode', $faqsObj[$i]->getVar('xcodes'));
@@ -135,7 +135,11 @@ if (count($faqsObj) > 0) {
 
     if (isset($last_qnaObj) && $last_qnaObj) {
         $category['last_faqid']         = $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid');
-        $category['last_question_link'] = "<a href='faq.php?faqid=" . $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid') . "'>" . $last_qnaObj[$categoryObj->getVar('categoryid')]->question($lastfaqsize) . '</a>';
+        $category['last_question_link'] = "<a href='faq.php?faqid="
+                                          . $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid')
+                                          . "'>"
+                                          . $last_qnaObj[$categoryObj->getVar('categoryid')]->question($lastfaqsize)
+                                          . '</a>';
     }
 }
 
@@ -182,4 +186,4 @@ if (file_exists(XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php')) {
 }
 //end code for smarttie
 
-include_once(XOOPS_ROOT_PATH . '/footer.php');
+include_once XOOPS_ROOT_PATH . '/footer.php';

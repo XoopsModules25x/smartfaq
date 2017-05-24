@@ -52,17 +52,29 @@ echo "<meta name='GENERATOR' content='" . XOOPS_VERSION . "' />\n\n\n";
 
 echo "<body bgcolor='#ffffff' text='#000000' onload='window.print()'>
      <div style='width: 650px; border: 1px solid #000; padding: 20px;'>
-     <div style='text-align: center; display: block; margin: 0 0 6px 0;'><img src='" . XOOPS_URL . "/modules/smartfaq/assets/images/logo_module.png' border='0' alt='' /><h2 style='margin: 0;'>" . $faqObj->question() . "</h2></div>
-     <div align='center'>" . $who_where . "</div>
+     <div style='text-align: center; display: block; margin: 0 0 6px 0;'><img src='"
+     . XOOPS_URL
+     . "/modules/smartfaq/assets/images/logo_module.png' border='0' alt='' /><h2 style='margin: 0;'>"
+     . $faqObj->question()
+     . "</h2></div>
+     <div align='center'>"
+     . $who_where
+     . "</div>
                 <div style='text-align: center; display: block; padding-bottom: 12px; margin: 0 0 6px 0; border-bottom: 2px solid #ccc;'></div>
                 <div></div>
-                <b><p>" . $faqObj->question() . '</p></b>
-                <p>' . $answerObj->answer() . "</p>
+                <b><p>"
+     . $faqObj->question()
+     . '</p></b>
+                <p>'
+     . $answerObj->answer()
+     . "</p>
                 <div style='padding-top: 12px; border-top: 2px solid #ccc;'></div>
-                <p>" . $comeFrom . '</p>
+                <p>"
+     . $comeFrom
+     . '</p>
             </div>
-    <br />';
+    <br>';
 
-echo '<br />
+echo '<br>
           </body>
           </html>';

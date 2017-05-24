@@ -618,7 +618,7 @@ class sfFaq extends XoopsObject
         $requestdate = $this->datesub();
 
         if (($this->status() == _SF_STATUS_PUBLISHED) || $this->status() == _SF_STATUS_NEW_ANSWER) {
-            if ($answerObj == null) {
+            if ($answerObj === null) {
                 $answerObj = $this->answer();
             }
             $submitdate = $answerObj->datesub();
@@ -646,7 +646,17 @@ class sfFaq extends XoopsObject
             $text = _MD_SF_FAQCOMEFROM;
         }
 
-        return $text . $xoopsConfig['sitename'] . ' : <a href=' . XOOPS_URL . '/modules/smartfaq/faq.php?faqid=' . $this->faqid() . '>' . XOOPS_URL . '/modules/smartfaq/faq.php?faqid=' . $this->faqid() . '</a>';
+        return $text
+               . $xoopsConfig['sitename']
+               . ' : <a href='
+               . XOOPS_URL
+               . '/modules/smartfaq/faq.php?faqid='
+               . $this->faqid()
+               . '>'
+               . XOOPS_URL
+               . '/modules/smartfaq/faq.php?faqid='
+               . $this->faqid()
+               . '</a>';
     }
 
     /**
@@ -767,11 +777,17 @@ class sfFaqHandler extends XoopsObjectHandler
         }
 
         if ($faq->isNew()) {
-            $sql = sprintf('INSERT INTO %s (faqid, categoryid, question, howdoi, diduno, uid, datesub, `status`, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)', $this->db->prefix('smartfaq_faq'), $categoryid, $this->db->quoteString($question), $this->db->quoteString($howdoi), $this->db->quoteString($diduno), $uid, time(), $status, $counter, $weight, $html, $smiley, $xcodes, $cancomment, $comments, $notifypub, $this->db->quoteString($modulelink), $this->db->quoteString($contextpage), $exacturl, $partialview);
+            $sql = sprintf('INSERT INTO %s (faqid, categoryid, question, howdoi, diduno, uid, datesub, `status`, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
+                           $this->db->prefix('smartfaq_faq'), $categoryid, $this->db->quoteString($question), $this->db->quoteString($howdoi), $this->db->quoteString($diduno), $uid, time(), $status,
+                           $counter, $weight, $html, $smiley, $xcodes, $cancomment, $comments, $notifypub, $this->db->quoteString($modulelink), $this->db->quoteString($contextpage), $exacturl,
+                           $partialview);
         } else {
-            $sql = sprintf('UPDATE %s SET categoryid = %u, question = %s, howdoi = %s, diduno = %s, uid = %u, datesub = %u, `status` = %u, counter = %u, weight = %u, html = %u, smiley = %u, xcodes = %u, cancomment = %u, comments = %u, notifypub = %u, modulelink = %s, contextpage = %s, exacturl = %u, partialview = %u  WHERE faqid = %u', $this->db->prefix('smartfaq_faq'), $categoryid, $this->db->quoteString($question), $this->db->quoteString($howdoi), $this->db->quoteString($diduno), $uid, $datesub, $status, $counter, $weight, $html, $smiley, $xcodes, $cancomment, $comments, $notifypub, $this->db->quoteString($modulelink), $this->db->quoteString($contextpage), $exacturl, $partialview, $faqid);
+            $sql = sprintf('UPDATE %s SET categoryid = %u, question = %s, howdoi = %s, diduno = %s, uid = %u, datesub = %u, `status` = %u, counter = %u, weight = %u, html = %u, smiley = %u, xcodes = %u, cancomment = %u, comments = %u, notifypub = %u, modulelink = %s, contextpage = %s, exacturl = %u, partialview = %u  WHERE faqid = %u',
+                           $this->db->prefix('smartfaq_faq'), $categoryid, $this->db->quoteString($question), $this->db->quoteString($howdoi), $this->db->quoteString($diduno), $uid, $datesub, $status,
+                           $counter, $weight, $html, $smiley, $xcodes, $cancomment, $comments, $notifypub, $this->db->quoteString($modulelink), $this->db->quoteString($contextpage), $exacturl,
+                           $partialview, $faqid);
         }
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -815,7 +831,7 @@ class sfFaqHandler extends XoopsObjectHandler
 
         $sql = sprintf('DELETE FROM %s WHERE faqid = %u', $this->db->prefix('smartfaq_faq'), $faq->getVar('faqid'));
 
-        if (false != $force) {
+        if (false !== $force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -835,7 +851,7 @@ class sfFaqHandler extends XoopsObjectHandler
      * @param  object $criteria  {@link CriteriaElement} conditions to be met
      * @param  bool   $id_as_key use the faqid as key for the array?
      * @param  string $notNullFields
-     * @return array  array of <a href='psi_element://sfFaq'>sfFaq</a> objects
+     * @return false|array  array of <a href='psi_element://sfFaq'>sfFaq</a> objects
      */
     public function &getObjects($criteria = null, $id_as_key = false, $notNullFields = '')
     {
@@ -863,7 +879,7 @@ class sfFaqHandler extends XoopsObjectHandler
             $sql .= $sql .= ' WHERE ' . $this->NotNullFieldClause($notNullFields);
         }
 
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
         $result = $this->db->query($sql, $limit, $start);
         if (!$result) {
             return false;
@@ -942,7 +958,7 @@ class sfFaqHandler extends XoopsObjectHandler
             $sql .= $sql .= ' WHERE ' . $this->NotNullFieldClause($notNullFields);
         }
 
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
         $result = $this->db->query($sql, $limit, $start);
         if (!$result) {
             return false;
@@ -1004,7 +1020,7 @@ class sfFaqHandler extends XoopsObjectHandler
             $sql .= ' WHERE ' . $this->NotNullFieldClause($notNullFields);
         }
 
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
         $result = $this->db->query($sql);
         if (!$result) {
             return 0;
@@ -1107,8 +1123,14 @@ class sfFaqHandler extends XoopsObjectHandler
      * @param  bool   $asobject
      * @return array
      */
-    public function getAllPublished($limit = 0, $start = 0, $categoryid = -1, $sort = 'datesub', $order = 'DESC', $asobject = true)
-    {
+    public function getAllPublished(
+        $limit = 0,
+        $start = 0,
+        $categoryid = -1,
+        $sort = 'datesub',
+        $order = 'DESC',
+        $asobject = true
+    ) {
         return $this->getFaqs($limit, $start, array(_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER), $categoryid, $sort, $order, null, $asobject, null);
     }
 
@@ -1124,8 +1146,17 @@ class sfFaqHandler extends XoopsObjectHandler
      * @param  null   $otherCriteria
      * @return array
      */
-    public function getFaqs($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $notNullFields = '', $asobject = true, $otherCriteria = null)
-    {
+    public function getFaqs(
+        $limit = 0,
+        $start = 0,
+        $status = '',
+        $categoryid = -1,
+        $sort = 'datesub',
+        $order = 'DESC',
+        $notNullFields = '',
+        $asobject = true,
+        $otherCriteria = null
+    ) {
         global $xoopsUser;
         include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
@@ -1211,8 +1242,16 @@ class sfFaqHandler extends XoopsObjectHandler
      * @param  null   $otherCriteria
      * @return array|bool
      */
-    public function getFaqsAdminSide($limit = 0, $start = 0, $status = '', $categoryid = -1, $sort = 'datesub', $order = 'DESC', $asobject = true, $otherCriteria = null)
-    {
+    public function getFaqsAdminSide(
+        $limit = 0,
+        $start = 0,
+        $status = '',
+        $categoryid = -1,
+        $sort = 'datesub',
+        $order = 'DESC',
+        $asobject = true,
+        $otherCriteria = null
+    ) {
         include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $smartModule = sf_getModuleInfo();
@@ -1373,7 +1412,7 @@ class sfFaqHandler extends XoopsObjectHandler
             $faqclause        = ' AND faqid IN (' . implode(',', $items) . ')';
         }
 
-        $sql  = "CREATE TEMPORARY TABLE tmp (categoryid INT(8) UNSIGNED NOT NULL,datesub int(11) DEFAULT '0' NOT NULL);";
+        $sql  = "CREATE TEMPORARY TABLE tmp (categoryid INT(8) UNSIGNED NOT NULL,datesub INT(11) DEFAULT '0' NOT NULL);";
         $sql2 = ' LOCK TABLES ' . $this->db->prefix('smartfaq_faq') . ' READ;';
         $sql3 = ' INSERT INTO tmp SELECT categoryid, MAX(datesub) FROM ' . $this->db->prefix('smartfaq_faq') . ' WHERE status IN (' . implode(',', $status) . ") $faqclause GROUP BY categoryid;";
         $sql4 = ' SELECT ' . $this->db->prefix('smartfaq_faq') . '.categoryid, faqid, question, uid, ' . $this->db->prefix('smartfaq_faq') . '.datesub FROM ' . $this->db->prefix('smartfaq_faq') . ', tmp
@@ -1578,7 +1617,11 @@ class sfFaqHandler extends XoopsObjectHandler
         $criteria->setSort('faq.datesub');
         $criteria->setOrder('DESC');
 
-        $sql = 'SELECT faq.faqid, faq.question, faq.datesub, faq.uid FROM ' . $this->db->prefix('smartfaq_faq') . ' as faq INNER JOIN ' . $this->db->prefix('smartfaq_answers') . ' as answer ON faq.faqid = answer.faqid';
+        $sql = 'SELECT faq.faqid, faq.question, faq.datesub, faq.uid FROM '
+               . $this->db->prefix('smartfaq_faq')
+               . ' AS faq INNER JOIN '
+               . $this->db->prefix('smartfaq_answers')
+               . ' AS answer ON faq.faqid = answer.faqid';
 
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
@@ -1593,7 +1636,7 @@ class sfFaqHandler extends XoopsObjectHandler
             }
         }
 
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
 
         $result = $this->db->query($sql, $limit, $start);
         if (!$result) {
@@ -1617,8 +1660,8 @@ class sfFaqHandler extends XoopsObjectHandler
     }
 
     /**
-     * @param int $cat_id
-     * @param     $status
+     * @param  int   $cat_id
+     * @param        $status
      * @return array
      */
     public function getCountsByCat($cat_id = 0, $status)
@@ -1643,7 +1686,7 @@ class sfFaqHandler extends XoopsObjectHandler
         }
         $sql .= ' GROUP BY categoryid';
 
-        //echo "<br />" . $sql . "<br />";
+        //echo "<br>" . $sql . "<br>";
 
         $result = $this->db->query($sql);
         if (!$result) {

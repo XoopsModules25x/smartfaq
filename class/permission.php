@@ -26,7 +26,7 @@ class SmartfaqPermissionHandler extends XoopsObjectHandler
         global $xoopsUser;
         static $permissions;
 
-        if (!isset($permissions[$type]) || ($id != null && !isset($permissions[$type][$id]))) {
+        if (!isset($permissions[$type]) || ($id !== null && !isset($permissions[$type][$id]))) {
             $smartModule = sf_getModuleInfo();
             //Get group permissions handler
             $gpermHandler = xoops_getHandler('groupperm');
@@ -51,6 +51,7 @@ class SmartfaqPermissionHandler extends XoopsObjectHandler
             $userpermissions    = $gpermHandler->getItemIds($gperm_name, $groups, $smartModule->getVar('mid'));
             $permissions[$type] = $userpermissions;
         }
+
         //Return the permission array
         return isset($permissions[$type]) ? $permissions[$type] : array();
     }

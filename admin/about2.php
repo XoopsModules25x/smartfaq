@@ -6,18 +6,19 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 $myts = MyTextSanitizer::getInstance();
 
 global $xoopsModule;
 
 xoops_cp_header();
 
+/** @var XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
-$versioninfo   =& $moduleHandler->get($xoopsModule->getVar('mid'));
+$versioninfo   = $moduleHandler->get($xoopsModule->getVar('mid'));
 
 /*  Centered heading
-echo "<br />";
+echo "<br>";
 echo "<table width='100%'>";
 echo "<tr>";
 echo "<td align = 'center'>";
@@ -39,7 +40,13 @@ echo "</table>";
 */
 // Left headings...
 echo "<img src='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/' . $versioninfo->getInfo('image') . "' alt='' hspace='0' vspace='0' align='left' style='margin-right: 10px;'/></a>";
-echo "<div style='margin-top: 10px; color: #33538e; margin-bottom: 4px; font-size: 18px; line-height: 18px; font-weight: bold; display: block;'>" . $versioninfo->getInfo('name') . ' version ' . $versioninfo->getInfo('version') . ' (' . $versioninfo->getInfo('status_version') . ')</div>';
+echo "<div style='margin-top: 10px; color: #33538e; margin-bottom: 4px; font-size: 18px; line-height: 18px; font-weight: bold; display: block;'>"
+     . $versioninfo->getInfo('name')
+     . ' version '
+     . $versioninfo->getInfo('version')
+     . ' ('
+     . $versioninfo->getInfo('status_version')
+     . ')</div>';
 if ($versioninfo->getInfo('author_realname') != '') {
     $author_name = $versioninfo->getInfo('author') . ' (' . $versioninfo->getInfo('author_realname') . ')';
 } else {
@@ -51,7 +58,7 @@ echo '</div>';
 echo "<div style = 'line-height: 16px; display: block;'>" . $versioninfo->getInfo('license') . "</div>\n";
 
 // Developers Information
-echo "<br /><table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
+echo "<br><table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
 echo '<tr>';
 echo "<td colspan='2' class='bg3' align='left'><b>" . _MI_SF_AUTHOR_INFO . '</b></td>';
 echo '</tr>';
@@ -82,7 +89,7 @@ if ($versioninfo->getInfo('developer_email') != '') {
 }
 
 echo '</table>';
-echo "<br />\n";
+echo "<br>\n";
 // Module Developpment information
 echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
 echo '<tr>';
@@ -133,7 +140,7 @@ if ($versioninfo->getInfo('submit_feature') != '') {
 echo '</table>';
 // Warning
 if ($versioninfo->getInfo('warning') != '') {
-    echo "<br />\n";
+    echo "<br>\n";
     echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
     echo '<tr>';
     echo "<td class='bg3' align='left'><b>" . _MI_SF_MODULE_DISCLAIMER . '</b></td>';
@@ -147,7 +154,7 @@ if ($versioninfo->getInfo('warning') != '') {
 }
 // Author's note
 if ($versioninfo->getInfo('author_word') != '') {
-    echo "<br />\n";
+    echo "<br>\n";
     echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
     echo '<tr>';
     echo "<td class='bg3' align='left'><b>" . _MI_SF_AUTHOR_WORD . '</b></td>';
@@ -162,7 +169,7 @@ if ($versioninfo->getInfo('author_word') != '') {
 
 // Version History
 if ($versioninfo->getInfo('version_history') != '') {
-    echo "<br />\n";
+    echo "<br>\n";
     echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
     echo '<tr>';
     echo "<td class='bg3' align='left'><b>" . _MI_SF_VERSION_HISTORY . '</b></td>';
@@ -175,8 +182,8 @@ if ($versioninfo->getInfo('version_history') != '') {
     echo '</table>';
 }
 
-echo '<br />';
+echo '<br>';
 //$modfooter = sf_modFooter();
 //echo "<div align='center'>" . $modfooter . "</div>";
 //xoops_cp_footer();
-include_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

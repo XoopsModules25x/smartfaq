@@ -7,7 +7,7 @@
  */
 
 include_once __DIR__ . '/header.php';
-include_once(XOOPS_ROOT_PATH . '/header.php');
+include_once XOOPS_ROOT_PATH . '/header.php';
 
 global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
 
@@ -27,7 +27,11 @@ if ($totalCategories == 0) {
 // Find if the user is admin of the module
 $isAdmin = sf_userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
-if (!($isAdmin || (isset($xoopsModuleConfig['allowrequest']) && $xoopsModuleConfig['allowrequest'] == 1 && (is_object($xoopsUser) || (isset($xoopsModuleConfig['anonpost']) && $xoopsModuleConfig['anonpost'] == 1))))) {
+if (!($isAdmin
+      || (isset($xoopsModuleConfig['allowrequest'])
+          && $xoopsModuleConfig['allowrequest'] == 1
+          && (is_object($xoopsUser) || (isset($xoopsModuleConfig['anonpost']) && $xoopsModuleConfig['anonpost'] == 1))))
+) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -107,8 +111,8 @@ switch ($op) {
 
         global $xoopsUser, $myts;
 
-        $xoopsOption['template_main'] = 'smartfaq_submit.tpl';
-        include_once(XOOPS_ROOT_PATH . '/header.php');
+        $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
+        include_once XOOPS_ROOT_PATH . '/header.php';
         include_once __DIR__ . '/footer.php';
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
@@ -120,13 +124,13 @@ switch ($op) {
         $xoopsTpl->assign('lang_intro_title', _MD_SF_REQUEST);
         $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . $myts->displayTarea($xoopsModuleConfig['requestintromsg']));
 
-        include_once 'include/request.inc.php';
+        include_once __DIR__ . '/include/request.inc.php';
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
         $sectionname = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
 
-        include_once 'include/request.inc.php';
+        include_once __DIR__ . '/include/request.inc.php';
 
         include_once XOOPS_ROOT_PATH . '/footer.php';
 

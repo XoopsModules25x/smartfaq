@@ -30,12 +30,12 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
     }
 
     /**
-     * @param      $text
-     * @param  int $html
-     * @param  int $smiley
-     * @param  int $xcode
-     * @param  int $image
-     * @param  int $br
+     * @param        $text
+     * @param  int   $html
+     * @param  int   $smiley
+     * @param  int   $xcode
+     * @param  int   $image
+     * @param  int   $br
      * @return mixed
      */
     function &sf_displayTarea(&$text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1)
@@ -147,10 +147,10 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
         }
 
         if (!class_exists('NewbbIconHandler')) {
-            require_once dirname(__DIR__) . '/class/icon.php';
+            require_once __DIR__ . '/../class/icon.php';
         }
 
-        $iconHandler           = NewbbIconHandler::instance();
+        $iconHandler           = NewbbIconHandler::getInstance();
         $iconHandler->template = $xoTheme->template;
         $iconHandler->init($xoopsConfig['language']);
 

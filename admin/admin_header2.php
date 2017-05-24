@@ -6,8 +6,8 @@
  * Licence: GNU
  */
 
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+include_once __DIR__ . '/../../../mainfile.php';
+include_once __DIR__ . '/../../../include/cp_header.php';
 include_once XOOPS_ROOT_PATH . '/kernel/module.php';
 include_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
 include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';

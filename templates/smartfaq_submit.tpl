@@ -1,18 +1,18 @@
 <!-- Thank you for keeping this line in the template :-) //-->
-<div style="font-size: 0px;"><{$ref_smartfaq}></div>
+<div style="font-size: 0;"><{$ref_smartfaq}></div>
 
 <div class="sf_headertable">
     <span class="sf_modulename"><a href="<{$xoops_url}>/modules/<{$modulename}>/index.php"><{$whereInSection}></a></span><span class="sf_breadcrumb"> > <{$lang_submit}></span>
 </div>
 
 <{if $op == 'preview'}>
-    <br/>
+    <br>
     <{include file="db:smartfaq_singlefaq.tpl" faq=$faq}>
 <{/if}>
 
 <div class="sf_infotitle"><{$lang_intro_title}></div>
 <div class="sf_infotext"><{$lang_intro_text}></div>
-<br/>
+<br>
 <{$form.javascript}>
 <form name="<{$form.name}>" action="<{$form.action}>" method="<{$form.method}>" <{$form.extra}>>
     <table class="outer" cellspacing="1">

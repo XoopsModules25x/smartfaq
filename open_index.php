@@ -40,9 +40,9 @@ if ($totalCategoriesOnPage == 0) {
     redirect_header('javascript:history.go(-1)', 2, _AM_SF_NO_CAT_EXISTS);
 }
 
-$xoopsOption['template_main'] = 'smartfaq_index.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_index.tpl';
 
-include_once(XOOPS_ROOT_PATH . '/header.php');
+include_once XOOPS_ROOT_PATH . '/header.php';
 include_once __DIR__ . '/footer.php';
 
 //get all categories for future reference
@@ -69,7 +69,7 @@ foreach ($categoriesObj as $cat_id => $category) {
                 }
                 $subcat->setVar('faqcount', $totalQnas[$subcat_id]);
                 $categories[$cat_id]['subcats'][$subcat_id] = $subcat->toArray(null, true);
-                $total += $totalQnas[$subcat_id];
+                $total                                      += $totalQnas[$subcat_id];
             }
         }
     }
@@ -115,7 +115,14 @@ if ($displaylastfaqs) {
 }
 // Language constants
 $moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
-$xoopsTpl->assign(array('lang_on' => _MD_SF_ON, 'lang_postedby' => _MD_SF_POSTEDBY, 'lang_total' => $totalQnasOnPage, 'lang_faq' => _MD_SF_FAQ, 'lang_datesub' => _MD_SF_DATESUB, 'lang_hits' => _MD_SF_HITS));
+$xoopsTpl->assign(array(
+                      'lang_on'       => _MD_SF_ON,
+                      'lang_postedby' => _MD_SF_POSTEDBY,
+                      'lang_total'    => $totalQnasOnPage,
+                      'lang_faq'      => _MD_SF_FAQ,
+                      'lang_datesub'  => _MD_SF_DATESUB,
+                      'lang_hits'     => _MD_SF_HITS
+                  ));
 
 $moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
 $xoopsTpl->assign('lang_mainhead', sprintf(_MD_SF_OPEN_WELCOME, $xoopsConfig['sitename']));
@@ -162,4 +169,4 @@ $module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
 $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category->getVar('name'));
 // End Page Title Hack by marcan
 
-include_once(XOOPS_ROOT_PATH . '/footer.php');
+include_once XOOPS_ROOT_PATH . '/footer.php';

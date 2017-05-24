@@ -6,35 +6,33 @@
  * Licence: GNU
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+$moduleDirName = basename(__DIR__);
 
-$modversion['name']        = _MI_SF_MD_NAME;
-$modversion['version']     = 1.12;
-$modversion['description'] = _MI_SF_MD_DESC;
-$modversion['author']      = 'The SmartFactory | Xuups';
-$modversion['credits']     = 'w4z004, hsalazar, Carnuke, Mariuss, Mithrandir, phppp, Predator, GIJOE, outch, rowdie, Xvitry, Xavier & Catzwolf, trabis';
-$modversion['help']        = 'page=help';
-$modversion['license']     = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html';
-$modversion['official']    = 1; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
-$modversion['image']       = 'assets/images/logo_module.png';
-$modversion['dirname']     = basename(__DIR__);
-
-$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
-$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
-//about
-$modversion['module_status']       = 'RC 1';
-$modversion['release_date']        = '2016/03/28';
+$modversion['version']       = 1.12;
+$modversion['module_status'] = 'RC 2';
+$modversion['release_date']  = '2017/02/25';
+$modversion['name']          = _MI_SF_MD_NAME;
+$modversion['description']   = _MI_SF_MD_DESC;
+$modversion['author']        = 'The SmartFactory | Xuups';
+$modversion['credits']       = 'w4z004, hsalazar, Carnuke, Mariuss, Mithrandir, phppp, Predator, GIJOE, outch, rowdie, Xvitry, Xavier & Catzwolf, trabis';
+$modversion['help']          = 'page=help';
+$modversion['license']       = 'GNU GPL 2.0 or later';
+$modversion['license_url']   = 'www.gnu.org/licenses/gpl-2.0.html';
+$modversion['official']      = 1; //1 indicates supported by XOOPS Dev Team, 0 means 3rd party supported
+$modversion['image']         = 'assets/images/logoModule.png';
+$modversion['dirname']       = basename(__DIR__);
+//$modversion['dirmoduleadmin']      = '/Frameworks/moduleclasses/moduleadmin';
+//$modversion['icons16']             = '../../Frameworks/moduleclasses/icons/16';
+//$modversion['icons32']             = '../../Frameworks/moduleclasses/icons/32';
+$modversion['modicons16']          = 'assets/images/icons/16';
+$modversion['modicons32']          = 'assets/images/icons/32';
 $modversion['release_file']        = XOOPS_URL . '/modules/' . $modversion['dirname'] . '/docs/changelog.txt';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
 $modversion['min_xoops']           = '2.5.8';
-$modversion['min_admin']           = '1.1';
-$modversion['min_db']              = array(
-    'mysql'  => '5.0.7',
-    'mysqli' => '5.0.7'
-);
+$modversion['min_admin']           = '1.2';
+$modversion['min_db']              = array('mysql' => '5.1');
 
 // Added by marcan for the About page in admin section
 $modversion['developer_lead']         = 'marcan [Marc-André Lanciault]';
@@ -42,9 +40,9 @@ $modversion['developer_contributor']  = 'w4z004, hsalazar, Carnuke, Mariuss, Mit
 $modversion['developer_website_url']  = 'http://www.xuups.com';
 $modversion['developer_website_name'] = 'Xuups';
 $modversion['developer_email']        = 'lusopoemas@gmail.com';
-$modversion['status_version']         = 'Final';
-$modversion['status']                 = 'Final';
-$modversion['date']                   = '2010-09-20';
+$modversion['status_version']         = 'RC 2';
+$modversion['status']                 = 'RC 2';
+$modversion['date']                   = '2017-02-25';
 
 $modversion['warning'] = _MI_SF_WARNING_FINAL;
 
@@ -56,35 +54,35 @@ $modversion['submit_bug']        = 'http://www.xuups.com/modules/xhelp';
 $modversion['submit_feature']    = 'http://www.xuups.com/modules/xhelp';
 
 $modversion['author_word'] = "
-<B>SmartFAQ</B> is the result of multiple ideas from multiple people and a work of outstanding
+<b>SmartFAQ</b> is the result of multiple ideas from multiple people and a work of outstanding
 collaboration. It all began with Herko talking to me about a 'contextual help system' for XOOPS,
 inspired by the one on the Developers Forge. I found that idea more than brilliant, so I decided
 to start coding the thing !
-<BR><BR>As I was new in the developers world, I had to look for quality ideas that had already been
+<br><br>As I was new in the developers world, I had to look for quality ideas that had already been
 established and represented the best in Xoops programming. I chose the Soapbox module by hsalazar
 (Horacio Salazar) which I had found absolutely amazing ! So, many thanks to Horacio, as his work offered
 considerable inspiration. I would also like to thank him for helping me establish the workflow of
 the SmartFAQ module, as well as for helping me in all the development process.
-<BR><BR>When about half the coding was done, I met a special Xoopser who would become an important
+<br><br>When about half the coding was done, I met a special Xoopser who would become an important
 player in this project : w4z004 (Sergio Kohl). Many thanks to you w4z004, as you multiplied many
 times the possibilities and potential of this module. By testing it over and over again, by
 submitting the code to be checked by security experts and other advanced developers, by suggesting
 more features, by encouraging me when things were not going the way I wanted and by doing a thousand
 other things for this project. Thank you, thank you, thank you !
-<BR><BR>Special thanks also to Mithrandir (Jan Pedersen) for all the 'little' answers to my 'little'
+<br><br>Special thanks also to Mithrandir (Jan Pedersen) for all the 'little' answers to my 'little'
 questions (lol). You made my life so much easier by helping me see things more clearly !
-<BR><BR>I would also like to thank Mariuss (Marius Scurtescu) for adapting <B>FAQ for New Xoopsers
-</B> for SmartFAQ, for developing the import scripts, for teaching me the CVS (lol) as well as for
+<br><br>I would also like to thank Mariuss (Marius Scurtescu) for adapting <b>FAQ for New Xoopsers
+</b> for SmartFAQ, for developing the import scripts, for teaching me the CVS (lol) as well as for
 suggesting a lot of interesting improvements along the way.
-<BR><BR>Another special thank-you to Carnuke (Richard Strauss) for writing such impressive
+<br><br>Another special thank-you to Carnuke (Richard Strauss) for writing such impressive
 documentation for this module. You have now set up a new quality standard for XOOPS module
 documentation. I'm confident that all the Xoopsers of the world are gratefull for this :-) !
-<BR><BR>Finally, thanks to all the people who made this module possible : Herko, phppp, Solo71,
+<br><br>Finally, thanks to all the people who made this module possible : Herko, phppp, Solo71,
 Yoyo2021, Christian, Hervé and so many others ! Also, a final thank to Zabou who has been
 really understanding during all the hours I spent behind my laptop developing SmartFAQ.
-<BR><BR>So I guess this is it, I could thank the Academy, my Mother and Father but that would be
+<br><br>So I guess this is it, I could thank the Academy, my Mother and Father but that would be
 pushing it I think ! (lol)
-<BR><BR>Enjoy <b>SmartFAQ</b> (by marcan)!
+<br><br>Enjoy <b>SmartFAQ</b> (by marcan)!
 ";
 
 // Admin things
@@ -92,14 +90,17 @@ $modversion['hasAdmin']    = 1;
 $modversion['system_menu'] = 1;
 $modversion['adminindex']  = 'admin/index.php';
 $modversion['adminmenu']   = 'admin/menu.php';
-// Sql file (must contain sql generated by phpMyAdmin or phpPgAdmin)
-// All tables should not have any prefix!
+
+// ------------------- Mysql ------------------- //
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
+
 // Tables created by sql file (without prefix!)
-$modversion['tables'][0] = 'smartfaq_categories';
-$modversion['tables'][1] = 'smartfaq_faq';
-$modversion['tables'][2] = 'smartfaq_answers';
-//$modversion['tables'][3] = "smartfaq_moderators";
+$modversion['tables'] = [
+    $moduleDirName . '_' . 'categories',
+    $moduleDirName . '_' . 'faq',
+    $moduleDirName . '_' . 'answers'
+];
+
 // Search
 $modversion['hasSearch']      = 1;
 $modversion['search']['file'] = 'include/search.inc.php';
@@ -109,6 +110,14 @@ $modversion['hasMain'] = 1;
 
 $modversion['onInstall'] = 'include/onupdate.inc.php';
 $modversion['onUpdate']  = 'include/onupdate.inc.php';
+
+// ------------------- Help files ------------------- //
+$modversion['helpsection'] = [
+    ['name' => _MI_SF_OVERVIEW, 'link' => 'page=help'],
+    ['name' => _MI_SF_DISCLAIMER, 'link' => 'page=disclaimer'],
+    ['name' => _MI_SF_LICENSE, 'link' => 'page=license'],
+    ['name' => _MI_SF_SUPPORT, 'link' => 'page=support'],
+];
 
 global $xoopsModule;
 
@@ -123,12 +132,22 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
     if ($smartModule = $xoopsModule) {
         $smartConfig = $xoopsModuleConfig;
         // Add the Submit new faq button
-        if ($isAdmin || (isset($smartConfig['allowsubmit']) && $smartConfig['allowsubmit'] == 1 && (is_object($xoopsUser) || (isset($smartConfig['anonpost']) && $smartConfig['anonpost'] == 1)))) {
+        if ($isAdmin
+            || (isset($smartConfig['allowsubmit']) && $smartConfig['allowsubmit'] == 1
+                && (is_object($xoopsUser)
+                    || (isset($smartConfig['anonpost'])
+                        && $smartConfig['anonpost'] == 1)))
+        ) {
             $modversion['sub'][1]['name'] = _MI_SF_SUB_SMNAME1;
             $modversion['sub'][1]['url']  = 'submit.php?op=add';
         }
         // Add the Request new faq
-        if ($isAdmin || (isset($smartConfig['allowrequest']) && $smartConfig['allowrequest'] == 1 && (is_object($xoopsUser) || (isset($smartConfig['anonpost']) && $smartConfig['anonpost'] == 1)))) {
+        if ($isAdmin
+            || (isset($smartConfig['allowrequest']) && $smartConfig['allowrequest'] == 1
+                && (is_object($xoopsUser)
+                    || (isset($smartConfig['anonpost'])
+                        && $smartConfig['anonpost'] == 1)))
+        ) {
             $modversion['sub'][2]['name'] = _MI_SF_SUB_SMNAME2;
             $modversion['sub'][2]['url']  = 'request.php?op=add';
         }
@@ -282,7 +301,10 @@ $modversion['config'][$i]['title']       = '_MI_SF_DISPLAYTYPE';
 $modversion['config'][$i]['description'] = '_MI_SF_DISPLAYTYPEDSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['options']     = array(_MI_SF_DISPLAYTYPE_SUMMARY => 'summary', _MI_SF_DISPLAYTYPE_FULL => 'full');
+$modversion['config'][$i]['options']     = array(
+    _MI_SF_DISPLAYTYPE_SUMMARY => 'summary',
+    _MI_SF_DISPLAYTYPE_FULL    => 'full'
+);
 $modversion['config'][$i]['default']     = 'full';
 ++$i;
 $modversion['config'][$i]['name']        = 'displaylastfaq';
@@ -403,7 +425,15 @@ $modversion['config'][$i]['description'] = '_MI_SF_CATPERPAGEDSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = 5;
-$modversion['config'][$i]['options']     = array('5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50);
+$modversion['config'][$i]['options']     = array(
+    '5'  => 5,
+    '10' => 10,
+    '15' => 15,
+    '20' => 20,
+    '25' => 25,
+    '30' => 30,
+    '50' => 50
+);
 ++$i;
 $modversion['config'][$i]['name']        = 'perpage';
 $modversion['config'][$i]['title']       = '_MI_SF_PERPAGE';
@@ -411,7 +441,15 @@ $modversion['config'][$i]['description'] = '_MI_SF_PERPAGEDSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = 5;
-$modversion['config'][$i]['options']     = array('5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50);
+$modversion['config'][$i]['options']     = array(
+    '5'  => 5,
+    '10' => 10,
+    '15' => 15,
+    '20' => 20,
+    '25' => 25,
+    '30' => 30,
+    '50' => 50
+);
 ++$i;
 $modversion['config'][$i]['name']        = 'indexperpage';
 $modversion['config'][$i]['title']       = '_MI_SF_PERPAGEINDEX';
@@ -419,7 +457,15 @@ $modversion['config'][$i]['description'] = '_MI_SF_PERPAGEINDEXDSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = 5;
-$modversion['config'][$i]['options']     = array('5' => 5, '10' => 10, '15' => 15, '20' => 20, '25' => 25, '30' => 30, '50' => 50);
+$modversion['config'][$i]['options']     = array(
+    '5'  => 5,
+    '10' => 10,
+    '15' => 15,
+    '20' => 20,
+    '25' => 25,
+    '30' => 30,
+    '50' => 50
+);
 ++$i;
 $modversion['config'][$i]['name']        = 'indexwelcomemsg';
 $modversion['config'][$i]['title']       = '_MI_SF_INDEXWELCOMEMSG';

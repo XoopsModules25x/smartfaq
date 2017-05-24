@@ -29,7 +29,12 @@ if ($totalCategories == 0) {
 // Find if the user is admin of the module
 $isAdmin = sf_userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
-if (!($isAdmin || (isset($xoopsModuleConfig['allowsubmit']) && $xoopsModuleConfig['allowsubmit'] == 1 && (is_object($xoopsUser) || (isset($xoopsModuleConfig['anonpost']) && $xoopsModuleConfig['anonpost'] == 1))))) {
+if (!($isAdmin
+      || (isset($xoopsModuleConfig['allowsubmit']) && $xoopsModuleConfig['allowsubmit'] == 1
+          && (is_object($xoopsUser)
+              || (isset($xoopsModuleConfig['anonpost'])
+                  && $xoopsModuleConfig['anonpost'] == 1))))
+) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -78,8 +83,8 @@ switch ($op) {
 
         global $xoopsUser, $myts;
 
-        $xoopsOption['template_main'] = 'smartfaq_submit.tpl';
-        include_once(XOOPS_ROOT_PATH . '/header.php');
+        $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
+        include_once XOOPS_ROOT_PATH . '/header.php';
         include_once __DIR__ . '/footer.php';
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
@@ -99,7 +104,7 @@ switch ($op) {
         $xoopsTpl->assign('lang_intro_title', sprintf(_MD_SF_SUB_SNEWNAME, ucwords($xoopsModule->name())));
         $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . _MD_SF_SUB_INTRO);
 
-        include_once 'include/submit.inc.php';
+        include_once __DIR__ . '/include/submit.inc.php';
 
         include_once XOOPS_ROOT_PATH . '/footer.php';
 
@@ -179,7 +184,9 @@ switch ($op) {
         }
         $error_upload = '';
 
-        if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name'] != '' && $topicHandler->getPermission($forum_obj, $topic_status, 'attach')) {
+        if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name'] != ''
+            && $topicHandler->getPermission($forum_obj, $topic_status, 'attach')
+        ) {
             require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/class/uploader.php';
             $maxfilesize = $forum_obj->getVar('attach_maxkb') * 1024;
             $uploaddir   = XOOPS_CACHE_PATH;
@@ -205,7 +212,7 @@ switch ($op) {
                     $prefix = is_object($xoopsUser) ? (string)$xoopsUser->uid() . '_' : 'newbb_';
                     $uploader->setPrefix($prefix);
                     if (!$uploader->upload()) {
-                        $error_message[] = $error_upload = $uploader->getErrors();
+                        $error_message[] = $error_upload =& $uploader->getErrors();
                     } else {
                         if (is_file($uploader->getSavedDestination())) {
                             if (rename(XOOPS_CACHE_PATH . '/' . $uploader->getSavedFileName(), XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $uploader->getSavedFileName())) {
@@ -214,7 +221,7 @@ switch ($op) {
                         }
                     }
                 } else {
-                    $error_message[] = $error_upload = $uploader->getErrors();
+                    $error_message[] = $error_upload =& $uploader->getErrors();
                 }
             }
         }
@@ -227,7 +234,7 @@ switch ($op) {
         }
 
         // Get the cateopry object related to that FAQ
-        $categoryObj =& $newFaqObj->category();
+        $categoryObj = $newFaqObj->category();
 
         // If autoapprove_submitted_faq
         if ($isAdmin) {
@@ -269,8 +276,8 @@ switch ($op) {
         $answerObj   = $answerHandler->create();
         $categoryObj = $categoryHandler->create();
 
-        $xoopsOption['template_main'] = 'smartfaq_submit.html';
-        include_once(XOOPS_ROOT_PATH . '/header.php');
+        $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.html';
+        include_once XOOPS_ROOT_PATH . '/header.php';
         include_once __DIR__ . '/footer.php';
 
         $name       = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
@@ -282,7 +289,7 @@ switch ($op) {
         $xoopsTpl->assign('lang_intro_title', sprintf(_MD_SF_SUB_SNEWNAME, ucwords($xoopsModule->name())));
         $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . _MD_SF_SUB_INTRO);
 
-        include_once 'include/submit.inc.php';
+        include_once __DIR__ . '/include/submit.inc.php';
 
         include_once XOOPS_ROOT_PATH . '/footer.php';
         break;

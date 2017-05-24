@@ -12,7 +12,7 @@ global $_POST;
 include_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
 include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-//include_once 'functions.php';
+//include_once __DIR__ . '/functions.php';
 
 $mytree = new XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
 //$form = new XoopsThemeForm(_MD_SF_SUBMITANSWER, "form", xoops_getenv('PHP_SELF'));
@@ -22,7 +22,7 @@ $form->addElement(new XoopsFormLabel(_MD_SF_QUESTION, $faqObj->question()), fals
 // ANSWER
 //$form->addElement(new XoopsFormDhtmlTextArea(_MD_SF_ANSWER_FAQ, 'answer', '', 15, 60), true);
 
-$editorTray = new XoopsFormElementTray(_MD_SF_ANSWER_FAQ, '<br />');
+$editorTray = new XoopsFormElementTray(_MD_SF_ANSWER_FAQ, '<br>');
 if (class_exists('XoopsFormEditor')) {
     $options['name']   = 'answer';
     $options['value']  = '';
