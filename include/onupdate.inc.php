@@ -13,7 +13,7 @@ function xoops_module_update_smartfaq($module)
     if (!file_exists($smartdbupdater)) {
         $smartdbupdater = XOOPS_ROOT_PATH . '/modules/smartfaq/class/smartdbupdater.php';
     }
-    include_once $smartdbupdater;
+    require_once $smartdbupdater;
 
     $dbupdater = new SmartobjectDbupdater();
 
@@ -70,7 +70,7 @@ function xoops_module_update_smartfaq($module)
     /**
      * Check for items with categoryid=0
      */
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     $smartfaq_faqHandler      = $answerHandler = sf_gethandler('faq');
     $smartfaq_categoryHandler = $answerHandler = sf_gethandler('category');
 
@@ -104,7 +104,7 @@ function xoops_module_install_smartfaq($module)
 {
     ob_start();
 
-    include_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/include/functions.php';
+    require_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/include/functions.php';
 
     $feedback = ob_get_clean();
     if (method_exists($module, 'setMessage')) {

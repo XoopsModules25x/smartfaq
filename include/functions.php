@@ -7,9 +7,9 @@
  */
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-include_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
-include_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/faq.php';
-include_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/answer.php';
+require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
+require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/faq.php';
+require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/answer.php';
 
 /**
  * @return mixed|null
@@ -17,9 +17,9 @@ include_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/answer.php';
 function sf_getModuleInfo()
 {
     static $smartModule;
-    if (!isset($smartModule)) {
+    if (null === ($smartModule)) {
         global $xoopsModule;
-        if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') === 'smartfaq') {
+        if (null !== ($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') === 'smartfaq') {
             $smartModule = $xoopsModule;
         } else {
             $hModule     = xoops_getHandler('module');
@@ -38,7 +38,7 @@ function sf_getModuleConfig()
     static $smartConfig;
     if (!$smartConfig) {
         global $xoopsModule;
-        if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') === 'smartfaq') {
+        if (null !== ($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') === 'smartfaq') {
             global $xoopsModuleConfig;
             $smartConfig = $xoopsModuleConfig;
         } else {
@@ -88,9 +88,9 @@ function sf_formatErrors($errors = array())
 
 /**
  * @param  XoopsObject $categoryObj
- * @param  int    $selectedid
- * @param  int    $level
- * @param  string $ret
+ * @param  int         $selectedid
+ * @param  int         $level
+ * @param  string      $ret
  * @return string
  */
 function sf_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = '')
@@ -201,15 +201,7 @@ function sf_modFooter()
 
     $modfootertxt = 'Module ' . $smartModule->getInfo('name') . ' - Version ' . $smartModule->getInfo('version') . '';
 
-    $modfooter = "<a href='"
-                 . $smartModule->getInfo('support_site_url')
-                 . "' target='_blank'><img src='"
-                 . XOOPS_URL
-                 . "/modules/smartfaq/assets/images/sfcssbutton.gif' title='"
-                 . $modfootertxt
-                 . "' alt='"
-                 . $modfootertxt
-                 . "'/></a>";
+    $modfooter = "<a href='" . $smartModule->getInfo('support_site_url') . "' target='_blank'><img src='" . XOOPS_URL . "/modules/smartfaq/assets/images/sfcssbutton.gif' title='" . $modfootertxt . "' alt='" . $modfootertxt . "'></a>";
 
     return $modfooter;
 }
@@ -306,7 +298,7 @@ function sf_overrideFaqsPermissions($groups, $categoryid)
     $gpermHandler = xoops_getHandler('groupperm');
 
     $sql    = 'SELECT faqid FROM ' . $xoopsDB->prefix('smartfaq_faq') . " WHERE categoryid = '$categoryid' ";
-    $result = $xoopsDB->query($sql);
+    $result = $xoopsDB->queryF($sql);
 
     if (count($result) > 0) {
         while (list($faqid) = $xoopsDB->fetchrow($result)) {
@@ -420,7 +412,7 @@ function sf_retrieveFaqByID($faqid = 0)
     $ret = array();
     global $xoopsDB;
 
-    $result = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('smartfaq_faq') . " WHERE faqid = '$faqid'");
+    $result = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('smartfaq_faq') . " WHERE faqid = '$faqid'");
     $ret    = $xoopsDB->fetcharray($result);
 
     return $ret;
@@ -443,71 +435,22 @@ function sf_getAdminLinks($faqid = 0, $open = false)
     $page       = $open ? 'question.php' : 'faq.php';
     if ($xoopsUser && $xoopsUser->isAdmin($xoopsModule->getVar('mid'))) {
         // Edit button
-        $adminLinks .= "<a href='"
-                       . $modulePath
-                       . "admin/$page?op=mod&amp;faqid="
-                       . $faqid
-                       . "'><img src='"
-                       . $modulePath
-                       . "assets/images/links/edit.gif'"
-                       . " title='"
-                       . _MD_SF_EDIT
-                       . "' alt='"
-                       . _MD_SF_EDIT
-                       . "'/></a>";
+        $adminLinks .= "<a href='" . $modulePath . "admin/$page?op=mod&amp;faqid=" . $faqid . "'><img src='" . $modulePath . "assets/images/links/edit.gif'" . " title='" . _MD_SF_EDIT . "' alt='" . _MD_SF_EDIT . "'></a>";
         $adminLinks .= ' ';
         // Delete button
-        $adminLinks .= "<a href='"
-                       . $modulePath
-                       . "admin/$page?op=del&amp;faqid="
-                       . $faqid
-                       . "'><img src='"
-                       . $modulePath
-                       . "assets/images/links/delete.gif'"
-                       . " title='"
-                       . _MD_SF_DELETE
-                       . "' alt='"
-                       . _MD_SF_DELETE
-                       . "'/></a>";
+        $adminLinks .= "<a href='" . $modulePath . "admin/$page?op=del&amp;faqid=" . $faqid . "'><img src='" . $modulePath . "assets/images/links/delete.gif'" . " title='" . _MD_SF_DELETE . "' alt='" . _MD_SF_DELETE . "'></a>";
         $adminLinks .= ' ';
     }
     // Print button
-    $adminLinks .= "<a href='"
-                   . $modulePath
-                   . 'print.php?faqid='
-                   . $faqid
-                   . "'><img src='"
-                   . $modulePath
-                   . "assets/images/links/print.gif' title='"
-                   . _MD_SF_PRINT
-                   . "' alt='"
-                   . _MD_SF_PRINT
-                   . "'/></a>";
+    $adminLinks .= "<a href='" . $modulePath . 'print.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/print.gif' title='" . _MD_SF_PRINT . "' alt='" . _MD_SF_PRINT . "'></a>";
     $adminLinks .= ' ';
     // Email button
-    $maillink   = 'mailto:?subject='
-                  . sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename'])
-                  . '&amp;body='
-                  . sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename'])
-                  . ':  '
-                  . $modulePath
-                  . 'faq.php?faqid='
-                  . $faqid;
-    $adminLinks .= '<a href="' . $maillink . "\"><img src='" . $modulePath . "assets/images/links/friend.gif' title='" . _MD_SF_MAIL . "' alt='" . _MD_SF_MAIL . "'/></a>";
+    $maillink   = 'mailto:?subject=' . sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename']) . '&amp;body=' . sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename']) . ':  ' . $modulePath . 'faq.php?faqid=' . $faqid;
+    $adminLinks .= '<a href="' . $maillink . "\"><img src='" . $modulePath . "assets/images/links/friend.gif' title='" . _MD_SF_MAIL . "' alt='" . _MD_SF_MAIL . "'></a>";
     $adminLinks .= ' ';
     // Submit New Answer button
     if ($xoopsModuleConfig['allownewanswer'] && (is_object($xoopsUser) || $xoopsModuleConfig['anonpost'])) {
-        $adminLinks .= "<a href='"
-                       . $modulePath
-                       . 'answer.php?faqid='
-                       . $faqid
-                       . "'><img src='"
-                       . $modulePath
-                       . "assets/images/links/newanswer.gif' title='"
-                       . _MD_SF_SUBMITANSWER
-                       . "' alt='"
-                       . _MD_SF_SUBMITANSWER
-                       . "'/></a>";
+        $adminLinks .= "<a href='" . $modulePath . 'answer.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/newanswer.gif' title='" . _MD_SF_SUBMITANSWER . "' alt='" . _MD_SF_SUBMITANSWER . "'></a>";
         $adminLinks .= ' ';
     }
 
@@ -577,7 +520,8 @@ function sf_getxoopslink($url = '')
         }
         $xurl = str_replace('{SITE_URL}', XOOPS_URL, $xurl);
     }
-    $xurl = $url;
+
+    //    $xurl = $url;
 
     return $xurl;
 }

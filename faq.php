@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
 
@@ -40,13 +40,12 @@ if ($faqAccessGrantedResult < 0) {
 // Update the read counter of the selected FAQ
 if (!$xoopsUser || ($xoopsUser->isAdmin($xoopsModule->mid()) && $xoopsModuleConfig['adminhits'] == 1)
     || ($xoopsUser
-        && !$xoopsUser->isAdmin($xoopsModule->mid()))
-) {
+        && !$xoopsUser->isAdmin($xoopsModule->mid()))) {
     $faqObj->updateCounter();
 }
 $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_faq.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
-include_once __DIR__ . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require_once __DIR__ . '/footer.php';
 
 $faq = $faqObj->toArray(null, $categoryObj, false);
 
@@ -81,16 +80,7 @@ $xoopsTpl->assign('faq', $faq);
 $xoopsTpl->assign('display_categoryname', false);
 
 $xoopsTpl->assign('xcodes', $faqObj->getVar('xcodes'));
-$xoopsTpl->assign('mail_link', 'mailto:?subject='
-                               . sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename'])
-                               . '&amp;body='
-                               . sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename'])
-                               . ':  '
-                               . XOOPS_URL
-                               . '/modules/'
-                               . $xoopsModule->dirname()
-                               . '/faq.php?faqid='
-                               . $faqObj->getVar('faqid'));
+$xoopsTpl->assign('mail_link', 'mailto:?subject=' . sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename']) . '&amp;body=' . sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename']) . ':  ' . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/faq.php?faqid=' . $faqObj->getVar('faqid'));
 $xoopsTpl->assign('lang_printerpage', _MD_SF_PRINTERFRIENDLY);
 $xoopsTpl->assign('lang_sendstory', _MD_SF_SENDSTORY);
 $xoopsTpl->assign('faqid', $faqObj->getVar('faqid'));
@@ -111,14 +101,14 @@ $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $categoryObj->name()
 
 // Include the comments if the selected FAQ supports comments
 if ($faqObj->cancomment() == 1) {
-    include_once XOOPS_ROOT_PATH . '/include/comment_view.php';
+    require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 }
 
 //code to include smartie
 if (file_exists(XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php')) {
-    include_once XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php';
     $xoopsTpl->assign('smarttie', 1);
 }
 //end code for smarttie
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

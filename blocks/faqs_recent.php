@@ -11,7 +11,7 @@
 
 function b_faqs_recent_show($options)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     $myts = MyTextSanitizer::getInstance();
 
     $smartModule       = sf_getModuleInfo();
@@ -86,7 +86,7 @@ function b_faqs_recent_show($options)
  */
 function b_faqs_recent_edit($options)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $form = sf_createCategorySelect($options[0]);
 
@@ -112,8 +112,8 @@ function b_faqs_recent_edit($options)
 
     $form .= "</select>\n";
 
-    $form .= '&nbsp;' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "' />&nbsp;" . _MB_SF_FAQS . '';
-    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[3] . "' />&nbsp;" . _MB_SF_LENGTH . '';
+    $form .= '&nbsp;' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "'>&nbsp;" . _MB_SF_FAQS . '';
+    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[3] . "'>&nbsp;" . _MB_SF_LENGTH . '';
 
     return $form;
 }

@@ -15,7 +15,7 @@
 
 function smartfaq_search($queryarray, $andor, $limit, $offset, $userid)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $ret = array();
 

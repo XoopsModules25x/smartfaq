@@ -11,7 +11,7 @@
 
 function b_faqs_most_viewed_show($options)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = array();
     if ($options[0] == 0) {
@@ -48,12 +48,12 @@ function b_faqs_most_viewed_show($options)
 function b_faqs_most_viewed_edit($options)
 {
     global $xoopsDB, $xoopsModule, $xoopsUser;
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $form = sf_createCategorySelect($options[0]);
 
-    $form .= '&nbsp;<br>' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[1] . "' />&nbsp;" . _MB_SF_FAQS . '';
-    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "' />&nbsp;" . _MB_SF_LENGTH . '';
+    $form .= '&nbsp;<br>' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[1] . "'>&nbsp;" . _MB_SF_FAQS . '';
+    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "'>&nbsp;" . _MB_SF_LENGTH . '';
 
     return $form;
 }

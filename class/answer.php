@@ -196,10 +196,10 @@ class sfAnswer extends XoopsObject
         if (is_array($attachments) && count($attachments) > 0) {
             $iconHandler = sf_getIconHandler();
             $mime_path   = $iconHandler->getPath('mime');
-            include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/include/functions.image.php';
+            require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/include/functions.image.php';
             $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'bmp'); // need improve !!!
             $post_attachment  .= '<br><strong>' . _MD_ATTACHMENT . '</strong>:';
-            $post_attachment  .= '<br><hr size="1" noshade="noshade" /><br>';
+            $post_attachment  .= '<br><hr size="1" noshade="noshade"><br>';
             foreach ($attachments as $key => $att) {
                 $file_extension = ltrim(strrchr($att['name_saved'], '.'), '.');
                 $filetype       = $file_extension;
@@ -211,7 +211,7 @@ class sfAnswer extends XoopsObject
                 $file_size = @filesize(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $att['name_saved']);
                 $file_size = number_format($file_size / 1024, 2) . ' KB';
                 if ($xoopsModuleConfig['media_allowed'] && in_array(strtolower($file_extension), $image_extensions)) {
-                    $post_attachment .= '<br><img src="' . $icon_filetype . '" alt="' . $filetype . '" /><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>(' . $file_size . ')</small>';
+                    $post_attachment .= '<br><img src="' . $icon_filetype . '" alt="' . $filetype . '"><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>(' . $file_size . ')</small>';
                     $post_attachment .= '<br>' . sf_attachmentImage($att['name_saved']);
                     $isDisplayed     = true;
                 } else {
@@ -229,7 +229,7 @@ class sfAnswer extends XoopsObject
                                             . $icon_filetype
                                             . '" alt="'
                                             . $filetype
-                                            . '" /> '
+                                            . '"> '
                                             . $att['name_display']
                                             . '</a> '
                                             . _MD_FILESIZE
@@ -252,7 +252,7 @@ class sfAnswer extends XoopsObject
                                             . $icon_filetype
                                             . '" alt="'
                                             . $filetype
-                                            . '" /> '
+                                            . '"> '
                                             . $att['name_display']
                                             . '</a> '
                                             . _MD_FILESIZE
@@ -471,11 +471,9 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
         }
 
         if ($answerObj->isNew()) {
-            $sql = sprintf('INSERT INTO %s (answerid, `status`, faqid, answer, uid, datesub, notifypub) VALUES (NULL, %u, %u, %s, %u, %u, %u)', $this->db->prefix('smartfaq_answers'), $status, $faqid,
-                           $this->db->quoteString($answer), $uid, time(), $notifypub);
+            $sql = sprintf('INSERT INTO %s (answerid, `status`, faqid, answer, uid, datesub, notifypub) VALUES (NULL, %u, %u, %s, %u, %u, %u)', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, time(), $notifypub);
         } else {
-            $sql = sprintf('UPDATE %s SET STATUS = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid,
-                           $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
+            $sql = sprintf('UPDATE %s SET STATUS = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
         }
 
         if (false !== $force) {

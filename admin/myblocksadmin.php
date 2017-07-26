@@ -9,13 +9,13 @@
 // ------------------------------------------------------------------------- //
 //                            myblocksadmin.php                              //
 //                - XOOPS block admin for each modules -                     //
-//                          GIJOE <http://www.peak.ne.jp/>                   //
+//                          GIJOE <http://www.peak.ne.jp>                   //
 // ------------------------------------------------------------------------- //
 
-include_once __DIR__ . '/../../../include/cp_header.php';
-include_once __DIR__ . '/mygrouppermform.php';
-include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
-include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
+require_once __DIR__ . '/mygrouppermform.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php';
 
 $xoops_system_path = XOOPS_ROOT_PATH . '/modules/system';
 
@@ -27,10 +27,10 @@ if (!file_exists("$xoops_system_path/language/$language/admin/blocksadmin.php"))
 
 // to prevent from notice that constants already defined
 $error_reporting_level = error_reporting(0);
-include_once __DIR__ . '/../../system/constants.php';
-include_once __DIR__ . "/../../language/$language/admin.php";
-include_once __DIR__ . "/../../language/$language/admin/blocksadmin.php";
-include_once __DIR__ . '/../include/functions.php';
+require_once __DIR__ . '/../../system/constants.php';
+require_once __DIR__ . "/../../language/$language/admin.php";
+require_once __DIR__ . "/../../language/$language/admin/blocksadmin.php";
+require_once __DIR__ . '/../include/functions.php';
 error_reporting($error_reporting_level);
 
 $group_defs = file("$xoops_system_path/language/$language/admin/groups.php");
@@ -75,7 +75,7 @@ function list_blocks()
 
     // displaying TH
     sf_collapsableBar('toptable', 'toptableicon');
-    echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_BLOCKS . '</h3>';
+    echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_BLOCKS . '</h3>';
     echo "<div id='toptable'>";
     echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_BLOCKSTXT . '</span>';
 
@@ -167,29 +167,29 @@ function list_blocks()
             <td class='$class'>
                 $name
                 <br>
-                <input type='text' name='title[$bid]' value='$title' size='20' />
+                <input type='text' name='title[$bid]' value='$title' size='20'>
             </td>
             <td class='$class' align='center' nowrap='nowrap'>
                 <input type='radio' name='side[$bid]' value='"
              . XOOPS_SIDEBLOCK_LEFT
-             . "'$ssel0 />-<input type='radio' name='side[$bid]' value='"
+             . "'$ssel0>-<input type='radio' name='side[$bid]' value='"
              . XOOPS_CENTERBLOCK_LEFT
-             . "'$ssel2 /><input type='radio' name='side[$bid]' value='"
+             . "'$ssel2><input type='radio' name='side[$bid]' value='"
              . XOOPS_CENTERBLOCK_CENTER
-             . "'$ssel3 /><input type='radio' name='side[$bid]' value='"
+             . "'$ssel3><input type='radio' name='side[$bid]' value='"
              . XOOPS_CENTERBLOCK_RIGHT
-             . "'$ssel4 />-<input type='radio' name='side[$bid]' value='"
+             . "'$ssel4>-<input type='radio' name='side[$bid]' value='"
              . XOOPS_SIDEBLOCK_RIGHT
-             . "'$ssel1 />
+             . "'$ssel1>
                 <br>
                 <br>
-                <input type='radio' name='side[$bid]' value='-1'$sseln />
+                <input type='radio' name='side[$bid]' value='-1'$sseln>
                 "
              . _NONE
              . "
             </td>
             <td class='$class' align='center'>
-                <input type='text' name=weight[$bid] value='$weight' size='5' maxlength='5' style='text-align:right;' />
+                <input type='text' name=weight[$bid] value='$weight' size='5' maxlength='5' style='text-align:right;'>
             </td>
             <td class='$class' align='center'>
                 <select name='bmodule[$bid][]' size='5' multiple='multiple'>
@@ -205,7 +205,7 @@ function list_blocks()
                 <a href='admin.php?fct=blocksadmin&amp;op=edit&amp;bid=$bid'>"
              . _EDIT
              . "</a>
-                <input type='hidden' name='bid[$bid]' value='$bid' />
+                <input type='hidden' name='bid[$bid]' value='$bid'>
             </td>
         </tr>\n";
 
@@ -215,9 +215,9 @@ function list_blocks()
     echo "
         <tr>
             <td class='foot' align='center' colspan='6'>
-                <input type='hidden' name='fct' value='blocksadmin' />
-                <input type='hidden' name='op' value='order' />
-                <input type='submit' name='submit' value='" . _SUBMIT . "' />
+                <input type='hidden' name='fct' value='blocksadmin'>
+                <input type='hidden' name='op' value='order'>
+                <input type='submit' name='submit' value='" . _SUBMIT . "'>
             </td>
         </tr>
         </table>
@@ -240,7 +240,7 @@ function list_groups()
                                                           . XOOPS_URL
                                                           . '/modules/'
                                                           . $xoopsModule->dirname()
-                                                          . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;"
+                                                          . "/assets/images/icon/close12.gif alt=''></a>&nbsp;"
                                                           . _AM_SF_GROUPS
                                                           . "</h3><div id='bottomtable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
                                                           . _AM_SF_GROUPSINFO
@@ -256,7 +256,7 @@ function list_groups()
 
 if (!empty($_POST['submit'])) {
     include __DIR__ . '/mygroupperm.php';
-    include_once "$xoops_system_path/language/$language/admin.php";
+    require_once "$xoops_system_path/language/$language/admin.php";
     redirect_header(XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/admin/myblocksadmin.php', 1, _AM_DBUPDATED);
 }
 

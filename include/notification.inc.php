@@ -36,7 +36,7 @@ function smartfaq_notify_iteminfo($category, $item_id)
     if ($category === 'category') {
         // Assume we have a valid category id
         $sql          = 'SELECT name FROM ' . $xoopsDB->prefix('smartfaq_categories') . ' WHERE categoryid  = ' . $item_id;
-        $result       = $xoopsDB->query($sql); // TODO: error check
+        $result       = $xoopsDB->queryF($sql); // TODO: error check
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['name'];
         $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/category.php?categoryid=' . $item_id;
@@ -47,7 +47,7 @@ function smartfaq_notify_iteminfo($category, $item_id)
     if ($category === 'faq') {
         // Assume we have a valid story id
         $sql          = 'SELECT question FROM ' . $xoopsDB->prefix('smartfaq_faq') . ' WHERE faqid = ' . $item_id;
-        $result       = $xoopsDB->query($sql); // TODO: error check
+        $result       = $xoopsDB->queryF($sql); // TODO: error check
         $result_array = $xoopsDB->fetchArray($result);
         $item['name'] = $result_array['question'];
         $item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/faq.php?faqid=' . $item_id;

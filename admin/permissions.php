@@ -7,7 +7,7 @@
  */
 
 require_once __DIR__ . '/admin_header.php';
-include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
 if (!sf_userIsAdmin()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
@@ -28,7 +28,7 @@ switch ($op) {
     default:
         global $xoopsDB, $xoopsModule;
 
-        $adminObject  = \Xmf\Module\Admin::getInstance();
+        $adminObject = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
         $adminObject->displayNavigation(basename(__FILE__));
         // View Categories permissions
@@ -46,7 +46,7 @@ switch ($op) {
                                                                                                                     . XOOPS_URL
                                                                                                                     . '/modules/'
                                                                                                                     . $xoopsModule->dirname()
-                                                                                                                    . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;"
+                                                                                                                    . "/assets/images/icon/close12.gif alt=''></a>&nbsp;"
                                                                                                                     . _AM_SF_PERMISSIONSVIEWMAN
                                                                                                                     . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
                                                                                                                     . _AM_SF_VIEW_CATS
@@ -62,7 +62,7 @@ switch ($op) {
                  . XOOPS_URL
                  . '/modules/'
                  . $xoopsModule->dirname()
-                 . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;"
+                 . "/assets/images/icon/close12.gif alt=''></a>&nbsp;"
                  . _AM_SF_PERMISSIONSVIEWMAN
                  . "</h3><div id='toptable'><span style=\"color: #567; margin: 3px 0 0 0; font-size: small; display: block; \">"
                  . _AM_SF_NOPERMSSET

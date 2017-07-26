@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright      {@link http://xoops.org/ XOOPS Project}
+ * @copyright      {@link https://xoops.org/ XOOPS Project}
  * @license        {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
@@ -43,8 +43,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
 
         if ($xoopsModuleConfig['max_image_width'] > 0 && $xoopsModuleConfig['max_image_height'] > 0) {
             if ($imginfo[0] > $xoopsModuleConfig['max_image_width']
-                || $imginfo[1] > $xoopsModuleConfig['max_image_height']
-            ) {
+                || $imginfo[1] > $xoopsModuleConfig['max_image_height']) {
                 //if (!file_exists($thumb_path.'/'.$source) && $imginfo[0] > $xoopsModuleConfig['max_img_width']) {
                 if (!file_exists($thumb_path . '/' . $source)) {
                     sf_createThumbnail($source, $xoopsModuleConfig['max_image_width']);
@@ -52,16 +51,14 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
             }
 
             if ($imginfo[0] > $xoopsModuleConfig['max_image_width']
-                || $imginfo[1] > $xoopsModuleConfig['max_image_height']
-            ) {
+                || $imginfo[1] > $xoopsModuleConfig['max_image_height']) {
                 $pseudo_width  = $xoopsModuleConfig['max_image_width'];
                 $pseudo_height = $xoopsModuleConfig['max_image_width'] * ($imginfo[1] / $imginfo[0]);
                 $pseudo_size   = "width='" . $pseudo_width . "px' height='" . $pseudo_height . "px'";
             }
             // irmtfan to fix Undefined variable: pseudo_height
             if (!empty($pseudo_height) && $xoopsModuleConfig['max_image_height'] > 0
-                && $pseudo_height > $xoopsModuleConfig['max_image_height']
-            ) {
+                && $pseudo_height > $xoopsModuleConfig['max_image_height']) {
                 $pseudo_height = $xoopsModuleConfig['max_image_height'];
                 $pseudo_width  = $xoopsModuleConfig['max_image_height'] * ($imginfo[0] / $imginfo[1]);
                 $pseudo_size   = "width='" . $pseudo_width . "px' height='" . $pseudo_height . "px'";
@@ -70,14 +67,14 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
 
         if (file_exists($thumb)) {
             $attachmentImage = '<a href="' . $image_url . '" title="' . $source . ' ' . $img_info . '" target="_blank">';
-            $attachmentImage .= '<img src="' . $thumb_url . '" alt="' . $source . ' ' . $img_info . '" />';
+            $attachmentImage .= '<img src="' . $thumb_url . '" alt="' . $source . ' ' . $img_info . '">';
             $attachmentImage .= '</a>';
         } elseif (!empty($pseudo_size)) {
             $attachmentImage = '<a href="' . $image_url . '" title="' . $source . ' ' . $img_info . '" target="_blank">';
-            $attachmentImage .= '<img src="' . $image_url . '" ' . $pseudo_size . ' alt="' . $source . ' ' . $img_info . '" />';
+            $attachmentImage .= '<img src="' . $image_url . '" ' . $pseudo_size . ' alt="' . $source . ' ' . $img_info . '">';
             $attachmentImage .= '</a>';
         } elseif (file_exists($image)) {
-            $attachmentImage = '<img src="' . $image_url . '" alt="' . $source . ' ' . $img_info . '" />';
+            $attachmentImage = '<img src="' . $image_url . '" alt="' . $source . ' ' . $img_info . '">';
         } else {
             $attachmentImage = '';
         }

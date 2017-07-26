@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
 
@@ -33,8 +33,7 @@ if (!($isAdmin
       || (isset($xoopsModuleConfig['allowsubmit']) && $xoopsModuleConfig['allowsubmit'] == 1
           && (is_object($xoopsUser)
               || (isset($xoopsModuleConfig['anonpost'])
-                  && $xoopsModuleConfig['anonpost'] == 1))))
-) {
+                  && $xoopsModuleConfig['anonpost'] == 1))))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -84,8 +83,8 @@ switch ($op) {
         global $xoopsUser, $myts;
 
         $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
-        include_once XOOPS_ROOT_PATH . '/header.php';
-        include_once __DIR__ . '/footer.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
+        require_once __DIR__ . '/footer.php';
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
@@ -104,9 +103,9 @@ switch ($op) {
         $xoopsTpl->assign('lang_intro_title', sprintf(_MD_SF_SUB_SNEWNAME, ucwords($xoopsModule->name())));
         $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . _MD_SF_SUB_INTRO);
 
-        include_once __DIR__ . '/include/submit.inc.php';
+        require_once __DIR__ . '/include/submit.inc.php';
 
-        include_once XOOPS_ROOT_PATH . '/footer.php';
+        require_once XOOPS_ROOT_PATH . '/footer.php';
 
         exit();
         break;
@@ -185,8 +184,7 @@ switch ($op) {
         $error_upload = '';
 
         if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name'] != ''
-            && $topicHandler->getPermission($forum_obj, $topic_status, 'attach')
-        ) {
+            && $topicHandler->getPermission($forum_obj, $topic_status, 'attach')) {
             require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/class/uploader.php';
             $maxfilesize = $forum_obj->getVar('attach_maxkb') * 1024;
             $uploaddir   = XOOPS_CACHE_PATH;
@@ -254,7 +252,7 @@ switch ($op) {
         } else {
             // Subscribe the user to On Published notification, if requested
             if ($notifypub == 1) {
-                include_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
+                require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                 $notificationHandler = xoops_getHandler('notification');
                 $notificationHandler->subscribe('faq', $newFaqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
             }
@@ -277,8 +275,8 @@ switch ($op) {
         $categoryObj = $categoryHandler->create();
 
         $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.html';
-        include_once XOOPS_ROOT_PATH . '/header.php';
-        include_once __DIR__ . '/footer.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
+        require_once __DIR__ . '/footer.php';
 
         $name       = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
         $notifypub  = 1;
@@ -289,8 +287,8 @@ switch ($op) {
         $xoopsTpl->assign('lang_intro_title', sprintf(_MD_SF_SUB_SNEWNAME, ucwords($xoopsModule->name())));
         $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . _MD_SF_SUB_INTRO);
 
-        include_once __DIR__ . '/include/submit.inc.php';
+        require_once __DIR__ . '/include/submit.inc.php';
 
-        include_once XOOPS_ROOT_PATH . '/footer.php';
+        require_once XOOPS_ROOT_PATH . '/footer.php';
         break;
 }

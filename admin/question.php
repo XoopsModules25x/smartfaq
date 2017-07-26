@@ -33,7 +33,7 @@ function editfaq($showmenu = false, $faqid = -1)
 {
     global $faqHandler, $categoryHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts;
 
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
     if ($faqid != -1) {
         // Creating the FAQ object
@@ -65,7 +65,7 @@ function editfaq($showmenu = false, $faqid = -1)
 
         echo "<br>\n";
         sf_collapsableBar('bottomtable', 'bottomtableicon');
-        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . $collapsableBar_title . '</h3>';
+        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . $collapsableBar_title . '</h3>';
         echo "<div id='bottomtable'>";
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $collapsableBar_info . '</span>';
     } else {
@@ -78,10 +78,10 @@ function editfaq($showmenu = false, $faqid = -1)
         $button_caption    = _AM_SF_CREATE;
 
         sf_collapsableBar('bottomtable', 'bottomtableicon');
-        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_CREATEQUESTION . '</h3>';
+        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CREATEQUESTION . '</h3>';
         echo "<div id='bottomtable'>";
     }
-    $sform = new XoopsThemeForm(_AM_SF_OPEN_QUESTION, 'op', xoops_getenv('PHP_SELF'));
+    $sform = new XoopsThemeForm(_AM_SF_OPEN_QUESTION, 'op', xoops_getenv('PHP_SELF'), 'post', true);
     $sform->setExtra('enctype="multipart/form-data"');
 
     // faq requester
@@ -180,11 +180,11 @@ switch ($op) {
             }
         }
 
-        $adminObject  = \Xmf\Module\Admin::getInstance();
+        $adminObject = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         editfaq(true, $faqid);
         break;
@@ -297,12 +297,12 @@ switch ($op) {
 
     case 'default':
     default:
-        $adminObject  = \Xmf\Module\Admin::getInstance();
+        $adminObject = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
         $adminObject->displayNavigation(basename(__FILE__));
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $smartModuleConfig;
 
@@ -310,7 +310,7 @@ switch ($op) {
 
         sf_collapsableBar('toptable', 'toptableicon');
 
-        echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_OPENED_TITLE . '</h3>';
+        echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_OPENED_TITLE . '</h3>';
         echo "<div id='toptable'>";
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_OPENED_DSC . '</span>';
 
@@ -337,41 +337,15 @@ switch ($op) {
             foreach (array_keys($faqsObj) as $i) {
                 $categoryObj = $allCats[$faqsObj[$i]->categoryid()];
 
-                $modify = "<a href='question.php?op=mod&amp;faqid="
-                          . $faqsObj[$i]->faqid()
-                          . "'><img src='"
-                          . $pathIcon16
-                          . '/edit.png'
-                          . "' title='"
-                          . _AM_SF_EDITART
-                          . "' alt='"
-                          . _AM_SF_EDITART
-                          . "'></a>";
-                $delete = "<a href='question.php?op=del&amp;faqid="
-                          . $faqsObj[$i]->faqid()
-                          . "'><img src='"
-                          . $pathIcon16
-                          . '/delete.png'
-                          . "' title='"
-                          . _AM_SF_DELETEART
-                          . "' alt='"
-                          . _AM_SF_DELETEART
-                          . "'></a>";
+                $modify = "<a href='question.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_EDITART . "'></a>";
+                $delete = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
 
                 $requester = sf_getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $faqsObj[$i]->faqid() . '</td>';
                 echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
-                echo "<td class='even' align='left'><a href='"
-                     . XOOPS_URL
-                     . '/modules/'
-                     . $xoopsModule->dirname()
-                     . '/answer.php?faqid='
-                     . $faqsObj[$i]->faqid()
-                     . "'>"
-                     . $faqsObj[$i]->question(100)
-                     . '</a></td>';
+                echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/answer.php?faqid=' . $faqsObj[$i]->faqid() . "'>" . $faqsObj[$i]->question(100) . '</a></td>';
 
                 echo "<td class='even' align='center'>" . $requester . '</td>';
 

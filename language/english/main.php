@@ -26,8 +26,7 @@ define('_MD_SF_CLEAR', 'Clear');
 define('_MD_SF_COMMENTS', 'Comment(s)');
 define('_MD_SF_CONTEXTMODULELINK', 'Contextually linked to this module');
 define('_MD_SF_CONTEXTMODULELINK_FAQ', 'Contextually linked to this module');
-define('_MD_SF_CONTEXTMODULELINK_FAQ_DSC',
-       "Select the module to which this Q&amp;A will be linked. If the Contextual Q&amp;A block is visible on that module, the 'How do I' statement of this Q&amp;A will be displayed.");
+define('_MD_SF_CONTEXTMODULELINK_FAQ_DSC', "Select the module to which this Q&amp;A will be linked. If the Contextual Q&amp;A block is visible on that module, the 'How do I' statement of this Q&amp;A will be displayed.");
 define('_MD_SF_CONTEXTPAGE', 'Contextually linked to this URL');
 define('_MD_SF_CONTEXTPAGEDEF', 'Contextual Page');
 define('_MD_SF_CONTEXTPAGEDEF_DSC', 'Page for which this Q&amp;A gives explanation <b>Example :</b> modules/newbb');
@@ -52,8 +51,7 @@ define('_MD_SF_ERROR_ANSWER_NOT_SAVED', 'An error occured. The answer was not sa
 define('_MD_SF_ERROR_FAQ_NOT_SAVED', 'An error occured. The Q&amp;A was not saved in the database.');
 define('_MD_SF_ERRORSAVINGDB', 'ERROR: Database has NOT been Updated due to an Error!');
 define('_MD_SF_EXACTURL', 'Exact URL?');
-define('_MD_SF_EXACTURL_DSC',
-       "If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed all pages that match a part of the root of the specific URL.ie modules/newbb/*.php");
+define('_MD_SF_EXACTURL_DSC', "If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed all pages that match a part of the root of the specific URL.ie modules/newbb/*.php");
 define('_MD_SF_FAQ_NEW_ANSWER_NEED_APPROBATION', 'Your answer was submitted successfully and will be reviewed by a moderator.');
 define('_MD_SF_FAQ_NEW_ANSWER_PUBLISHED', 'Your answer was submitted successfully and will be automatically published in the Q&amp;A section, as a replacement of the original answer.');
 define('_MD_SF_FAQCOMEFROM', 'This Q&amp;A was found on ');
@@ -139,8 +137,7 @@ define('_MD_SF_SUB_SMNAME', 'Submit a Q&amp;A');
 define('_MD_SF_SUBMIT_ERROR', 'An error occured. Your FAQ was not submitted.');
 define('_MD_SF_SUBMITANSWER', 'Submit answer');
 define('_MD_SF_SUBMITANSWERTO', 'Submit an answer to %s');
-define('_MD_SF_SUBMITANSWER_INTRO',
-       'please fill this form to submit an answer for this question. The site adminisrator will review it and then publish it as soon as possible. Thank you in advance for your contribution.');
+define('_MD_SF_SUBMITANSWER_INTRO', 'please fill this form to submit an answer for this question. The site adminisrator will review it and then publish it as soon as possible. Thank you in advance for your contribution.');
 define('_MD_SF_SUBMITANSWERBUTTON', 'Submit the answer');
 define('_MD_SF_SUBMITAPPROVED', 'The answer you sent has been received. Since the auto-approve option is on, the answer has been accepted and the Q&amp;A has been published.');
 define('_MD_SF_SUBMIT_FROM_ADMIN', 'Since you are an admin of the module, the Q&amp;A was automatically published with all permissions.');

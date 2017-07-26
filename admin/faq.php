@@ -38,7 +38,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 {
     global $answerHandler, $faqHandler, $categoryHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts;
 
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
     if ($faqid != -1) {
         // Creating the FAQ object
@@ -140,7 +140,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
         echo "<br>\n";
         sf_collapsableBar('bottomtable', 'bottomtableicon');
-        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . $collapsableBar_title . '</h3>';
+        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . $collapsableBar_title . '</h3>';
         echo "<div id='bottomtable'>";
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $collapsableBar_info . '</span>';
     } else {
@@ -156,10 +156,10 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
         $button_caption     = _AM_SF_CREATE;
 
         sf_collapsableBar('bottomtable', 'bottomtableicon');
-        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_CREATESMARTFAQ . '</h3>';
+        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CREATESMARTFAQ . '</h3>';
         echo "<div id='bottomtable'>";
     }
-    $sform = new XoopsThemeForm(_AM_SF_SMARTFAQ, 'op', xoops_getenv('PHP_SELF'));
+    $sform = new XoopsThemeForm(_AM_SF_SMARTFAQ, 'op', xoops_getenv('PHP_SELF'), 'post', true);
     $sform->setExtra('enctype="multipart/form-data"');
 
     // faq requester
@@ -187,8 +187,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
     // ANSWER
     if ($merge) {
-        $theanswer = $originalAnswerObj->answer('e') . "\n\n" . sprintf(_AM_SF_NEW_CONTRIBUTION, sf_getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname']), $answerObj->datesub(),
-                                                                        $answerObj->answer('e'));
+        $theanswer = $originalAnswerObj->answer('e') . "\n\n" . sprintf(_AM_SF_NEW_CONTRIBUTION, sf_getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname']), $answerObj->datesub(), $answerObj->answer('e'));
     } else {
         $theanswer = $answerObj->answer('e');
     }
@@ -355,7 +354,7 @@ switch ($op) {
         }
 
         xoops_cp_header();
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         editfaq(true, $faqid, $answerid, true);
         break;
@@ -372,11 +371,11 @@ switch ($op) {
             }
         }
 
-        $adminObject  = \Xmf\Module\Admin::getInstance();
+        $adminObject = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         editfaq(true, $faqid, $answerid);
         break;
@@ -562,15 +561,15 @@ switch ($op) {
 
     case 'default':
     default:
-        $adminObject  = \Xmf\Module\Admin::getInstance();
+        $adminObject = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
-        include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/displayfaqs.php';
+        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/displayfaqs.php';
 
         $totalcategories = $categoryHandler->getCategoriesCount(-1);
         if ($totalcategories > 0) {

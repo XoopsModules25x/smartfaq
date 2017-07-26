@@ -5,6 +5,7 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
+
 // defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 class sfCategory extends XoopsObject
@@ -42,7 +43,7 @@ class sfCategory extends XoopsObject
         $this->initVar('last_faqid', XOBJ_DTYPE_INT);
         $this->initVar('last_question_link', XOBJ_DTYPE_TXTBOX);
 
-        if (isset($id)) {
+        if (null !== $id) {
             if (is_array($id)) {
                 $this->assignVars($id);
             } else {
@@ -80,7 +81,7 @@ class sfCategory extends XoopsObject
      */
     public function checkPermission()
     {
-        include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $userIsAdmin = sf_userIsAdmin();
         if ($userIsAdmin) {
@@ -271,7 +272,7 @@ class sfCategoryHandler extends XoopsObjectHandler
      * @param  bool $isNew flag the new objects as "new"?
      * @return object sfCategory
      */
-    public function &create($isNew = true)
+    public function create($isNew = true)
     {
         $category = new sfCategory();
         if ($isNew) {
@@ -287,7 +288,7 @@ class sfCategoryHandler extends XoopsObjectHandler
      * @param  int $id categoryid of the category
      * @return mixed reference to the {@link sfCategory} object, FALSE if failed
      */
-    public function &get($id)
+    public function get($id)
     {
         $false = false;
         if ((int)$id > 0) {
@@ -413,7 +414,7 @@ class sfCategoryHandler extends XoopsObjectHandler
         $ret   = array();
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_categories');
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (null !== $criteria && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ($criteria->getSort() != '') {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -458,7 +459,7 @@ class sfCategoryHandler extends XoopsObjectHandler
         $order = 'ASC',
         $id_as_key = true
     ) {
-        include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $criteria = new CriteriaCompo();
 
@@ -496,7 +497,7 @@ class sfCategoryHandler extends XoopsObjectHandler
         $sort = 'weight',
         $order = 'ASC'
     ) {
-        include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $criteria = new CriteriaCompo();
 
@@ -519,12 +520,8 @@ class sfCategoryHandler extends XoopsObjectHandler
 
         $ret   = array();
         $limit = $start = 0;
-        $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM '
-                 . $this->db->prefix('smartfaq_categories')
-                 . ' AS c INNER JOIN '
-                 . $this->db->prefix('smartfaq_faq')
-                 . ' AS f ON c.categoryid = f.categoryid';
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
+        if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ($criteria->getSort() != '') {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -557,7 +554,7 @@ class sfCategoryHandler extends XoopsObjectHandler
     public function getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('smartfaq_categories');
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         $result = $this->db->query($sql);
@@ -660,7 +657,7 @@ class sfCategoryHandler extends XoopsObjectHandler
     public function deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix('smartfaq_categories');
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->query($sql)) {
@@ -675,17 +672,17 @@ class sfCategoryHandler extends XoopsObjectHandler
     /**
      * Change a value for categories with a certain criteria
      *
-     * @param string $fieldname  Name of the field
-     * @param string $fieldvalue Value to write
-     * @param object $criteria   {@link CriteriaElement}
+     * @param string          $fieldname  Name of the field
+     * @param string          $fieldvalue Value to write
+     * @param CriteriaElement $criteria   {@link CriteriaElement}
      *
      * @return bool
      **/
-    public function updateAll($fieldname, $fieldvalue, $criteria = null)
+    public function updateAll($fieldname, $fieldvalue, CriteriaElement $criteria = null)
     {
         $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_categories') . ' SET ' . $set_clause;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->queryF($sql)) {
@@ -712,7 +709,7 @@ class sfCategoryHandler extends XoopsObjectHandler
     public function faqsCount($cat_id = 0, $status = '')
     {
         global $xoopsUser;
-        include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $faqHandler = sf_gethandler('faq');
 

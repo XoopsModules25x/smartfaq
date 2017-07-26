@@ -28,7 +28,7 @@ function editfaq($faqid = '')
 {
     global $answerHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts, $pathIcon16, $smartModuleConfig;
 
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     // Creating the FAQ object
     $faqObj = new sfFaq($faqid);
@@ -58,15 +58,14 @@ function editfaq($faqid = '')
     $groups       = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
     if (!sf_userIsAdmin()
-        && (!$gpermHandler->checkRight('category_admin', $faqObj->categoryid(), $groups, $module_id))
-    ) {
+        && (!$gpermHandler->checkRight('category_admin', $faqObj->categoryid(), $groups, $module_id))) {
         redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     }
     // Retreiving the official answer
     $official_answer = $faqObj->answer();
 
     sf_collapsableBar('bottomtable', 'bottomtableicon');
-    echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_SUBMITTED_ANSWER . '</h3>';
+    echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_SUBMITTED_ANSWER . '</h3>';
     echo "<div id='bottomtable'>";
     echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_SUBMITTED_ANSWER_INFO . '</span>';
 
@@ -122,44 +121,11 @@ function editfaq($faqid = '')
                        . _AM_SF_FAQ_MERGE
                        . "' alt='"
                        . _AM_SF_FAQ_MERGE
-                       . "' /></a>&nbsp;";
-            $approve = "<a href='answer.php?op=selectanswer&amp;faqid="
-                       . $faqid
-                       . '&amp;answerid='
-                       . $proposed_answer->answerid()
-                       . "'><img src='"
-                       . $pathIcon16
-                       . '/on.png'
-                       . "' title='"
-                       . _AM_SF_FAQ_APPROVE_NEW_ANSWER
-                       . "' alt='"
-                       . _AM_SF_APPROVESUB
-                       . "' /></a>";
+                       . "'></a>&nbsp;";
+            $approve = "<a href='answer.php?op=selectanswer&amp;faqid=" . $faqid . '&amp;answerid=' . $proposed_answer->answerid() . "'><img src='" . $pathIcon16 . '/on.png' . "' title='" . _AM_SF_FAQ_APPROVE_NEW_ANSWER . "' alt='" . _AM_SF_APPROVESUB . "'></a>";
         }
-        $modify = "<a href='faq.php?op=mod&amp;faqid="
-                  . $faqObj->faqid()
-                  . '&amp;answerid='
-                  . $proposed_answer->answerid()
-                  . "'><img src='"
-                  . $pathIcon16
-                  . '/edit.png'
-                  . "' title='"
-                  . _AM_SF_FAQ_REVIEW
-                  . "' alt='"
-                  . _AM_SF_FAQ_REVIEW
-                  . "' /></a>&nbsp;";
-        $delete = "<a href='answer.php?op=del&amp;faqid="
-                  . $faqObj->faqid()
-                  . '&amp;answerid='
-                  . $proposed_answer->answerid()
-                  . "'><img src='"
-                  . $pathIcon16
-                  . '/delete.png'
-                  . "' title='"
-                  . _AM_SF_DELETESUBM
-                  . "' alt='"
-                  . _AM_SF_DELETESUBM
-                  . "' /></a>";
+        $modify = "<a href='faq.php?op=mod&amp;faqid=" . $faqObj->faqid() . '&amp;answerid=' . $proposed_answer->answerid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_FAQ_REVIEW . "' alt='" . _AM_SF_FAQ_REVIEW . "'></a>&nbsp;";
+        $delete = "<a href='answer.php?op=del&amp;faqid=" . $faqObj->faqid() . '&amp;answerid=' . $proposed_answer->answerid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETESUBM . "' alt='" . _AM_SF_DELETESUBM . "'></a>";
         echo '<tr>';
         echo "<td class='head' align='center'>" . $proposed_answer->answerid() . '</td>';
         echo "<td class='even' align='left'>" . $proposed_answer->answer() . '</td>';
@@ -180,7 +146,7 @@ function editfaq($faqid = '')
 switch ($op) {
     case 'mod':
         xoops_cp_header();
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $modify, $myts;
         $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
         editfaq($faqid);
@@ -311,7 +277,7 @@ switch ($op) {
     default:
         xoops_cp_header();
 
-        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+        require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
 
         editfaq();

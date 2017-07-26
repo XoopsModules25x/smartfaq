@@ -11,7 +11,7 @@
 
 function b_faqs_context_show($options)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = array();
 
@@ -49,7 +49,7 @@ function b_faqs_context_show($options)
 function b_faqs_context_edit($options)
 {
     $form = '' . _MB_SF_DISP . '&nbsp;';
-    $form .= "<input type='text' name='options[]' value='" . $options[0] . "' />&nbsp;" . _MB_SF_FAQS . '';
+    $form .= "<input type='text' name='options[]' value='" . $options[0] . "'>&nbsp;" . _MB_SF_FAQS . '';
 
     return $form;
 }

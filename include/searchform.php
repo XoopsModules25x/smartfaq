@@ -21,7 +21,7 @@ if ($xoopsModuleConfig['multicats'] == 1) {
     $searchcat = new XoopsFormSelect(_MD_WB_CATEGORY, 'categoryID', $categoryID);
     $searchcat->addOption('0', _MD_WB_ALLOFTHEM);
 
-    $resultcat = $xoopsDB->query('SELECT categoryID, name FROM ' . $xoopsDB->prefix('wbcategories') . ' ORDER BY categoryID');
+    $resultcat = $xoopsDB->queryF('SELECT categoryID, name FROM ' . $xoopsDB->prefix('wbcategories') . ' ORDER BY categoryID');
 
     while (list($categoryID, $name) = $xoopsDB->fetchRow($resultcat)) {
         $searchcat->addOption('categoryID', "$categoryID : $name");
@@ -37,7 +37,7 @@ $sform->addElement($submit_button);
 
 /*
 add this in search.php
-include_once __DIR__ . '/include/searchform.php';
+require_once __DIR__ . '/include/searchform.php';
 $sform->assign($xoopsTpl);
 
 */

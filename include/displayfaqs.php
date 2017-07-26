@@ -23,7 +23,7 @@ if (!isset($categoryid) || ($categoryid < 1)) {
 
 sf_collapsableBar('toptable', 'toptableicon');
 
-echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . $faqs_title . '</h3>';
+echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . $faqs_title . '</h3>';
 echo "<div id='toptable'>";
 echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $faqs_info . '</span>';
 
@@ -50,26 +50,8 @@ if ($totalfaqs > 0) {
     global $pathIcon16, $smartModuleConfig;
     for ($i = 0; $i < $totalFaqsOnPage; ++$i) {
         $categoryObj = $allCats[$faqsObj[$i]->categoryid()];
-        $modify      = "<a href='faq.php?op=mod&amp;faqid="
-                       . $faqsObj[$i]->faqid()
-                       . "'><img src='"
-                       . $pathIcon16
-                       . '/edit.png'
-                       . "' title='"
-                       . _AM_SF_EDITART
-                       . "' alt='"
-                       . _AM_SF_EDITART
-                       . "' /></a>";
-        $delete      = "<a href='faq.php?op=del&amp;faqid="
-                       . $faqsObj[$i]->faqid()
-                       . "'><img src='"
-                       . $pathIcon16
-                       . '/delete.png'
-                       . "' title='"
-                       . _AM_SF_EDITART
-                       . "' alt='"
-                       . _AM_SF_DELETEART
-                       . "'/></a>";
+        $modify      = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_EDITART . "'></a>";
+        $delete      = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_DELETEART . "'></a>";
 
         //adding name of the Question Submitter
         $requester = sf_getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
@@ -99,15 +81,7 @@ if ($totalfaqs > 0) {
         echo '<tr>';
         echo "<td class='head' align='center'>" . $faqsObj[$i]->faqid() . '</td>';
         echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
-        echo "<td class='even' align='left'><a href='"
-             . XOOPS_URL
-             . '/modules/'
-             . $xoopsModule->dirname()
-             . '/faq.php?faqid='
-             . $faqsObj[$i]->faqid()
-             . "'>"
-             . $faqsObj[$i]->question(100)
-             . '</a></td>';
+        echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/faq.php?faqid=' . $faqsObj[$i]->faqid() . "'>" . $faqsObj[$i]->question(100) . '</a></td>';
 
         echo "<td class='even' align='center'>" . $requester . '</td>';
         echo "<td class='even' align='center'>" . $answerSubmitter . '</td>';

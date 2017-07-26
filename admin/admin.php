@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright    XOOPS Project http://xoops.org/
+ * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
@@ -31,7 +31,7 @@ if (empty($fct)) {
 include __DIR__ . '/../../../mainfile.php';
 include XOOPS_ROOT_PATH . '/include/cp_functions.php';
 
-include_once XOOPS_ROOT_PATH . '/kernel/module.php';
+require_once XOOPS_ROOT_PATH . '/kernel/module.php';
 
 $admintest = 0;
 
@@ -46,12 +46,12 @@ if (is_object($xoopsUser)) {
 }
 
 // include system category definitions
-include_once XOOPS_ROOT_PATH . '/modules/system/constants.php';
+require_once XOOPS_ROOT_PATH . '/modules/system/constants.php';
 $error = false;
 if ($admintest != 0) {
     if (isset($fct) && $fct != '') {
         if (file_exists(XOOPS_ROOT_PATH . '/modules/system/admin/' . $fct . '/xoops_version.php')) {
-            include_once XOOPS_ROOT_PATH . '/modules/system/language/' . $xoopsConfig['language'] . '/admin.php';
+            require_once XOOPS_ROOT_PATH . '/modules/system/language/' . $xoopsConfig['language'] . '/admin.php';
 
             if (file_exists(XOOPS_ROOT_PATH . '/modules/system/language/' . $xoopsConfig['language'] . '/admin/' . $fct . '.php')) {
                 include XOOPS_ROOT_PATH . '/modules/system/language/' . $xoopsConfig['language'] . '/admin/' . $fct . '.php';
@@ -65,10 +65,9 @@ if ($admintest != 0) {
             if ($category > 0) {
                 $groups =& $xoopsUser->getGroups();
                 if (in_array(XOOPS_GROUP_ADMIN, $groups)
-                    || false !== $syspermHandler->checkRight('system_admin', $category, $groups, $xoopsModule->getVar('mid'))
-                ) {
+                    || false !== $syspermHandler->checkRight('system_admin', $category, $groups, $xoopsModule->getVar('mid'))) {
                     if (file_exists("../include/{$fct}.inc.php")) {
-                        include_once __DIR__ . "/../include/{$fct}.inc.php";
+                        require_once __DIR__ . "/../include/{$fct}.inc.php";
                     } else {
                         $error = true;
                     }
@@ -77,7 +76,7 @@ if ($admintest != 0) {
                 }
             } elseif ($fct === 'version') {
                 if (file_exists(XOOPS_ROOT_PATH . '/modules/system/admin/version/main.php')) {
-                    include_once XOOPS_ROOT_PATH . '/modules/system/admin/version/main.php';
+                    require_once XOOPS_ROOT_PATH . '/modules/system/admin/version/main.php';
                 } else {
                     $error = true;
                 }

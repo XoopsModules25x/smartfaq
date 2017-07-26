@@ -30,9 +30,9 @@ $modversion['release_file']        = XOOPS_URL . '/modules/' . $modversion['dirn
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = '2.5.8';
+$modversion['min_xoops']           = '2.5.9';
 $modversion['min_admin']           = '1.2';
-$modversion['min_db']              = array('mysql' => '5.1');
+$modversion['min_db']              = array('mysql' => '5.5');
 
 // Added by marcan for the About page in admin section
 $modversion['developer_lead']         = 'marcan [Marc-André Lanciault]';
@@ -136,8 +136,7 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
             || (isset($smartConfig['allowsubmit']) && $smartConfig['allowsubmit'] == 1
                 && (is_object($xoopsUser)
                     || (isset($smartConfig['anonpost'])
-                        && $smartConfig['anonpost'] == 1)))
-        ) {
+                        && $smartConfig['anonpost'] == 1)))) {
             $modversion['sub'][1]['name'] = _MI_SF_SUB_SMNAME1;
             $modversion['sub'][1]['url']  = 'submit.php?op=add';
         }
@@ -146,13 +145,12 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
             || (isset($smartConfig['allowrequest']) && $smartConfig['allowrequest'] == 1
                 && (is_object($xoopsUser)
                     || (isset($smartConfig['anonpost'])
-                        && $smartConfig['anonpost'] == 1)))
-        ) {
+                        && $smartConfig['anonpost'] == 1)))) {
             $modversion['sub'][2]['name'] = _MI_SF_SUB_SMNAME2;
             $modversion['sub'][2]['url']  = 'request.php?op=add';
         }
 
-        include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         // Creating the FAQ handler object
         $faqHandler = sf_gethandler('faq');

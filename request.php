@@ -6,8 +6,8 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/header.php';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once __DIR__ . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
 
@@ -30,8 +30,7 @@ $isAdmin = sf_userIsAdmin();
 if (!($isAdmin
       || (isset($xoopsModuleConfig['allowrequest'])
           && $xoopsModuleConfig['allowrequest'] == 1
-          && (is_object($xoopsUser) || (isset($xoopsModuleConfig['anonpost']) && $xoopsModuleConfig['anonpost'] == 1))))
-) {
+          && (is_object($xoopsUser) || (isset($xoopsModuleConfig['anonpost']) && $xoopsModuleConfig['anonpost'] == 1))))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -92,7 +91,7 @@ switch ($op) {
         } else {
             // Subscribe the user to On Published notification, if requested
             if ($notifypub == 1) {
-                include_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
+                require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                 $notificationHandler = xoops_getHandler('notification');
                 $notificationHandler->subscribe('question', $newFaqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
             }
@@ -112,8 +111,8 @@ switch ($op) {
         global $xoopsUser, $myts;
 
         $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
-        include_once XOOPS_ROOT_PATH . '/header.php';
-        include_once __DIR__ . '/footer.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
+        require_once __DIR__ . '/footer.php';
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
@@ -124,15 +123,15 @@ switch ($op) {
         $xoopsTpl->assign('lang_intro_title', _MD_SF_REQUEST);
         $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . $myts->displayTarea($xoopsModuleConfig['requestintromsg']));
 
-        include_once __DIR__ . '/include/request.inc.php';
+        require_once __DIR__ . '/include/request.inc.php';
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
         $sectionname = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
 
-        include_once __DIR__ . '/include/request.inc.php';
+        require_once __DIR__ . '/include/request.inc.php';
 
-        include_once XOOPS_ROOT_PATH . '/footer.php';
+        require_once XOOPS_ROOT_PATH . '/footer.php';
 
         break;
 }

@@ -2,7 +2,7 @@
 /**
  * CBB 4.0, or newbb, the forum module for XOOPS project
  *
- * @copyright   XOOPS Project (http://xoops.org)
+ * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      Taiwen Jiang (phppp or D.J.) <phppp@users.sourceforge.net>
  * @since       4.00
@@ -93,7 +93,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
      */
     function sf_getButton($link, $button, $alt = '', $asImage = true, $extra = "class='forum_button'")
     {
-        $button = "<input type='button' name='{$button}' {$extra} value='{$alt}' onclick='window.location.href={$link}' />";
+        $button = "<input type='button' name='{$button}' {$extra} value='{$alt}' onclick='window.location.href={$link}'>";
         if (empty($asImage)) {
             $button = "<a href='{$link}' title='{$alt}' {$extra}>" . sf_displayImage($button, $alt, true) . '</a>';
         }

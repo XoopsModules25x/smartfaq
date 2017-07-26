@@ -25,7 +25,7 @@ $startcategory = isset($_GET['startcategory']) ? (int)$_GET['startcategory'] : 0
 
 /**
  * @param XoopsObject $categoryObj
- * @param int $level
+ * @param int         $level
  */
 function displayCategory($categoryObj, $level = 0)
 {
@@ -36,26 +36,8 @@ function displayCategory($categoryObj, $level = 0)
             $description = substr($description, 0, 100 - 1) . '...';
         }
     }
-    $modify = "<a href='category.php?op=mod&categoryid="
-              . $categoryObj->categoryid()
-              . "'><img src='"
-              . $pathIcon16
-              . '/edit.png'
-              . "' title='"
-              . _AM_SF_EDITCOL
-              . "' alt='"
-              . _AM_SF_EDITCOL
-              . "' /></a>";
-    $delete = "<a href='category.php?op=del&categoryid="
-              . $categoryObj->categoryid()
-              . "'><img src='"
-              . $pathIcon16
-              . '/delete.png'
-              . "' title='"
-              . _AM_SF_DELETECOL
-              . "' alt='"
-              . _AM_SF_DELETECOL
-              . "' /></a>";
+    $modify = "<a href='category.php?op=mod&categoryid=" . $categoryObj->categoryid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_EDITCOL . "' alt='" . _AM_SF_EDITCOL . "'></a>";
+    $delete = "<a href='category.php?op=del&categoryid=" . $categoryObj->categoryid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETECOL . "' alt='" . _AM_SF_DELETECOL . "'></a>";
 
     $spaces = '';
     for ($j = 0; $j < $level; ++$j) {
@@ -73,7 +55,7 @@ function displayCategory($categoryObj, $level = 0)
          . $categoryObj->categoryid()
          . "'><img src='"
          . XOOPS_URL
-         . "/modules/smartfaq/assets/images/icon/subcat.gif' alt='' />&nbsp;"
+         . "/modules/smartfaq/assets/images/icon/subcat.gif' alt=''>&nbsp;"
          . $categoryObj->name()
          . '</a></td>';
     echo "<td class='even' align='left'>" . $description . '</td>';
@@ -100,7 +82,7 @@ function editcat($showmenu = false, $categoryid = 0)
     //$allmods = array();
     $startfaq = isset($_GET['startfaq']) ? (int)$_GET['startfaq'] : 0;
     global $categoryHandler, $xoopsUser, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $_GET;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     // Creating the faq handler object
     $faqHandler = sf_gethandler('faq');
@@ -122,17 +104,17 @@ function editcat($showmenu = false, $categoryid = 0)
             redirect_header('category.php', 1, _AM_SF_NOCOLTOEDIT);
         }
         sf_collapsableBar('bottomtable', 'bottomtableicon');
-        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_EDITCOL . '</h3>';
+        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_EDITCOL . '</h3>';
         echo "<div id='bottomtable'>";
     } else {
         $categoryObj = $categoryHandler->create();
         echo "<br>\n";
         sf_collapsableBar('bottomtable', 'bottomtableicon');
-        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_CATEGORY_CREATE . '</h3>';
+        echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CATEGORY_CREATE . '</h3>';
         echo "<div id='bottomtable'>";
     }
     // Start category form
-    $sform = new XoopsThemeForm(_AM_SF_CATEGORY, 'op', xoops_getenv('PHP_SELF'));
+    $sform = new XoopsThemeForm(_AM_SF_CATEGORY, 'op', xoops_getenv('PHP_SELF'), 'post', true);
     $sform->setExtra('enctype="multipart/form-data"');
 
     // Name
@@ -238,7 +220,7 @@ function editcat($showmenu = false, $categoryid = 0)
     echo '</div>';
 
     if ($categoryid) {
-        include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/displayfaqs.php';
+        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/displayfaqs.php';
     }
 
     unset($hidden);
@@ -246,9 +228,9 @@ function editcat($showmenu = false, $categoryid = 0)
 
 switch ($op) {
     case 'mod':
-        $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
-        $destList   = isset($_POST['destList']) ? $_POST['destList'] : '';
-        $adminObject  = \Xmf\Module\Admin::getInstance();
+        $categoryid  = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
+        $destList    = isset($_POST['destList']) ? $_POST['destList'] : '';
+        $adminObject = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));
@@ -347,7 +329,7 @@ switch ($op) {
         break;
     case 'default':
     default:
-        $adminObject  = \Xmf\Module\Admin::getInstance();
+        $adminObject = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));
@@ -357,7 +339,7 @@ switch ($op) {
         $categoriesObj = $categoryHandler->getCategories($xoopsModuleConfig['perpage'], $startcategory, 0);
 
         sf_collapsableBar('toptable', 'toptableicon');
-        echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt='' /></a>&nbsp;" . _AM_SF_CATEGORIES_TITLE . '</h3>';
+        echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CATEGORIES_TITLE . '</h3>';
         echo "<div id='toptable'>";
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_CATEGORIES_DSC . '</span>';
 
@@ -380,7 +362,7 @@ switch ($op) {
             $categoryid = '0';
         }
         echo "</table>\n";
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
         $pagenav = new XoopsPageNav($totalCategories, $xoopsModuleConfig['perpage'], $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '</div>';

@@ -22,7 +22,7 @@ echo "<br>";
 echo "<table width='100%'>";
 echo "<tr>";
 echo "<td align = 'center'>";
-echo "<img src='".XOOPS_URL."/modules/smartfaq/".$versioninfo->getInfo('image')."' alt='' align='center'/></a>";
+echo "<img src='".XOOPS_URL."/modules/smartfaq/".$versioninfo->getInfo('image')."' alt='' align='center'></a>";
 echo "<div style='margin-top: 10px; color: #33538e; margin-bottom: 4px; font-size: 18px; line-height: 18px; font-weight: bold; display: block;'>" . $versioninfo->getInfo('name') . " version " . $versioninfo->getInfo('version') . "</div>";
 if ( $versioninfo->getInfo('author_realname') != '') {
 $author_name = $versioninfo->getInfo('author') . " (" . $versioninfo->getInfo('author_realname') . ")";
@@ -32,21 +32,15 @@ $author_name = $versioninfo->getInfo('author');
 
 echo "<div style = 'line-height: 16px; font-weight: bold; display: block;'>" . _AM_SF_BY . " " .$author_name;
 echo "</div>";
-echo "<div style = 'line-height: 16px; display: block;'>" . $versioninfo->getInfo('license') . "</div><br></>\n";
+echo "<div style = 'line-height: 16px; display: block;'>" . $versioninfo->getInfo('license') . "</div><br><>\n";
 
 echo "</td>";
 echo "</tr>";
 echo "</table>";
 */
 // Left headings...
-echo "<img src='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/' . $versioninfo->getInfo('image') . "' alt='' hspace='0' vspace='0' align='left' style='margin-right: 10px;'/></a>";
-echo "<div style='margin-top: 10px; color: #33538e; margin-bottom: 4px; font-size: 18px; line-height: 18px; font-weight: bold; display: block;'>"
-     . $versioninfo->getInfo('name')
-     . ' version '
-     . $versioninfo->getInfo('version')
-     . ' ('
-     . $versioninfo->getInfo('status_version')
-     . ')</div>';
+echo "<img src='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/' . $versioninfo->getInfo('image') . "' alt='' hspace='0' vspace='0' align='left' style='margin-right: 10px;'></a>";
+echo "<div style='margin-top: 10px; color: #33538e; margin-bottom: 4px; font-size: 18px; line-height: 18px; font-weight: bold; display: block;'>" . $versioninfo->getInfo('name') . ' version ' . $versioninfo->getInfo('version') . ' (' . $versioninfo->getInfo('status_version') . ')</div>';
 if ($versioninfo->getInfo('author_realname') != '') {
     $author_name = $versioninfo->getInfo('author') . ' (' . $versioninfo->getInfo('author_realname') . ')';
 } else {

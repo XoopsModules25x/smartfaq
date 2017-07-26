@@ -8,7 +8,7 @@
 
 use Xmf\Request;
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
 
@@ -150,7 +150,7 @@ switch ($op) {
             case 2:
                 // Answer for an open question submitted, auto-approved; became Q&A, need approbation
                 if (isset($_POST['notifypub']) && $_POST['notifypub'] == 1) {
-                    include_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
+                    require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('faq', $faqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
@@ -160,7 +160,7 @@ switch ($op) {
             case 3:
                 // Answer submitted, needs approbation
                 if (isset($_POST['notifypub']) && $_POST['notifypub'] == 1) {
-                    include_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
+                    require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('question', $newAnswerObj->answerid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
@@ -175,7 +175,7 @@ switch ($op) {
                 // New answer submitted for a published Q&A, need approbation
                 // Send notifications
                 if (isset($_POST['notifypub']) && $_POST['notifypub'] == 1) {
-                    include_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
+                    require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('faq', $newAnswerObj->answerid(), 'answer_approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
 
@@ -212,8 +212,8 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
-        include_once XOOPS_ROOT_PATH . '/header.php';
-        include_once __DIR__ . '/footer.php';
+        require_once XOOPS_ROOT_PATH . '/header.php';
+        require_once __DIR__ . '/footer.php';
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
@@ -224,8 +224,8 @@ switch ($op) {
         $xoopsTpl->assign('lang_intro_title', sprintf(_MD_SF_SUBMITANSWERTO, ucwords($xoopsModule->name())));
         $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . _MD_SF_SUBMITANSWER_INTRO);
 
-        include_once __DIR__ . '/include/answer.inc.php';
+        require_once __DIR__ . '/include/answer.inc.php';
 
-        include_once XOOPS_ROOT_PATH . '/footer.php';
+        require_once XOOPS_ROOT_PATH . '/footer.php';
         break;
 }

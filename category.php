@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
 
@@ -32,8 +32,8 @@ if (!isset($totalQnas[$categoryid]) || $totalQnas[$categoryid] == 0) {
 }
 $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 
-include_once XOOPS_ROOT_PATH . '/header.php';
-include_once __DIR__ . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require_once __DIR__ . '/footer.php';
 
 // At which record shall we start
 $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
@@ -135,11 +135,7 @@ if (count($faqsObj) > 0) {
 
     if (isset($last_qnaObj) && $last_qnaObj) {
         $category['last_faqid']         = $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid');
-        $category['last_question_link'] = "<a href='faq.php?faqid="
-                                          . $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid')
-                                          . "'>"
-                                          . $last_qnaObj[$categoryObj->getVar('categoryid')]->question($lastfaqsize)
-                                          . '</a>';
+        $category['last_question_link'] = "<a href='faq.php?faqid=" . $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid') . "'>" . $last_qnaObj[$categoryObj->getVar('categoryid')]->question($lastfaqsize) . '</a>';
     }
 }
 
@@ -164,7 +160,7 @@ $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 $xoopsTpl->assign('lang_comments', _MD_SF_COMMENTS);
 
 // The Navigation Bar
-include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 $pagenav = new XoopsPageNav($thiscategory_faqcount, $xoopsModuleConfig['indexperpage'], $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
 if ($xoopsModuleConfig['useimagenavpage'] == 1) {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
@@ -181,9 +177,9 @@ $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category['name']);
 
 //code to include smartie
 if (file_exists(XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php')) {
-    include_once XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php';
     $xoopsTpl->assign('smarttie', 1);
 }
 //end code for smarttie
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

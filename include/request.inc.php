@@ -9,11 +9,11 @@
 
 global $_POST;
 
-include_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
-include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
-include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-$form = new XoopsThemeForm(_MD_SF_REQUEST, 'form', xoops_getenv('PHP_SELF'));
+$form = new XoopsThemeForm(_MD_SF_REQUEST, 'form', xoops_getenv('PHP_SELF'), 'post', true);
 // CATEGORY
 $mytree = new XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
 ob_start();

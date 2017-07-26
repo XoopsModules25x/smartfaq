@@ -10,37 +10,34 @@
  */
 
 /**
- * @copyright    XOOPS Project (http://xoops.org)
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
  * @author       XOOPS Development Team
  */
 
-include_once __DIR__ . '/../../../include/cp_header.php';
-//include_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
+require_once __DIR__ . '/../../../include/cp_header.php';
+//require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
-//require __DIR__ . '/../class/utility.php';
+//require_once __DIR__ . '/../class/utility.php';
 //require_once __DIR__ . '/../include/common.php';
 
-if (!isset($moduleDirName)) {
-    $moduleDirName = basename(dirname(__DIR__));
-}
+$moduleDirName = basename(dirname(__DIR__));
 
 $path = dirname(dirname(dirname(__DIR__)));
-include_once $path . '/kernel/module.php';
-include_once $path . '/class/xoopstree.php';
-include_once $path . '/class/xoopslists.php';
-include_once $path . '/class/pagenav.php';
-include_once $path . '/class/xoopsformloader.php';
+require_once $path . '/kernel/module.php';
+require_once $path . '/class/xoopstree.php';
+require_once $path . '/class/xoopslists.php';
+require_once $path . '/class/pagenav.php';
+require_once $path . '/class/xoopsformloader.php';
 
-include_once __DIR__ . '/../include/functions.php';
-include_once __DIR__ . '/../class/category.php';
-include_once __DIR__ . '/../class/faq.php';
-include_once __DIR__ . '/../class/answer.php';
-//require __DIR__ . '/../class/utility.php';
+require_once __DIR__ . '/../include/functions.php';
+require_once __DIR__ . '/../class/category.php';
+require_once __DIR__ . '/../class/faq.php';
+require_once __DIR__ . '/../class/answer.php';
+//require_once __DIR__ . '/../class/utility.php';
 //require_once __DIR__ . '/../include/common.php';
-
 
 if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
 } else {
@@ -48,8 +45,8 @@ if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
 }
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-$pathIcon16      = \Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32      = \Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
 $pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
 
 // Load language files
@@ -60,6 +57,6 @@ $moduleHelper->loadLanguage('main');
 $myts = MyTextSanitizer::getInstance();
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
-    include_once $GLOBALS['xoops']->path('class/template.php');
+    require_once $GLOBALS['xoops']->path('class/template.php');
     $xoopsTpl = new XoopsTpl();
 }

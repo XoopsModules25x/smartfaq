@@ -10,7 +10,7 @@
  */
 
 /**
- * @copyright    XOOPS Project http://xoops.org/
+ * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
@@ -28,7 +28,7 @@
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
     exit('Access Denied');
 }
-include_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blocksadmin.php';
 
 $op = 'list';
@@ -41,8 +41,7 @@ if (isset($HTTP_POST_VARS)) {
 if (isset($HTTP_GET_VARS['op'])) {
     if ($HTTP_GET_VARS['op'] === 'edit' || $HTTP_GET_VARS['op'] === 'delete' || $HTTP_GET_VARS['op'] === 'delete_ok'
         || $HTTP_GET_VARS['op'] === 'clone'
-        || $HTTP_GET_VARS['op'] === 'previewpopup'
-    ) {
+        || $HTTP_GET_VARS['op'] === 'previewpopup') {
         $op  = $HTTP_GET_VARS['op'];
         $bid = isset($HTTP_GET_VARS['bid']) ? (int)$HTTP_GET_VARS['bid'] : 0;
     }
@@ -50,7 +49,7 @@ if (isset($HTTP_GET_VARS['op'])) {
 
 if (isset($previewblock)) {
     xoops_cp_header();
-    include_once XOOPS_ROOT_PATH . '/class/template.php';
+    require_once XOOPS_ROOT_PATH . '/class/template.php';
     $xoopsTpl = new XoopsTpl();
     $xoopsTpl->xoops_setCaching(0);
     if (isset($bid)) {
@@ -72,13 +71,13 @@ if (isset($previewblock)) {
     $myblock->setVar('content', $myts->stripSlashesGPC($bcontent));
     $dummyhtml = '<html><head><meta http-equiv="content-type" content="text/html; charset='
                  . _CHARSET
-                 . '" /><meta http-equiv="content-language" content="'
+                 . '"><meta http-equiv="content-language" content="'
                  . _LANGCODE
-                 . '" /><title>'
+                 . '"><title>'
                  . $xoopsConfig['sitename']
                  . '</title><link rel="stylesheet" type="text/css" media="all" href="'
                  . getcss($xoopsConfig['theme_set'])
-                 . '" /></head><body><table><tr><th>'
+                 . '"></head><body><table><tr><th>'
                  . $myblock->getVar('title')
                  . '</th></tr><tr><td>'
                  . $myblock->getContent('S', $bctype)
@@ -255,7 +254,7 @@ function myblocksadmin_update_block(
             $sql = sprintf('INSERT INTO %s (block_id, module_id) VALUES (%u, %d)', $db->prefix('block_module_link'), $bid, (int)$bmid);
             $db->query($sql);
         }
-        include_once XOOPS_ROOT_PATH . '/class/template.php';
+        require_once XOOPS_ROOT_PATH . '/class/template.php';
         $xoopsTpl = new XoopsTpl();
         $xoopsTpl->xoops_setCaching(2);
         if ($myblock->getVar('template') != '') {

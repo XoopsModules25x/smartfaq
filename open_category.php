@@ -6,14 +6,14 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 global $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
 
 $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 
-include_once XOOPS_ROOT_PATH . '/header.php';
-include_once __DIR__ . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require_once __DIR__ . '/footer.php';
 
 $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
 
@@ -124,7 +124,7 @@ $xoopsTpl->assign('lang_category_summary_info', _MD_SF_CATEGORY_SUMMARY_INFO);
 $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 
 // The Navigation Bar
-include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 $pagenav = new XoopsPageNav($totalQnas[$categoryid], $xoopsModuleConfig['indexperpage'], $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
 if ($xoopsModuleConfig['useimagenavpage'] == 1) {
     $category['navbar'] = '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>';
@@ -139,4 +139,4 @@ $module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
 $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category['name']);
 // End Page Title Hack by marcan
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

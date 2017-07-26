@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/../../../include/cp_header.php';
+require_once __DIR__ . '/../../../include/cp_header.php';
 
 $op = 'go';//'start';
 
@@ -15,7 +15,7 @@ if (isset($HTTP_POST_VARS['op']) && ($HTTP_POST_VARS['op'] === 'go')) {
 }
 
 if ($op === 'start') {
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     xoops_cp_header();
 
@@ -36,7 +36,7 @@ if ($op === 'go') {
     echo "    <publisher>\r\n";
     echo "      <publishername>\r\n";
     echo "        {site name}\r\n";
-    echo "        <ulink url=\"{site url}\"/>\r\n";
+    echo "        <ulink url=\"{site url}\">\r\n";
     echo "      </publishername>\r\n";
     echo "    </publisher>\r\n";
     echo "    <date>{time of export}</date>\r\n";
@@ -44,7 +44,7 @@ if ($op === 'go') {
 
     echo "  <title>{module title}</title>\r\n";
 
-    $resultC = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('smartfaq_categories'));
+    $resultC = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('smartfaq_categories'));
     while ($arrC = $xoopsDB->fetchArray($resultC)) {
         extract($arrC, EXTR_PREFIX_ALL, 'c');
 
@@ -52,13 +52,11 @@ if ($op === 'go') {
         echo '    <title>' . encodeText($c_name) . "</title>\r\n";
         echo '    <para>' . encodeText($c_description) . "</para>\r\n";
 
-        $resultQ = $xoopsDB->query('select * from ' . $xoopsDB->prefix('smartfaq_faq') . " where categoryid=$c_categoryid");
+        $resultQ = $xoopsDB->queryF('select * from ' . $xoopsDB->prefix('smartfaq_faq') . " where categoryid=$c_categoryid");
         while ($arrQ = $xoopsDB->fetchArray($resultQ)) {
             extract($arrQ, EXTR_PREFIX_ALL, 'q');
 
-            echo "    <qandaentry ID=\"q$q_faqid\" Revision=\"$q_datesub\" Condition=\"$q_html $q_smiley $q_xcodes\" XrefLabel=\"$q_modulelink $q_contextpage\" Vendor=\""
-                 . getUserFullName($q_uid)
-                 . "\">\r\n";
+            echo "    <qandaentry ID=\"q$q_faqid\" Revision=\"$q_datesub\" Condition=\"$q_html $q_smiley $q_xcodes\" XrefLabel=\"$q_modulelink $q_contextpage\" Vendor=\"" . getUserFullName($q_uid) . "\">\r\n";
             echo "      <question>\r\n";
             echo '        <para>' . encodeText($q_question) . "</para>\r\n";
             if (!empty($q_howdoi)) {
@@ -75,7 +73,7 @@ if ($op === 'go') {
             }
             echo "      </question>\r\n";
 
-            $resultA = $xoopsDB->query('select * from ' . $xoopsDB->prefix('smartfaq_answers') . " where answerid=$q_answerid");
+            $resultA = $xoopsDB->queryF('select * from ' . $xoopsDB->prefix('smartfaq_answers') . " where answerid=$q_answerid");
             while ($arrA = $xoopsDB->fetchArray($resultA)) {
                 extract($arrA, EXTR_PREFIX_ALL, 'a');
 

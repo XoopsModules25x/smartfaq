@@ -9,14 +9,14 @@
 
 global $_POST, $xoopsDB;
 
-include_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
-include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
-include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-include_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/functions.php';
 
 $mytree = new XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
-$form   = new XoopsThemeForm(_MD_SF_SUB_SMNAME, 'form', xoops_getenv('PHP_SELF'));
+$form   = new XoopsThemeForm(_MD_SF_SUB_SMNAME, 'form', xoops_getenv('PHP_SELF'), 'post', true);
 
 // Category
 ob_start();
@@ -81,17 +81,7 @@ $form->addElement($upload_tray);
 if (!empty($attachments) && is_array($attachments) && count($attachments)) {
     $delete_attach_checkbox = new XoopsFormCheckBox(_MD_SF_ATTACHED_FILES, 'delete_attach[]');
     foreach ($attachments as $key => $attachment) {
-        $attach = ' '
-                  . _DELETE
-                  . ' <a href='
-                  . XOOPS_URL
-                  . '/'
-                  . $xoopsModuleConfig['dir_attachments']
-                  . '/'
-                  . $attachment['name_saved']
-                  . ' rel="external">'
-                  . $attachment['name_display']
-                  . '</a><br>';
+        $attach = ' ' . _DELETE . ' <a href=' . XOOPS_URL . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $attachment['name_saved'] . ' rel="external">' . $attachment['name_display'] . '</a><br>';
         $delete_attach_checkbox->addOption($key, $attach);
     }
     $form->addElement($delete_attach_checkbox);

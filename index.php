@@ -5,7 +5,7 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 
 // At which record shall we start for the Categories
 $catstart = isset($_GET['catstart']) ? (int)$_GET['catstart'] : 0;
@@ -27,8 +27,7 @@ $totalFaqs = $faqHandler->getFaqsCount(-1, array(_SF_STATUS_PUBLISHED, _SF_STATU
 if ($totalFaqs == 0) {
     if (($totalCategories > 0)
         && ($xoopsModuleConfig['allowrequest'] && $xoopsModuleConfig['anonpost']
-            || is_object($xoopsUser))
-    ) {
+            || is_object($xoopsUser))) {
         redirect_header('request.php', 2, _AM_SF_NO_TOP_PERMISSIONS);
     } else {
         redirect_header('../../index.php', 2, _AM_SF_NO_TOP_PERMISSIONS);
@@ -37,8 +36,8 @@ if ($totalFaqs == 0) {
 
 $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_index.tpl';
 
-include_once XOOPS_ROOT_PATH . '/header.php';
-include_once __DIR__ . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require_once __DIR__ . '/footer.php';
 
 // Creating the categories objects
 $categoriesObj = $categoryHandler->getCategories($xoopsModuleConfig['catperpage'], $catstart);
@@ -179,7 +178,7 @@ $xoopsTpl->assign('lang_editcategory', _MD_SF_CATEGORY_EDIT);
 $xoopsTpl->assign('lang_comments', _MD_SF_COMMENTS);
 
 // Category Navigation Bar
-include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 $pagenav = new XoopsPageNav($totalCategories, $xoopsModuleConfig['catperpage'], $catstart, 'catstart', '');
 if ($xoopsModuleConfig['useimagenavpage'] == 1) {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
@@ -200,4 +199,4 @@ $module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
 $xoopsTpl->assign('xoops_pagetitle', $module_name);
 // End Page Title Hack by marcan
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

@@ -51,7 +51,7 @@
     <div class="sf_collaps_title"><a href='javascript:' onclick="toggle('toptable'); toggleIcon('toptableicon')"><img
                     id='toptableicon'
                     src='<{$xoops_url}>/modules/smartfaq/assets/images/icon/close12.gif'
-                    alt=''/></a>&nbsp;<{$lang_category_summary}>
+                    alt=''></a>&nbsp;<{$lang_category_summary}>
     </div>
 <div id='toptable'>
     <span class="sf_collaps_info"><{$lang_category_summary_info}></span>
@@ -73,11 +73,11 @@
                 <{if $isAdmin == 1}>
                     <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&amp;categoryid=<{$category.categoryid}>"><img
                                 src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif"
-                                title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>
+                                title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"></a>
                     &nbsp;
                     <b><{$category.name}></b>
                 <{else}>
-                    <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif" alt=""/>
+                    <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif" alt="">
                     &nbsp;
                     <b><{$category.name}></b>
                 <{/if}>
@@ -97,11 +97,11 @@
                     <div style="padding-left: 10px;">
                         <{if $isAdmin == 1}>
                             <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&amp;categoryid=<{$subcat.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif"
-                                        title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>
+                                        title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"></a>
                             &nbsp;<{$subcat.categorylink}>
                         <{else}>
                             <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif"
-                                 title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/>
+                                 title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>">
                             &nbsp;<{$subcat.categorylink}>
                         <{/if}>
                         <{if $displaysubcatdsc == 1}>
