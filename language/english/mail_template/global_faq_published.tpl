@@ -1,6 +1,6 @@
 Hello {X_UNAME},
 
-The following Q&A has been published in the {MODULE_NAME} module of {X_SITENAME} : 
+The following Q&A has been published in the {MODULE_NAME} module of {X_SITENAME} :
 
 "{FAQ_NAME}"
 
@@ -19,6 +19,6 @@ Please do not reply to this message.
 
 -----------
 
-{X_SITENAME} ({X_SITEURL}) 
+{X_SITENAME} ({X_SITEURL})
 The Webmaster
 {X_ADMINMAIL}
