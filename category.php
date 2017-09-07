@@ -57,8 +57,8 @@ if ($faqsObj) {
 }
 
 // Arrays that will hold the informations passed on to smarty variables
-$category = array();
-$qnas     = array();
+$category = [];
+$qnas     = [];
 
 // Populating the smarty variables with informations related to the selected category
 $category  = $categoryObj->toArray(null, true);
@@ -96,7 +96,7 @@ $thiscategory_faqcount = isset($totalQnas[$categoryid]) ? $totalQnas[$categoryid
 $category['total']     = $thiscategory_faqcount + $total_faqs;
 
 if (count($faqsObj) > 0) {
-    $userids = array();
+    $userids = [];
     foreach ($faqsObj as $key => $thisfaq) {
         $faqids[]                 = $thisfaq->getVar('faqid');
         $userids[$thisfaq->uid()] = 1;

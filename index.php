@@ -22,7 +22,7 @@ $faqHandler = sf_gethandler('faq');
 $totalCategories = $categoryHandler->getCategoriesCount(0);
 
 // Total number of published FAQ in the module
-$totalFaqs = $faqHandler->getFaqsCount(-1, array(_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER));
+$totalFaqs = $faqHandler->getFaqsCount(-1, [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER]);
 
 if ($totalFaqs == 0) {
     if (($totalCategories > 0)
@@ -48,7 +48,7 @@ if ($totalCategoriesOnPage == 0) {
 }
 // Arrays that will hold the informations passed on to smarty variables
 
-$qnas = array();
+$qnas = [];
 
 //if ($xoopsModuleConfig['displaysubcatonindex']) {
 $subcats = $categoryHandler->getSubCats($categoriesObj);
@@ -61,7 +61,7 @@ if ($xoopsModuleConfig['displaylastfaq'] == 1) {
     $last_qnaObj = $faqHandler->getLastPublishedByCat();
 }
 $lastfaqsize = (int)$xoopsModuleConfig['lastfaqsize'];
-$categories  = array();
+$categories  = [];
 foreach ($categoriesObj as $cat_id => $category) {
     $total = 0;
     if (isset($subcats[$cat_id])) {
@@ -92,7 +92,7 @@ foreach ($categoriesObj as $cat_id => $category) {
         }
         $category->setVar('faqcount', $total);
         if (!isset($categories[$cat_id])) {
-            $categories[$cat_id] = array();
+            $categories[$cat_id] = [];
         }
     }
 
@@ -113,7 +113,7 @@ if ($displaylastfaqs) {
     $totalQnasOnPage = count($faqsObj);
     $allcategories   = $categoryHandler->getObjects(null, true);
     if ($faqsObj) {
-        $userids = array();
+        $userids = [];
         foreach ($faqsObj as $key => $thisfaq) {
             $faqids[]                 = $thisfaq->getVar('faqid');
             $userids[$thisfaq->uid()] = 1;

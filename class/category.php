@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 class sfCategory extends XoopsObject
 {
@@ -191,7 +191,7 @@ class sfCategory extends XoopsObject
     /**
      * @param array $groups_read
      */
-    public function setGroups_read($groups_read = array('0'))
+    public function setGroups_read($groups_read = ['0'])
     {
         $this->groups_read = $groups_read;
     }
@@ -221,7 +221,7 @@ class sfCategory extends XoopsObject
         $myts                = MyTextSanitizer::getInstance();
         $notificationHandler = xoops_getHandler('notification');
 
-        $tags                  = array();
+        $tags                  = [];
         $tags['MODULE_NAME']   = $myts->htmlSpecialChars($smartModule->getVar('name'));
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/category.php?categoryid=' . $this->categoryid();
@@ -235,7 +235,7 @@ class sfCategory extends XoopsObject
      * @param  bool  $open
      * @return array
      */
-    public function toArray($category = array(), $open = false)
+    public function toArray($category = [], $open = false)
     {
         $category['categoryid'] = $this->categoryid();
         $category['name']       = $this->name();
@@ -333,11 +333,28 @@ class sfCategoryHandler extends XoopsObjectHandler
         }
 
         if ($category->isNew()) {
-            $sql = sprintf('INSERT INTO %s (categoryid, parentid, name, description, total, weight, created) VALUES (NULL, %u, %s, %s, %u, %u, %u)', $this->db->prefix('smartfaq_categories'),
-                           $parentid, $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, time());
+            $sql = sprintf(
+                'INSERT INTO %s (categoryid, parentid, name, description, total, weight, created) VALUES (NULL, %u, %s, %s, %u, %u, %u)',
+                $this->db->prefix('smartfaq_categories'),
+                           $parentid,
+                $this->db->quoteString($name),
+                $this->db->quoteString($description),
+                $total,
+                $weight,
+                time()
+            );
         } else {
-            $sql = sprintf('UPDATE %s SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $parentid,
-                           $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, $created, $categoryid);
+            $sql = sprintf(
+                'UPDATE %s SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u',
+                $this->db->prefix('smartfaq_categories'),
+                $parentid,
+                           $this->db->quoteString($name),
+                $this->db->quoteString($description),
+                $total,
+                $weight,
+                $created,
+                $categoryid
+            );
         }
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -411,7 +428,7 @@ class sfCategoryHandler extends XoopsObjectHandler
      */
     public function getObjects($criteria = null, $id_as_key = false)
     {
-        $ret   = array();
+        $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_categories');
         if (null !== $criteria && is_subclass_of($criteria, 'criteriaelement')) {
@@ -518,7 +535,7 @@ class sfCategoryHandler extends XoopsObjectHandler
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        $ret   = array();
+        $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
         if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
@@ -633,7 +650,7 @@ class sfCategoryHandler extends XoopsObjectHandler
     public function getSubCats($categories)
     {
         $criteria = new CriteriaCompo(new Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')'), 'IN');
-        $ret      = array();
+        $ret      = [];
         if (!sf_userIsAdmin()) {
             $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
 
@@ -698,7 +715,7 @@ class sfCategoryHandler extends XoopsObjectHandler
      */
     public function publishedFaqsCount($cat_id = 0)
     {
-        return $this->faqsCount($cat_id, $status = array(_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER));
+        return $this->faqsCount($cat_id, $status = [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER]);
     }
 
     /**

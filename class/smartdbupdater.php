@@ -47,7 +47,7 @@ function smart_TableExists($table)
  * @author  marcan <marcan@smartfactory.ca>
  * @link    http://www.smartfactory.ca The SmartFactory
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 /**
  * Include the language constants for the SmartObjectDBUpdater
@@ -119,7 +119,7 @@ class SmartDbTable
     public function __construct($name)
     {
         $this->_name = $name;
-        $this->_data = array();
+        $this->_data = [];
     }
 
     /**

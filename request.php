@@ -85,7 +85,7 @@ switch ($op) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
-            $newFaqObj->sendNotifications(array(_SF_NOT_QUESTION_PUBLISHED));
+            $newFaqObj->sendNotifications([_SF_NOT_QUESTION_PUBLISHED]);
 
             $redirect_msg = _MD_SF_REQUEST_RECEIVED_AND_PUBLISHED;
         } else {
@@ -96,7 +96,7 @@ switch ($op) {
                 $notificationHandler->subscribe('question', $newFaqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
             }
             // Send notifications
-            $newFaqObj->sendNotifications(array(_SF_NOT_QUESTION_SUBMITTED));
+            $newFaqObj->sendNotifications([_SF_NOT_QUESTION_SUBMITTED]);
 
             $redirect_msg = _MD_SF_REQUEST_RECEIVED_NEED_APPROVAL;
         }

@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
 
@@ -160,7 +160,7 @@ class sfFaq extends XoopsObject
     /**
      * @param array $groups_read
      */
-    public function setGroups_read($groups_read = array('0'))
+    public function setGroups_read($groups_read = ['0'])
     {
         $this->groups_read = $groups_read;
     }
@@ -477,7 +477,7 @@ class sfFaq extends XoopsObject
     /**
      * @param array $notifications
      */
-    public function sendNotifications($notifications = array())
+    public function sendNotifications($notifications = [])
     {
         $smartModule = sf_getModuleInfo();
 
@@ -485,7 +485,7 @@ class sfFaq extends XoopsObject
         $notificationHandler = xoops_getHandler('notification');
         //$categoryObj = $this->category();
 
-        $tags                  = array();
+        $tags                  = [];
         $tags['MODULE_NAME']   = $myts->displayTarea($smartModule->getVar('name'));
         $tags['FAQ_NAME']      = $this->question();
         $tags['CATEGORY_NAME'] = $this->getCategoryName();
@@ -571,7 +571,7 @@ class sfFaq extends XoopsObject
         $groups        = $memberHandler->getGroupList();
 
         $j         = 0;
-        $group_ids = array();
+        $group_ids = [];
         foreach (array_keys($groups) as $i) {
             $group_ids[$j] = $i;
             ++$j;
@@ -589,7 +589,7 @@ class sfFaq extends XoopsObject
             $groups        = $memberHandler->getGroupList();
 
             $j         = 0;
-            $group_ids = array();
+            $group_ids = [];
             foreach (array_keys($groups) as $i) {
                 $group_ids[$j] = $i;
                 ++$j;
@@ -610,7 +610,7 @@ class sfFaq extends XoopsObject
      * @param  array $users
      * @return string
      */
-    public function getWhoAndWhen($answerObj = null, $users = array())
+    public function getWhoAndWhen($answerObj = null, $users = [])
     {
         $smartModuleConfig = sf_getModuleConfig();
 
@@ -655,7 +655,7 @@ class sfFaq extends XoopsObject
      * @param  bool  $linkInQuestion
      * @return array
      */
-    public function toArray($faq = array(), $category = null, $linkInQuestion = true)
+    public function toArray($faq = [], $category = null, $linkInQuestion = true)
     {
         global $xoopsModuleConfig;
         $lastfaqsize = (int)$xoopsModuleConfig['lastfaqsize'];
@@ -767,13 +767,54 @@ class sfFaqHandler extends XoopsObjectHandler
         }
 
         if ($faq->isNew()) {
-            $sql = sprintf('INSERT INTO "%s" (faqid, categoryid, question, howdoi, diduno, uid, datesub, `status`, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
-                           $this->db->prefix('smartfaq_faq'), $categoryid, $this->db->quoteString($question), $this->db->quoteString($howdoi), $this->db->quoteString($diduno), $uid, time(), $status, $counter, $weight, $html, $smiley, $xcodes, $cancomment, $comments, $notifypub,
-                           $this->db->quoteString($modulelink), $this->db->quoteString($contextpage), $exacturl, $partialview);
+            $sql = sprintf(
+                'INSERT INTO "%s" (faqid, categoryid, question, howdoi, diduno, uid, datesub, `status`, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
+                           $this->db->prefix('smartfaq_faq'),
+                $categoryid,
+                $this->db->quoteString($question),
+                $this->db->quoteString($howdoi),
+                $this->db->quoteString($diduno),
+                $uid,
+                time(),
+                $status,
+                $counter,
+                $weight,
+                $html,
+                $smiley,
+                $xcodes,
+                $cancomment,
+                $comments,
+                $notifypub,
+                           $this->db->quoteString($modulelink),
+                $this->db->quoteString($contextpage),
+                $exacturl,
+                $partialview
+            );
         } else {
-            $sql = sprintf('UPDATE "%s" SET categoryid = "%u", question = "%s", howdoi = "%s", diduno = "%s", uid = "%u", datesub = "%u", `status` = "%u", counter = "%u", weight = "%u", html = "%u", smiley = "%u", xcodes = "%u", cancomment = "%u", comments = "%u", notifypub = "%u", modulelink = "%s", contextpage = "%s", exacturl = "%u", partialview = "%u"  WHERE faqid = "%u"',
-                           $this->db->prefix('smartfaq_faq'), $categoryid, $this->db->quoteString($question), $this->db->quoteString($howdoi), $this->db->quoteString($diduno), $uid, $datesub, $status, $counter, $weight, $html, $smiley, $xcodes, $cancomment, $comments, $notifypub,
-                           $this->db->quoteString($modulelink), $this->db->quoteString($contextpage), $exacturl, $partialview, $faqid);
+            $sql = sprintf(
+                'UPDATE "%s" SET categoryid = "%u", question = "%s", howdoi = "%s", diduno = "%s", uid = "%u", datesub = "%u", `status` = "%u", counter = "%u", weight = "%u", html = "%u", smiley = "%u", xcodes = "%u", cancomment = "%u", comments = "%u", notifypub = "%u", modulelink = "%s", contextpage = "%s", exacturl = "%u", partialview = "%u"  WHERE faqid = "%u"',
+                           $this->db->prefix('smartfaq_faq'),
+                $categoryid,
+                $this->db->quoteString($question),
+                $this->db->quoteString($howdoi),
+                $this->db->quoteString($diduno),
+                $uid,
+                $datesub,
+                $status,
+                $counter,
+                $weight,
+                $html,
+                $smiley,
+                $xcodes,
+                $cancomment,
+                $comments,
+                $notifypub,
+                           $this->db->quoteString($modulelink),
+                $this->db->quoteString($contextpage),
+                $exacturl,
+                $partialview,
+                $faqid
+            );
         }
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -843,7 +884,7 @@ class sfFaqHandler extends XoopsObjectHandler
      */
     public function &getObjects(CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
     {
-        $ret   = array();
+        $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_faq');
 
@@ -900,7 +941,7 @@ class sfFaqHandler extends XoopsObjectHandler
      */
     public function &getObjectsAdminSide(CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
     {
-        $ret   = array();
+        $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT
                             faq.faqid AS faqid,
@@ -1092,9 +1133,9 @@ class sfFaqHandler extends XoopsObjectHandler
         $sql    = 'SELECT status, COUNT(*) FROM ' . $this->db->prefix('smartfaq_faq') . ' GROUP BY status';
         $result = $this->db->query($sql);
         if (!$result) {
-            return array();
+            return [];
         }
-        $ret = array();
+        $ret = [];
         while (list($status, $count) = $this->db->fetchRow($result)) {
             $ret[$status] = $count;
         }
@@ -1119,7 +1160,7 @@ class sfFaqHandler extends XoopsObjectHandler
         $order = 'DESC',
         $asobject = true
     ) {
-        return $this->getFaqs($limit, $start, array(_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER), $categoryid, $sort, $order, null, $asobject, null);
+        return $this->getFaqs($limit, $start, [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER], $categoryid, $sort, $order, null, $asobject, null);
     }
 
     /**
@@ -1151,7 +1192,7 @@ class sfFaqHandler extends XoopsObjectHandler
         //if ( ($categoryid == -1) && (empty($status) || ($status == -1)) && ($limit == 0) && ($start ==0) ) {
         //  return $this->getObjects();
         //}
-        $ret         = array();
+        $ret         = [];
         $userIsAdmin = sf_userIsAdmin();
         // Categories for which user has access
         if (!$userIsAdmin) {
@@ -1244,7 +1285,7 @@ class sfFaqHandler extends XoopsObjectHandler
 
         $smartModule = sf_getModuleInfo();
 
-        $ret = array();
+        $ret = [];
 
         if (isset($categoryid) && ($categoryid != -1)) {
             $criteriaCategory = new criteria('faq.categoryid', $categoryid);
@@ -1321,10 +1362,10 @@ class sfFaqHandler extends XoopsObjectHandler
         $otherCriteria = new CriteriaCompo();
         $otherCriteria->add(new Criteria('modulelink', 'None', '<>'));
 
-        $faqsObj = $this->getFaqs(0, 0, array(_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER), -1, 'datesub', 'DESC', '', true, $otherCriteria);
+        $faqsObj = $this->getFaqs(0, 0, [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER], -1, 'datesub', 'DESC', '', true, $otherCriteria);
 
         $totalfaqs  = count($faqsObj);
-        $randomFaqs = array();
+        $randomFaqs = [];
         if ($faqsObj) {
             for ($i = 0; $i < $totalfaqs; ++$i) {
                 $display = false;
@@ -1390,9 +1431,9 @@ class sfFaqHandler extends XoopsObjectHandler
      * @param  array $status
      * @return array
      */
-    public function getLastPublishedByCat($status = array(_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER))
+    public function getLastPublishedByCat($status = [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER])
     {
-        $ret       = array();
+        $ret       = [];
         $faqclause = '';
         if (!sf_userIsAdmin()) {
             $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
@@ -1520,11 +1561,11 @@ class sfFaqHandler extends XoopsObjectHandler
      * @param  int    $userid
      * @return array
      */
-    public function getFaqsFromSearch($queryarray = array(), $andor = 'AND', $limit = 0, $offset = 0, $userid = 0)
+    public function getFaqsFromSearch($queryarray = [], $andor = 'AND', $limit = 0, $offset = 0, $userid = 0)
     {
         global $xoopsUser;
 
-        $ret = array();
+        $ret = [];
 
         $userIsAdmin = sf_userIsAdmin();
 
@@ -1651,7 +1692,7 @@ class sfFaqHandler extends XoopsObjectHandler
     public function getCountsByCat($cat_id = 0, $status)
     {
         global $xoopsUser;
-        $ret = array();
+        $ret = [];
         $sql = 'SELECT categoryid, COUNT(*) AS count FROM ' . $this->db->prefix('smartfaq_faq');
         if ((int)$cat_id > 0) {
             $sql .= ' WHERE categoryid = ' . (int)$cat_id;

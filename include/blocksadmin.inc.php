@@ -23,7 +23,7 @@
  * Licence: GNU
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
     exit('Access Denied');
@@ -136,9 +136,9 @@ if ($op === 'order') {
             $visible[$i] = 1;
         }
 
-        $bmodule[$i] = (isset($bmodule[$i]) && is_array($bmodule[$i])) ? $bmodule[$i] : array(-1);
+        $bmodule[$i] = (isset($bmodule[$i]) && is_array($bmodule[$i])) ? $bmodule[$i] : [-1];
 
-        myblocksadmin_update_block($i, $side[$i], $weight[$i], $visible[$i], $title[$i], '', '', $bcachetime[$i], $bmodule[$i], array());
+        myblocksadmin_update_block($i, $side[$i], $weight[$i], $visible[$i], $title[$i], '', '', $bcachetime[$i], $bmodule[$i], []);
     }
 
     redirect_header('myblocksadmin.php', 1, _AM_DBUPDATED);
@@ -151,10 +151,10 @@ if ($op === 'save') {
 
 if ($op === 'update') {
     $bcachetime = isset($bcachetime) ? (int)$bcachetime : 0;
-    $options    = isset($options) ? $options : array();
+    $options    = isset($options) ? $options : [];
     $bcontent   = isset($bcontent) ? $bcontent : '';
     $bctype     = isset($bctype) ? $bctype : '';
-    $bmodule    = (isset($bmodule) && is_array($bmodule)) ? $bmodule : array(-1); // GIJ +
+    $bmodule    = (isset($bmodule) && is_array($bmodule)) ? $bmodule : [-1]; // GIJ +
     $msg        = myblocksadmin_update_block($bid, $bside, $bweight, $bvisible, $btitle, $bcontent, $bctype, $bcachetime, $bmodule, $options); // GIJ c
     redirect_header('myblocksadmin.php', 1, $msg); // GIJ +
 }
@@ -202,7 +202,7 @@ function myblocksadmin_update_block(
     $bctype,
     $bcachetime,
     $bmodule,
-    $options = array()
+    $options = []
 ) {
     global $xoopsConfig;
     if (empty($bmodule)) {

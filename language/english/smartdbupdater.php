@@ -5,7 +5,7 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 define('_SDU_IMPORT', 'Import');
 define('_SDU_CURRENTVER', "Current version: <span class='currentVer'>%s</span>");

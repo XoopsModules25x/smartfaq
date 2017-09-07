@@ -144,7 +144,7 @@ switch ($op) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
-                $faqObj->sendNotifications(array(_SF_NOT_FAQ_PUBLISHED));
+                $faqObj->sendNotifications([_SF_NOT_FAQ_PUBLISHED]);
                 break;
 
             case 2:
@@ -154,7 +154,7 @@ switch ($op) {
                     $notificationHandler->subscribe('faq', $faqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $faqObj->sendNotifications(array(_SF_NOT_FAQ_SUBMITTED));
+                $faqObj->sendNotifications([_SF_NOT_FAQ_SUBMITTED]);
                 break;
 
             case 3:
@@ -164,7 +164,7 @@ switch ($op) {
                     $notificationHandler->subscribe('question', $newAnswerObj->answerid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $faqObj->sendNotifications(array(_SF_NOT_QUESTION_SUBMITTED));
+                $faqObj->sendNotifications([_SF_NOT_QUESTION_SUBMITTED]);
                 break;
             case 4:
                 // New answer submitted for a published Q&A, auto-approved
@@ -179,7 +179,7 @@ switch ($op) {
                     $notificationHandler->subscribe('faq', $newAnswerObj->answerid(), 'answer_approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
 
-                $faqObj->sendNotifications(array(_SF_NOT_NEW_ANSWER_PROPOSED));
+                $faqObj->sendNotifications([_SF_NOT_NEW_ANSWER_PROPOSED]);
                 break;
         }
 

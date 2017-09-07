@@ -313,12 +313,12 @@ switch ($op) {
             // no confirm: show deletion condition
             $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
             xoops_cp_header();
-            xoops_confirm(array(
+            xoops_confirm([
                               'op'         => 'del',
                               'categoryid' => $categoryObj->categoryid(),
                               'confirm'    => 1,
                               'name'       => $categoryObj->name()
-                          ), 'category.php', _AM_SF_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_SF_DELETE_CAT_CONFIRM, _AM_SF_DELETE);
+                          ], 'category.php', _AM_SF_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_SF_DELETE_CAT_CONFIRM, _AM_SF_DELETE);
             xoops_cp_footer();
         }
         exit();

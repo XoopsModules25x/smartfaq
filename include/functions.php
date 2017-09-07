@@ -5,7 +5,7 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
 require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/faq.php';
@@ -76,7 +76,7 @@ function sf_getHelpPath()
  * @param  array $errors
  * @return string
  */
-function sf_formatErrors($errors = array())
+function sf_formatErrors($errors = [])
 {
     $ret = '';
     foreach ($errors as $key => $value) {
@@ -155,7 +155,7 @@ function sf_createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOp
  */
 function sf_getStatusArray()
 {
-    $result = array(
+    $result = [
         '1' => _AM_SF_STATUS1,
         '2' => _AM_SF_STATUS2,
         '3' => _AM_SF_STATUS3,
@@ -164,7 +164,7 @@ function sf_getStatusArray()
         '6' => _AM_SF_STATUS6,
         '7' => _AM_SF_STATUS7,
         '8' => _AM_SF_STATUS8
-    );
+    ];
 
     return $result;
 }
@@ -409,7 +409,7 @@ function sf_saveModerators($moderators, $categoryid)
  */
 function sf_retrieveFaqByID($faqid = 0)
 {
-    $ret = array();
+    $ret = [];
     global $xoopsDB;
 
     $result = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('smartfaq_faq') . " WHERE faqid = '$faqid'");
@@ -465,7 +465,7 @@ function sf_getAdminLinks($faqid = 0, $open = false)
  * @param  array   $users
  * @return string
  */
-function sf_getLinkedUnameFromId($userid = 0, $name = 0, $users = array())
+function sf_getLinkedUnameFromId($userid = 0, $name = 0, $users = [])
 {
     if (!is_numeric($userid)) {
         return $userid;
@@ -473,7 +473,7 @@ function sf_getLinkedUnameFromId($userid = 0, $name = 0, $users = array())
 
     $userid = (int)$userid;
     if ($userid > 0) {
-        if ($users == array()) {
+        if ($users == []) {
             //fetching users
             $memberHandler = xoops_getHandler('member');
             $user          = $memberHandler->getUser($userid);

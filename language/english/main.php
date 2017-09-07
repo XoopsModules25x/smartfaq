@@ -74,10 +74,12 @@ define('_MD_SF_INTARTFOUND', 'Here is an interesting Question and Answer I have 
 define('_MD_SF_INTARTICLE', 'Have a look at this FAQ at %s');
 define('_MD_SF_MAIL', 'Send Q&amp;A');
 define('_MD_SF_MAINHEAD', 'Welcome to the');
-define('_MD_SF_MAININTRO',
+define(
+    '_MD_SF_MAININTRO',
        "In this area of the site, you will find the answers to the frequently asked questions. Each Q&amp;A is placed in a category for easier finding. This is the section from where the random Q&amp;As in the right column of the site come from. Should you not find the answer to a particular question, don't hesitate to <a href='"
        . XOOPS_URL
-       . "/forms/askus/form.php'>Ask us a Question!</a>");
+       . "/forms/askus/form.php'>Ask us a Question!</a>"
+);
 define('_MD_SF_MAINNOSELECTCAT', 'You did not select a valid category');
 define('_MD_SF_MAINNOFAQS', 'There are no Q&amp;As in this category');
 define('_MD_SF_MODERATION_MAIN_HEAD', 'Moderation section of ');
@@ -116,8 +118,10 @@ define('_MD_SF_QUESTIONS', 'Questions');
 define('_MD_SF_READS', 'reads');
 define('_MD_SF_REQUEST', 'Request a new Q&amp;A');
 define('_MD_SF_REQUEST_ERROR', 'An error occured. Your request was not sent.');
-define('_MD_SF_REQUEST_INTRO',
-       'You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!');
+define(
+    '_MD_SF_REQUEST_INTRO',
+       'You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!'
+);
 define('_MD_SF_REQUEST_RECEIVED_NEED_APPROVAL', 'Your request has been sent and will be published in the Open Questions section upon approval by a moderator.<br>Thank you for your contribution!');
 define('_MD_SF_REQUEST_RECEIVED_AND_PUBLISHED', 'Your request has been sent and automatically published in the Open Questions section. Thank you for your contribution!');
 define('_MD_SF_REQUESTED', 'Requested');

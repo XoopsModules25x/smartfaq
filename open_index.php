@@ -49,13 +49,13 @@ require_once __DIR__ . '/footer.php';
 $allcategories = $categoryHandler->getObjects(null, true);
 
 // Arrays that will hold the informations passed on to smarty variables
-$qnas       = array();
-$categories = array();
+$qnas       = [];
+$categories = [];
 $subcats    = $categoryHandler->getSubCats($categoriesObj);
-$totalQnas  = $categoryHandler->faqsCount(0, array(_SF_STATUS_OPENED));
+$totalQnas  = $categoryHandler->faqsCount(0, [_SF_STATUS_OPENED]);
 
 $faqHandler  = sf_gethandler('faq');
-$last_qnaObj = $faqHandler->getLastPublishedByCat(array(_SF_STATUS_OPENED));
+$last_qnaObj = $faqHandler->getLastPublishedByCat([_SF_STATUS_OPENED]);
 
 foreach ($categoriesObj as $cat_id => $category) {
     $total = 0;
@@ -79,7 +79,7 @@ foreach ($categoriesObj as $cat_id => $category) {
     if ($total > 0) {
         $category->setVar('faqcount', $total);
         if (!isset($categories[$cat_id])) {
-            $categories[$cat_id] = array();
+            $categories[$cat_id] = [];
         }
         $categories[$cat_id]                 = $category->toArray($categories[$cat_id], true);
         $categories[$cat_id]['categoryPath'] = $category->getCategoryPath();
@@ -94,7 +94,7 @@ if ($displaylastfaqs) {
     $totalQnasOnPage = count($faqsObj);
 
     if ($faqsObj) {
-        $userids = array();
+        $userids = [];
         foreach ($faqsObj as $key => $thisfaq) {
             $faqids[]                 = $thisfaq->getVar('faqid');
             $userids[$thisfaq->uid()] = 1;
@@ -115,14 +115,14 @@ if ($displaylastfaqs) {
 }
 // Language constants
 $moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
-$xoopsTpl->assign(array(
+$xoopsTpl->assign([
                       'lang_on'       => _MD_SF_ON,
                       'lang_postedby' => _MD_SF_POSTEDBY,
                       'lang_total'    => $totalQnasOnPage,
                       'lang_faq'      => _MD_SF_FAQ,
                       'lang_datesub'  => _MD_SF_DATESUB,
                       'lang_hits'     => _MD_SF_HITS
-                  ));
+                  ]);
 
 $moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
 $xoopsTpl->assign('lang_mainhead', sprintf(_MD_SF_OPEN_WELCOME, $xoopsConfig['sitename']));

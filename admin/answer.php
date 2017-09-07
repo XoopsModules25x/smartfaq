@@ -185,13 +185,13 @@ switch ($op) {
                     $redirect_msg = _AM_SF_ANSWER_APPROVED_PUBLISHED;
                     $faqObj->setVar('status', _SF_STATUS_PUBLISHED);
                     $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
-                    $notifToDo_faq = array(_SF_NOT_FAQ_PUBLISHED);
+                    $notifToDo_faq = [_SF_NOT_FAQ_PUBLISHED];
                 } else {
                     // Submitted Q&A need approbation
                     $redirect_msg = _AM_SF_ANSWER_APPROVED_NEED_APPROVED;
                     $faqObj->setVar('status', _SF_STATUS_SUBMITTED);
                     $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
-                    $notifToDo_faq = array(_SF_NOT_FAQ_SUBMITTED);
+                    $notifToDo_faq = [_SF_NOT_FAQ_SUBMITTED];
                 }
                 break;
 
@@ -200,7 +200,7 @@ switch ($op) {
                 $redirect_msg = _AM_SF_FAQ_NEW_ANSWER_PUBLISHED;
                 $faqObj->setVar('status', _SF_STATUS_PUBLISHED);
                 $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
-                $notifToDo_answer = array(_SF_NOT_ANSWER_APPROVED);
+                $notifToDo_answer = [_SF_NOT_ANSWER_APPROVED];
                 break;
         }
 
@@ -267,7 +267,7 @@ switch ($op) {
             redirect_header($redirect_page, 3, $redirect_msg);
         } else {
             xoops_cp_header();
-            xoops_confirm(array('op' => 'del', 'answerid' => $answerid, 'confirm' => 1, 'faqid' => $faqid), 'answer.php', _AM_SF_DELETETHISANSWER, _AM_SF_DELETE);
+            xoops_confirm(['op' => 'del', 'answerid' => $answerid, 'confirm' => 1, 'faqid' => $faqid], 'answer.php', _AM_SF_DELETETHISANSWER, _AM_SF_DELETE);
             xoops_cp_footer();
         }
         exit();

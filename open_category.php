@@ -53,16 +53,16 @@ if ($faqsObj) {
 }*/
 
 // Arrays that will hold the informations passed on to smarty variables
-$category    = array();
-$qnas        = array();
-$last_qnaObj = $faqHandler->getLastPublishedByCat(array(_SF_STATUS_OPENED));
+$category    = [];
+$qnas        = [];
+$last_qnaObj = $faqHandler->getLastPublishedByCat([_SF_STATUS_OPENED]);
 if (isset($last_qnaObj[$categoryid])) {
     $categoryObj->setVar('last_faqid', $last_qnaObj[$categoryid]->getVar('faqid'));
     $categoryObj->setVar('last_question_link', "<a href='faq.php?faqid=" . $last_qnaObj[$categoryid]->getVar('faqid') . "'>" . $last_qnaObj[$categoryid]->question(50) . '</a>');
 }
 // Populating the smarty variables with informations related to the selected category
 $category                 = $categoryObj->toArray(null, true);
-$totalQnas                = $categoryHandler->faqsCount(0, array(_SF_STATUS_OPENED));
+$totalQnas                = $categoryHandler->faqsCount(0, [_SF_STATUS_OPENED]);
 $category['categoryPath'] = $categoryObj->getCategoryPath(false, true);
 
 // Creating the sub-categories objects that belong to the selected category
@@ -88,7 +88,7 @@ if ($total_subcats != 0) {
 }
 $category['total'] = $catQnasWithSub + $totalQnas[$categoryid];
 if ($faqsObj) {
-    $userids = array();
+    $userids = [];
     foreach ($faqsObj as $key => $thisfaq) {
         $faqids[]                 = $thisfaq->getVar('faqid');
         $userids[$thisfaq->uid()] = 1;

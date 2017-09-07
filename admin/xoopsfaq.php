@@ -81,7 +81,7 @@ if ($op === 'start') {
             $form->addElement(new XoopsFormRadioYN(_AM_SF_IMPORT_ALLOWCOMMENTS, 'cancomment', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . ''));
 
             $group_list      = $memberHandler->getGroupList();
-            $groups_selected = array();
+            $groups_selected = [];
             $groups_checkbox = new XoopsFormCheckBox(_AM_SF_IMPORT_PERMISSIONS, 'groups_read');
             foreach ($group_list as $group_id => $group_name) {
                 if ($group_id != XOOPS_GROUP_ADMIN) {
@@ -120,7 +120,7 @@ if ($op === 'go') {
     $cnt_imported_faq = 0;
 
     $parentId    = $_POST['parent_category'];
-    $groups_read = isset($_POST['groups_read']) ? $_POST['groups_read'] : array();
+    $groups_read = isset($_POST['groups_read']) ? $_POST['groups_read'] : [];
     $uid         = !empty($_POST['uid']) ? $_POST['uid'] : 0;
     $cancomment  = $_POST['cancomment'];
     $autoaprove  = $_POST['autoaprove'];

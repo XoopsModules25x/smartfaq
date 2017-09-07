@@ -28,7 +28,7 @@ echo "<div id='toptable'>";
 echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $faqs_info . '</span>';
 
 // Get the total number of published FAQs
-$totalfaqs = $faqHandler->getFaqsCount($sel_cat, array(_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER));
+$totalfaqs = $faqHandler->getFaqsCount($sel_cat, [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER]);
 
 // creating the FAQ objects that are published
 $faqsObj         = $faqHandler->getAllPublished($xoopsModuleConfig['perpage'], $startfaq, $sel_cat);

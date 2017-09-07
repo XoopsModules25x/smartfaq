@@ -9,7 +9,7 @@
  * @package     module::newbb
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 defined('NEWBB_FUNCTIONS_INI') || include __DIR__ . '/functions.ini.php';
 define('NEWBB_FUNCTIONS_RENDER_LOADED', true);
@@ -26,7 +26,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
      */
     function sf_htmlSpecialChars($text)
     {
-        return preg_replace(array('/&amp;/i', '/&nbsp;/i'), array('&', '&amp;nbsp;'), htmlspecialchars($text));
+        return preg_replace(['/&amp;/i', '/&nbsp;/i'], ['&', '&amp;nbsp;'], htmlspecialchars($text));
     }
 
     /**

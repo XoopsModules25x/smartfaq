@@ -7,13 +7,13 @@
  * @param $options
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 function b_faqs_recent_questions_show($options)
 {
     require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $block = array();
+    $block = [];
 
     if ($options[0] == 0) {
         $categoryid = -1;
@@ -34,7 +34,7 @@ function b_faqs_recent_questions_show($options)
 
     if ($faqsObj) {
         for ($i = 0; $i < $totalfaqs; ++$i) {
-            $newfaqs = array();
+            $newfaqs = [];
 
             $newfaqs['linktext'] = $faqsObj[$i]->question($maxQuestionLength);
             $newfaqs['id']       = $faqsObj[$i]->faqid();

@@ -222,9 +222,9 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     /** @var XoopsModuleHandler $moduleHandler */
     $moduleHandler           = xoops_getHandler('module');
     $modules_array           = $moduleHandler->getList(null, true);
-    $modulelink_select_array = array('url' => _AM_SF_SPECIFIC_URL_SELECT);
+    $modulelink_select_array = ['url' => _AM_SF_SPECIFIC_URL_SELECT];
     $modulelink_select_array = array_merge($modules_array, $modulelink_select_array);
-    $modulelink_select_array = array_merge(array('None' => _AM_SF_NONE, 'All' => _AM_SF_ALL), $modulelink_select_array);
+    $modulelink_select_array = array_merge(['None' => _AM_SF_NONE, 'All' => _AM_SF_ALL], $modulelink_select_array);
 
     $modulelink_select = new XoopsFormSelect('', 'modulelink', $faqObj->modulelink());
     $modulelink_select->addOptionArray($modulelink_select_array);
@@ -437,7 +437,7 @@ switch ($op) {
                 // Setting the new status
                 $status    = _SF_STATUS_PUBLISHED;
                 $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = array(_SF_NOT_FAQ_PUBLISHED);
+                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
                 break;
 
             case _SF_STATUS_ANSWERED:
@@ -446,7 +446,7 @@ switch ($op) {
                 // Setting the new status
                 $status    = _SF_STATUS_PUBLISHED;
                 $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = array(_SF_NOT_FAQ_PUBLISHED);
+                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
                 break;
 
             case _SF_STATUS_SUBMITTED:
@@ -455,7 +455,7 @@ switch ($op) {
                 // Setting the new status
                 $status    = _SF_STATUS_PUBLISHED;
                 $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = array(_SF_NOT_FAQ_PUBLISHED);
+                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
                 break;
 
             case _SF_STATUS_PUBLISHED:
@@ -472,7 +472,7 @@ switch ($op) {
                 // Setting the new status
                 $status    = _SF_STATUS_PUBLISHED;
                 $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = array(_SF_NOT_FAQ_PUBLISHED);
+                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
                 break;
 
             case _SF_STATUS_NEW_ANSWER:
@@ -494,7 +494,7 @@ switch ($op) {
                 // Setting the new status
                 $status    = _SF_STATUS_PUBLISHED;
                 $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = array(_SF_NOT_FAQ_PUBLISHED);
+                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
                 break;
         }
         $faqObj->setVar('status', $status);
@@ -547,12 +547,12 @@ switch ($op) {
             // no confirm: show deletion condition
             $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
             xoops_cp_header();
-            xoops_confirm(array(
+            xoops_confirm([
                               'op'      => 'del',
                               'faqid'   => $faqObj->faqid(),
                               'confirm' => 1,
                               'name'    => $faqObj->question()
-                          ), 'faq.php', _AM_SF_DELETETHISARTICLE . " <br>'" . $faqObj->question() . "'. <br> <br>", _AM_SF_DELETE);
+                          ], 'faq.php', _AM_SF_DELETETHISARTICLE . " <br>'" . $faqObj->question() . "'. <br> <br>", _AM_SF_DELETE);
             xoops_cp_footer();
         }
 

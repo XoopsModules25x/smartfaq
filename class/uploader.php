@@ -9,7 +9,7 @@
  * @package     module::newbb
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 require_once XOOPS_ROOT_PATH . '/class/uploader.php';
 
@@ -34,12 +34,12 @@ class sfUploader extends XoopsMediaUploader
     {
         if (!is_array($allowedMimeTypes)) {
             if (empty($allowedMimeTypes) || $allowedMimeTypes === '*') {
-                $allowedMimeTypes = array();
+                $allowedMimeTypes = [];
             } else {
                 $allowedMimeTypes = array_filter(array_map('trim', explode('|', strtolower($allowedMimeTypes))));
             }
         }
-        $_allowedMimeTypes = array();
+        $_allowedMimeTypes = [];
         $extensionToMime   = include $GLOBALS['xoops']->path('/include/mimetypes.inc.php');
         foreach ($allowedMimeTypes as $type) {
             if (isset($extensionToMime[$type])) {

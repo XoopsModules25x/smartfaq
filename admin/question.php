@@ -212,7 +212,7 @@ switch ($op) {
         }
 
         // Putting the values in the FAQ object
-        $faqObj->setGroups_read(isset($_POST['groups']) ? $_POST['groups'] : array());
+        $faqObj->setGroups_read(isset($_POST['groups']) ? $_POST['groups'] : []);
         $faqObj->setVar('categoryid', isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0);
         $faqObj->setVar('question', $_POST['question']);
         $faqObj->setVar('status', isset($_POST['status']) ? (int)$_POST['status'] : _SF_STATUS_ASKED);
@@ -225,7 +225,7 @@ switch ($op) {
                 $redirect_msg = _AM_SF_QUESTIONCREATEDOK;
                 // Setting the new status
                 $status    = _SF_STATUS_OPENED;
-                $notifToDo = array(_SF_NOT_QUESTION_PUBLISHED);
+                $notifToDo = [_SF_NOT_QUESTION_PUBLISHED];
                 $faqObj->setVar('uid', $uid);
                 break;
 
@@ -233,7 +233,7 @@ switch ($op) {
                 $redirect_msg = _AM_SF_QUESTIONPUBLISHED;
                 // Setting the new status
                 $status    = _SF_STATUS_OPENED;
-                $notifToDo = array(_SF_NOT_QUESTION_PUBLISHED);
+                $notifToDo = [_SF_NOT_QUESTION_PUBLISHED];
                 break;
 
             case 'default':
@@ -283,12 +283,12 @@ switch ($op) {
             // no confirm: show deletion condition
             $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
             xoops_cp_header();
-            xoops_confirm(array(
+            xoops_confirm([
                               'op'      => 'del',
                               'faqid'   => $faqObj->faqid(),
                               'confirm' => 1,
                               'name'    => $faqObj->question()
-                          ), 'question.php', _AM_SF_DELETETHISQUESTION . " <br>'" . $faqObj->question() . "'. <br> <br>", _AM_SF_DELETE);
+                          ], 'question.php', _AM_SF_DELETETHISQUESTION . " <br>'" . $faqObj->question() . "'. <br> <br>", _AM_SF_DELETE);
             xoops_cp_footer();
         }
 
@@ -315,7 +315,7 @@ switch ($op) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_OPENED_DSC . '</span>';
 
         // Get the total number of published FAQs
-        $totalfaqs = $faqHandler->getFaqsCount(-1, array(_SF_STATUS_OPENED));
+        $totalfaqs = $faqHandler->getFaqsCount(-1, [_SF_STATUS_OPENED]);
         // creating the FAQ objects that are published
         $faqsObj         = $faqHandler->getFaqs($xoopsModuleConfig['perpage'], $startfaq, _SF_STATUS_OPENED);
         $totalFaqsOnPage = count($faqsObj);

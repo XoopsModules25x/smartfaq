@@ -31,7 +31,7 @@ class SmartfaqPermissionHandler extends XoopsObjectHandler
             //Get group permissions handler
             $gpermHandler = xoops_getHandler('groupperm');
             //Get user's groups
-            $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
+            $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : [XOOPS_GROUP_ANONYMOUS];
 
             switch ($type) {
                 case 'category':
@@ -53,6 +53,6 @@ class SmartfaqPermissionHandler extends XoopsObjectHandler
         }
 
         //Return the permission array
-        return isset($permissions[$type]) ? $permissions[$type] : array();
+        return isset($permissions[$type]) ? $permissions[$type] : [];
     }
 }

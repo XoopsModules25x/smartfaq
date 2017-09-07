@@ -119,7 +119,7 @@ class SmartfaqUtility extends XoopsObject
             }
         }
 
-        if (!$success) {
+        if (false === $success) {
             $module->setErrors(sprintf(_AM_SF_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
         }
 
@@ -216,7 +216,7 @@ class SmartfaqUtility extends XoopsObject
      * @param  array $errors
      * @return string
      */
-    public static function sf_formatErrors($errors = array())
+    public static function sf_formatErrors($errors = [])
     {
         $ret = '';
         foreach ($errors as $key => $value) {
@@ -295,7 +295,7 @@ class SmartfaqUtility extends XoopsObject
      */
     public static function sf_getStatusArray()
     {
-        $result = array(
+        $result = [
             '1' => _AM_SF_STATUS1,
             '2' => _AM_SF_STATUS2,
             '3' => _AM_SF_STATUS3,
@@ -304,7 +304,7 @@ class SmartfaqUtility extends XoopsObject
             '6' => _AM_SF_STATUS6,
             '7' => _AM_SF_STATUS7,
             '8' => _AM_SF_STATUS8
-        );
+        ];
 
         return $result;
     }
@@ -549,7 +549,7 @@ class SmartfaqUtility extends XoopsObject
      */
     public static function sf_retrieveFaqByID($faqid = 0)
     {
-        $ret = array();
+        $ret = [];
         global $xoopsDB;
 
         $result = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('smartfaq_faq') . " WHERE faqid = '$faqid'");
@@ -605,7 +605,7 @@ class SmartfaqUtility extends XoopsObject
      * @param  array   $users
      * @return string
      */
-    public static function sf_getLinkedUnameFromId($userid = 0, $name = 0, $users = array())
+    public static function sf_getLinkedUnameFromId($userid = 0, $name = 0, $users = [])
     {
         if (!is_numeric($userid)) {
             return $userid;
@@ -613,7 +613,7 @@ class SmartfaqUtility extends XoopsObject
 
         $userid = (int)$userid;
         if ($userid > 0) {
-            if ($users == array()) {
+            if ($users == []) {
                 //fetching users
                 $memberHandler = xoops_getHandler('member');
                 $user          = $memberHandler->getUser($userid);

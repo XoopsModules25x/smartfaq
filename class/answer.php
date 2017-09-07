@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 // Answers status
 define('_SF_AN_STATUS_NOTSET', -1);
@@ -23,7 +23,7 @@ define('_SF_NOT_ANSWER_REJECTED', 4);
  */
 class sfAnswer extends XoopsObject
 {
-    public $attachment_array = array();
+    public $attachment_array = [];
 
     /**
      * constructor
@@ -127,13 +127,13 @@ class sfAnswer extends XoopsObject
         if (!is_array($attach_old) || count($attach_old) < 1) {
             return true;
         }
-        $this->attachment_array = array();
+        $this->attachment_array = [];
 
         if ($attach_array === null) {
             $attach_array = array_keys($attach_old);
         } // to delete all!
         if (!is_array($attach_array)) {
-            $attach_array = array($attach_array);
+            $attach_array = [$attach_array];
         }
 
         foreach ($attach_old as $key => $attach) {
@@ -166,12 +166,12 @@ class sfAnswer extends XoopsObject
         $this->attachment_array = $this->getAttachment();
         if ($name_saved) {
             $key                          = (string)(time() + ($counter++));
-            $this->attachment_array[$key] = array(
+            $this->attachment_array[$key] = [
                 'name_saved'   => $name_saved,
                 'name_display' => isset($name_display) ? $name_display : $name_saved,
                 'mimetype'     => $mimetype,
                 'num_download' => isset($num_download) ? (int)$num_download : 0
-            );
+            ];
         }
         $attachment_save = null;
         if (is_array($this->attachment_array)) {
@@ -197,7 +197,7 @@ class sfAnswer extends XoopsObject
             $iconHandler = sf_getIconHandler();
             $mime_path   = $iconHandler->getPath('mime');
             require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/include/functions.image.php';
-            $image_extensions = array('jpg', 'jpeg', 'gif', 'png', 'bmp'); // need improve !!!
+            $image_extensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp']; // need improve !!!
             $post_attachment  .= '<br><strong>' . _MD_ATTACHMENT . '</strong>:';
             $post_attachment  .= '<br><hr size="1" noshade="noshade"><br>';
             foreach ($attachments as $key => $att) {
@@ -358,7 +358,7 @@ class sfAnswer extends XoopsObject
     /**
      * @param array $notifications
      */
-    public function sendNotifications($notifications = array())
+    public function sendNotifications($notifications = [])
     {
         $smartModule = sf_getModuleInfo();
 
@@ -367,7 +367,7 @@ class sfAnswer extends XoopsObject
 
         $faqObj = new sfFaq($this->faqid());
 
-        $tags                  = array();
+        $tags                  = [];
         $tags['MODULE_NAME']   = $myts->displayTarea($smartModule->getVar('name'));
         $tags['FAQ_NAME']      = $faqObj->question();
         $tags['FAQ_URL']       = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/faq.php?faqid=' . $faqObj->faqid();
@@ -556,7 +556,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
      */
     public function &getObjects(CriteriaElement $criteria = null, $id_as_key = false, $as_object = true)
     {
-        $ret   = array();
+        $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_answers');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
@@ -690,9 +690,9 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
 
         $result = $this->db->query($sql);
         if (!$result) {
-            return array();
+            return [];
         }
-        $ret = array();
+        $ret = [];
         while (list($id, $count) = $this->db->fetchRow($result)) {
             $ret[$id] = $count;
         }
@@ -751,7 +751,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
      */
     public function getLastPublishedByFaq($faqids)
     {
-        $ret    = array();
+        $ret    = [];
         $sql    = 'SELECT faqid, answer, uid, datesub FROM ' . $this->db->prefix('smartfaq_answers') . '
                WHERE faqid IN (' . implode(',', $faqids) . ') AND status = ' . _SF_AN_STATUS_APPROVED . ' GROUP BY faqid';
         $result = $this->db->query($sql);

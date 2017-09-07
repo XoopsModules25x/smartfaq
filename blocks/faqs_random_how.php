@@ -5,19 +5,19 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 function b_faqs_random_how_show()
 {
     require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $block = array();
+    $block = [];
 
     // Creating the faq handler object
     $faqHandler = sf_gethandler('faq');
 
     // creating the FAQ object
-    $faqsObj = $faqHandler->getRandomFaq('howdoi', array(_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER));
+    $faqsObj = $faqHandler->getRandomFaq('howdoi', [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER]);
 
     if ($faqsObj) {
         $block['content']     = $faqsObj->howdoi();

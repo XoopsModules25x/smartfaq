@@ -32,8 +32,8 @@ switch ($op) {
         xoops_cp_header();
         $adminObject->displayNavigation(basename(__FILE__));
         // View Categories permissions
-        $item_list_view = array();
-        $block_view     = array();
+        $item_list_view = [];
+        $block_view     = [];
         // echo "<h3 style='color: #2F5376; '>"._AM_SF_PERMISSIONSADMIN."</h3>\n" ;
         sf_collapsableBar('toptable', 'toptableicon');
 

@@ -7,7 +7,7 @@
  * @param $options
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 function b_faqs_recent_show($options)
 {
@@ -17,7 +17,7 @@ function b_faqs_recent_show($options)
     $smartModule       = sf_getModuleInfo();
     $smartModuleConfig = sf_getModuleConfig();
 
-    $block = array();
+    $block = [];
 
     if ($options[0] == 0) {
         $categoryid = -1;
@@ -39,7 +39,7 @@ function b_faqs_recent_show($options)
     $faqsObj       = $faqHandler->getAllPublished($limit, 0, $categoryid, $sort);
     $allcategories = $categoryHandler->getObjects(null, true);
     if ($faqsObj) {
-        $userids = array();
+        $userids = [];
         foreach ($faqsObj as $key => $thisfaq) {
             $faqids[]                 = $thisfaq->getVar('faqid');
             $userids[$thisfaq->uid()] = 1;

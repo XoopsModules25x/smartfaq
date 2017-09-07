@@ -59,7 +59,7 @@ function list_blocks()
     global $block_arr, $xoopsModule;
 
     // cachetime options
-    $cachetimes = array(
+    $cachetimes = [
         '0'       => _NOCACHE,
         '30'      => sprintf(_SECONDS, 30),
         '60'      => _MINUTE,
@@ -71,7 +71,7 @@ function list_blocks()
         '259200'  => sprintf(_DAYS, 3),
         '604800'  => _WEEK,
         '2592000' => _MONTH
-    );
+    ];
 
     // displaying TH
     sf_collapsableBar('toptable', 'toptableicon');
@@ -139,7 +139,7 @@ function list_blocks()
         // target modules
         $db            = XoopsDatabaseFactory::getDatabaseConnection();
         $result        = $db->query('SELECT module_id FROM ' . $db->prefix('block_module_link') . " WHERE block_id='$bid'");
-        $selected_mids = array();
+        $selected_mids = [];
         while (list($selected_mid) = $db->fetchRow($result)) {
             $selected_mids[] = (int)$selected_mid;
         }

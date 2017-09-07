@@ -11,13 +11,13 @@
  * @param $userid
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 
 function smartfaq_search($queryarray, $andor, $limit, $offset, $userid)
 {
     require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $ret = array();
+    $ret = [];
 
     $faqHandler = sf_gethandler('faq');
 

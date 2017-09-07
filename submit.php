@@ -164,7 +164,7 @@ switch ($op) {
 
         //====================================================================================
         //TODO post Attachment
-        $attachments_tmp = array();
+        $attachments_tmp = [];
         if (!empty($_POST['attachments_tmp'])) {
             $attachments_tmp = unserialize(base64_decode($_POST['attachments_tmp']));
             if (isset($_POST['delete_tmp']) && count($_POST['delete_tmp'])) {
@@ -239,14 +239,14 @@ switch ($op) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
-            $newFaqObj->sendNotifications(array(_SF_NOT_FAQ_PUBLISHED));
+            $newFaqObj->sendNotifications([_SF_NOT_FAQ_PUBLISHED]);
 
             $redirect_msg = _MD_SF_SUBMIT_FROM_ADMIN;
         } elseif ($xoopsModuleConfig['autoapprove_submitted_faq'] == 1) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
-            $newFaqObj->sendNotifications(array(_SF_NOT_FAQ_PUBLISHED));
+            $newFaqObj->sendNotifications([_SF_NOT_FAQ_PUBLISHED]);
 
             $redirect_msg = _MD_SF_QNA_RECEIVED_AND_PUBLISHED;
         } else {
@@ -257,7 +257,7 @@ switch ($op) {
                 $notificationHandler->subscribe('faq', $newFaqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
             }
             // Send notifications
-            $newFaqObj->sendNotifications(array(_SF_NOT_FAQ_SUBMITTED));
+            $newFaqObj->sendNotifications([_SF_NOT_FAQ_SUBMITTED]);
 
             $redirect_msg = _MD_SF_QNA_RECEIVED_NEED_APPROVAL;
         }

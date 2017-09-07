@@ -5,7 +5,7 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
+// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
 $moduleDirName = basename(__DIR__);
 
 $modversion['version']       = 1.12;
@@ -32,7 +32,7 @@ $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
 $modversion['min_xoops']           = '2.5.9';
 $modversion['min_admin']           = '1.2';
-$modversion['min_db']              = array('mysql' => '5.5');
+$modversion['min_db']              = ['mysql' => '5.5'];
 
 // Added by marcan for the About page in admin section
 $modversion['developer_lead']         = 'marcan [Marc-André Lanciault]';
@@ -299,10 +299,10 @@ $modversion['config'][$i]['title']       = '_MI_SF_DISPLAYTYPE';
 $modversion['config'][$i]['description'] = '_MI_SF_DISPLAYTYPEDSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['options']     = array(
+$modversion['config'][$i]['options']     = [
     _MI_SF_DISPLAYTYPE_SUMMARY => 'summary',
     _MI_SF_DISPLAYTYPE_FULL    => 'full'
-);
+];
 $modversion['config'][$i]['default']     = 'full';
 ++$i;
 $modversion['config'][$i]['name']        = 'displaylastfaq';
@@ -423,7 +423,7 @@ $modversion['config'][$i]['description'] = '_MI_SF_CATPERPAGEDSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = 5;
-$modversion['config'][$i]['options']     = array(
+$modversion['config'][$i]['options']     = [
     '5'  => 5,
     '10' => 10,
     '15' => 15,
@@ -431,7 +431,7 @@ $modversion['config'][$i]['options']     = array(
     '25' => 25,
     '30' => 30,
     '50' => 50
-);
+];
 ++$i;
 $modversion['config'][$i]['name']        = 'perpage';
 $modversion['config'][$i]['title']       = '_MI_SF_PERPAGE';
@@ -439,7 +439,7 @@ $modversion['config'][$i]['description'] = '_MI_SF_PERPAGEDSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = 5;
-$modversion['config'][$i]['options']     = array(
+$modversion['config'][$i]['options']     = [
     '5'  => 5,
     '10' => 10,
     '15' => 15,
@@ -447,7 +447,7 @@ $modversion['config'][$i]['options']     = array(
     '25' => 25,
     '30' => 30,
     '50' => 50
-);
+];
 ++$i;
 $modversion['config'][$i]['name']        = 'indexperpage';
 $modversion['config'][$i]['title']       = '_MI_SF_PERPAGEINDEX';
@@ -455,7 +455,7 @@ $modversion['config'][$i]['description'] = '_MI_SF_PERPAGEINDEXDSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = 5;
-$modversion['config'][$i]['options']     = array(
+$modversion['config'][$i]['options']     = [
     '5'  => 5,
     '10' => 10,
     '15' => 15,
@@ -463,7 +463,7 @@ $modversion['config'][$i]['options']     = array(
     '25' => 25,
     '30' => 30,
     '50' => 50
-);
+];
 ++$i;
 $modversion['config'][$i]['name']        = 'indexwelcomemsg';
 $modversion['config'][$i]['title']       = '_MI_SF_INDEXWELCOMEMSG';
@@ -507,7 +507,7 @@ $modversion['config'][$i]['title']       = '_MI_SF_HELP_PATH_SELECT';
 $modversion['config'][$i]['description'] = '_MI_SF_HELP_PATH_SELECT_DSC';
 $modversion['config'][$i]['formtype']    = 'select';
 $modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['options']     = array(_MI_SF_HELP_INSIDE => 'inside', _MI_SF_HELP_CUSTOM => 'custom');
+$modversion['config'][$i]['options']     = [_MI_SF_HELP_INSIDE => 'inside', _MI_SF_HELP_CUSTOM => 'custom'];
 $modversion['config'][$i]['default']     = 'docs.xoops.org';
 ++$i;
 $modversion['config'][$i]['name']        = 'helppath_custom';
@@ -521,7 +521,7 @@ xoops_load('XoopsEditorHandler');
 $editorHandler = XoopsEditorHandler::getInstance();
 $editorList    = array_flip($editorHandler->getList());
 
-$modversion['config'][$i] = array(
+$modversion['config'][$i] = [
     'name'        => 'form_editorOptions',
     'title'       => '_MI_SF_EDITOR',
     'description' => '_MI_SF_EDITORCHOICE',
@@ -529,10 +529,10 @@ $modversion['config'][$i] = array(
     'valuetype'   => 'text',
     'options'     => $editorList,
     'default'     => 'dhtmltextarea'
-);
+];
 
 ++$i;
-$modversion['config'][$i] = array(
+$modversion['config'][$i] = [
     'name'        => 'form_editorOptionsUser',
     'title'       => '_MI_SF_EDITORUSER',
     'description' => '_MI_SF_EDITORCHOICEUSER',
@@ -540,145 +540,145 @@ $modversion['config'][$i] = array(
     'valuetype'   => 'text',
     'options'     => $editorList,
     'default'     => 'dhtmltextarea'
-);
+];
 //mb------------ START ---------------------
 
 define('_MI_SF_SHOTWIDTH2', '<span style="color:#FF0000; font-size:12px;"><b>Upload Files/Images</b></span> ');
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'logfile',
     'title'       => '_MI_SF_SHOTWIDTH2',
     'description' => '_MI_SF_USERLOG_CONFCAT_LOGFILE_DSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'odd'
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'attach_ext',
     'title'       => '_AM_SF_ALLOWED_EXTENSIONS',
     'description' => '_AM_SF_ALLOWED_EXTENSIONS_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'zip|jpg|gif|png'
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'dir_attachments',
     'title'       => '_MI_SF_DIR_ATTACHMENT',
     'description' => '_MI_SF_DIR_ATTACHMENT_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'uploads/smartfaq'
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'media_allowed',
     'title'       => '_MI_SF_MEDIA_ENABLE',
     'description' => '_MI_SF_MEDIA_ENABLE_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'path_magick',
     'title'       => '_MI_SF_PATH_MAGICK',
     'description' => '_MI_SF_PATH_MAGICK_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '/usr/bin/X11'
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'path_netpbm',
     'title'       => '_MI_SF_PATH_NETPBM',
     'description' => '_MI_SF_PATH_NETPBM_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => '/usr/bin'
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'image_lib',
     'title'       => '_MI_SF_IMAGELIB',
     'description' => '_MI_SF_IMAGELIB_DESC',
     'formtype'    => 'select',
     'valuetype'   => 'int',
     'default'     => 0,
-    'options'     => array(
+    'options'     => [
         _MI_SF_AUTO   => 0,
         _MI_SF_MAGICK => 1,
         _MI_SF_NETPBM => 2,
         _MI_SF_GD1    => 3,
         _MI_SF_GD2    => 4
-    )
-);
+    ]
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'show_userattach',
     'title'       => '_MI_SF_USERATTACH_ENABLE',
     'description' => '_MI_SF_USERATTACH_ENABLE_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'max_img_width',
     'title'       => '_MI_SF_MAX_IMG_WIDTH',
     'description' => '_MI_SF_MAX_IMG_WIDTH_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 800
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'max_img_height',
     'title'       => '_MI_SF_MAX_IMG_HEIGHT',
     'description' => '_MI_SF_MAX_IMG_HEIGHT_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 640
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'max_image_width',
     'title'       => '_MI_SF_MAX_IMAGE_WIDTH',
     'description' => '_MI_SF_MAX_IMAGE_WIDTH_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 150
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'max_image_height',
     'title'       => '_MI_SF_MAX_IMAGE_HEIGHT',
     'description' => '_MI_SF_MAX_IMAGE_HEIGHT_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 150
-);
+];
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'max_image_size',
     'title'       => '_MI_SF_MAX_IMAGE_SIZE',
     'description' => '_MI_SF_MAX_IMAGE_SIZE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 1024
-);
+];
 
 define('_MI_XDIR_SHOTWIDTH3', '<span style="color:#FF0000; font-size:12px;"><b>Comments/Notifications</b></span> ');
 
-$modversion['config'][] = array(
+$modversion['config'][] = [
     'name'        => 'logfile',
     'title'       => '_MI_XDIR_SHOTWIDTH3',
     'description' => '_MI_USERLOG_CONFCAT_LOGFILE_DSC',
     'formtype'    => 'line_break',
     'valuetype'   => 'textbox',
     'default'     => 'odd'
-);
+];
 
 //mb ------------- end --------------------------
 
@@ -698,36 +698,36 @@ $modversion['notification']['lookup_func'] = 'smartfaq_notify_iteminfo';
 $modversion['notification']['category'][1]['name']           = 'global_faq';
 $modversion['notification']['category'][1]['title']          = _MI_SF_GLOBAL_FAQ_NOTIFY;
 $modversion['notification']['category'][1]['description']    = _MI_SF_GLOBAL_FAQ_NOTIFY_DSC;
-$modversion['notification']['category'][1]['subscribe_from'] = array('index.php', 'category.php', 'faq.php');
+$modversion['notification']['category'][1]['subscribe_from'] = ['index.php', 'category.php', 'faq.php'];
 
 $modversion['notification']['category'][2]['name']           = 'category_faq';
 $modversion['notification']['category'][2]['title']          = _MI_SF_CATEGORY_FAQ_NOTIFY;
 $modversion['notification']['category'][2]['description']    = _MI_SF_CATEGORY_FAQ_NOTIFY_DSC;
-$modversion['notification']['category'][2]['subscribe_from'] = array('index.php', 'category.php', 'faq.php');
+$modversion['notification']['category'][2]['subscribe_from'] = ['index.php', 'category.php', 'faq.php'];
 $modversion['notification']['category'][2]['item_name']      = 'categoryid';
 $modversion['notification']['category'][2]['allow_bookmark'] = 1;
 
 $modversion['notification']['category'][3]['name']           = 'faq';
 $modversion['notification']['category'][3]['title']          = _MI_SF_FAQ_NOTIFY;
 $modversion['notification']['category'][3]['description']    = _MI_SF_FAQ_NOTIFY_DSC;
-$modversion['notification']['category'][3]['subscribe_from'] = array('faq.php');
+$modversion['notification']['category'][3]['subscribe_from'] = ['faq.php'];
 $modversion['notification']['category'][3]['item_name']      = 'faqid';
 $modversion['notification']['category'][3]['allow_bookmark'] = 1;
 
 $modversion['notification']['category'][4]['name']           = 'global_question';
 $modversion['notification']['category'][4]['title']          = _MI_SF_GLOBAL_QUESTION_NOTIFY;
 $modversion['notification']['category'][4]['description']    = _MI_SF_GLOBAL_QUESTION_NOTIFY_DSC;
-$modversion['notification']['category'][4]['subscribe_from'] = array('open_index.php');
+$modversion['notification']['category'][4]['subscribe_from'] = ['open_index.php'];
 
 $modversion['notification']['category'][5]['name']           = 'category_question';
 $modversion['notification']['category'][5]['title']          = _MI_SF_CATEGORY_QUESTION_NOTIFY;
 $modversion['notification']['category'][5]['description']    = _MI_SF_CATEGORY_QUESTION_NOTIFY_DSC;
-$modversion['notification']['category'][5]['subscribe_from'] = array('open_index.php, open_category.php');
+$modversion['notification']['category'][5]['subscribe_from'] = ['open_index.php, open_category.php'];
 
 $modversion['notification']['category'][6]['name']           = 'question';
 $modversion['notification']['category'][6]['title']          = _MI_SF_QUESTION_NOTIFY;
 $modversion['notification']['category'][6]['description']    = _MI_SF_QUESTION_NOTIFY_DSC;
-$modversion['notification']['category'][6]['subscribe_from'] = array('open_index.php');
+$modversion['notification']['category'][6]['subscribe_from'] = ['open_index.php'];
 
 $modversion['notification']['event'][1]['name']          = 'category_created';
 $modversion['notification']['event'][1]['category']      = 'global_faq';
