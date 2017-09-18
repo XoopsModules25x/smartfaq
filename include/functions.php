@@ -300,7 +300,7 @@ function sf_overrideFaqsPermissions($groups, $categoryid)
     $sql    = 'SELECT faqid FROM ' . $xoopsDB->prefix('smartfaq_faq') . " WHERE categoryid = '$categoryid' ";
     $result = $xoopsDB->queryF($sql);
 
-    if (count($result) > 0) {
+    if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
         while (list($faqid) = $xoopsDB->fetchrow($result)) {
             // First, if the permissions are already there, delete them
             $gpermHandler->deleteByModule($module_id, 'item_read', $faqid);

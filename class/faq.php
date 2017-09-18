@@ -914,7 +914,7 @@ class sfFaqHandler extends XoopsObjectHandler
             return false;
         }
 
-        if (count($result) == 0) {
+        if ($GLOBALS['xoopsDB']->getRowsNum($result) == 0) {
             return false;
         }
 
@@ -993,7 +993,7 @@ class sfFaqHandler extends XoopsObjectHandler
             return false;
         }
 
-        if (count($result) == 0) {
+        if ($GLOBALS['xoopsDB']->getRowsNum($result) == 0) {
             return false;
         }
 
@@ -1670,7 +1670,7 @@ class sfFaqHandler extends XoopsObjectHandler
             return $ret;
         }
 
-        if (count($result) == 0) {
+        if ($GLOBALS['xoopsDB']->getRowsNum($result) == 0) {
             return $ret;
         }
 
