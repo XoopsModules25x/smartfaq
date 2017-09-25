@@ -19,7 +19,7 @@ function sf_getModuleInfo()
     static $smartModule;
     if (null === ($smartModule)) {
         global $xoopsModule;
-        if (null !== ($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') === 'smartfaq') {
+        if (null !== ($xoopsModule) && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
             $smartModule = $xoopsModule;
         } else {
             $hModule     = xoops_getHandler('module');
@@ -38,7 +38,7 @@ function sf_getModuleConfig()
     static $smartConfig;
     if (!$smartConfig) {
         global $xoopsModule;
-        if (null !== ($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') === 'smartfaq') {
+        if (null !== ($xoopsModule) && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
             global $xoopsModuleConfig;
             $smartConfig = $xoopsModuleConfig;
         } else {
@@ -182,7 +182,7 @@ function sf_moderator()
         $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
 
         $categories = $smartPermHandler->getPermissions('moderation');
-        if (count($categories) == 0) {
+        if (0 == count($categories)) {
             $result = false;
         } else {
             $result = true;

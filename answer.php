@@ -13,7 +13,7 @@ require_once __DIR__ . '/header.php';
 global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
 
 // If user is anonymous and we don't allow anonymous posting, exit; else, get the uid
-if (!$xoopsUser && ($xoopsModuleConfig['anonpost'] != 1)) {
+if (!$xoopsUser && (1 != $xoopsModuleConfig['anonpost'])) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
@@ -32,7 +32,7 @@ $faqid = Request::getInt('faqid', 0, 'GET');
 $faqid = Request::getInt('faqid', $faqid, 'POST');
 
 // If no FAQ is selected, exit
-if ($faqid == 0) {
+if (0 == $faqid) {
     redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
 }
 
@@ -50,7 +50,7 @@ switch ($op) {
 
         // If user is anonymous and we don't allow anonymous posting, exit; else, get the uid
         if (!$xoopsUser) {
-            if ($xoopsModuleConfig['anonpost'] == 1) {
+            if (1 == $xoopsModuleConfig['anonpost']) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
@@ -83,9 +83,9 @@ switch ($op) {
         switch ($original_status) {
             // This is an Open Question
             case _SF_STATUS_OPENED:
-                if ($xoopsModuleConfig['autoapprove_answer'] == 1) {
+                if (1 == $xoopsModuleConfig['autoapprove_answer']) {
                     // We automatically approve submitted answer for Open Question, so the question become a Submitted Q&A
-                    if ($xoopsModuleConfig['autoapprove_submitted_faq'] == 1) {
+                    if (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
                         // We automatically approve Submitted Q&A
                         $redirect_msg = _MD_SF_QNA_RECEIVED_AND_PUBLISHED;
                         $faqObj->setVar('status', _SF_STATUS_PUBLISHED);
@@ -111,7 +111,7 @@ switch ($op) {
             // This is a published FAQ for which a user submitted a new answer
             case _SF_STATUS_PUBLISHED:
             case _SF_STATUS_NEW_ANSWER:
-                if ($xoopsModuleConfig['autoapprove_answer_new'] == 1) {
+                if (1 == $xoopsModuleConfig['autoapprove_answer_new']) {
                     // We automatically approve new submitted answer for already published FAQ
                     $redirect_msg = '4';
                     $faqObj->setVar('status', _SF_STATUS_SUBMITTED);
@@ -149,7 +149,7 @@ switch ($op) {
 
             case 2:
                 // Answer for an open question submitted, auto-approved; became Q&A, need approbation
-                if (isset($_POST['notifypub']) && $_POST['notifypub'] == 1) {
+                if (isset($_POST['notifypub']) && 1 == $_POST['notifypub']) {
                     require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('faq', $faqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
@@ -159,7 +159,7 @@ switch ($op) {
 
             case 3:
                 // Answer submitted, needs approbation
-                if (isset($_POST['notifypub']) && $_POST['notifypub'] == 1) {
+                if (isset($_POST['notifypub']) && 1 == $_POST['notifypub']) {
                     require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('question', $newAnswerObj->answerid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
@@ -174,7 +174,7 @@ switch ($op) {
             case 5:
                 // New answer submitted for a published Q&A, need approbation
                 // Send notifications
-                if (isset($_POST['notifypub']) && $_POST['notifypub'] == 1) {
+                if (isset($_POST['notifypub']) && 1 == $_POST['notifypub']) {
                     require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('faq', $newAnswerObj->answerid(), 'answer_approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }

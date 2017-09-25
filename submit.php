@@ -22,7 +22,7 @@ $answerHandler = sf_gethandler('answer');
 // Get the total number of categories
 $totalCategories = count($categoryHandler->getCategories());
 
-if ($totalCategories == 0) {
+if (0 == $totalCategories) {
     redirect_header('index.php', 1, _AM_SF_NOCOLEXISTS);
 }
 
@@ -30,10 +30,10 @@ if ($totalCategories == 0) {
 $isAdmin = sf_userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
 if (!($isAdmin
-      || (isset($xoopsModuleConfig['allowsubmit']) && $xoopsModuleConfig['allowsubmit'] == 1
+      || (isset($xoopsModuleConfig['allowsubmit']) && 1 == $xoopsModuleConfig['allowsubmit']
           && (is_object($xoopsUser)
               || (isset($xoopsModuleConfig['anonpost'])
-                  && $xoopsModuleConfig['anonpost'] == 1))))) {
+                  && 1 == $xoopsModuleConfig['anonpost']))))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -55,7 +55,7 @@ switch ($op) {
         $categoryObj = $categoryHandler->get($_POST['categoryid']);
 
         if (!$xoopsUser) {
-            if ($xoopsModuleConfig['anonpost'] == 1) {
+            if (1 == $xoopsModuleConfig['anonpost']) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
@@ -118,7 +118,7 @@ switch ($op) {
         $newAnswerObj = $answerHandler->create();
 
         if (!$xoopsUser) {
-            if ($xoopsModuleConfig['anonpost'] == 1) {
+            if (1 == $xoopsModuleConfig['anonpost']) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
@@ -145,7 +145,7 @@ switch ($op) {
         $isAdmin = sf_userIsAdmin();
         if ($isAdmin) {
             $newFaqObj->setVar('status', _SF_STATUS_PUBLISHED);
-        } elseif ($xoopsModuleConfig['autoapprove_submitted_faq'] == 1) {
+        } elseif (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
             $newFaqObj->setVar('status', _SF_STATUS_PUBLISHED);
         } else {
             $newFaqObj->setVar('status', _SF_STATUS_SUBMITTED);
@@ -183,7 +183,7 @@ switch ($op) {
         }
         $error_upload = '';
 
-        if (isset($_FILES['userfile']['name']) && $_FILES['userfile']['name'] != ''
+        if (isset($_FILES['userfile']['name']) && '' != $_FILES['userfile']['name']
             && $topicHandler->getPermission($forum_obj, $topic_status, 'attach')) {
             require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/class/uploader.php';
             $maxfilesize = $forum_obj->getVar('attach_maxkb') * 1024;
@@ -242,7 +242,7 @@ switch ($op) {
             $newFaqObj->sendNotifications([_SF_NOT_FAQ_PUBLISHED]);
 
             $redirect_msg = _MD_SF_SUBMIT_FROM_ADMIN;
-        } elseif ($xoopsModuleConfig['autoapprove_submitted_faq'] == 1) {
+        } elseif (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
@@ -251,7 +251,7 @@ switch ($op) {
             $redirect_msg = _MD_SF_QNA_RECEIVED_AND_PUBLISHED;
         } else {
             // Subscribe the user to On Published notification, if requested
-            if ($notifypub == 1) {
+            if (1 == $notifypub) {
                 require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                 $notificationHandler = xoops_getHandler('notification');
                 $notificationHandler->subscribe('faq', $newFaqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);

@@ -71,7 +71,7 @@ function editfaq($faqid = '')
 
     $proposed_answers = $answerHandler->getAllAnswers($faqid, _SF_AN_STATUS_PROPOSED);
 
-    if (count($proposed_answers) == 0) {
+    if (0 == count($proposed_answers)) {
         redirect_header('index.php', 1, _AM_SF_NOANSWERS);
     }
 
@@ -108,7 +108,7 @@ function editfaq($faqid = '')
     $modify  = '';
     $approve = '';
     foreach ($proposed_answers as $proposed_answer) {
-        if ($faqObj->status() == _SF_STATUS_NEW_ANSWER) {
+        if (_SF_STATUS_NEW_ANSWER == $faqObj->status()) {
             $merge   = "<a href='faq.php?op=merge&amp;faqid="
                        . $faqObj->faqid()
                        . '&amp;answerid='
@@ -180,7 +180,7 @@ switch ($op) {
         switch ($faqObj->status()) {
             // This was an Open Question that became a Submitted FAQ
             case _SF_STATUS_ANSWERED:
-                if ($xoopsModuleConfig['autoapprove_submitted_faq'] == 1) {
+                if (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
                     // We automatically approve Submitted Q&A
                     $redirect_msg = _AM_SF_ANSWER_APPROVED_PUBLISHED;
                     $faqObj->setVar('status', _SF_STATUS_PUBLISHED);

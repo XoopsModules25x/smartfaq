@@ -94,7 +94,7 @@ function editcat($showmenu = false, $categoryid = 0)
     echo '-->';
     echo '</style>';
     // If there is a parameter, and the id exists, retrieve data: we're editing a category
-    if ($categoryid != 0) {
+    if (0 != $categoryid) {
 
         // Creating the category object for the selected category
         $categoryObj = new sfCategory($categoryid);
@@ -149,7 +149,7 @@ function editcat($showmenu = false, $categoryid = 0)
 
     $groups_read_checkbox = new XoopsFormCheckBox(_AM_SF_PERMISSIONS_CAT_READ, 'groups_read[]', $categoryObj->getGroups_read());
     foreach ($group_list as $group_id => $group_name) {
-        if ($group_id != XOOPS_GROUP_ADMIN) {
+        if (XOOPS_GROUP_ADMIN != $group_id) {
             $groups_read_checkbox->addOption($group_id, $group_name);
         }
     }
@@ -242,7 +242,7 @@ switch ($op) {
 
         $categoryid = isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0;
 
-        if ($categoryid != 0) {
+        if (0 != $categoryid) {
             $categoryObj = new sfCategory($categoryid);
         } else {
             $categoryObj = $categoryHandler->create();

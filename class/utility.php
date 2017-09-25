@@ -66,7 +66,7 @@ class SmartfaqUtility extends XoopsObject
         $dir = opendir($src);
         //    @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
-            if (($file !== '.') && ($file !== '..')) {
+            if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir($src . '/' . $file)) {
                     self::recurseCopy($src . '/' . $file, $dst . '/' . $file);
                 } else {
@@ -159,7 +159,7 @@ class SmartfaqUtility extends XoopsObject
         static $smartModule;
         if (!isset($smartModule)) {
             global $xoopsModule;
-            if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') === 'smartfaq') {
+            if (isset($xoopsModule) && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
                 $smartModule = $xoopsModule;
             } else {
                 $hModule     = xoops_getHandler('module');
@@ -178,7 +178,7 @@ class SmartfaqUtility extends XoopsObject
         static $smartConfig;
         if (!$smartConfig) {
             global $xoopsModule;
-            if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') === 'smartfaq') {
+            if (isset($xoopsModule) && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
                 global $xoopsModuleConfig;
                 $smartConfig = $xoopsModuleConfig;
             } else {
@@ -322,7 +322,7 @@ class SmartfaqUtility extends XoopsObject
             $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
 
             $categories = $smartPermHandler->getPermissions('moderation');
-            if (count($categories) == 0) {
+            if (0 == count($categories)) {
                 $result = false;
             } else {
                 $result = true;

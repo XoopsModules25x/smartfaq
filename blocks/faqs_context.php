@@ -15,7 +15,7 @@ function b_faqs_context_show($options)
 
     $block = [];
 
-    if ($options[0] == 0) {
+    if (0 == $options[0]) {
         $categoryid = -1;
     } else {
         $categoryid = $options[0];

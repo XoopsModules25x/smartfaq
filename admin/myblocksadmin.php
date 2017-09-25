@@ -103,7 +103,7 @@ function list_blocks()
         $bid        = $block_arr[$i]->getVar('bid');
 
         // visible and side
-        if ($block_arr[$i]->getVar('visible') != 1) {
+        if (1 != $block_arr[$i]->getVar('visible')) {
             $sseln = " checked style='background-color:#FF0000;'";
         } else {
             switch ($block_arr[$i]->getVar('side')) {
@@ -209,7 +209,7 @@ function list_blocks()
             </td>
         </tr>\n";
 
-        $class = ($class === 'even') ? 'odd' : 'even';
+        $class = ('even' === $class) ? 'odd' : 'even';
     }
 
     echo "

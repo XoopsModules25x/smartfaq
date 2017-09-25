@@ -72,7 +72,7 @@ $upload_tray->addElement(new XoopsFormFile('', 'userfile', $xoopsModuleConfig['m
 $upload_tray->addElement(new XoopsFormButton('', 'contents_upload', _MD_SF_UPLOAD, 'submit'));
 $upload_tray->addElement(new XoopsFormLabel('<br><br>' . _MD_SF_MAX_FILESIZE . ':', $xoopsModuleConfig['max_image_size'] . 'Kb; '));
 $extensions = trim(str_replace('|', ' ', $xoopsModuleConfig['attach_ext']));
-$extensions = (empty($extensions) || $extensions === '*') ? _ALL : $extensions;
+$extensions = (empty($extensions) || '*' === $extensions) ? _ALL : $extensions;
 $upload_tray->addElement(new XoopsFormLabel(_MD_SF_ALLOWED_EXTENSIONS . ':', $extensions));
 $upload_tray->addElement(new XoopsFormLabel('<br>' . sprintf(_MD_SF_MAXPIC, $xoopsModuleConfig['max_img_height'], $xoopsModuleConfig['max_img_width'])));
 $form->addElement($upload_tray);

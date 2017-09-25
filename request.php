@@ -20,7 +20,7 @@ $faqHandler = sf_gethandler('faq');
 // Get the total number of categories
 $totalCategories = count($categoryHandler->getCategories());
 
-if ($totalCategories == 0) {
+if (0 == $totalCategories) {
     redirect_header('index.php', 1, _AM_SF_NOCOLEXISTS);
 }
 
@@ -29,8 +29,8 @@ $isAdmin = sf_userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
 if (!($isAdmin
       || (isset($xoopsModuleConfig['allowrequest'])
-          && $xoopsModuleConfig['allowrequest'] == 1
-          && (is_object($xoopsUser) || (isset($xoopsModuleConfig['anonpost']) && $xoopsModuleConfig['anonpost'] == 1))))) {
+          && 1 == $xoopsModuleConfig['allowrequest']
+          && (is_object($xoopsUser) || (isset($xoopsModuleConfig['anonpost']) && 1 == $xoopsModuleConfig['anonpost']))))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -51,7 +51,7 @@ switch ($op) {
         $newFaqObj = $faqHandler->create();
 
         if (!$xoopsUser) {
-            if ($xoopsModuleConfig['anonpost'] == 1) {
+            if (1 == $xoopsModuleConfig['anonpost']) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
@@ -68,7 +68,7 @@ switch ($op) {
         $newFaqObj->setVar('notifypub', $notifypub);
 
         // Setting the status of the FAQ
-        if ($xoopsModuleConfig['autoapprove_request'] == 1) {
+        if (1 == $xoopsModuleConfig['autoapprove_request']) {
             $newFaqObj->setVar('status', _SF_STATUS_OPENED);
         } else {
             $newFaqObj->setVar('status', _SF_STATUS_ASKED);
@@ -81,7 +81,7 @@ switch ($op) {
 
         // Get the cateopry object related to that FAQ
         // If autoapprove_requested
-        if ($xoopsModuleConfig['autoapprove_request'] == 1) {
+        if (1 == $xoopsModuleConfig['autoapprove_request']) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
@@ -90,7 +90,7 @@ switch ($op) {
             $redirect_msg = _MD_SF_REQUEST_RECEIVED_AND_PUBLISHED;
         } else {
             // Subscribe the user to On Published notification, if requested
-            if ($notifypub == 1) {
+            if (1 == $notifypub) {
                 require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                 $notificationHandler = xoops_getHandler('notification');
                 $notificationHandler->subscribe('question', $newFaqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);

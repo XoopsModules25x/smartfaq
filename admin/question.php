@@ -109,7 +109,7 @@ function editfaq($showmenu = false, $faqid = -1)
     $group_list      = $memberHandler->getGroupList();
     $groups_checkbox = new XoopsFormCheckBox(_AM_SF_PERMISSIONS_QUESTION, 'groups[]', $faqObj->getGroups_read());
     foreach ($group_list as $group_id => $group_name) {
-        if ($group_id != XOOPS_GROUP_ADMIN) {
+        if (XOOPS_GROUP_ADMIN != $group_id) {
             $groups_checkbox->addOption($group_id, $group_name);
         }
     }
@@ -175,7 +175,7 @@ switch ($op) {
 
         if ($faqid == -1) {
             $totalcategories = $categoryHandler->getCategoriesCount(-1);
-            if ($totalcategories == 0) {
+            if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_SF_NEED_CATEGORY_QUESTION);
             }
         }
@@ -193,7 +193,7 @@ switch ($op) {
         global $xoopsUser;
 
         if (!$xoopsUser) {
-            if ($xoopsModuleConfig['anonpost'] == 1) {
+            if (1 == $xoopsModuleConfig['anonpost']) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);

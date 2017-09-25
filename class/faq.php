@@ -197,11 +197,11 @@ class sfFaq extends XoopsObject
     public function question($maxLength = 0, $format = 'S')
     {
         $ret = $this->getVar('question', $format);
-        if (($format === 's') || ($format === 'S') || ($format === 'show')) {
+        if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
             $myts = MyTextSanitizer:: getInstance();
             $ret  = $myts->displayTarea($ret);
         }
-        if ($maxLength != 0) {
+        if (0 != $maxLength) {
             if (!XOOPS_USE_MULTIBYTES) {
                 if (strlen($ret) >= $maxLength) {
                     $ret = substr($ret, 0, $maxLength - 1) . '...';
@@ -219,7 +219,7 @@ class sfFaq extends XoopsObject
     public function howdoi($format = 'S')
     {
         $ret = $this->getVar('howdoi', $format);
-        if (($format === 's') || ($format === 'S') || ($format === 'show')) {
+        if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
             $myts = MyTextSanitizer:: getInstance();
             $ret  = $myts->displayTarea($ret);
         }
@@ -234,7 +234,7 @@ class sfFaq extends XoopsObject
     public function diduno($format = 'S')
     {
         $ret = $this->getVar('diduno', $format);
-        if (($format === 's') || ($format === 'S') || ($format === 'show')) {
+        if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
             $myts = MyTextSanitizer:: getInstance();
             $ret  = $myts->displayTarea($ret);
         }
@@ -257,7 +257,7 @@ class sfFaq extends XoopsObject
      */
     public function datesub($dateFormat = 'none', $format = 'S')
     {
-        if ($dateFormat === 'none') {
+        if ('none' === $dateFormat) {
             $smartConfig = sf_getModuleConfig();
             $dateFormat  = $smartConfig['dateformat'];
         }
@@ -617,8 +617,8 @@ class sfFaq extends XoopsObject
         $requester   = sf_getLinkedUnameFromId($this->uid(), $smartModuleConfig['userealname'], $users);
         $requestdate = $this->datesub();
 
-        if (($this->status() == _SF_STATUS_PUBLISHED) || $this->status() == _SF_STATUS_NEW_ANSWER) {
-            if ($answerObj === null) {
+        if ((_SF_STATUS_PUBLISHED == $this->status()) || _SF_STATUS_NEW_ANSWER == $this->status()) {
+            if (null === $answerObj) {
                 $answerObj = $this->answer();
             }
             $submitdate = $answerObj->datesub();
@@ -642,7 +642,7 @@ class sfFaq extends XoopsObject
     {
         global $xoopsConfig;
         $text = _MD_SF_QUESTIONCOMEFROM;
-        if (($this->status() == _SF_STATUS_PUBLISHED) || $this->status() == _SF_STATUS_NEW_ANSWER) {
+        if ((_SF_STATUS_PUBLISHED == $this->status()) || _SF_STATUS_NEW_ANSWER == $this->status()) {
             $text = _MD_SF_FAQCOMEFROM;
         }
 
@@ -663,7 +663,7 @@ class sfFaq extends XoopsObject
         $faq['id']         = $this->faqid();
         $faq['categoryid'] = $this->categoryid();
         $faq['question']   = $this->question();
-        $page              = ($this->status() == _SF_STATUS_OPENED) ? 'answer.php' : 'faq.php';
+        $page              = (_SF_STATUS_OPENED == $this->status()) ? 'answer.php' : 'faq.php';
 
         $faq['questionlink'] = "<a href='$page?faqid=" . $this->faqid() . "'>" . $this->question($lastfaqsize) . '</a>';
         if ($linkInQuestion) {
@@ -677,7 +677,7 @@ class sfFaq extends XoopsObject
         $faq['comments']   = $this->comments();
         $faq['datesub']    = $this->datesub();
         if (null !== $category) {
-            if (is_object($category) && strtolower(get_class($category)) === 'sfcategory') {
+            if (is_object($category) && 'sfcategory' === strtolower(get_class($category))) {
                 $categoryObj = $category;
             } elseif (is_array($category)) {
                 $categoryObj = $category[$this->categoryid()];
@@ -730,7 +730,7 @@ class sfFaqHandler extends XoopsObjectHandler
             }
 
             $numrows = $this->db->getRowsNum($result);
-            if ($numrows == 1) {
+            if (1 == $numrows) {
                 $faq = new sfFaq();
                 $faq->assignVars($this->db->fetchArray($result));
 
@@ -750,7 +750,7 @@ class sfFaqHandler extends XoopsObjectHandler
      */
     public function insert(XoopsObject $faq, $force = false)
     {
-        if (strtolower(get_class($faq)) !== 'sffaq') {
+        if ('sffaq' !== strtolower(get_class($faq))) {
             return false;
         }
 
@@ -847,7 +847,7 @@ class sfFaqHandler extends XoopsObjectHandler
         $smartModule = sf_getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        if (strtolower(get_class($faq)) !== 'sffaq') {
+        if ('sffaq' !== strtolower(get_class($faq))) {
             return false;
         }
 
@@ -891,7 +891,7 @@ class sfFaqHandler extends XoopsObjectHandler
         if (null !== $criteria && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
 
-            if ($whereClause !== 'WHERE ()') {
+            if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
                 if (!empty($notNullFields)) {
                     $sql .= $this->NotNullFieldClause($notNullFields, true);
@@ -899,7 +899,7 @@ class sfFaqHandler extends XoopsObjectHandler
             } elseif (!empty($notNullFields)) {
                 $sql .= ' WHERE ' . $this->NotNullFieldClause($notNullFields);
             }
-            if ($criteria->getSort() != '') {
+            if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
             $limit = $criteria->getLimit();
@@ -914,7 +914,7 @@ class sfFaqHandler extends XoopsObjectHandler
             return false;
         }
 
-        if ($GLOBALS['xoopsDB']->getRowsNum($result) == 0) {
+        if (0 == $GLOBALS['xoopsDB']->getRowsNum($result)) {
             return false;
         }
 
@@ -970,7 +970,7 @@ class sfFaqHandler extends XoopsObjectHandler
         if (null !== $criteria && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
 
-            if ($whereClause !== 'WHERE ()') {
+            if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
                 if (!empty($notNullFields)) {
                     $sql .= $this->NotNullFieldClause($notNullFields, true);
@@ -978,7 +978,7 @@ class sfFaqHandler extends XoopsObjectHandler
             } elseif (!empty($notNullFields)) {
                 $sql .= ' WHERE ' . $this->NotNullFieldClause($notNullFields);
             }
-            if ($criteria->getSort() != '') {
+            if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
             $limit = $criteria->getLimit();
@@ -993,7 +993,7 @@ class sfFaqHandler extends XoopsObjectHandler
             return false;
         }
 
-        if ($GLOBALS['xoopsDB']->getRowsNum($result) == 0) {
+        if (0 == $GLOBALS['xoopsDB']->getRowsNum($result)) {
             return false;
         }
 
@@ -1037,7 +1037,7 @@ class sfFaqHandler extends XoopsObjectHandler
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('smartfaq_faq');
         if (null !== $criteria && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
-            if ($whereClause !== 'WHERE ()') {
+            if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
                 if (!empty($notNullFields)) {
                     $sql .= $this->NotNullFieldClause($notNullFields, true);
@@ -1370,11 +1370,11 @@ class sfFaqHandler extends XoopsObjectHandler
             for ($i = 0; $i < $totalfaqs; ++$i) {
                 $display = false;
 
-                $http        = (strpos(XOOPS_URL, 'https://') === false) ? 'http://' : 'https://';
+                $http        = (false === strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
                 $phpself     = $_SERVER['PHP_SELF'];
                 $httphost    = $_SERVER['HTTP_HOST'];
                 $querystring = $_SERVER['QUERY_STRING'];
-                if ($querystring != '') {
+                if ('' != $querystring) {
                     $querystring = '?' . $querystring;
                 }
                 $currenturl     = $http . $httphost . $phpself . $querystring;
@@ -1393,14 +1393,14 @@ class sfFaqHandler extends XoopsObjectHandler
                         if ($faqsObj[$i]->exacturl()) {
                             $display = ($currenturl == $fullcontexturl);
                         } else {
-                            $display = (strpos($currenturl, $fullcontexturl) === false);
+                            $display = (false === strpos($currenturl, $fullcontexturl));
                         }
                         break;
                     default:
-                        if (strpos($currenturl, XOOPS_URL . '/modules/') === false) {
+                        if (false === strpos($currenturl, XOOPS_URL . '/modules/')) {
                             $display = false;
                         } else {
-                            if (strpos($currenturl, $faqsObj[$i]->modulelink()) === false) {
+                            if (false === strpos($currenturl, $faqsObj[$i]->modulelink())) {
                                 $display = false;
                             } else {
                                 $display = true;
@@ -1569,7 +1569,7 @@ class sfFaqHandler extends XoopsObjectHandler
 
         $userIsAdmin = sf_userIsAdmin();
 
-        if ($userid != 0) {
+        if (0 != $userid) {
             $criteriaUser = new CriteriaCompo();
             $criteriaUser->add(new Criteria('faq.uid', $userid), 'OR');
             $criteriaUser->add(new Criteria('answer.uid', $userid), 'OR');
@@ -1651,9 +1651,9 @@ class sfFaqHandler extends XoopsObjectHandler
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $whereClause = $criteria->renderWhere();
 
-            if ($whereClause !== 'WHERE ()') {
+            if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
-                if ($criteria->getSort() != '') {
+                if ('' != $criteria->getSort()) {
                     $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
                 }
                 $limit = $criteria->getLimit();
@@ -1670,7 +1670,7 @@ class sfFaqHandler extends XoopsObjectHandler
             return $ret;
         }
 
-        if ($GLOBALS['xoopsDB']->getRowsNum($result) == 0) {
+        if (0 == $GLOBALS['xoopsDB']->getRowsNum($result)) {
             return $ret;
         }
 

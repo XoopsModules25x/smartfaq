@@ -10,7 +10,7 @@ require_once __DIR__ . '/header.php';
 
 $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
 
-if ($faqid == 0) {
+if (0 == $faqid) {
     redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
 }
 

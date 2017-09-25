@@ -17,11 +17,11 @@ $scriptname           = 'wffaq.php';
 
 $op = 'start';
 
-if (isset($_POST['op']) && ($_POST['op'] === 'go')) {
+if (isset($_POST['op']) && ('go' === $_POST['op'])) {
     $op = $_POST['op'];
 }
 
-if ($op === 'start') {
+if ('start' === $op) {
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     xoops_cp_header();
     $result = $xoopsDB->queryF('SELECT count(*) FROM ' . $xoopsDB->prefix('faqcategories'));
@@ -31,7 +31,7 @@ if ($op === 'start') {
     echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . sprintf(_AM_SF_IMPORT_FROM, $importFromModuleName) . '</h3>';
     echo "<div id='bottomtable'>";
 
-    if ($totalCat == 0) {
+    if (0 == $totalCat) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_IMPORT_NO_CATEGORY . '</span>';
     } else {
         require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
@@ -39,7 +39,7 @@ if ($op === 'start') {
         $result = $xoopsDB->queryF('SELECT count(*) FROM ' . $xoopsDB->prefix('faqtopics'));
         list($totalFAQ) = $xoopsDB->fetchRow($result);
 
-        if ($totalFAQ == 0) {
+        if (0 == $totalFAQ) {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_SF_IMPORT_MODULE_FOUND_NO_FAQ, $importFromModuleName, $totalCat) . '</span>';
         } else {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_SF_IMPORT_MODULE_FOUND, $importFromModuleName, $totalCat, $totalFAQ) . '</span>';
@@ -80,7 +80,7 @@ if ($op === 'start') {
             $groups_selected = [];
             $groups_checkbox = new XoopsFormCheckBox(_AM_SF_IMPORT_PERMISSIONS, 'groups_read');
             foreach ($group_list as $group_id => $group_name) {
-                if ($group_id != XOOPS_GROUP_ADMIN) {
+                if (XOOPS_GROUP_ADMIN != $group_id) {
                     $groups_selected [] = $group_id;
                     $groups_checkbox->addOption($group_id, $group_name);
                 }
@@ -98,7 +98,7 @@ if ($op === 'start') {
     exit();
 }
 
-if ($op === 'go') {
+if ('go' === $op) {
     $import_category = (isset($_POST['import_category']) ? $_POST['import_category'] : null);
     if (!$import_category) {
         redirect_header($scriptname, 2, _AM_SF_NOCATSELECTED);

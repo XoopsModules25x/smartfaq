@@ -18,11 +18,11 @@ $scriptname           = 'xoopsfaq.php';
 
 $op = 'start';
 
-if (isset($_POST['op']) && ($_POST['op'] === 'go')) {
+if (isset($_POST['op']) && ('go' === $_POST['op'])) {
     $op = $_POST['op'];
 }
 
-if ($op === 'start') {
+if ('start' === $op) {
     xoops_cp_header();
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
@@ -33,7 +33,7 @@ if ($op === 'start') {
     echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . sprintf(_AM_SF_IMPORT_FROM, $importFromModuleName) . '</h3>';
     echo "<div id='bottomtable'>";
 
-    if ($totalCat == 0) {
+    if (0 == $totalCat) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_IMPORT_NO_CATEGORY . '</span>';
     } else {
         require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
@@ -41,7 +41,7 @@ if ($op === 'start') {
         $result = $xoopsDB->queryF('SELECT count(*) FROM ' . $xoopsDB->prefix('xoopsfaq_contents'));
         list($totalFAQ) = $xoopsDB->fetchRow($result);
 
-        if ($totalFAQ == 0) {
+        if (0 == $totalFAQ) {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_SF_IMPORT_MODULE_FOUND_NO_FAQ, $importFromModuleName, $totalCat) . '</span>';
         } else {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_SF_IMPORT_MODULE_FOUND, $importFromModuleName, $totalCat, $totalFAQ) . '</span>';
@@ -84,7 +84,7 @@ if ($op === 'start') {
             $groups_selected = [];
             $groups_checkbox = new XoopsFormCheckBox(_AM_SF_IMPORT_PERMISSIONS, 'groups_read');
             foreach ($group_list as $group_id => $group_name) {
-                if ($group_id != XOOPS_GROUP_ADMIN) {
+                if (XOOPS_GROUP_ADMIN != $group_id) {
                     $groups_selected [] = $group_id;
                     $groups_checkbox->addOption($group_id, $group_name);
                 }
@@ -101,7 +101,7 @@ if ($op === 'start') {
     }
 }
 
-if ($op === 'go') {
+if ('go' === $op) {
     require_once __DIR__ . '/admin_header.php';
 
     $import_category = (isset($_POST['import_category']) ? $_POST['import_category'] : null);
@@ -170,7 +170,7 @@ if ($op === 'go') {
         while ($arrFAQ = $xoopsDB->fetchArray($resultFAQ)) {
             extract($arrFAQ, EXTR_PREFIX_ALL, 'xfaq');
 
-            if ($xfaq_contents_visible != 1) {
+            if (1 != $xfaq_contents_visible) {
                 $qstatus = _SF_STATUS_OFFLINE;
             } elseif ($autoaprove) {
                 $qstatus = _SF_STATUS_PUBLISHED;
@@ -188,9 +188,9 @@ if ($op === 'go') {
             $faqObj->setVar('uid', $uid);
             $faqObj->setVar('status', $qstatus);
             $faqObj->setVar('weight', $xfaq_contents_order);
-            $faqObj->setVar('html', $xfaq_contents_nohtml == 1 ? 0 : 1);
-            $faqObj->setVar('smiley', $xfaq_contents_nosmiley == 1 ? 0 : 1);
-            $faqObj->setVar('xcodes', $xfaq_contents_noxcode == 1 ? 0 : 1);
+            $faqObj->setVar('html', 1 == $xfaq_contents_nohtml ? 0 : 1);
+            $faqObj->setVar('smiley', 1 == $xfaq_contents_nosmiley ? 0 : 1);
+            $faqObj->setVar('xcodes', 1 == $xfaq_contents_noxcode ? 0 : 1);
             $faqObj->setVar('cancomment', $cancomment);
 
             if (!$faqObj->store(false)) {

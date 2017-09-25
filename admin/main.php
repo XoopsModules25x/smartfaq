@@ -299,8 +299,8 @@ echo "
     </form>";
 
 // Get number of entries in the selected state
-$numrows        = ($statussel == 0) ? $totalfaqs : $totalfaqbystatus[$statussel];
-$statusSelected = ($statussel == 0) ? _SF_STATUS_ALL : $statussel;
+$numrows        = (0 == $statussel) ? $totalfaqs : $totalfaqbystatus[$statussel];
+$statusSelected = (0 == $statussel) ? _SF_STATUS_ALL : $statussel;
 
 // creating the Q&As objects
 $faqsObj = $faqHandler->getFaqsAdminSide($xoopsModuleConfig['perpage'], $startentry, $statusSelected, -1, $sortsel, $ordersel);
@@ -451,7 +451,7 @@ echo "</table>\n";
 echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display: block; \">$status_explaination</span>";
 $pagenav = new XoopsPageNav($numrows, $xoopsModuleConfig['perpage'], $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
 
-if ($xoopsModuleConfig['useimagenavpage'] == 1) {
+if (1 == $xoopsModuleConfig['useimagenavpage']) {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderImageNav() . '</div>';
 } else {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderNav() . '</div>';

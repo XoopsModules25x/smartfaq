@@ -13,7 +13,7 @@ function smartfaq_notify_iteminfo($category, $item_id)
 {
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
 
-    if (empty($xoopsModule) || $xoopsModule->getVar('dirname') !== 'smartfaq') {
+    if (empty($xoopsModule) || 'smartfaq' !== $xoopsModule->getVar('dirname')) {
         /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $module        = $moduleHandler->getByDirname('smartfaq');
@@ -24,7 +24,7 @@ function smartfaq_notify_iteminfo($category, $item_id)
         $config = $xoopsModuleConfig;
     }
 
-    if ($category === 'global') {
+    if ('global' === $category) {
         $item['name'] = '';
         $item['url']  = '';
 
@@ -33,7 +33,7 @@ function smartfaq_notify_iteminfo($category, $item_id)
 
     global $xoopsDB;
 
-    if ($category === 'category') {
+    if ('category' === $category) {
         // Assume we have a valid category id
         $sql          = 'SELECT name FROM ' . $xoopsDB->prefix('smartfaq_categories') . ' WHERE categoryid  = ' . $item_id;
         $result       = $xoopsDB->queryF($sql); // TODO: error check
@@ -44,7 +44,7 @@ function smartfaq_notify_iteminfo($category, $item_id)
         return $item;
     }
 
-    if ($category === 'faq') {
+    if ('faq' === $category) {
         // Assume we have a valid story id
         $sql          = 'SELECT question FROM ' . $xoopsDB->prefix('smartfaq_faq') . ' WHERE faqid = ' . $item_id;
         $result       = $xoopsDB->queryF($sql); // TODO: error check

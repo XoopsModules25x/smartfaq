@@ -15,7 +15,7 @@ function b_faqs_new_show($options)
 
     $block = [];
 
-    if ($options[0] == 0) {
+    if (0 == $options[0]) {
         $categoryid = -1;
     } else {
         $categoryid = $options[0];
@@ -35,11 +35,11 @@ function b_faqs_new_show($options)
             $newfaqs             = [];
             $newfaqs['linktext'] = $faqsObj[$i]->question($maxQuestionLength);
             $newfaqs['id']       = $faqsObj[$i]->faqid();
-            if ($sort === 'datesub') {
+            if ('datesub' === $sort) {
                 $newfaqs['new'] = $faqsObj[$i]->datesub();
-            } elseif ($sort === 'counter') {
+            } elseif ('counter' === $sort) {
                 $newfaqs['new'] = $faqsObj[$i]->counter();
-            } elseif ($sort === 'weight') {
+            } elseif ('weight' === $sort) {
                 $newfaqs['new'] = $faqsObj[$i]->weight();
             }
             $newfaqs['show_date'] = $options[4];
@@ -64,19 +64,19 @@ function b_faqs_new_edit($options)
     $form .= '&nbsp;<br>' . _MB_SF_ORDER . "&nbsp;<select name='options[]'>";
 
     $form .= "<option value='datesub'";
-    if ($options[1] === 'datesub') {
+    if ('datesub' === $options[1]) {
         $form .= ' selected';
     }
     $form .= '>' . _MB_SF_DATE . "</option>\n";
 
     $form .= "<option value='counter'";
-    if ($options[1] === 'counter') {
+    if ('counter' === $options[1]) {
         $form .= ' selected';
     }
     $form .= '>' . _MB_SF_HITS . "</option>\n";
 
     $form .= "<option value='weight'";
-    if ($options[1] === 'weight') {
+    if ('weight' === $options[1]) {
         $form .= ' selected';
     }
     $form .= '>' . _MB_SF_WEIGHT . "</option>\n";
@@ -87,11 +87,11 @@ function b_faqs_new_edit($options)
     $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[3] . "'>&nbsp;" . _MB_SF_LENGTH . '';
 
     $form .= '<br>' . _MB_SF_SHOW_DATE . "&nbsp;<input type='radio' id='options[]' name='options[]' value='1'";
-    if ($options[4] == 1) {
+    if (1 == $options[4]) {
         $form .= ' checked';
     }
     $form .= '>&nbsp;' . _YES . "<input type='radio' id='options[]' name='options[]' value='0'";
-    if ($options[4] == 0) {
+    if (0 == $options[4]) {
         $form .= ' checked';
     }
     $form .= '>&nbsp;' . _NO . '';

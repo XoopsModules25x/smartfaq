@@ -69,7 +69,7 @@ $category['categoryPath'] = $categoryObj->getCategoryPath(false, true);
 $subcatsObj     = $categoryHandler->getCategories(0, 0, $categoryid);
 $total_subcats  = count($subcatsObj);
 $catQnasWithSub = 0;
-if ($total_subcats != 0) {
+if (0 != $total_subcats) {
     $faqHandler = sf_gethandler('faq');
     // Arrays that will hold the informations passed on to smarty variables
     foreach ($subcatsObj as $key => $subcat) {
@@ -126,7 +126,7 @@ $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 // The Navigation Bar
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 $pagenav = new XoopsPageNav($totalQnas[$categoryid], $xoopsModuleConfig['indexperpage'], $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
-if ($xoopsModuleConfig['useimagenavpage'] == 1) {
+if (1 == $xoopsModuleConfig['useimagenavpage']) {
     $category['navbar'] = '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>';
 } else {
     $category['navbar'] = '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';

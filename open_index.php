@@ -27,7 +27,7 @@ $faqHandler = sf_gethandler('faq');
 
 // Total number of published FAQ in the module
 $totalFaqs = $faqHandler->getFaqsCount(-1, _SF_STATUS_OPENED);
-if ($totalFaqs == 0) {
+if (0 == $totalFaqs) {
     redirect_header('request.php', 2, _MD_SF_NO_OPEN_QUESTION);
 }
 
@@ -36,7 +36,7 @@ $categoriesObj = $categoryHandler->getCategories($xoopsModuleConfig['catperpage'
 
 // If no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
-if ($totalCategoriesOnPage == 0) {
+if (0 == $totalCategoriesOnPage) {
     redirect_header('javascript:history.go(-1)', 2, _AM_SF_NO_CAT_EXISTS);
 }
 
@@ -150,7 +150,7 @@ $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 // Category Navigation Bar
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 $pagenav = new XoopsPageNav($totalCategories, $xoopsModuleConfig['catperpage'], $catstart, 'catstart', '');
-if ($xoopsModuleConfig['useimagenavpage'] == 1) {
+if (1 == $xoopsModuleConfig['useimagenavpage']) {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');
@@ -158,7 +158,7 @@ if ($xoopsModuleConfig['useimagenavpage'] == 1) {
 
 // FAQ Navigation Bar
 $pagenav = new XoopsPageNav($totalFaqs, $xoopsModuleConfig['indexperpage'], $start, 'start', '');
-if ($xoopsModuleConfig['useimagenavpage'] == 1) {
+if (1 == $xoopsModuleConfig['useimagenavpage']) {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');

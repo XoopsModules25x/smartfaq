@@ -133,19 +133,19 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
         $smartConfig = $xoopsModuleConfig;
         // Add the Submit new faq button
         if ($isAdmin
-            || (isset($smartConfig['allowsubmit']) && $smartConfig['allowsubmit'] == 1
+            || (isset($smartConfig['allowsubmit']) && 1 == $smartConfig['allowsubmit']
                 && (is_object($xoopsUser)
                     || (isset($smartConfig['anonpost'])
-                        && $smartConfig['anonpost'] == 1)))) {
+                        && 1 == $smartConfig['anonpost'])))) {
             $modversion['sub'][1]['name'] = _MI_SF_SUB_SMNAME1;
             $modversion['sub'][1]['url']  = 'submit.php?op=add';
         }
         // Add the Request new faq
         if ($isAdmin
-            || (isset($smartConfig['allowrequest']) && $smartConfig['allowrequest'] == 1
+            || (isset($smartConfig['allowrequest']) && 1 == $smartConfig['allowrequest']
                 && (is_object($xoopsUser)
                     || (isset($smartConfig['anonpost'])
-                        && $smartConfig['anonpost'] == 1)))) {
+                        && 1 == $smartConfig['anonpost'])))) {
             $modversion['sub'][2]['name'] = _MI_SF_SUB_SMNAME2;
             $modversion['sub'][2]['url']  = 'request.php?op=add';
         }

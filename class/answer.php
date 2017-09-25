@@ -129,7 +129,7 @@ class sfAnswer extends XoopsObject
         }
         $this->attachment_array = [];
 
-        if ($attach_array === null) {
+        if (null === $attach_array) {
             $attach_array = array_keys($attach_old);
         } // to delete all!
         if (!is_array($attach_array)) {
@@ -283,7 +283,7 @@ class sfAnswer extends XoopsObject
     {
         $answerHandler = new sfAnswerHandler($this->db);
 
-        if ($this->status() == _SF_AN_STATUS_APPROVED) {
+        if (_SF_AN_STATUS_APPROVED == $this->status()) {
             $criteria = new CriteriaCompo(new criteria('faqid', $this->faqid()));
             $answerHandler->updateAll('status', _SF_AN_STATUS_REJECTED, $criteria);
         }
@@ -331,7 +331,7 @@ class sfAnswer extends XoopsObject
      */
     public function datesub($dateFormat = 'none', $format = 'S')
     {
-        if ($dateFormat === 'none') {
+        if ('none' === $dateFormat) {
             $smartModuleConfig = sf_getModuleConfig();
             $dateFormat        = $smartModuleConfig['dateformat'];
         }
@@ -436,7 +436,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
             }
 
             $numrows = $this->db->getRowsNum($result);
-            if ($numrows == 1) {
+            if (1 == $numrows) {
                 $answer = new sfAnswer();
                 $answer->assignVars($this->db->fetchArray($result));
 
@@ -456,7 +456,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
      */
     public function insert(XoopsObject $answerObj, $force = false)
     {
-        if (strtolower(get_class($answerObj)) !== 'sfanswer') {
+        if ('sfanswer' !== strtolower(get_class($answerObj))) {
             return false;
         }
         if (!$answerObj->isDirty()) {
@@ -504,7 +504,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
      */
     public function delete(XoopsObject $answer, $force = false)
     {
-        if (strtolower(get_class($answer)) !== 'sfanswer') {
+        if ('sfanswer' !== strtolower(get_class($answer))) {
             return false;
         }
         $sql = sprintf('DELETE FROM %s WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $answer->getVar('answerid'));
@@ -532,7 +532,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
      */
     public function deleteFaqAnswers($faqObj)
     {
-        if (strtolower(get_class($faqObj)) !== 'sffaq') {
+        if ('sffaq' !== strtolower(get_class($faqObj))) {
             return false;
         }
         $answers = $this->getAllAnswers($faqObj->faqid());
@@ -561,7 +561,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_answers');
         if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->getSort() != '') {
+            if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
             $limit = $criteria->getLimit();
@@ -596,7 +596,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
     {
         $theaAnswers = $this->getAllAnswers($faqid, _SF_AN_STATUS_APPROVED, 1, 0);
         $ret         = false;
-        if (count($theaAnswers) == 1) {
+        if (1 == count($theaAnswers)) {
             $ret = $theaAnswers[0];
         }
 

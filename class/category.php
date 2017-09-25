@@ -121,7 +121,7 @@ class sfCategory extends XoopsObject
     public function name($format = 'S')
     {
         $ret = $this->getVar('name', $format);
-        if (($format === 's') || ($format === 'S') || ($format === 'show')) {
+        if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
             $myts = MyTextSanitizer::getInstance();
             $ret  = $myts->displayTarea($ret);
         }
@@ -154,7 +154,7 @@ class sfCategory extends XoopsObject
     public function getCategoryPath($withAllLink = false, $open = false)
     {
         $filename = 'category.php';
-        if ($open !== false) {
+        if (false !== $open) {
             $filename = 'open_category.php';
         }
         if ($withAllLink) {
@@ -164,7 +164,7 @@ class sfCategory extends XoopsObject
         }
         $parentid        = $this->parentid();
         $categoryHandler = sf_gethandler('category');
-        if ($parentid != 0) {
+        if (0 != $parentid) {
             $parentObj = $categoryHandler->get($parentid);
             if ($parentObj->notLoaded()) {
                 exit;
@@ -239,7 +239,7 @@ class sfCategory extends XoopsObject
     {
         $category['categoryid'] = $this->categoryid();
         $category['name']       = $this->name();
-        if ($open !== false) {
+        if (false !== $open) {
             $category['categorylink'] = "<a href='" . XOOPS_URL . '/modules/smartfaq/open_category.php?categoryid=' . $this->categoryid() . "'>" . $this->name() . '</a>';
         } else {
             $category['categorylink'] = "<a href='" . XOOPS_URL . '/modules/smartfaq/category.php?categoryid=' . $this->categoryid() . "'>" . $this->name() . '</a>';
@@ -298,7 +298,7 @@ class sfCategoryHandler extends XoopsObjectHandler
             }
 
             $numrows = $this->db->getRowsNum($result);
-            if ($numrows == 1) {
+            if (1 == $numrows) {
                 $category = new sfCategory();
                 $category->assignVars($this->db->fetchArray($result));
 
@@ -318,7 +318,7 @@ class sfCategoryHandler extends XoopsObjectHandler
      */
     public function insert(XoopsObject $category, $force = false)
     {
-        if (strtolower(get_class($category)) !== 'sfcategory') {
+        if ('sfcategory' !== strtolower(get_class($category))) {
             return false;
         }
         if (!$category->isDirty()) {
@@ -382,7 +382,7 @@ class sfCategoryHandler extends XoopsObjectHandler
      */
     public function delete(XoopsObject $category, $force = false)
     {
-        if (strtolower(get_class($category)) !== 'sfcategory') {
+        if ('sfcategory' !== strtolower(get_class($category))) {
             return false;
         }
 
@@ -433,7 +433,7 @@ class sfCategoryHandler extends XoopsObjectHandler
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_categories');
         if (null !== $criteria && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->getSort() != '') {
+            if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
             $limit = $criteria->getLimit();
@@ -540,7 +540,7 @@ class sfCategoryHandler extends XoopsObjectHandler
         $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
         if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
             $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->getSort() != '') {
+            if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
             }
             $limit = $criteria->getLimit();

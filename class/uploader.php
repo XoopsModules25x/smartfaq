@@ -33,7 +33,7 @@ class sfUploader extends XoopsMediaUploader
     public function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize = 0, $maxWidth = 0, $maxHeight = 0)
     {
         if (!is_array($allowedMimeTypes)) {
-            if (empty($allowedMimeTypes) || $allowedMimeTypes === '*') {
+            if (empty($allowedMimeTypes) || '*' === $allowedMimeTypes) {
                 $allowedMimeTypes = [];
             } else {
                 $allowedMimeTypes = array_filter(array_map('trim', explode('|', strtolower($allowedMimeTypes))));

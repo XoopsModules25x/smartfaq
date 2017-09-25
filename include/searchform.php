@@ -17,7 +17,7 @@ $searchtype = new XoopsFormSelect(_MD_WB_LOOKON, 'type', $type);
 $searchtype->addOptionArray(['1' => _MD_WB_TERMS, '2' => _MD_WB_DEFINS, '3' => _MD_WB_TERMSDEFS]);
 $sform->addElement($searchtype, true);
 
-if ($xoopsModuleConfig['multicats'] == 1) {
+if (1 == $xoopsModuleConfig['multicats']) {
     $searchcat = new XoopsFormSelect(_MD_WB_CATEGORY, 'categoryID', $categoryID);
     $searchcat->addOption('0', _MD_WB_ALLOFTHEM);
 

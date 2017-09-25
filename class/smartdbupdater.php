@@ -155,7 +155,7 @@ class SmartDbTable
         $result = $xoopsDB->queryF('SHOW COLUMNS FROM ' . $this->name());
         while ($existing_field = $xoopsDB->fetchArray($result)) {
             $fields[$existing_field['Field']] = $existing_field['Type'];
-            if ($existing_field['Null'] !== 'YES') {
+            if ('YES' !== $existing_field['Null']) {
                 $fields[$existing_field['Field']] .= ' NOT NULL';
             }
             if ($existing_field['Extra']) {

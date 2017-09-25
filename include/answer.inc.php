@@ -45,7 +45,7 @@ if (is_object($xoopsUser)) {
     $form->addElement($notify_checkbox);
 }
 
-if (($faqObj->status() == _SF_STATUS_PUBLISHED) || ($faqObj->status() == _SF_STATUS_NEW_ANSWER)) {
+if ((_SF_STATUS_PUBLISHED == $faqObj->status()) || (_SF_STATUS_NEW_ANSWER == $faqObj->status())) {
     $answerObj = $faqObj->answer();
     $form->addElement(new XoopsFormLabel(_MD_SF_ORIGINAL_ANSWER, $answerObj->answer()), false);
 }

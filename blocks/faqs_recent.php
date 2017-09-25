@@ -19,7 +19,7 @@ function b_faqs_recent_show($options)
 
     $block = [];
 
-    if ($options[0] == 0) {
+    if (0 == $options[0]) {
         $categoryid = -1;
     } else {
         $categoryid = $options[0];
@@ -93,19 +93,19 @@ function b_faqs_recent_edit($options)
     $form .= '&nbsp;<br>' . _MB_SF_ORDER . "&nbsp;<select name='options[]'>";
 
     $form .= "<option value='datesub'";
-    if ($options[1] === 'datesub') {
+    if ('datesub' === $options[1]) {
         $form .= ' selected';
     }
     $form .= '>' . _MB_SF_DATE . "</option>\n";
 
     $form .= "<option value='counter'";
-    if ($options[1] === 'counter') {
+    if ('counter' === $options[1]) {
         $form .= ' selected';
     }
     $form .= '>' . _MB_SF_HITS . "</option>\n";
 
     $form .= "<option value='weight'";
-    if ($options[1] === 'weight') {
+    if ('weight' === $options[1]) {
         $form .= ' selected';
     }
     $form .= '>' . _MB_SF_WEIGHT . "</option>\n";

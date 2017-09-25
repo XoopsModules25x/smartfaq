@@ -14,7 +14,7 @@ function b_faqs_most_viewed_show($options)
     require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = [];
-    if ($options[0] == 0) {
+    if (0 == $options[0]) {
         $categoryid = -1;
     } else {
         $categoryid = $options[0];

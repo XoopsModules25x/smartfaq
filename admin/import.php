@@ -35,7 +35,7 @@ switch ($op) {
         }
         echo '<br>';
         $endMsg = _AM_SF_IMPORT_SUCCESS;
-        if ($error === true) {
+        if (true === $error) {
             $endMsg = _AM_SF_IMPORT_ERROR;
         }
 

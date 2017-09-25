@@ -10,7 +10,7 @@ require_once __DIR__ . '/header.php';
 
 $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
 
-if ($faqid == 0) {
+if (0 == $faqid) {
     redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
 }
 
@@ -38,7 +38,7 @@ if ($faqAccessGrantedResult < 0) {
 }
 
 // Update the read counter of the selected FAQ
-if (!$xoopsUser || ($xoopsUser->isAdmin($xoopsModule->mid()) && $xoopsModuleConfig['adminhits'] == 1)
+if (!$xoopsUser || ($xoopsUser->isAdmin($xoopsModule->mid()) && 1 == $xoopsModuleConfig['adminhits'])
     || ($xoopsUser
         && !$xoopsUser->isAdmin($xoopsModule->mid()))) {
     $faqObj->updateCounter();
@@ -65,7 +65,7 @@ $faq['categoryPath'] = $categoryObj->getCategoryPath(true);
 $faq['answer']       = $answerObj->answer();
 
 // Check to see if we need to display partial answer. This should probably be in a the FAQ class...
-if ($faqAccessGrantedResult == 0) {
+if (0 == $faqAccessGrantedResult) {
     $faq['answer'] = xoops_substr($faq['answer'], 0, 150);
 }
 
@@ -100,7 +100,7 @@ $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $categoryObj->name()
 // End Page Title Hack by marcan
 
 // Include the comments if the selected FAQ supports comments
-if ($faqObj->cancomment() == 1) {
+if (1 == $faqObj->cancomment()) {
     require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 }
 

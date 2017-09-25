@@ -251,7 +251,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $group_list      = $memberHandler->getGroupList();
     $groups_checkbox = new XoopsFormCheckBox(_AM_SF_PERMISSIONS_FAQ, 'groups[]', $faqObj->getGroups_read());
     foreach ($group_list as $group_id => $group_name) {
-        if ($group_id != XOOPS_GROUP_ADMIN) {
+        if (XOOPS_GROUP_ADMIN != $group_id) {
             $groups_checkbox->addOption($group_id, $group_name);
         }
     }
@@ -278,7 +278,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $sform->addElement($options_tray);
 
     // OFFLINE
-    if ($faqObj->status() == _SF_STATUS_OFFLINE) {
+    if (_SF_STATUS_OFFLINE == $faqObj->status()) {
         // Back OnLine
         $offline_radio = new XoopsFormRadioYN(_AM_SF_OFFLINE_FIELD, 'offline', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
         $sform->addElement($offline_radio);
@@ -348,7 +348,7 @@ switch ($op) {
         $answerid = isset($_GET['answerid']) ? $_GET['answerid'] : -1;
         if ($faqid == -1) {
             $totalcategories = $categoryHandler->getCategoriesCount(-1);
-            if ($totalcategories == 0) {
+            if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_SF_NEED_CATEGORY_FAQ);
             }
         }
@@ -366,7 +366,7 @@ switch ($op) {
         $answerid = isset($_GET['answerid']) ? $_GET['answerid'] : -1;
         if ($faqid == -1) {
             $totalcategories = $categoryHandler->getCategoriesCount(-1);
-            if ($totalcategories == 0) {
+            if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_SF_NEED_CATEGORY_FAQ);
             }
         }
@@ -415,7 +415,7 @@ switch ($op) {
 
         // If this SmartFAQ is offline and the user set this option to No
         $offline = isset($_POST['offline']) ? $_POST['offline'] : 1;
-        if ((0 == $offline) && ($faqObj->status() == _SF_STATUS_OFFLINE)) {
+        if ((0 == $offline) && (_SF_STATUS_OFFLINE == $faqObj->status())) {
             $faqObj->setVar('status', _SF_STATUS_PUBLISHED);
         }
         $faqObj->setVar('weight', isset($_POST['weight']) ? (int)$_POST['weight'] : $faqObj->weight());

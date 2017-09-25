@@ -10,11 +10,11 @@ require_once __DIR__ . '/../../../include/cp_header.php';
 
 $op = 'go';//'start';
 
-if (isset($HTTP_POST_VARS['op']) && ($HTTP_POST_VARS['op'] === 'go')) {
+if (isset($HTTP_POST_VARS['op']) && ('go' === $HTTP_POST_VARS['op'])) {
     $op = $HTTP_POST_VARS['op'];
 }
 
-if ($op === 'start') {
+if ('start' === $op) {
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     xoops_cp_header();
@@ -23,7 +23,7 @@ if ($op === 'start') {
     exit();
 }
 
-if ($op === 'go') {
+if ('go' === $op) {
     header('Content-Disposition: attachment; filename=smartfaq.xml');
     header('Connection: close');
     header('Content-Type: text/xml; name=smartfaq.xml');
