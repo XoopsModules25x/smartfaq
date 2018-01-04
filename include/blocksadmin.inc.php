@@ -51,7 +51,7 @@ if (isset($previewblock)) {
     xoops_cp_header();
     require_once XOOPS_ROOT_PATH . '/class/template.php';
     $xoopsTpl = new XoopsTpl();
-    $xoopsTpl->xoops_setCaching(0);
+    $xoopsTpl->caching=(0);
     if (isset($bid)) {
         $block['bid']        = $bid;
         $block['form_title'] = _AM_EDITBLOCK;
@@ -66,7 +66,7 @@ if (isset($previewblock)) {
         $myblock = new XoopsBlock();
         $myblock->setVar('block_type', 'C');
     }
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $myblock->setVar('title', $myts->stripSlashesGPC($btitle));
     $myblock->setVar('content', $myts->stripSlashesGPC($bcontent));
     $dummyhtml = '<html><head><meta http-equiv="content-type" content="text/html; charset='
@@ -256,7 +256,7 @@ function myblocksadmin_update_block(
         }
         require_once XOOPS_ROOT_PATH . '/class/template.php';
         $xoopsTpl = new XoopsTpl();
-        $xoopsTpl->xoops_setCaching(2);
+        $xoopsTpl->caching=(2);
         if ('' != $myblock->getVar('template')) {
             if ($xoopsTpl->is_cached('db:' . $myblock->getVar('template'))) {
                 if (!$xoopsTpl->clear_cache('db:' . $myblock->getVar('template'))) {

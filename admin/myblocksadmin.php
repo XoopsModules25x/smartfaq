@@ -152,7 +152,7 @@ function list_blocks()
         $module_list[0]  = _AM_ALLPAGES;
         ksort($module_list);
         $module_options = '';
-        $myts           = MyTextSanitizer::getInstance();
+        $myts           = \MyTextSanitizer::getInstance();
         foreach ($module_list as $mid => $mname) {
             if (in_array($mid, $selected_mids)) {
                 $module_options .= "<option value='$mid' selected>" . $myts->displayTarea($mname) . "</option>\n";
@@ -228,7 +228,7 @@ function list_blocks()
 function list_groups()
 {
     global $xoopsModule, $block_arr;
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     sf_collapsableBar('bottomtable', 'bottomtableicon');
 

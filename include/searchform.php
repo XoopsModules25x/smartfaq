@@ -6,7 +6,7 @@
  * Licence: GNU
  */
 
-$categoryID = isset($categoryID) ? (int)$categoryID : 0;
+$categoryID = isset($categoryID) ? $categoryID : 0;
 $type       = isset($type) ? (int)$type : 3;
 $term       = isset($term) ? $type : '';
 

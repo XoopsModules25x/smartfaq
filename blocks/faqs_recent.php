@@ -12,7 +12,7 @@
 function b_faqs_recent_show($options)
 {
     require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     $smartModule       = sf_getModuleInfo();
     $smartModuleConfig = sf_getModuleConfig();

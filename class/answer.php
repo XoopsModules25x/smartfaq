@@ -239,7 +239,7 @@ class sfAnswer extends XoopsObject
                                             . _MD_HITS
                                             . ': '
                                             . $att['num_download'];
-                    } elseif ($xoopsUser && $xoopsUser->uid() > 0 && $xoopsUser->isactive()) {
+                    } elseif ($xoopsUser && $xoopsUser->uid() > 0 && $xoopsUser->isActive()) {
                         $post_attachment .= '<a href="'
                                             . XOOPS_URL
                                             . '/modules/'
@@ -362,7 +362,7 @@ class sfAnswer extends XoopsObject
     {
         $smartModule = sf_getModuleInfo();
 
-        $myts                = MyTextSanitizer::getInstance();
+        $myts                = \MyTextSanitizer::getInstance();
         $notificationHandler = xoops_getHandler('notification');
 
         $faqObj = new sfFaq($this->faqid());
@@ -559,7 +559,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
         $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_answers');
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -660,7 +660,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
     public function getCount(CriteriaElement $criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('smartfaq_answers');
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         $result = $this->db->query($sql);
@@ -681,7 +681,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
     public function getCountByFAQ($criteria = null)
     {
         $sql = 'SELECT faqid, COUNT(*) FROM ' . $this->db->prefix('smartfaq_answers');
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
             $sql .= ' ' . $criteria->getGroupby();
         }
@@ -711,7 +711,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix('smartfaq_answers');
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->query($sql)) {
@@ -734,7 +734,7 @@ class sfAnswerHandler extends XoopsPersistableObjectHandler
     {
         $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_answers') . ' SET ' . $set_clause;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         //echo "<br>" . $sql . "<br>";

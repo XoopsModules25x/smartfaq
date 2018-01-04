@@ -7,7 +7,7 @@
  */
 
 require_once __DIR__ . '/admin_header.php';
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : 0;
 

@@ -301,7 +301,7 @@ function sf_overrideFaqsPermissions($groups, $categoryid)
     $result = $xoopsDB->queryF($sql);
 
     if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
-        while (list($faqid) = $xoopsDB->fetchrow($result)) {
+        while (list($faqid) = $xoopsDB->fetchRow($result)) {
             // First, if the permissions are already there, delete them
             $gpermHandler->deleteByModule($module_id, 'item_read', $faqid);
             // Save the new permissions
@@ -413,7 +413,7 @@ function sf_retrieveFaqByID($faqid = 0)
     global $xoopsDB;
 
     $result = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('smartfaq_faq') . " WHERE faqid = '$faqid'");
-    $ret    = $xoopsDB->fetcharray($result);
+    $ret    = $xoopsDB->fetchArray($result);
 
     return $ret;
 }
@@ -485,7 +485,7 @@ function sf_getLinkedUnameFromId($userid = 0, $name = 0, $users = [])
         }
 
         if (is_object($user)) {
-            $ts       = MyTextSanitizer::getInstance();
+            $ts       = \MyTextSanitizer::getInstance();
             $username = $user->getVar('uname');
             $fullname = '';
 

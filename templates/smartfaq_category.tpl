@@ -3,7 +3,7 @@
 
 <div class="sf_headertable">
     <span class="sf_modulename"><a href="<{$xoops_url}>/modules/<{$modulename}>/index.php"><{$whereInSection}></a></span><span
-            class="sf_breadcrumb"> &gt; <{$category.categoryPath}></span>
+            class="sf_breadcrumb"> > <{$category.categoryPath}></span>
 </div>
 <{if $displaycollaps == 1}>
     <script type="text/javascript"><!--

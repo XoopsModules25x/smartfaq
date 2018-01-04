@@ -401,3 +401,6 @@ define('_MI_SF_OVERVIEW', 'Overview');
 define('_MI_SF_DISCLAIMER', 'Disclaimer');
 define('_MI_SF_LICENSE', 'License');
 define('_MI_SF_SUPPORT', 'Support');
+
+define('_MI_SF_HOME', 'Home');
+define('_MI_SF_ABOUT', 'About');

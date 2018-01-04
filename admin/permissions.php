@@ -39,7 +39,7 @@ switch ($op) {
 
         $result_view = $xoopsDB->query('SELECT categoryid, name FROM ' . $xoopsDB->prefix('smartfaq_categories') . ' ');
         if ($xoopsDB->getRowsNum($result_view)) {
-            while ($myrow_view = $xoopsDB->fetcharray($result_view)) {
+            while ($myrow_view = $xoopsDB->fetchArray($result_view)) {
                 $item_list_view['cid']   = $myrow_view['categoryid'];
                 $item_list_view['title'] = $myrow_view['name'];
                 $form_view               = new XoopsGroupPermForm('', $xoopsModule->getVar('mid'), 'category_read', "<img id='toptableicon' src="

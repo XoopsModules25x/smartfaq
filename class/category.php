@@ -122,7 +122,7 @@ class sfCategory extends XoopsObject
     {
         $ret = $this->getVar('name', $format);
         if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
-            $myts = MyTextSanitizer::getInstance();
+            $myts = \MyTextSanitizer::getInstance();
             $ret  = $myts->displayTarea($ret);
         }
 
@@ -218,7 +218,7 @@ class sfCategory extends XoopsObject
     {
         $smartModule = sf_getModuleInfo();
 
-        $myts                = MyTextSanitizer::getInstance();
+        $myts                = \MyTextSanitizer::getInstance();
         $notificationHandler = xoops_getHandler('notification');
 
         $tags                  = [];
@@ -431,7 +431,7 @@ class sfCategoryHandler extends XoopsObjectHandler
         $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_categories');
-        if (null !== $criteria && is_subclass_of($criteria, 'criteriaelement')) {
+        if (null !== $criteria && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -538,7 +538,7 @@ class sfCategoryHandler extends XoopsObjectHandler
         $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
-        if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (null !== ($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -571,7 +571,7 @@ class sfCategoryHandler extends XoopsObjectHandler
     public function getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('smartfaq_categories');
-        if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (null !== ($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         $result = $this->db->query($sql);
@@ -630,7 +630,7 @@ class sfCategoryHandler extends XoopsObjectHandler
 
         $sql = 'SELECT COUNT(c.categoryid) FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
 
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
 
@@ -674,7 +674,7 @@ class sfCategoryHandler extends XoopsObjectHandler
     public function deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix('smartfaq_categories');
-        if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (null !== ($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->query($sql)) {
@@ -699,7 +699,7 @@ class sfCategoryHandler extends XoopsObjectHandler
     {
         $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_categories') . ' SET ' . $set_clause;
-        if (null !== ($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
+        if (null !== ($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->queryF($sql)) {

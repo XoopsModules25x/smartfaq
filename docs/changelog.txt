@@ -13,7 +13,7 @@
 - replaced MySQL calls with XOOPS wrappers (mamba)
 - replaced several "include_once" with "require_once" (mamba)
 - rename several $indexAdmin with $adminObject for consistency (mamba)
-- removed '/' from void HTML elements (&lt;br&gt;, &lt;img&gt;, etc) (mamba)
+- removed '/' from void HTML elements (&lt;br>, &lt;img>, etc) (mamba)
 - changed _handler to Handler (mamba)
 - HTML 5: removed 'selected' and 'checked' (mamba)
 - updated system_dummy.html to system_dummy.tpl (mamba)

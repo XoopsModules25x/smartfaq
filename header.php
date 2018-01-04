@@ -13,4 +13,4 @@ require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
 require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/faq.php';
 require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/answer.php';
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
