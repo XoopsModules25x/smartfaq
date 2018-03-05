@@ -6,32 +6,14 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 //require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
 
-// FAQ status
-define('_SF_STATUS_NOTSET', -1);
-define('_SF_STATUS_ALL', 0);
-define('_SF_STATUS_ASKED', 1);
-define('_SF_STATUS_OPENED', 2);
-define('_SF_STATUS_ANSWERED', 3);
-define('_SF_STATUS_SUBMITTED', 4);
-define('_SF_STATUS_PUBLISHED', 5);
-define('_SF_STATUS_NEW_ANSWER', 6);
-define('_SF_STATUS_OFFLINE', 7);
-define('_SF_STATUS_REJECTED_QUESTION', 8);
-define('_SF_STATUS_REJECTED_SMARTFAQ', 9);
 
-// Notification Events
-define('_SF_NOT_CATEGORY_CREATED', 1);
-define('_SF_NOT_FAQ_SUBMITTED', 2);
-define('_SF_NOT_FAQ_PUBLISHED', 3);
-define('_SF_NOT_FAQ_REJECTED', 4);
-define('_SF_NOT_QUESTION_SUBMITTED', 5);
-define('_SF_NOT_QUESTION_PUBLISHED', 6);
-define('_SF_NOT_NEW_ANSWER_PROPOSED', 7);
-define('_SF_NOT_NEW_ANSWER_PUBLISHED', 8);
 
 /**
  * Class Faq
@@ -46,7 +28,7 @@ class Faq extends \XoopsObject
     private $category = null;
 
     /**
-     * @var sfAnswer
+     * @var Answer
      * @access private
      */
     private $answer = null;
@@ -134,8 +116,9 @@ class Faq extends \XoopsObject
         if ($userIsAdmin) {
             return true;
         }
-
-        $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+        /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+        $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+//        $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
 
         $faqsGranted = $smartPermHandler->getPermissions('item');
         if (in_array($this->categoryid(), $faqsGranted)) {
@@ -198,7 +181,7 @@ class Faq extends \XoopsObject
     {
         $ret = $this->getVar('question', $format);
         if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
-            $myts = MyTextSanitizer:: getInstance();
+            $myts = \MyTextSanitizer::getInstance();
             $ret  = $myts->displayTarea($ret);
         }
         if (0 != $maxLength) {
@@ -220,7 +203,7 @@ class Faq extends \XoopsObject
     {
         $ret = $this->getVar('howdoi', $format);
         if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
-            $myts = MyTextSanitizer:: getInstance();
+            $myts = \MyTextSanitizergetInstance();
             $ret  = $myts->displayTarea($ret);
         }
 
@@ -235,7 +218,7 @@ class Faq extends \XoopsObject
     {
         $ret = $this->getVar('diduno', $format);
         if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
-            $myts = MyTextSanitizer:: getInstance();
+            $myts = \MyTextSanitizergetInstance();
             $ret  = $myts->displayTarea($ret);
         }
 
@@ -392,30 +375,30 @@ class Faq extends \XoopsObject
     {
         $answerHandler = new Smartfaq\AnswerHandler($this->db);
         switch ($this->status()) {
-            case _SF_STATUS_SUBMITTED:
-                $theAnswers = $answerHandler->getAllAnswers($this->faqid(), _SF_AN_STATUS_APPROVED, 1, 0);
+            case Constants::SF_STATUS_SUBMITTED:
+                $theAnswers = $answerHandler->getAllAnswers($this->faqid(), Constants::SF_AN_STATUS_APPROVED, 1, 0);
                 //echo "test";
                 //exit;
                 $this->answer =& $theAnswers[0];
                 break;
 
-            case _SF_STATUS_ANSWERED:
-                $theAnswers = $answerHandler->getAllAnswers($this->faqid(), _SF_AN_STATUS_PROPOSED, 1, 0);
+            case Constants::SF_STATUS_ANSWERED:
+                $theAnswers = $answerHandler->getAllAnswers($this->faqid(), Constants::SF_AN_STATUS_PROPOSED, 1, 0);
                 //echo "test";
                 //exit;
                 $this->answer =& $theAnswers[0];
                 break;
 
-            case _SF_STATUS_PUBLISHED:
-            case _SF_STATUS_NEW_ANSWER:
-            case _SF_STATUS_OFFLINE:
+            case Constants::SF_STATUS_PUBLISHED:
+            case Constants::SF_STATUS_NEW_ANSWER:
+            case Constants::SF_STATUS_OFFLINE:
                 $this->answer = $answerHandler->getOfficialAnswer($this->faqid());
                 break;
 
-            case _SF_STATUS_ASKED:
+            case Constants::SF_STATUS_ASKED:
                 $this->answer = $answerHandler->create();
                 break;
-            case _SF_STATUS_OPENED:
+            case Constants::SF_STATUS_OPENED:
                 $this->answer = $answerHandler->create();
                 break;
         }
@@ -477,11 +460,11 @@ class Faq extends \XoopsObject
     /**
      * @param array $notifications
      */
-    public function sendNotifications($notifications = [])
-    {
+    public function sendNotifications($notifications = [])    {
+
         $smartModule = sf_getModuleInfo();
 
-        $myts                = MyTextSanitizer:: getInstance();
+        $myts                = \MyTextSanitizer::getInstance();
         $notificationHandler = xoops_getHandler('notification');
         //$categoryObj = $this->category();
 
@@ -500,7 +483,7 @@ class Faq extends \XoopsObject
 
         foreach ($notifications as $notification) {
             switch ($notification) {
-                case _SF_NOT_FAQ_PUBLISHED:
+                case Constants::SF_NOT_FAQ_PUBLISHED:
                     $tags['FAQ_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/faq.php?faqid=' . $this->faqid();
 
                     $notificationHandler->triggerEvent('global_faq', 0, 'published', $tags);
@@ -508,36 +491,36 @@ class Faq extends \XoopsObject
                     $notificationHandler->triggerEvent('faq', $this->faqid(), 'approved', $tags);
                     break;
 
-                case _SF_NOT_FAQ_SUBMITTED:
+                case Constants::SF_NOT_FAQ_SUBMITTED:
                     $tags['WAITINGFILES_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/admin/faq.php?faqid=' . $this->faqid();
                     $notificationHandler->triggerEvent('global_faq', 0, 'submitted', $tags);
                     $notificationHandler->triggerEvent('category_faq', $this->categoryid(), 'submitted', $tags);
                     break;
 
-                case _SF_NOT_QUESTION_PUBLISHED:
+                case Constants::SF_NOT_QUESTION_PUBLISHED:
                     $tags['FAQ_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/answer.php?faqid=' . $this->faqid();
                     $notificationHandler->triggerEvent('global_question', 0, 'published', $tags);
                     $notificationHandler->triggerEvent('category_question', $this->categoryid(), 'published', $tags);
                     $notificationHandler->triggerEvent('question', $this->faqid(), 'approved', $tags);
                     break;
 
-                case _SF_NOT_QUESTION_SUBMITTED:
+                case Constants::SF_NOT_QUESTION_SUBMITTED:
                     $tags['WAITINGFILES_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/admin/question.php?op=mod&faqid=' . $this->faqid();
                     $notificationHandler->triggerEvent('global_question', 0, 'submitted', $tags);
                     $notificationHandler->triggerEvent('category_question', $this->categoryid(), 'submitted', $tags);
                     break;
 
-                case _SF_NOT_FAQ_REJECTED:
+                case Constants::SF_NOT_FAQ_REJECTED:
                     $notificationHandler->triggerEvent('faq', $this->faqid(), 'rejected', $tags);
                     break;
 
-                case _SF_NOT_NEW_ANSWER_PROPOSED:
+                case Constants::SF_NOT_NEW_ANSWER_PROPOSED:
                     $tags['WAITINGFILES_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/admin/answer.php?op=mod&faqid=' . $this->faqid();
                     $notificationHandler->triggerEvent('global_faq', 0, 'answer_proposed', $tags);
                     $notificationHandler->triggerEvent('category_faq', $this->categoryid(), 'answer_proposed', $tags);
                     break;
 
-                case _SF_NOT_NEW_ANSWER_PUBLISHED:
+                case Constants::SF_NOT_NEW_ANSWER_PUBLISHED:
                     $notificationHandler->triggerEvent('global_faq', 0, 'answer_published', $tags);
                     $notificationHandler->triggerEvent('category_faq', $this->categoryid(), 'answer_published', $tags);
                     break;
@@ -545,7 +528,7 @@ class Faq extends \XoopsObject
                 // TODO : I commented out this one because I'm not sure. The $this->faqid() should probably be the
                 // answerid not the faqid....
                 /*
-                case _SF_NOT_ANSWER_APPROVED:
+                case Constants::SF_NOT_ANSWER_APPROVED:
                 $notificationHandler->triggerEvent('faq', $this->faqid(), 'answer_approved', $tags);
                 break;
                 */
@@ -553,7 +536,7 @@ class Faq extends \XoopsObject
                 // TODO : I commented out this one because I'm not sure. The $this->faqid() should probably be the
                 // answerid not the faqid....
                 /*
-                case _SF_NOT_ANSWER_REJECTED:
+                case Constants::SF_NOT_ANSWER_REJECTED:
                 $notificationHandler->triggerEvent('faq', $this->faqid(), 'answer_approved', $tags);
                 break;
                 */
@@ -617,7 +600,7 @@ class Faq extends \XoopsObject
         $requester   = sf_getLinkedUnameFromId($this->uid(), $smartModuleConfig['userealname'], $users);
         $requestdate = $this->datesub();
 
-        if ((_SF_STATUS_PUBLISHED == $this->status()) || _SF_STATUS_NEW_ANSWER == $this->status()) {
+        if ((Constants::SF_STATUS_PUBLISHED == $this->status()) || Constants::SF_STATUS_NEW_ANSWER == $this->status()) {
             if (null === $answerObj) {
                 $answerObj = $this->answer();
             }
@@ -642,7 +625,7 @@ class Faq extends \XoopsObject
     {
         global $xoopsConfig;
         $text = _MD_SF_QUESTIONCOMEFROM;
-        if ((_SF_STATUS_PUBLISHED == $this->status()) || _SF_STATUS_NEW_ANSWER == $this->status()) {
+        if ((Constants::SF_STATUS_PUBLISHED == $this->status()) || Constants::SF_STATUS_NEW_ANSWER == $this->status()) {
             $text = _MD_SF_FAQCOMEFROM;
         }
 
@@ -663,7 +646,7 @@ class Faq extends \XoopsObject
         $faq['id']         = $this->faqid();
         $faq['categoryid'] = $this->categoryid();
         $faq['question']   = $this->question();
-        $page              = (_SF_STATUS_OPENED == $this->status()) ? 'answer.php' : 'faq.php';
+        $page              = (Constants::SF_STATUS_OPENED == $this->status()) ? 'answer.php' : 'faq.php';
 
         $faq['questionlink'] = "<a href='$page?faqid=" . $this->faqid() . "'>" . $this->question($lastfaqsize) . '</a>';
         if ($linkInQuestion) {

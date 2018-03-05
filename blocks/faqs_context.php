@@ -29,13 +29,12 @@ function b_faqs_context_show($options)
 
     // creating the FAQ objects that belong to the selected category
     $faqsObj   = $faqHandler->getContextualFaqs($limit);
-    $totalfaqs = count($faqsObj);
 
     if ($faqsObj) {
-        for ($i = 0; $i < $totalfaqs; ++$i) {
+        foreach ($faqsObj as $iValue) {
             $faq             = [];
-            $faq['id']       = $faqsObj[$i]->faqid();
-            $faq['question'] = $faqsObj[$i]->question();
+            $faq['id']       = $iValue->faqid();
+            $faq['question'] = $iValue->question();
             $block['faqs'][] = $faq;
         }
     }

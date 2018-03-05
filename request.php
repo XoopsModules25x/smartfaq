@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq\Constants;
+
 require_once __DIR__ . '/header.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -71,9 +73,9 @@ switch ($op) {
 
         // Setting the status of the FAQ
         if (1 == $xoopsModuleConfig['autoapprove_request']) {
-            $newFaqObj->setVar('status', _SF_STATUS_OPENED);
+            $newFaqObj->setVar('status', Constants::SF_STATUS_OPENED);
         } else {
-            $newFaqObj->setVar('status', _SF_STATUS_ASKED);
+            $newFaqObj->setVar('status', Constants::SF_STATUS_ASKED);
         }
 
         // Storing the FAQ object in the database
@@ -87,7 +89,7 @@ switch ($op) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
-            $newFaqObj->sendNotifications([_SF_NOT_QUESTION_PUBLISHED]);
+            $newFaqObj->sendNotifications([Constants::SF_NOT_QUESTION_PUBLISHED]);
 
             $redirect_msg = _MD_SF_REQUEST_RECEIVED_AND_PUBLISHED;
         } else {
@@ -98,7 +100,7 @@ switch ($op) {
                 $notificationHandler->subscribe('question', $newFaqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
             }
             // Send notifications
-            $newFaqObj->sendNotifications([_SF_NOT_QUESTION_SUBMITTED]);
+            $newFaqObj->sendNotifications([Constants::SF_NOT_QUESTION_SUBMITTED]);
 
             $redirect_msg = _MD_SF_REQUEST_RECEIVED_NEED_APPROVAL;
         }

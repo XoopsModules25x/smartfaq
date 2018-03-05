@@ -6,6 +6,9 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
+
 require_once __DIR__ . '/header.php';
 
 global $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
@@ -42,7 +45,7 @@ $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
 $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // creating the FAQ objects that belong to the selected category
-$faqsObj = $faqHandler->getFaqs($xoopsModuleConfig['indexperpage'], $start, _SF_STATUS_OPENED, $categoryid);
+$faqsObj = $faqHandler->getFaqs($xoopsModuleConfig['indexperpage'], $start, Constants::SF_STATUS_OPENED, $categoryid);
 
 $totalQnasOnPage = 0;
 if ($faqsObj) {
@@ -57,18 +60,18 @@ if ($faqsObj) {
 // Arrays that will hold the informations passed on to smarty variables
 $category    = [];
 $qnas        = [];
-$last_qnaObj = $faqHandler->getLastPublishedByCat([_SF_STATUS_OPENED]);
+$last_qnaObj = $faqHandler->getLastPublishedByCat([Constants::SF_STATUS_OPENED]);
 if (isset($last_qnaObj[$categoryid])) {
     $categoryObj->setVar('last_faqid', $last_qnaObj[$categoryid]->getVar('faqid'));
     $categoryObj->setVar('last_question_link', "<a href='faq.php?faqid=" . $last_qnaObj[$categoryid]->getVar('faqid') . "'>" . $last_qnaObj[$categoryid]->question(50) . '</a>');
 }
 // Populating the smarty variables with informations related to the selected category
 $category                 = $categoryObj->toArray(null, true);
-$totalQnas                = $categoryHandler->faqsCount(0, [_SF_STATUS_OPENED]);
+$totalQnas                = $categoryHandler->faqsCount(0, [Constants::SF_STATUS_OPENED]);
 $category['categoryPath'] = $categoryObj->getCategoryPath(false, true);
 
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj     = $categoryHandler->getCategories(0, 0, $categoryid);
+$subcatsObj     =& $categoryHandler->getCategories(0, 0, $categoryid);
 $total_subcats  = count($subcatsObj);
 $catQnasWithSub = 0;
 if (0 != $total_subcats) {
@@ -98,12 +101,12 @@ if ($faqsObj) {
 
     $memberHandler = xoops_getHandler('member');
     $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
-    for ($i = 0; $i < $totalQnasOnPage; ++$i) {
-        $faq = $faqsObj[$i]->toArray(null, $allcategories);
+    foreach ($faqsObj as $iValue) {
+        $faq = $iValue->toArray(null, $allcategories);
 
-        $faq['adminlink'] = sf_getAdminLinks($faqsObj[$i]->faqid(), true);
+        $faq['adminlink'] = sf_getAdminLinks($iValue->faqid(), true);
 
-        $faq['who_when'] = $faqsObj[$i]->getWhoAndWhen(null, $users);
+        $faq['who_when'] = $iValue->getWhoAndWhen(null, $users);
 
         $xoopsTpl->append('faqs', $faq);
     }

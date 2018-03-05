@@ -17,6 +17,8 @@
  * @author       XOOPS Development Team
  */
 
+use XoopsModules\Smartfaq\Constants;
+
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once __DIR__ . '/admin_header.php';
 
@@ -44,31 +46,31 @@ $totalcategories = $categoryHandler->getCategoriesCount(-1);
 $totalfaqbystatus = $faqHandler->getFaqsCountByStatus();
 
 // Total asked FAQs
-$totalasked = isset($totalfaqbystatus[_SF_STATUS_ASKED]) ? $totalfaqbystatus[_SF_STATUS_ASKED] : 0;
+$totalasked = isset($totalfaqbystatus[Constants::SF_STATUS_ASKED]) ? $totalfaqbystatus[Constants::SF_STATUS_ASKED] : 0;
 
 // Total opened FAQs
-$totalopened = isset($totalfaqbystatus[_SF_STATUS_OPENED]) ? $totalfaqbystatus[_SF_STATUS_OPENED] : 0;
+$totalopened = isset($totalfaqbystatus[Constants::SF_STATUS_OPENED]) ? $totalfaqbystatus[Constants::SF_STATUS_OPENED] : 0;
 
 // Total answered FAQs
-$totalanswered = isset($totalfaqbystatus[_SF_STATUS_ANSWERED]) ? $totalfaqbystatus[_SF_STATUS_ANSWERED] : 0;
+$totalanswered = isset($totalfaqbystatus[Constants::SF_STATUS_ANSWERED]) ? $totalfaqbystatus[Constants::SF_STATUS_ANSWERED] : 0;
 
 // Total submitted FAQs
-$totalsubmitted = isset($totalfaqbystatus[_SF_STATUS_SUBMITTED]) ? $totalfaqbystatus[_SF_STATUS_SUBMITTED] : 0;
+$totalsubmitted = isset($totalfaqbystatus[Constants::SF_STATUS_SUBMITTED]) ? $totalfaqbystatus[Constants::SF_STATUS_SUBMITTED] : 0;
 
 // Total published FAQs
-$totalpublished = isset($totalfaqbystatus[_SF_STATUS_PUBLISHED]) ? $totalfaqbystatus[_SF_STATUS_PUBLISHED] : 0;
+$totalpublished = isset($totalfaqbystatus[Constants::SF_STATUS_PUBLISHED]) ? $totalfaqbystatus[Constants::SF_STATUS_PUBLISHED] : 0;
 
 // Total offline FAQs
-$totaloffline = isset($totalfaqbystatus[_SF_STATUS_OFFLINE]) ? $totalfaqbystatus[_SF_STATUS_OFFLINE] : 0;
+$totaloffline = isset($totalfaqbystatus[Constants::SF_STATUS_OFFLINE]) ? $totalfaqbystatus[Constants::SF_STATUS_OFFLINE] : 0;
 
 // Total rejected question
-$totalrejectedquestion = isset($totalfaqbystatus[_SF_STATUS_REJECTED_QUESTION]) ? $totalfaqbystatus[_SF_STATUS_REJECTED_QUESTION] : 0;
+$totalrejectedquestion = isset($totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION]) ? $totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION] : 0;
 
 // Total rejected smartfaq
-$totalrejectedsmartfaq = isset($totalfaqbystatus[_SF_STATUS_REJECTED_SMARTFAQ]) ? $totalfaqbystatus[_SF_STATUS_REJECTED_SMARTFAQ] : 0;
+$totalrejectedsmartfaq = isset($totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ]) ? $totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ] : 0;
 
 // Total Q&A with new answers
-$totalnewanswers = isset($totalfaqbystatus[_SF_STATUS_NEW_ANSWER]) ? $totalfaqbystatus[_SF_STATUS_NEW_ANSWER] : 0;
+$totalnewanswers = isset($totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER]) ? $totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER] : 0;
 
 //set info block
 $adminObject->addInfoBox(_AM_SF_INVENTORY);

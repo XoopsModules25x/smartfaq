@@ -120,8 +120,8 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
         if (1 == $xoopsModuleConfig['image_lib'] or 0 == $xoopsModuleConfig['image_lib']) {
             if (preg_match("#[A-Z]:|\\\\#Ai", __FILE__)) {
                 $cur_dir     = __DIR__;
-                $src_file_im = '"' . $cur_dir . '\\' . strtr($src_file, '/', '\\') . '"';
-                $new_file_im = '"' . $cur_dir . '\\' . strtr($new_file, '/', '\\') . '"';
+                $src_file_im = '"' . $cur_dir . '\\' . str_replace('/', '\\', $src_file) . '"';
+                $new_file_im = '"' . $cur_dir . '\\' . str_replace('/', '\\', $new_file) . '"';
             } else {
                 $src_file_im = @escapeshellarg($src_file);
                 $new_file_im = @escapeshellarg($new_file);

@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+
 require_once __DIR__ . '/admin_header.php';
 
 $op = '';
@@ -43,13 +45,13 @@ function editfaq($faqid = '')
 
     switch ($faqObj->status()) {
 
-        case _SF_STATUS_ANSWERED:
+        case Constants::SF_STATUS_ANSWERED:
             $breadcrumb_action1   = _AM_SF_SUBMITTED;
             $breadcrumb_action2   = _AM_SF_APPROVING;
             $collapsableBar_title = _AM_SF_SUBMITTED_TITLE;
             $collapsableBar_info  = _AM_SF_SUBMITTED_INFO;
             $button_caption       = _AM_SF_APPROVE;
-            $an_status            = _SF_AN_STATUS_PROPOSED;
+            $an_status            = Constants::SF_AN_STATUS_PROPOSED;
             break;
 
     }
@@ -70,7 +72,7 @@ function editfaq($faqid = '')
     echo "<div id='bottomtable'>";
     echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_SUBMITTED_ANSWER_INFO . '</span>';
 
-    $proposed_answers = $answerHandler->getAllAnswers($faqid, _SF_AN_STATUS_PROPOSED);
+    $proposed_answers = $answerHandler->getAllAnswers($faqid, Constants::SF_AN_STATUS_PROPOSED);
 
     if (0 == count($proposed_answers)) {
         redirect_header('index.php', 1, _AM_SF_NOANSWERS);
@@ -109,7 +111,7 @@ function editfaq($faqid = '')
     $modify  = '';
     $approve = '';
     foreach ($proposed_answers as $proposed_answer) {
-        if (_SF_STATUS_NEW_ANSWER == $faqObj->status()) {
+        if (Constants::SF_STATUS_NEW_ANSWER == $faqObj->status()) {
             $merge   = "<a href='faq.php?op=merge&amp;faqid="
                        . $faqObj->faqid()
                        . '&amp;answerid='
@@ -173,35 +175,35 @@ switch ($op) {
             redirect_header('index.php', 1, _AM_SF_NOFAQSELECTED);
         }
 
-        $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
+        $answerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
 
         $notifToDo_answer = null;
         $notifToDo_faq    = null;
 
         switch ($faqObj->status()) {
             // This was an Open Question that became a Submitted FAQ
-            case _SF_STATUS_ANSWERED:
+            case Constants::SF_STATUS_ANSWERED:
                 if (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
                     // We automatically approve Submitted Q&A
                     $redirect_msg = _AM_SF_ANSWER_APPROVED_PUBLISHED;
-                    $faqObj->setVar('status', _SF_STATUS_PUBLISHED);
-                    $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
-                    $notifToDo_faq = [_SF_NOT_FAQ_PUBLISHED];
+                    $faqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
+                    $answerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
+                    $notifToDo_faq = [Constants::SF_NOT_FAQ_PUBLISHED];
                 } else {
                     // Submitted Q&A need approbation
                     $redirect_msg = _AM_SF_ANSWER_APPROVED_NEED_APPROVED;
-                    $faqObj->setVar('status', _SF_STATUS_SUBMITTED);
-                    $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
-                    $notifToDo_faq = [_SF_NOT_FAQ_SUBMITTED];
+                    $faqObj->setVar('status', Constants::SF_STATUS_SUBMITTED);
+                    $answerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
+                    $notifToDo_faq = [Constants::SF_NOT_FAQ_SUBMITTED];
                 }
                 break;
 
             // This is a published FAQ for which a user submitted a new answer and we just accepeted one
-            case _SF_STATUS_NEW_ANSWER:
+            case Constants::SF_STATUS_NEW_ANSWER:
                 $redirect_msg = _AM_SF_FAQ_NEW_ANSWER_PUBLISHED;
-                $faqObj->setVar('status', _SF_STATUS_PUBLISHED);
-                $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
-                $notifToDo_answer = [_SF_NOT_ANSWER_APPROVED];
+                $faqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
+                $answerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
+                $notifToDo_answer = [Constants::SF_NOT_ANSWER_APPROVED];
                 break;
         }
 
@@ -239,19 +241,19 @@ switch ($op) {
         $faqObj    = new Smartfaq\Faq($faqid);
         $answerObj = new Smartfaq\Answer($answerid);
         if ($confirm) {
-            $answerObj->setVar('status', _SF_AN_STATUS_REJECTED);
+            $answerObj->setVar('status', Constants::SF_AN_STATUS_REJECTED);
             $answerObj->store();
 
             switch ($faqObj->status()) {
                 // Open Question for which we are rejecting an answer
-                case _SF_STATUS_ANSWERED:
+                case Constants::SF_STATUS_ANSWERED:
                     $redirect_page = 'index.php';
                     $redirect_msg  = _AM_SF_ANSWER_REJECTED_OPEN_QUESTION;
-                    $faqObj->setVar('status', _SF_STATUS_OPENED);
+                    $faqObj->setVar('status', Constants::SF_STATUS_OPENED);
                     break;
 
-                case _SF_STATUS_NEW_ANSWER:
-                    $proposed_answers = $answerHandler->getAllAnswers($faqid, _SF_AN_STATUS_PROPOSED);
+                case Constants::SF_STATUS_NEW_ANSWER:
+                    $proposed_answers = $answerHandler->getAllAnswers($faqid, Constants::SF_AN_STATUS_PROPOSED);
                     if (count($proposed_answers) > 0) {
                         // This question has other proposed answer
                         $redirect_page = 'answer.php?op=mod&faqid=' . $faqid;
@@ -260,7 +262,7 @@ switch ($op) {
                         // The question has no other proposed answer
                         $redirect_page = 'index.php';
                         $redirect_msg  = _AM_SF_ANSWER_REJECTED;
-                        $faqObj->setVar('status', _SF_STATUS_PUBLISHED);
+                        $faqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
                     }
                     break;
             }

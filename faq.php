@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+
 require_once __DIR__ . '/header.php';
 
 $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;

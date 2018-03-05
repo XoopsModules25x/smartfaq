@@ -7,6 +7,7 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Smartfaq;
 
 require_once __DIR__ . '/header.php';
 
@@ -84,46 +85,46 @@ switch ($op) {
         $original_status = $faqObj->status();
         switch ($original_status) {
             // This is an Open Question
-            case _SF_STATUS_OPENED:
+            case Constants::SF_STATUS_OPENED:
                 if (1 == $xoopsModuleConfig['autoapprove_answer']) {
                     // We automatically approve submitted answer for Open Question, so the question become a Submitted Q&A
                     if (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
                         // We automatically approve Submitted Q&A
                         $redirect_msg = _MD_SF_QNA_RECEIVED_AND_PUBLISHED;
-                        $faqObj->setVar('status', _SF_STATUS_PUBLISHED);
-                        $newAnswerObj->setVar('status', _SF_AN_STATUS_APPROVED);
+                        $faqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
+                        $newAnswerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
                         $notifCase = 1;
                     } else {
                         // Submitted Q&A need approbation
                         $redirect_msg = _MD_SF_QNA_RECEIVED_NEED_APPROVAL;
-                        $faqObj->setVar('status', _SF_STATUS_SUBMITTED);
-                        $newAnswerObj->setVar('status', _SF_AN_STATUS_PROPOSED);
+                        $faqObj->setVar('status', Constants::SF_STATUS_SUBMITTED);
+                        $newAnswerObj->setVar('status', Constants::SF_AN_STATUS_PROPOSED);
                         $notifCase = 2;
                     }
                 } else {
                     // Submitted answer need approbation
                     $redirect_msg = _MD_SF_OPEN_ANSWER_NEED_APPROBATION;
-                    $faqObj->setVar('status', _SF_STATUS_ANSWERED);
-                    $newAnswerObj->setVar('status', _SF_AN_STATUS_PROPOSED);
+                    $faqObj->setVar('status', Constants::SF_STATUS_ANSWERED);
+                    $newAnswerObj->setVar('status', Constants::SF_AN_STATUS_PROPOSED);
 
                     $notifCase = 3;
                 }
                 break;
 
             // This is a published FAQ for which a user submitted a new answer
-            case _SF_STATUS_PUBLISHED:
-            case _SF_STATUS_NEW_ANSWER:
+            case Constants::SF_STATUS_PUBLISHED:
+            case Constants::SF_STATUS_NEW_ANSWER:
                 if (1 == $xoopsModuleConfig['autoapprove_answer_new']) {
                     // We automatically approve new submitted answer for already published FAQ
                     $redirect_msg = '4';
-                    $faqObj->setVar('status', _SF_STATUS_SUBMITTED);
-                    $newAnswerObj->setVar('status', _SF_AN_STATUS_APPROVED);
+                    $faqObj->setVar('status', Constants::SF_STATUS_SUBMITTED);
+                    $newAnswerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
                     $notifCase = 4;
                 } else {
                     // New submitted answer need approbation
                     $redirect_msg = _MD_SF_FAQ_NEW_ANSWER_NEED_APPROBATION;
-                    $faqObj->setVar('status', _SF_STATUS_NEW_ANSWER);
-                    $newAnswerObj->setVar('status', _SF_AN_STATUS_PROPOSED);
+                    $faqObj->setVar('status', Constants::SF_STATUS_NEW_ANSWER);
+                    $newAnswerObj->setVar('status', Constants::SF_AN_STATUS_PROPOSED);
                     $notifCase = 5;
                 }
                 break;
@@ -146,7 +147,7 @@ switch ($op) {
                 // We do not not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
-                $faqObj->sendNotifications([_SF_NOT_FAQ_PUBLISHED]);
+                $faqObj->sendNotifications([Constants::SF_NOT_FAQ_PUBLISHED]);
                 break;
 
             case 2:
@@ -156,7 +157,7 @@ switch ($op) {
                     $notificationHandler->subscribe('faq', $faqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $faqObj->sendNotifications([_SF_NOT_FAQ_SUBMITTED]);
+                $faqObj->sendNotifications([Constants::SF_NOT_FAQ_SUBMITTED]);
                 break;
 
             case 3:
@@ -166,7 +167,7 @@ switch ($op) {
                     $notificationHandler->subscribe('question', $newAnswerObj->answerid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
-                $faqObj->sendNotifications([_SF_NOT_QUESTION_SUBMITTED]);
+                $faqObj->sendNotifications([Constants::SF_NOT_QUESTION_SUBMITTED]);
                 break;
             case 4:
                 // New answer submitted for a published Q&A, auto-approved
@@ -181,18 +182,17 @@ switch ($op) {
                     $notificationHandler->subscribe('faq', $newAnswerObj->answerid(), 'answer_approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
 
-                $faqObj->sendNotifications([_SF_NOT_NEW_ANSWER_PROPOSED]);
+                $faqObj->sendNotifications([Constants::SF_NOT_NEW_ANSWER_PROPOSED]);
                 break;
         }
 
-        //redirect_header("javascript:history.go(-1)", 3, $redirect_msg);
         redirect_header('index.php', 3, $redirect_msg);
         break;
 
     case 'form':
     default:
 
-        global $xoopsUser, $xoopsModule, $HTTP_SERVER_VARS;
+        global $xoopsUser, $xoopsModule, $_SERVER;
 
         // Creating the FAQ object for the selected FAQ
         $faqObj = new Smartfaq\Faq($faqid);

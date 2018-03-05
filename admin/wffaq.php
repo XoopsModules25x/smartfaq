@@ -10,6 +10,8 @@
  *
  */
 
+use XoopsModules\Smartfaq\Constants;
+
 require_once __DIR__ . '/admin_header.php';
 
 $importFromModuleName = 'WF-FAQ';
@@ -170,12 +172,12 @@ if ('go' === $op) {
 
             if ($autoaprove) {
                 if ($wft_submit) {
-                    $qstatus = _SF_STATUS_PUBLISHED;
+                    $qstatus = Constants::SF_STATUS_PUBLISHED;
                 } else {
-                    $qstatus = _SF_STATUS_SUBMITTED;
+                    $qstatus = Constants::SF_STATUS_SUBMITTED;
                 }
             } else {
-                $qstatus = _SF_STATUS_SUBMITTED;
+                $qstatus = Constants::SF_STATUS_SUBMITTED;
             }
 
             // insert question into SmartFAQ
@@ -202,7 +204,7 @@ if ('go' === $op) {
                 $answerObj->setVar('faqid', $faqObj->faqid());
                 $answerObj->setVar('answer', $wft_answer);
                 $answerObj->setVar('uid', $wft_uid);
-                $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
+                $answerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
 
                 if (!$answerObj->store()) {
                     echo sprintf('  ' . _AM_SF_IMPORT_FAQ_ERROR) . '<br>';

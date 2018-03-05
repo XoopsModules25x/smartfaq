@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+
 require_once __DIR__ . '/admin_header.php';
 
 // Creating the category handler object
@@ -63,7 +65,7 @@ function displayCategory($categoryObj, $level = 0)
     echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
     echo "<td class='even' align='center'> $modify $delete </td>";
     echo '</tr>';
-    $subCategoriesObj = $categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
+    $subCategoriesObj =& $categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
     if (count($subCategoriesObj) > 0) {
         ++$level;
         foreach ($subCategoriesObj as $key => $thiscat) {
@@ -338,7 +340,7 @@ switch ($op) {
         echo "<br>\n";
 
         // Creating the objects for top categories
-        $categoriesObj = $categoryHandler->getCategories($xoopsModuleConfig['perpage'], $startcategory, 0);
+        $categoriesObj =& $categoryHandler->getCategories($xoopsModuleConfig['perpage'], $startcategory, 0);
 
         sf_collapsableBar('toptable', 'toptableicon');
         echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CATEGORIES_TITLE . '</h3>';

@@ -63,7 +63,7 @@ trait VersionChecks
         // check for minimum PHP version
         $success = true;
         $verNum  = PHP_VERSION;
-        $reqVer  = $module->getInfo('min_php');
+        $reqVer  =& $module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));

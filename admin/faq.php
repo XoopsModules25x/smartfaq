@@ -6,6 +6,10 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
+
+
 require_once __DIR__ . '/admin_header.php';
 
 // Creating the faq handler object
@@ -64,69 +68,69 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
         switch ($faqObj->status()) {
 
-            case _SF_STATUS_ASKED:
+            case Constants::SF_STATUS_ASKED:
                 $breadcrumb_action1   = _AM_SF_ASKED;
                 $breadcrumb_action2   = _AM_SF_APPROVING;
                 $collapsableBar_title = _AM_SF_ASKED_TITLE;
                 $collapsableBar_info  = _AM_SF_ASKED_TITLE_INFO;
                 $button_caption       = _AM_SF_PUBLISHED;
-                $an_status            = _SF_AN_STATUS_APPROVED;
+                $an_status            = Constants::SF_AN_STATUS_APPROVED;
                 $answerObj->setVar('uid', $xoopsUser->getVar('uid'));
                 break;
 
-            case _SF_STATUS_ANSWERED:
+            case Constants::SF_STATUS_ANSWERED:
                 $breadcrumb_action1   = _AM_SF_ANSWERED;
                 $breadcrumb_action2   = _AM_SF_APPROVING;
                 $collapsableBar_title = _AM_SF_ANSWERED_TITLE;
                 $collapsableBar_info  = _AM_SF_ANSWERED_TITLE_INFO;
                 $button_caption       = _AM_SF_APPROVE;
-                $an_status            = _SF_AN_STATUS_PROPOSED;
+                $an_status            = Constants::SF_AN_STATUS_PROPOSED;
                 break;
 
-            case _SF_STATUS_SUBMITTED:
+            case Constants::SF_STATUS_SUBMITTED:
                 $breadcrumb_action1   = _AM_SF_SUBMITTED;
                 $breadcrumb_action2   = _AM_SF_APPROVING;
                 $collapsableBar_title = _AM_SF_SUBMITTED_TITLE;
                 $collapsableBar_info  = _AM_SF_SUBMITTED_INFO;
                 $button_caption       = _AM_SF_APPROVE;
-                $an_status            = _SF_AN_STATUS_PROPOSED;
+                $an_status            = Constants::SF_AN_STATUS_PROPOSED;
                 break;
 
-            case _SF_STATUS_PUBLISHED:
+            case Constants::SF_STATUS_PUBLISHED:
                 $breadcrumb_action1   = _AM_SF_PUBLISHED;
                 $breadcrumb_action2   = _AM_SF_EDITING;
                 $collapsableBar_title = _AM_SF_PUBLISHEDEDITING;
                 $collapsableBar_info  = _AM_SF_PUBLISHEDEDITING_INFO;
                 $button_caption       = _AM_SF_MODIFY;
-                $an_status            = _SF_AN_STATUS_APPROVED;
+                $an_status            = Constants::SF_AN_STATUS_APPROVED;
                 break;
 
-            case _SF_STATUS_OFFLINE:
+            case Constants::SF_STATUS_OFFLINE:
                 $breadcrumb_action1   = _AM_SF_OFFLINE;
                 $breadcrumb_action2   = _AM_SF_EDITING;
                 $collapsableBar_title = _AM_SF_OFFLINEEDITING;
                 $collapsableBar_info  = _AM_SF_OFFLINEEDITING_INFO;
                 $button_caption       = _AM_SF_MODIFY;
-                $an_status            = _SF_AN_STATUS_APPROVED;
+                $an_status            = Constants::SF_AN_STATUS_APPROVED;
                 break;
 
-            case _SF_STATUS_OPENED:
+            case Constants::SF_STATUS_OPENED:
                 $breadcrumb_action1   = _AM_SF_OPEN_QUESTIONS;
                 $breadcrumb_action2   = _AM_SF_ANSWERING;
                 $collapsableBar_title = _AM_SF_OPEN_QUESTION_ANSWERING;
                 $collapsableBar_info  = _AM_SF_OPEN_QUESTION_ANSWERING_INFO;
                 $button_caption       = _AM_SF_PUBLISH;
-                $an_status            = _SF_AN_STATUS_NOTSET;
+                $an_status            = Constants::SF_AN_STATUS_NOTSET;
                 $answerObj->setVar('uid', $xoopsUser->getVar('uid'));
                 break;
 
-            case _SF_STATUS_NEW_ANSWER:
+            case Constants::SF_STATUS_NEW_ANSWER:
                 $breadcrumb_action1   = _AM_SF_PUBLISHED;
                 $breadcrumb_action2   = _AM_SF_EDITING;
                 $collapsableBar_title = _AM_SF_NEW_ANSWER_EDITING;
                 $collapsableBar_info  = _AM_SF_NEW_ANSWER_EDITING_INFO;
                 $button_caption       = _AM_SF_PUBLISH;
-                $an_status            = _SF_AN_STATUS_NOTSET;
+                $an_status            = Constants::SF_AN_STATUS_NOTSET;
                 break;
 
             case 'default':
@@ -281,7 +285,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $sform->addElement($options_tray);
 
     // OFFLINE
-    if (_SF_STATUS_OFFLINE == $faqObj->status()) {
+    if (Constants::SF_STATUS_OFFLINE == $faqObj->status()) {
         // Back OnLine
         $offline_radio = new \XoopsFormRadioYN(_AM_SF_OFFLINE_FIELD, 'offline', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
         $sform->addElement($offline_radio);
@@ -414,12 +418,12 @@ switch ($op) {
         $faqObj->setVar('howdoi', $_POST['howdoi']);
         $faqObj->setVar('diduno', $_POST['diduno']);
 
-        $faqObj->setVar('status', isset($_POST['status']) ? (int)$_POST['status'] : _SF_STATUS_ASKED);
+        $faqObj->setVar('status', isset($_POST['status']) ? (int)$_POST['status'] : Constants::SF_STATUS_ASKED);
 
         // If this SmartFAQ is offline and the user set this option to No
         $offline = isset($_POST['offline']) ? $_POST['offline'] : 1;
-        if ((0 == $offline) && (_SF_STATUS_OFFLINE == $faqObj->status())) {
-            $faqObj->setVar('status', _SF_STATUS_PUBLISHED);
+        if ((0 == $offline) && (Constants::SF_STATUS_OFFLINE == $faqObj->status())) {
+            $faqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
         }
         $faqObj->setVar('weight', isset($_POST['weight']) ? (int)$_POST['weight'] : $faqObj->weight());
         $faqObj->setVar('html', isset($_POST['html']) ? (int)$_POST['html'] : 0);
@@ -434,60 +438,60 @@ switch ($op) {
 
         switch ($faqObj->status()) {
 
-            case _SF_STATUS_ASKED:
+            case Constants::SF_STATUS_ASKED:
                 $redirect_msg = _AM_SF_ASKED_APPROVE_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
                 // Setting the new status
-                $status    = _SF_STATUS_PUBLISHED;
-                $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
+                $status    = Constants::SF_STATUS_PUBLISHED;
+                $an_status = Constants::SF_AN_STATUS_APPROVED;
+                $notifToDo = [Constants::SF_NOT_FAQ_PUBLISHED];
                 break;
 
-            case _SF_STATUS_ANSWERED:
+            case Constants::SF_STATUS_ANSWERED:
                 $redirect_msg = _AM_SF_ANSWERED_APPROVE_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
                 // Setting the new status
-                $status    = _SF_STATUS_PUBLISHED;
-                $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
+                $status    = Constants::SF_STATUS_PUBLISHED;
+                $an_status = Constants::SF_AN_STATUS_APPROVED;
+                $notifToDo = [Constants::SF_NOT_FAQ_PUBLISHED];
                 break;
 
-            case _SF_STATUS_SUBMITTED:
+            case Constants::SF_STATUS_SUBMITTED:
                 $redirect_msg = _AM_SF_SUBMITTED_APPROVE_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
                 // Setting the new status
-                $status    = _SF_STATUS_PUBLISHED;
-                $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
+                $status    = Constants::SF_STATUS_PUBLISHED;
+                $an_status = Constants::SF_AN_STATUS_APPROVED;
+                $notifToDo = [Constants::SF_NOT_FAQ_PUBLISHED];
                 break;
 
-            case _SF_STATUS_PUBLISHED:
+            case Constants::SF_STATUS_PUBLISHED:
                 $redirect_msg = _AM_SF_PUBLISHED_MOD_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
                 // Setting the new status
-                $status    = _SF_STATUS_PUBLISHED;
-                $an_status = _SF_AN_STATUS_APPROVED;
+                $status    = Constants::SF_STATUS_PUBLISHED;
+                $an_status = Constants::SF_AN_STATUS_APPROVED;
                 break;
 
-            case _SF_STATUS_OPENED:
+            case Constants::SF_STATUS_OPENED:
                 $redirect_msg = _AM_SF_OPENED_ANSWERING_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
                 // Setting the new status
-                $status    = _SF_STATUS_PUBLISHED;
-                $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
+                $status    = Constants::SF_STATUS_PUBLISHED;
+                $an_status = Constants::SF_AN_STATUS_APPROVED;
+                $notifToDo = [Constants::SF_NOT_FAQ_PUBLISHED];
                 break;
 
-            case _SF_STATUS_NEW_ANSWER:
+            case Constants::SF_STATUS_NEW_ANSWER:
                 $redirect_msg = _AM_SF_FAQ_NEW_ANSWER_PUBLISHED;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
                 // Setting the new status
-                $status    = _SF_STATUS_PUBLISHED;
-                $an_status = _SF_AN_STATUS_APPROVED;
-                //$notifToDo = array(_SF_NOT_FAQ_PUBLISHED);
+                $status    = Constants::SF_STATUS_PUBLISHED;
+                $an_status = Constants::SF_AN_STATUS_APPROVED;
+                //$notifToDo = array(Constants::SF_NOT_FAQ_PUBLISHED);
                 break;
 
-            case _SF_STATUS_OFFLINE:
+            case Constants::SF_STATUS_OFFLINE:
                 break;
 
             case 'default':
@@ -495,9 +499,9 @@ switch ($op) {
                 $redirect_msg = _AM_SF_SUBMITTED_APPROVE_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTCREATED;
                 // Setting the new status
-                $status    = _SF_STATUS_PUBLISHED;
-                $an_status = _SF_AN_STATUS_APPROVED;
-                $notifToDo = [_SF_NOT_FAQ_PUBLISHED];
+                $status    = Constants::SF_STATUS_PUBLISHED;
+                $an_status = Constants::SF_AN_STATUS_APPROVED;
+                $notifToDo = [Constants::SF_NOT_FAQ_PUBLISHED];
                 break;
         }
         $faqObj->setVar('status', $status);

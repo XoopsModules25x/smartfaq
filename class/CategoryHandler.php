@@ -201,7 +201,7 @@ class CategoryHandler extends \XoopsObjectHandler
             return $ret;
         }
 
-        while ($myrow = $this->db->fetchArray($result)) {
+       while (false !== ($myrow = $this->db->fetchArray($result))) {
             $category = new Smartfaq\Category();
             $category->assignVars($myrow);
             if (!$id_as_key) {
@@ -243,7 +243,8 @@ class CategoryHandler extends \XoopsObjectHandler
             $criteria->add(new \Criteria('parentid', $parentid));
         }
         if (!sf_userIsAdmin()) {
-            $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
@@ -281,13 +282,14 @@ class CategoryHandler extends \XoopsObjectHandler
             $criteria->add(new \Criteria('c.parentid', $parentid));
         }
         if (!sf_userIsAdmin()) {
-            $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
         }
 
-        $criteria->add(new \Criteria('f.status', _SF_STATUS_OPENED));
+        $criteria->add(new \Criteria('f.status', Constants::SF_STATUS_OPENED));
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
@@ -308,7 +310,7 @@ class CategoryHandler extends \XoopsObjectHandler
             return $ret;
         }
 
-        while ($myrow = $this->db->fetchArray($result)) {
+       while (false !== ($myrow = $this->db->fetchArray($result))) {
             $category = new Smartfaq\Category();
             $category->assignVars($myrow);
             $ret[] = $category;
@@ -352,7 +354,8 @@ class CategoryHandler extends \XoopsObjectHandler
         if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
             if (!sf_userIsAdmin()) {
-                $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+                /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+                $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
                 $categoriesGranted = $smartPermHandler->getPermissions('category');
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
@@ -375,14 +378,15 @@ class CategoryHandler extends \XoopsObjectHandler
         if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
             if (!sf_userIsAdmin()) {
-                $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+                /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+                $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
                 $categoriesGranted = $smartPermHandler->getPermissions('category');
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
             }
         }
 
-        $criteria->add(new \Criteria('f.status', _SF_STATUS_OPENED));
+        $criteria->add(new \Criteria('f.status', Constants::SF_STATUS_OPENED));
 
         $sql = 'SELECT COUNT(c.categoryid) FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
 
@@ -408,12 +412,13 @@ class CategoryHandler extends \XoopsObjectHandler
         $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')'), 'IN');
         $ret      = [];
         if (!sf_userIsAdmin()) {
-            $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
         }
-        $subcats = $this->getObjects($criteria, true);
+        $subcats =& $this->getObjects($criteria, true);
         foreach ($subcats as $subcat_id => $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
         }
@@ -471,7 +476,7 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function publishedFaqsCount($cat_id = 0)
     {
-        return $this->faqsCount($cat_id, $status = [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER]);
+        return $this->faqsCount($cat_id, $status = [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER]);
     }
 
     /**

@@ -6,32 +6,12 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 //require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
-
-// FAQ status
-define('_SF_STATUS_NOTSET', -1);
-define('_SF_STATUS_ALL', 0);
-define('_SF_STATUS_ASKED', 1);
-define('_SF_STATUS_OPENED', 2);
-define('_SF_STATUS_ANSWERED', 3);
-define('_SF_STATUS_SUBMITTED', 4);
-define('_SF_STATUS_PUBLISHED', 5);
-define('_SF_STATUS_NEW_ANSWER', 6);
-define('_SF_STATUS_OFFLINE', 7);
-define('_SF_STATUS_REJECTED_QUESTION', 8);
-define('_SF_STATUS_REJECTED_SMARTFAQ', 9);
-
-// Notification Events
-define('_SF_NOT_CATEGORY_CREATED', 1);
-define('_SF_NOT_FAQ_SUBMITTED', 2);
-define('_SF_NOT_FAQ_PUBLISHED', 3);
-define('_SF_NOT_FAQ_REJECTED', 4);
-define('_SF_NOT_QUESTION_SUBMITTED', 5);
-define('_SF_NOT_QUESTION_PUBLISHED', 6);
-define('_SF_NOT_NEW_ANSWER_PROPOSED', 7);
-define('_SF_NOT_NEW_ANSWER_PUBLISHED', 8);
 
 
 /**
@@ -222,12 +202,12 @@ class FaqHandler extends \XoopsObjectHandler
     /**
      * retrieve FAQs from the database
      *
-     * @param  CriteriaElement $criteria  {@link CriteriaElement} conditions to be met
+     * @param  \CriteriaElement $criteria  {@link CriteriaElement} conditions to be met
      * @param  bool            $id_as_key use the faqid as key for the array?
      * @param  string          $notNullFields
      * @return false|array  array of <a href='psi_element://Smartfaq\Faq'>Smartfaq\Faq</a> objects
      */
-    public function &getObjects(CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
+    public function &getObjects(\CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
     {
         $ret   = [];
         $limit = $start = 0;
@@ -263,7 +243,7 @@ class FaqHandler extends \XoopsObjectHandler
             return false;
         }
 
-        while ($myrow = $this->db->fetchArray($result)) {
+       while (false !== ($myrow = $this->db->fetchArray($result))) {
             $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
 
@@ -279,12 +259,12 @@ class FaqHandler extends \XoopsObjectHandler
     }
 
     /**
-     * @param  null|CriteriaElement $criteria
+     * @param  null|\CriteriaElement $criteria
      * @param  bool                 $id_as_key
      * @param  string               $notNullFields
      * @return array|bool
      */
-    public function &getObjectsAdminSide(CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
+    public function getObjectsAdminSide(\CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
     {
         $ret   = [];
         $limit = $start = 0;
@@ -342,7 +322,7 @@ class FaqHandler extends \XoopsObjectHandler
             return false;
         }
 
-        while ($myrow = $this->db->fetchArray($result)) {
+       while (false !== ($myrow = $this->db->fetchArray($result))) {
             $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
 
@@ -421,7 +401,8 @@ class FaqHandler extends \XoopsObjectHandler
         $userIsAdmin = sf_userIsAdmin();
         // Categories for which user has access
         if (!$userIsAdmin) {
-            $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -505,7 +486,7 @@ class FaqHandler extends \XoopsObjectHandler
         $order = 'DESC',
         $asobject = true
     ) {
-        return $this->getFaqs($limit, $start, [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER], $categoryid, $sort, $order, null, $asobject, null);
+        return $this->getFaqs($limit, $start, [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER], $categoryid, $sort, $order, null, $asobject, null);
     }
 
     /**
@@ -541,7 +522,8 @@ class FaqHandler extends \XoopsObjectHandler
         $userIsAdmin = sf_userIsAdmin();
         // Categories for which user has access
         if (!$userIsAdmin) {
-            $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -600,7 +582,7 @@ class FaqHandler extends \XoopsObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $ret = $this->getObjects($criteria, false, $notNullFields);
+        $ret =& $this->getObjects($criteria, false, $notNullFields);
 
         return $ret;
     }
@@ -707,12 +689,12 @@ class FaqHandler extends \XoopsObjectHandler
         $otherCriteria = new \CriteriaCompo();
         $otherCriteria->add(new \Criteria('modulelink', 'None', '<>'));
 
-        $faqsObj = $this->getFaqs(0, 0, [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER], -1, 'datesub', 'DESC', '', true, $otherCriteria);
+        $faqsObj = $this->getFaqs(0, 0, [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER], -1, 'datesub', 'DESC', '', true, $otherCriteria);
 
         $totalfaqs  = count($faqsObj);
         $randomFaqs = [];
         if ($faqsObj) {
-            for ($i = 0; $i < $totalfaqs; ++$i) {
+            foreach ($faqsObj as $i => $iValue) {
                 $display = false;
 
                 $http        = (false === strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
@@ -723,8 +705,8 @@ class FaqHandler extends \XoopsObjectHandler
                     $querystring = '?' . $querystring;
                 }
                 $currenturl     = $http . $httphost . $phpself . $querystring;
-                $fullcontexturl = XOOPS_URL . '/' . $faqsObj[$i]->contextpage();
-                switch ($faqsObj[$i]->modulelink()) {
+                $fullcontexturl = XOOPS_URL . '/' . $iValue->contextpage();
+                switch ($iValue->modulelink()) {
                     case '':
                         $display = false;
                         break;
@@ -735,7 +717,7 @@ class FaqHandler extends \XoopsObjectHandler
                         $display = true;
                         break;
                     case 'url':
-                        if ($faqsObj[$i]->exacturl()) {
+                        if ($iValue->exacturl()) {
                             $display = ($currenturl == $fullcontexturl);
                         } else {
                             $display = (false === strpos($currenturl, $fullcontexturl));
@@ -745,7 +727,7 @@ class FaqHandler extends \XoopsObjectHandler
                         if (false === strpos($currenturl, XOOPS_URL . '/modules/')) {
                             $display = false;
                         } else {
-                            if (false === strpos($currenturl, $faqsObj[$i]->modulelink())) {
+                            if (false === strpos($currenturl, $iValue->modulelink())) {
                                 $display = false;
                             } else {
                                 $display = true;
@@ -776,12 +758,13 @@ class FaqHandler extends \XoopsObjectHandler
      * @param  array $status
      * @return array
      */
-    public function getLastPublishedByCat($status = [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER])
+    public function getLastPublishedByCat($status = [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER])
     {
         $ret       = [];
         $faqclause = '';
         if (!sf_userIsAdmin()) {
-            $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
             $items            = $smartPermHandler->getPermissions('item');
             $faqclause        = ' AND faqid IN (' . implode(',', $items) . ')';
         }
@@ -922,10 +905,10 @@ class FaqHandler extends \XoopsObjectHandler
 
         if ($queryarray) {
             $criteriaKeywords = new \CriteriaCompo();
-            for ($i = 0, $iMax = count($queryarray); $i < $iMax; ++$i) {
+            foreach ($queryarray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
-                $criteriaKeyword->add(new \Criteria('faq.question', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
-                $criteriaKeyword->add(new \Criteria('answer.answer', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
+                $criteriaKeyword->add(new \Criteria('faq.question', '%' . $iValue . '%', 'LIKE'), 'OR');
+                $criteriaKeyword->add(new \Criteria('answer.answer', '%' . $iValue . '%', 'LIKE'), 'OR');
                 $criteriaKeywords->add($criteriaKeyword, $andor);
                 unset($criteriaKeyword);
             }
@@ -933,7 +916,8 @@ class FaqHandler extends \XoopsObjectHandler
 
         // Categories for which user has access
         if (!$userIsAdmin) {
-            $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $faqsGranted       = $smartPermHandler->getPermissions('item');
@@ -959,11 +943,11 @@ class FaqHandler extends \XoopsObjectHandler
         }
 
         $criteriaAnswersStatus = new \CriteriaCompo();
-        $criteriaAnswersStatus->add(new \Criteria('answer.status', _SF_AN_STATUS_APPROVED));
+        $criteriaAnswersStatus->add(new \Criteria('answer.status', Constants::SF_AN_STATUS_APPROVED));
 
         $criteriaFasStatus = new \CriteriaCompo();
-        $criteriaFasStatus->add(new \Criteria('faq.status', _SF_STATUS_OPENED), 'OR');
-        $criteriaFasStatus->add(new \Criteria('faq.status', _SF_STATUS_PUBLISHED), 'OR');
+        $criteriaFasStatus->add(new \Criteria('faq.status', Constants::SF_STATUS_OPENED), 'OR');
+        $criteriaFasStatus->add(new \Criteria('faq.status', Constants::SF_STATUS_PUBLISHED), 'OR');
 
         $criteria = new \CriteriaCompo();
         if (!empty($criteriaUser)) {
@@ -1019,7 +1003,7 @@ class FaqHandler extends \XoopsObjectHandler
             return $ret;
         }
 
-        while ($myrow = $this->db->fetchArray($result)) {
+       while (false !== ($myrow = $this->db->fetchArray($result))) {
             $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
             $ret[] =& $faq;
@@ -1045,7 +1029,8 @@ class FaqHandler extends \XoopsObjectHandler
         } else {
             $sql .= ' WHERE status IN (' . implode(',', $status) . ')';
             if (!sf_userIsAdmin()) {
-                $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+                /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+                $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
                 $items            = $smartPermHandler->getPermissions('item');
                 if (is_object($xoopsUser)) {
                     $sql .= ' AND faqid IN (' . implode(',', $items) . ')';

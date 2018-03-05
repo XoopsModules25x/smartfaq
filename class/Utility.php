@@ -118,7 +118,7 @@ class Utility
         }
         $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
-        $subCategoriesObj = $categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj =& $categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $catID => $subCategoryObj) {
@@ -188,7 +188,8 @@ class Utility
         if (!$xoopsUser) {
             $result = false;
         } else {
-            $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categories = $smartPermHandler->getPermissions('moderation');
             if (0 == count($categories)) {
@@ -232,7 +233,7 @@ class Utility
         $module_id   = $smartModule->getVar('mid');
 
         if (!empty($xoopsUser)) {
-            $groups = $xoopsUser->getGroups();
+            $groups =& $xoopsUser->getGroups();
             $result = in_array(XOOPS_GROUP_ADMIN, $groups) || $xoopsUser->isAdmin($module_id);
         }
 

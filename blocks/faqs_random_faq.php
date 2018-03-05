@@ -5,8 +5,14 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
+
+use XoopsModules\Smartfaq\Constants;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
+/**
+ * @return array
+ */
 function b_faqs_random_faq_show()
 {
     require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
@@ -18,7 +24,7 @@ function b_faqs_random_faq_show()
     $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
     // creating the FAQ object
-    $faqsObj = $faqHandler->getRandomFaq('question', [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER]);
+    $faqsObj = $faqHandler->getRandomFaq('question', [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER]);
 
     if ($faqsObj) {
         $block['content']     = $faqsObj->question();

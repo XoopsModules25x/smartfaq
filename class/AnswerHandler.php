@@ -6,17 +6,10 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
-// Answers status
-define('_SF_AN_STATUS_NOTSET', -1);
-define('_SF_AN_STATUS_PROPOSED', 0);
-define('_SF_AN_STATUS_APPROVED', 1);
-define('_SF_AN_STATUS_REJECTED', 2);
-
-// Notification Events
-define('_SF_NOT_ANSWER_APPROVED', 3);
-define('_SF_NOT_ANSWER_REJECTED', 4);
 
 
 /**
@@ -198,7 +191,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
         if (!$result) {
             return $ret;
         }
-        while ($myrow = $this->db->fetchArray($result)) {
+       while (false !== ($myrow = $this->db->fetchArray($result))) {
             $answer = new Smartfaq\Answer();
             $answer->assignVars($myrow);
             if (!$id_as_key) {
@@ -220,7 +213,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
      */
     public function getOfficialAnswer($faqid = 0)
     {
-        $theaAnswers = $this->getAllAnswers($faqid, _SF_AN_STATUS_APPROVED, 1, 0);
+        $theaAnswers = $this->getAllAnswers($faqid, Constants::SF_AN_STATUS_APPROVED, 1, 0);
         $ret         = false;
         if (1 == count($theaAnswers)) {
             $ret = $theaAnswers[0];
@@ -272,7 +265,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
         $criteria->setOrder($order);
         $criteria->setLimit($limit);
         $criteria->setStart($start);
-        $ret = $this->getObjects($criteria);
+        $ret =& $this->getObjects($criteria);
 
         return $ret;
     }
@@ -379,7 +372,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
     {
         $ret    = [];
         $sql    = 'SELECT faqid, answer, uid, datesub FROM ' . $this->db->prefix('smartfaq_answers') . '
-               WHERE faqid IN (' . implode(',', $faqids) . ') AND status = ' . _SF_AN_STATUS_APPROVED . ' GROUP BY faqid';
+               WHERE faqid IN (' . implode(',', $faqids) . ') AND status = ' . Constants::SF_AN_STATUS_APPROVED . ' GROUP BY faqid';
         $result = $this->db->query($sql);
         if (!$result) {
             return $ret;

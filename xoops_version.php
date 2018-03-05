@@ -5,6 +5,9 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
+
+use XoopsModules\Smartfaq\Constants;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once __DIR__ . '/preloads/autoloader.php';
@@ -159,7 +162,7 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
         /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
         $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
-        if ($faqHandler->getFaqsCount(-1, _SF_STATUS_OPENED) > 0) {
+        if ($faqHandler->getFaqsCount(-1, Constants::SF_STATUS_OPENED) > 0) {
             $modversion['sub'][3]['name'] = _MI_SF_SUB_SMNAME3;
             $modversion['sub'][3]['url']  = 'open_index.php';
         }

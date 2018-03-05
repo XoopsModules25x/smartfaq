@@ -17,6 +17,8 @@
  * @author       XOOPS Development Team
  */
 
+use XoopsModules\Smartfaq;
+
 //require_once __DIR__ . '/setup.php';
 
 /**

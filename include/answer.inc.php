@@ -5,6 +5,9 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
+
+use XoopsModules\Smartfaq\Constants;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 global $_POST;
@@ -45,7 +48,7 @@ if (is_object($xoopsUser)) {
     $form->addElement($notify_checkbox);
 }
 
-if ((_SF_STATUS_PUBLISHED == $faqObj->status()) || (_SF_STATUS_NEW_ANSWER == $faqObj->status())) {
+if ((Constants::SF_STATUS_PUBLISHED == $faqObj->status()) || (Constants::SF_STATUS_NEW_ANSWER == $faqObj->status())) {
     $answerObj = $faqObj->answer();
     $form->addElement(new \XoopsFormLabel(_MD_SF_ORIGINAL_ANSWER, $answerObj->answer()), false);
 }

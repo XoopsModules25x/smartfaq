@@ -1,20 +1,24 @@
 <?php
 
+use XoopsModules\Smartfaq;
+
 /**
  * Module: SmartFAQ
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq\Constants;
+
 require_once __DIR__ . '/admin_header.php';
 
 // Creating the faq handler object
-/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+/** @var Smartfaq\FaqHandler $faqHandler */
+$faqHandler = Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Creating the category handler object
-/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+/** @var Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = Smartfaq\Helper::getInstance()->getHandler('Category');
 
 $op = '';
 if (isset($_GET['op'])) {
@@ -46,7 +50,7 @@ function editfaq($showmenu = false, $faqid = -1)
         }
         switch ($faqObj->status()) {
 
-            case _SF_STATUS_ASKED:
+            case Constants::SF_STATUS_ASKED:
                 $breadcrumb_action    = _AM_SF_APPROVING;
                 $collapsableBar_title = _AM_SF_QUESTION_APPROVING;
                 $collapsableBar_info  = _AM_SF_QUESTION_APPROVING_INFO;
@@ -217,25 +221,25 @@ switch ($op) {
         $faqObj->setGroups_read(isset($_POST['groups']) ? $_POST['groups'] : []);
         $faqObj->setVar('categoryid', isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0);
         $faqObj->setVar('question', $_POST['question']);
-        $faqObj->setVar('status', isset($_POST['status']) ? (int)$_POST['status'] : _SF_STATUS_ASKED);
+        $faqObj->setVar('status', isset($_POST['status']) ? (int)$_POST['status'] : Constants::SF_STATUS_ASKED);
 
         $notifToDo = null;
 
         switch ($faqObj->status()) {
 
-            case _SF_STATUS_NOTSET:
+            case Constants::SF_STATUS_NOTSET:
                 $redirect_msg = _AM_SF_QUESTIONCREATEDOK;
                 // Setting the new status
-                $status    = _SF_STATUS_OPENED;
-                $notifToDo = [_SF_NOT_QUESTION_PUBLISHED];
+                $status    = Constants::SF_STATUS_OPENED;
+                $notifToDo = [Constants::SF_NOT_QUESTION_PUBLISHED];
                 $faqObj->setVar('uid', $uid);
                 break;
 
-            case _SF_STATUS_ASKED:
+            case Constants::SF_STATUS_ASKED:
                 $redirect_msg = _AM_SF_QUESTIONPUBLISHED;
                 // Setting the new status
-                $status    = _SF_STATUS_OPENED;
-                $notifToDo = [_SF_NOT_QUESTION_PUBLISHED];
+                $status    = Constants::SF_STATUS_OPENED;
+                $notifToDo = [Constants::SF_NOT_QUESTION_PUBLISHED];
                 break;
 
             case 'default':
@@ -317,10 +321,10 @@ switch ($op) {
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_OPENED_DSC . '</span>';
 
         // Get the total number of published FAQs
-        $totalfaqs = $faqHandler->getFaqsCount(-1, [_SF_STATUS_OPENED]);
+        $totalfaqs = $faqHandler->getFaqsCount(-1, [Constants::SF_STATUS_OPENED]);
         // creating the FAQ objects that are published
-        $faqsObj         = $faqHandler->getFaqs($xoopsModuleConfig['perpage'], $startfaq, _SF_STATUS_OPENED);
-        $totalFaqsOnPage = count($faqsObj);
+        $faqsObj         = $faqHandler->getFaqs($xoopsModuleConfig['perpage'], $startfaq, Constants::SF_STATUS_OPENED);
+//        $totalFaqsOnPage = count($faqsObj);
         $allCats         = $categoryHandler->getObjects(null, true);
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
         echo '<tr>';

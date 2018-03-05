@@ -30,18 +30,18 @@ function b_faqs_new_show($options)
     $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
     // creating the FAQ objects that belong to the selected category
     $faqsObj   = $faqHandler->getAllPublished($limit, 0, $categoryid, $sort);
-    $totalfaqs = count($faqsObj);
+
     if ($faqsObj) {
-        for ($i = 0; $i < $totalfaqs; ++$i) {
+        foreach ($faqsObj as $iValue) {
             $newfaqs             = [];
-            $newfaqs['linktext'] = $faqsObj[$i]->question($maxQuestionLength);
-            $newfaqs['id']       = $faqsObj[$i]->faqid();
+            $newfaqs['linktext'] = $iValue->question($maxQuestionLength);
+            $newfaqs['id']       = $iValue->faqid();
             if ('datesub' === $sort) {
-                $newfaqs['new'] = $faqsObj[$i]->datesub();
+                $newfaqs['new'] = $iValue->datesub();
             } elseif ('counter' === $sort) {
-                $newfaqs['new'] = $faqsObj[$i]->counter();
+                $newfaqs['new'] = $iValue->counter();
             } elseif ('weight' === $sort) {
-                $newfaqs['new'] = $faqsObj[$i]->weight();
+                $newfaqs['new'] = $iValue->weight();
             }
             $newfaqs['show_date'] = $options[4];
             $block['newfaqs'][]   = $newfaqs;

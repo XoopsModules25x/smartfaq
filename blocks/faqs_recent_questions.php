@@ -7,8 +7,15 @@
  * @param $options
  * @return array
  */
+
+use XoopsModules\Smartfaq\Constants;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
+/**
+ * @param $options
+ * @return array
+ */
 function b_faqs_recent_questions_show($options)
 {
     require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
@@ -30,21 +37,20 @@ function b_faqs_recent_questions_show($options)
     $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
     // creating the FAQ objects that belong to the selected category
-    $faqsObj   = $faqHandler->getFaqs($limit, 0, _SF_STATUS_OPENED, $categoryid, $sort);
-    $totalfaqs = count($faqsObj);
+    $faqsObj   = $faqHandler->getFaqs($limit, 0, Constants::SF_STATUS_OPENED, $categoryid, $sort);
 
     if ($faqsObj) {
-        for ($i = 0; $i < $totalfaqs; ++$i) {
+        foreach ($faqsObj as $iValue) {
             $newfaqs = [];
 
-            $newfaqs['linktext'] = $faqsObj[$i]->question($maxQuestionLength);
-            $newfaqs['id']       = $faqsObj[$i]->faqid();
+            $newfaqs['linktext'] = $iValue->question($maxQuestionLength);
+            $newfaqs['id']       = $iValue->faqid();
             if ('datesub' === $sort) {
-                $newfaqs['new'] = $faqsObj[$i]->datesub();
+                $newfaqs['new'] = $iValue->datesub();
             } elseif ('counter' === $sort) {
-                $newfaqs['new'] = $faqsObj[$i]->counter();
+                $newfaqs['new'] = $iValue->counter();
             } elseif ('weight' === $sort) {
-                $newfaqs['new'] = $faqsObj[$i]->weight();
+                $newfaqs['new'] = $iValue->weight();
             }
 
             $block['newfaqs'][] = $newfaqs;

@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq\Constants;
+
 global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
 
 echo "<br>\n";
@@ -28,11 +30,11 @@ echo "<div id='toptable'>";
 echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $faqs_info . '</span>';
 
 // Get the total number of published FAQs
-$totalfaqs = $faqHandler->getFaqsCount($sel_cat, [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER]);
+$totalfaqs = $faqHandler->getFaqsCount($sel_cat, [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER]);
 
 // creating the FAQ objects that are published
 $faqsObj         = $faqHandler->getAllPublished($xoopsModuleConfig['perpage'], $startfaq, $sel_cat);
-$totalFaqsOnPage = count($faqsObj);
+//$totalFaqsOnPage = count($faqsObj);
 $allCats         = $categoryHandler->getObjects(null, true);
 echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
 echo '<tr>';
@@ -48,23 +50,23 @@ echo "<th width='60' class='bg3' align='center'><b>" . _AM_SF_ACTION . '</b></td
 echo '</tr>';
 if ($totalfaqs > 0) {
     global $pathIcon16, $smartModuleConfig;
-    for ($i = 0; $i < $totalFaqsOnPage; ++$i) {
-        $categoryObj = $allCats[$faqsObj[$i]->categoryid()];
-        $modify      = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_EDITART . "'></a>";
-        $delete      = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_DELETEART . "'></a>";
+    foreach ($faqsObj as $iValue) {
+        $categoryObj = $allCats[$iValue->categoryid()];
+        $modify      = "<a href='faq.php?op=mod&amp;faqid=" . $iValue->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_EDITART . "'></a>";
+        $delete      = "<a href='faq.php?op=del&amp;faqid=" . $iValue->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_DELETEART . "'></a>";
 
         //adding name of the Question Submitter
-        $requester = sf_getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
+        $requester = sf_getLinkedUnameFromId($iValue->uid(), $smartModuleConfig['userealname']);
 
         //adding name of the Answer Submitter
         /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
         $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
         $criteria = new \CriteriaCompo();
-        $criteria->add(new \Criteria('faqid', $faqsObj[$i]->faqid()));
+        $criteria->add(new \Criteria('faqid', $iValue->faqid()));
         $criteria->add(new \Criteria('status', true));
 
-        $answerObjects = $answerHandler->getObjects($criteria, true);
+        $answerObjects =& $answerHandler->getObjects($criteria, true);
 
         foreach (array_keys($answerObjects) as $j) {
             $answerObj = $answerObjects[$j];
@@ -79,14 +81,14 @@ if ($totalfaqs > 0) {
         }
 
         echo '<tr>';
-        echo "<td class='head' align='center'>" . $faqsObj[$i]->faqid() . '</td>';
+        echo "<td class='head' align='center'>" . $iValue->faqid() . '</td>';
         echo "<td class='even' align='left'>" . $categoryObj->name() . '</td>';
-        echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/faq.php?faqid=' . $faqsObj[$i]->faqid() . "'>" . $faqsObj[$i]->question(100) . '</a></td>';
+        echo "<td class='even' align='left'><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/faq.php?faqid=' . $iValue->faqid() . "'>" . $iValue->question(100) . '</a></td>';
 
         echo "<td class='even' align='center'>" . $requester . '</td>';
         echo "<td class='even' align='center'>" . $answerSubmitter . '</td>';
 
-        echo "<td class='even' align='center'>" . $faqsObj[$i]->datesub('s') . '</td>';
+        echo "<td class='even' align='center'>" . $iValue->datesub('s') . '</td>';
         echo "<td class='even' align='center'> $modify $delete </td>";
         echo '</tr>';
     }

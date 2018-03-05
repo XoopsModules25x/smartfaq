@@ -56,16 +56,16 @@ function b_faqs_recent_show($options)
 
         $memberHandler = xoops_getHandler('member');
         $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
-        for ($i = 0, $iMax = count($faqsObj); $i < $iMax; ++$i) {
-            $faqs['categoryid']   = $faqsObj[$i]->categoryid();
-            $faqs['question']     = $faqsObj[$i]->question($maxQuestionLength);
-            $faqs['faqid']        = $faqsObj[$i]->faqid();
-            $faqs['categoryname'] = $allcategories[$faqsObj[$i]->categoryid()]->getVar('name');
+        foreach ($faqsObj as $iValue) {
+            $faqs['categoryid']   = $iValue->categoryid();
+            $faqs['question']     = $iValue->question($maxQuestionLength);
+            $faqs['faqid']        = $iValue->faqid();
+            $faqs['categoryname'] = $allcategories[$iValue->categoryid()]->getVar('name');
 
             // Creating the answer object
-            $answerObj = $allanswers[$faqsObj[$i]->faqid()];
+            $answerObj = $allanswers[$iValue->faqid()];
 
-            $faqs['date'] = $faqsObj[$i]->datesub();
+            $faqs['date'] = $iValue->datesub();
 
             $faqs['poster'] = sf_getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);
 

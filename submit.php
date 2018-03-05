@@ -80,7 +80,7 @@ switch ($op) {
         $faqObj->setVar('datesub', time());
 
         // Putting the values in the answer object
-        $answerObj->setVar('status', _SF_AN_STATUS_APPROVED);
+        $answerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
         $answerObj->setVar('faqid', $faqObj->faqid());
         $answerObj->setVar('answer', $_POST['answer']);
         $answerObj->setVar('uid', $uid);
@@ -149,11 +149,11 @@ switch ($op) {
         // if user is admin, FAQ are automatically published
         $isAdmin = sf_userIsAdmin();
         if ($isAdmin) {
-            $newFaqObj->setVar('status', _SF_STATUS_PUBLISHED);
+            $newFaqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
         } elseif (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
-            $newFaqObj->setVar('status', _SF_STATUS_PUBLISHED);
+            $newFaqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
         } else {
-            $newFaqObj->setVar('status', _SF_STATUS_SUBMITTED);
+            $newFaqObj->setVar('status', Constants::SF_STATUS_SUBMITTED);
         }
 
         // Storing the FAQ object in the database
@@ -162,7 +162,7 @@ switch ($op) {
         }
 
         // Putting the values in the answer object
-        $newAnswerObj->setVar('status', _SF_AN_STATUS_APPROVED);
+        $newAnswerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
         $newAnswerObj->setVar('faqid', $newFaqObj->faqid());
         $newAnswerObj->setVar('answer', $_POST['answer']);
         $newAnswerObj->setVar('uid', $uid);
@@ -244,14 +244,14 @@ switch ($op) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
-            $newFaqObj->sendNotifications([_SF_NOT_FAQ_PUBLISHED]);
+            $newFaqObj->sendNotifications([Constants::SF_NOT_FAQ_PUBLISHED]);
 
             $redirect_msg = _MD_SF_SUBMIT_FROM_ADMIN;
         } elseif (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
-            $newFaqObj->sendNotifications([_SF_NOT_FAQ_PUBLISHED]);
+            $newFaqObj->sendNotifications([Constants::SF_NOT_FAQ_PUBLISHED]);
 
             $redirect_msg = _MD_SF_QNA_RECEIVED_AND_PUBLISHED;
         } else {
@@ -262,7 +262,7 @@ switch ($op) {
                 $notificationHandler->subscribe('faq', $newFaqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
             }
             // Send notifications
-            $newFaqObj->sendNotifications([_SF_NOT_FAQ_SUBMITTED]);
+            $newFaqObj->sendNotifications([Constants::SF_NOT_FAQ_SUBMITTED]);
 
             $redirect_msg = _MD_SF_QNA_RECEIVED_NEED_APPROVAL;
         }

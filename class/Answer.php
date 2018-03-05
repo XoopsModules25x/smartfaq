@@ -6,17 +6,11 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-// Answers status
-define('_SF_AN_STATUS_NOTSET', -1);
-define('_SF_AN_STATUS_PROPOSED', 0);
-define('_SF_AN_STATUS_APPROVED', 1);
-define('_SF_AN_STATUS_REJECTED', 2);
-
-// Notification Events
-define('_SF_NOT_ANSWER_APPROVED', 3);
-define('_SF_NOT_ANSWER_REJECTED', 4);
 
 /**
  * Class Answer
@@ -283,9 +277,9 @@ class Answer extends \XoopsObject
     {
         $answerHandler = new AnswerHandler($this->db);
 
-        if (_SF_AN_STATUS_APPROVED == $this->status()) {
+        if (Constants::SF_AN_STATUS_APPROVED == $this->status()) {
             $criteria = new \CriteriaCompo(new \Criteria('faqid', $this->faqid()));
-            $answerHandler->updateAll('status', _SF_AN_STATUS_REJECTED, $criteria);
+            $answerHandler->updateAll('status', Constants::SF_AN_STATUS_REJECTED, $criteria);
         }
 
         return $answerHandler->insert($this, $force);
@@ -381,7 +375,7 @@ class Answer extends \XoopsObject
 
         foreach ($notifications as $notification) {
             switch ($notification) {
-                case _SF_NOT_ANSWER_APPROVED:
+                case Constants::SF_NOT_ANSWER_APPROVED:
                     // This notification is not working for PM, but is for email... and I don't understand why???
                     $notificationHandler->triggerEvent('faq', $this->answerid(), 'answer_approved', $tags);
                     break;

@@ -92,7 +92,7 @@ if (false !== $error) {
     echo '<h4>System Configuration</h4>';
     echo '<table class="outer" cellpadding="4" cellspacing="1">';
     echo '<tr>';
-    $groups = $xoopsUser->getGroups();
+    $groups =& $xoopsUser->getGroups();
     $all_ok = false;
     if (!in_array(XOOPS_GROUP_ADMIN, $groups)) {
         $syspermHandler = xoops_getHandler('groupperm');

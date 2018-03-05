@@ -28,13 +28,13 @@ function b_faqs_most_viewed_show($options)
     $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
     // creating the FAQ objects that belong to the selected category
     $faqsObj   = $faqHandler->getAllPublished($limit, 0, $categoryid, $sort);
-    $totalfaqs = count($faqsObj);
+
     if ($faqsObj) {
-        for ($i = 0; $i < $totalfaqs; ++$i) {
+        foreach ($faqsObj as $iValue) {
             $newfaqs             = [];
-            $newfaqs['linktext'] = $faqsObj[$i]->question($maxQuestionLength);
-            $newfaqs['id']       = $faqsObj[$i]->faqid();
-            $newfaqs['new']      = $faqsObj[$i]->counter();
+            $newfaqs['linktext'] = $iValue->question($maxQuestionLength);
+            $newfaqs['id']       = $iValue->faqid();
+            $newfaqs['new']      = $iValue->counter();
             $block['newfaqs'][]  = $newfaqs;
         }
     }

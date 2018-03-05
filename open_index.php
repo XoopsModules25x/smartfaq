@@ -5,6 +5,7 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
+use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/header.php';
 
@@ -27,7 +28,7 @@ $totalCategories = count($categoryHandler->getCategories());
 $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Total number of published FAQ in the module
-$totalFaqs = $faqHandler->getFaqsCount(-1, _SF_STATUS_OPENED);
+$totalFaqs = $faqHandler->getFaqsCount(-1, Constants::SF_STATUS_OPENED);
 if (0 == $totalFaqs) {
     redirect_header('request.php', 2, _MD_SF_NO_OPEN_QUESTION);
 }
@@ -53,10 +54,10 @@ $allcategories = $categoryHandler->getObjects(null, true);
 $qnas       = [];
 $categories = [];
 $subcats    = $categoryHandler->getSubCats($categoriesObj);
-$totalQnas  = $categoryHandler->faqsCount(0, [_SF_STATUS_OPENED]);
+$totalQnas  = $categoryHandler->faqsCount(0, [Constants::SF_STATUS_OPENED]);
 
 $faqHandler  = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
-$last_qnaObj = $faqHandler->getLastPublishedByCat([_SF_STATUS_OPENED]);
+$last_qnaObj = $faqHandler->getLastPublishedByCat([Constants::SF_STATUS_OPENED]);
 
 foreach ($categoriesObj as $cat_id => $category) {
     $total = 0;
@@ -91,7 +92,7 @@ $xoopsTpl->assign('categories', $categories);
 $displaylastfaqs = $xoopsModuleConfig['displaylastfaqs'];
 if ($displaylastfaqs) {
     // Creating the last FAQs
-    $faqsObj         = $faqHandler->getFaqs($xoopsModuleConfig['indexperpage'], $start, _SF_STATUS_OPENED);
+    $faqsObj         = $faqHandler->getFaqs($xoopsModuleConfig['indexperpage'], $start, Constants::SF_STATUS_OPENED);
     $totalQnasOnPage = count($faqsObj);
 
     if ($faqsObj) {

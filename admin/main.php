@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq\Constants;
+
 require_once __DIR__ . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
@@ -14,7 +16,7 @@ $faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : 0;
 //$pick = isset($_GET['pick'])? (int)($_GET['pick']) : 0;
 //$pick = isset($_POST['pick'])? (int)($_POST['pick']) : $_GET['pick'];
 
-$statussel = isset($_GET['statussel']) ? (int)$_GET['statussel'] : _SF_STATUS_ALL;
+$statussel = isset($_GET['statussel']) ? (int)$_GET['statussel'] : Constants::SF_STATUS_ALL;
 $statussel = isset($_POST['statussel']) ? (int)$_POST['statussel'] : $statussel;
 
 $sortsel = isset($_GET['sortsel']) ? $_GET['sortsel'] : 'faqid';
@@ -75,31 +77,31 @@ $totalcategories = $categoryHandler->getCategoriesCount(-1);
 $totalfaqbystatus = $faqHandler->getFaqsCountByStatus();
 
 // Total asked FAQs
-$totalasked = isset($totalfaqbystatus[_SF_STATUS_ASKED]) ? $totalfaqbystatus[_SF_STATUS_ASKED] : 0;
+$totalasked = isset($totalfaqbystatus[Constants::SF_STATUS_ASKED]) ? $totalfaqbystatus[Constants::SF_STATUS_ASKED] : 0;
 
 // Total opened FAQs
-$totalopened = isset($totalfaqbystatus[_SF_STATUS_OPENED]) ? $totalfaqbystatus[_SF_STATUS_OPENED] : 0;
+$totalopened = isset($totalfaqbystatus[Constants::SF_STATUS_OPENED]) ? $totalfaqbystatus[Constants::SF_STATUS_OPENED] : 0;
 
 // Total answered FAQs
-$totalanswered = isset($totalfaqbystatus[_SF_STATUS_ANSWERED]) ? $totalfaqbystatus[_SF_STATUS_ANSWERED] : 0;
+$totalanswered = isset($totalfaqbystatus[Constants::SF_STATUS_ANSWERED]) ? $totalfaqbystatus[Constants::SF_STATUS_ANSWERED] : 0;
 
 // Total submitted FAQs
-$totalsubmitted = isset($totalfaqbystatus[_SF_STATUS_SUBMITTED]) ? $totalfaqbystatus[_SF_STATUS_SUBMITTED] : 0;
+$totalsubmitted = isset($totalfaqbystatus[Constants::SF_STATUS_SUBMITTED]) ? $totalfaqbystatus[Constants::SF_STATUS_SUBMITTED] : 0;
 
 // Total published FAQs
-$totalpublished = isset($totalfaqbystatus[_SF_STATUS_PUBLISHED]) ? $totalfaqbystatus[_SF_STATUS_PUBLISHED] : 0;
+$totalpublished = isset($totalfaqbystatus[Constants::SF_STATUS_PUBLISHED]) ? $totalfaqbystatus[Constants::SF_STATUS_PUBLISHED] : 0;
 
 // Total offline FAQs
-$totaloffline = isset($totalfaqbystatus[_SF_STATUS_OFFLINE]) ? $totalfaqbystatus[_SF_STATUS_OFFLINE] : 0;
+$totaloffline = isset($totalfaqbystatus[Constants::SF_STATUS_OFFLINE]) ? $totalfaqbystatus[Constants::SF_STATUS_OFFLINE] : 0;
 
 // Total rejected question
-$totalrejectedquestion = isset($totalfaqbystatus[_SF_STATUS_REJECTED_QUESTION]) ? $totalfaqbystatus[_SF_STATUS_REJECTED_QUESTION] : 0;
+$totalrejectedquestion = isset($totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION]) ? $totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION] : 0;
 
 // Total rejected smartfaq
-$totalrejectedsmartfaq = isset($totalfaqbystatus[_SF_STATUS_REJECTED_SMARTFAQ]) ? $totalfaqbystatus[_SF_STATUS_REJECTED_SMARTFAQ] : 0;
+$totalrejectedsmartfaq = isset($totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ]) ? $totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ] : 0;
 
 // Total Q&A with new answers
-$totalnewanswers = isset($totalfaqbystatus[_SF_STATUS_NEW_ANSWER]) ? $totalfaqbystatus[_SF_STATUS_NEW_ANSWER] : 0;
+$totalnewanswers = isset($totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER]) ? $totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER] : 0;
 
 // -- //
 //sf_collapsableBar('toptable', 'toptableicon');
@@ -192,73 +194,73 @@ switch ($ordersel) {
 }
 
 switch ($statussel) {
-    case _SF_STATUS_ALL:
+    case Constants::SF_STATUS_ALL:
         $selectedtxt0        = 'selected';
         $caption             = _AM_SF_ALL;
         $cond                = '';
         $status_explaination = _AM_SF_ALL_EXP;
         break;
 
-    case _SF_STATUS_ASKED:
+    case Constants::SF_STATUS_ASKED:
         $selectedtxt1        = 'selected';
         $caption             = _AM_SF_ASKED;
-        $cond                = ' WHERE status = ' . _SF_STATUS_ASKED . ' ';
+        $cond                = ' WHERE status = ' . Constants::SF_STATUS_ASKED . ' ';
         $status_explaination = _AM_SF_ASKED_EXP;
         break;
 
-    case _SF_STATUS_OPENED:
+    case Constants::SF_STATUS_OPENED:
         $selectedtxt2        = 'selected';
         $caption             = _AM_SF_OPENED;
-        $cond                = ' WHERE status = ' . _SF_STATUS_OPENED . ' ';
+        $cond                = ' WHERE status = ' . Constants::SF_STATUS_OPENED . ' ';
         $status_explaination = _AM_SF_OPENED_EXP;
         break;
 
-    case _SF_STATUS_ANSWERED:
+    case Constants::SF_STATUS_ANSWERED:
         $selectedtxt3        = 'selected';
         $caption             = _AM_SF_ANSWERED;
-        $cond                = ' WHERE status = ' . _SF_STATUS_ANSWERED . ' ';
+        $cond                = ' WHERE status = ' . Constants::SF_STATUS_ANSWERED . ' ';
         $status_explaination = _AM_SF_ANSWERED_EXP;
         break;
 
-    case _SF_STATUS_SUBMITTED:
+    case Constants::SF_STATUS_SUBMITTED:
         $selectedtxt4        = 'selected';
         $caption             = _AM_SF_SUBMITTED;
-        $cond                = ' WHERE status = ' . _SF_STATUS_SUBMITTED . ' ';
+        $cond                = ' WHERE status = ' . Constants::SF_STATUS_SUBMITTED . ' ';
         $status_explaination = _AM_SF_SUBMITTED_EXP;
         break;
 
-    case _SF_STATUS_PUBLISHED:
+    case Constants::SF_STATUS_PUBLISHED:
         $selectedtxt5        = 'selected';
         $caption             = _AM_SF_PUBLISHED;
-        $cond                = ' WHERE status = ' . _SF_STATUS_PUBLISHED . ' ';
+        $cond                = ' WHERE status = ' . Constants::SF_STATUS_PUBLISHED . ' ';
         $status_explaination = _AM_SF_PUBLISHED_EXP;
         break;
 
-    case _SF_STATUS_NEW_ANSWER:
+    case Constants::SF_STATUS_NEW_ANSWER:
         $selectedtxt6        = 'selected';
         $caption             = _AM_SF_NEW_ANSWER;
-        $cond                = ' WHERE status = ' . _SF_STATUS_NEW_ANSWER . ' ';
+        $cond                = ' WHERE status = ' . Constants::SF_STATUS_NEW_ANSWER . ' ';
         $status_explaination = _AM_SF_NEW_ANSWER_EXP;
         break;
 
-    case _SF_STATUS_OFFLINE:
+    case Constants::SF_STATUS_OFFLINE:
         $selectedtxt7        = 'selected';
         $caption             = _AM_SF_OFFLINE;
-        $cond                = ' WHERE status = ' . _SF_STATUS_OFFLINE . ' ';
+        $cond                = ' WHERE status = ' . Constants::SF_STATUS_OFFLINE . ' ';
         $status_explaination = _AM_SF_OFFLINE_EXP;
         break;
 
-    case _SF_STATUS_REJECTED_QUESTION:
+    case Constants::SF_STATUS_REJECTED_QUESTION:
         $selectedtxt8        = 'selected';
         $caption             = _AM_SF_REJECTED_QUESTION;
-        $cond                = ' WHERE status = ' . _SF_STATUS_REJECTED_QUESTION . ' ';
+        $cond                = ' WHERE status = ' . Constants::SF_STATUS_REJECTED_QUESTION . ' ';
         $status_explaination = _AM_SF_REJECTED_QUESTION_EXP;
         break;
 
-    case _SF_STATUS_REJECTED_SMARTFAQ:
+    case Constants::SF_STATUS_REJECTED_SMARTFAQ:
         $selectedtxt9        = 'selected';
         $caption             = _AM_SF_REJECTED_SMARTFAQ;
-        $cond                = ' WHERE status = ' . _SF_STATUS_REJECTED_SMARTFAQ . ' ';
+        $cond                = ' WHERE status = ' . Constants::SF_STATUS_REJECTED_SMARTFAQ . ' ';
         $status_explaination = _AM_SF_REJECTED_SMARTFAQ_EXP;
         break;
 }
@@ -302,14 +304,14 @@ echo "
 
 // Get number of entries in the selected state
 $numrows        = (0 == $statussel) ? $totalfaqs : $totalfaqbystatus[$statussel];
-$statusSelected = (0 == $statussel) ? _SF_STATUS_ALL : $statussel;
+$statusSelected = (0 == $statussel) ? Constants::SF_STATUS_ALL : $statussel;
 
 // creating the Q&As objects
 $faqsObj = $faqHandler->getFaqsAdminSide($xoopsModuleConfig['perpage'], $startentry, $statusSelected, -1, $sortsel, $ordersel);
 
 // fetching all categories
 $allCats          = $categoryHandler->getObjects(null, true);
-$totalItemsOnPage = count($faqsObj);
+//$totalItemsOnPage = count($faqsObj);
 buildTable();
 
 if ($numrows > 0) {
@@ -329,63 +331,63 @@ if ($numrows > 0) {
         $approve = '';
 
         switch ($faqsObj[$i]->status()) {
-            case _SF_STATUS_ASKED:
+            case Constants::SF_STATUS_ASKED:
                 $statustxt = _AM_SF_ASKED;
                 $approve   = "<a href='question.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/on.png' . "'  title='" . _AM_SF_QUESTION_MODERATE . "'  alt='" . _AM_SF_QUESTION_MODERATE . "'></a>&nbsp;";
                 $modify    = '';
                 $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "'></a>";
                 break;
 
-            case _SF_STATUS_OPENED:
+            case Constants::SF_STATUS_OPENED:
                 $statustxt = _AM_SF_OPENED;
                 $approve   = '';
                 $modify    = "<a href='question.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_QUESTION_EDIT . "' alt='" . _AM_SF_QUESTION_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "'></a>";
                 break;
 
-            case _SF_STATUS_ANSWERED:
+            case Constants::SF_STATUS_ANSWERED:
                 $statustxt = _AM_SF_ANSWERED;
                 $approve   = "<a href='answer.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/approve.gif' title='" . _AM_SF_ANSWERED_MODERATE . "' alt='" . _AM_SF_ANSWERED_MODERATE . "'></a>&nbsp;";
                 $modify    = '';
                 $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/delete.gif' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "'></a>";
                 break;
 
-            case _SF_STATUS_SUBMITTED:
+            case Constants::SF_STATUS_SUBMITTED:
                 $statustxt = _AM_SF_SUBMITTED;
                 $approve   = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/approve.gif' title='" . _AM_SF_SUBMISSION_MODERATE . "' alt='" . _AM_SF_SUBMISSION_MODERATE . "'></a>&nbsp;";
                 $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/delete.gif' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
                 $modify    = '';
                 break;
 
-            case _SF_STATUS_PUBLISHED:
+            case Constants::SF_STATUS_PUBLISHED:
                 $statustxt = _AM_SF_PUBLISHED;
                 $approve   = '';
                 $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_FAQ_EDIT . "' alt='" . _AM_SF_FAQ_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
                 break;
 
-            case _SF_STATUS_NEW_ANSWER:
+            case Constants::SF_STATUS_NEW_ANSWER:
                 $statustxt = _AM_SF_NEWANSWER;
                 $approve   = "<a href='answer.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/approve.gif' title='" . _AM_SF_FAQ_EDIT . "' alt='" . _AM_SF_FAQ_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/delete.gif' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
                 $modify    = '';
                 break;
 
-            case _SF_STATUS_OFFLINE:
+            case Constants::SF_STATUS_OFFLINE:
                 $statustxt = _AM_SF_OFFLINE;
                 $approve   = '';
                 $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_FAQ_EDIT . "' alt='" . _AM_SF_FAQ_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
                 break;
 
-            case _SF_STATUS_REJECTED_QUESTION:
+            case Constants::SF_STATUS_REJECTED_QUESTION:
                 $statustxt = _AM_SF_REJECTED_QUESTION;
                 $approve   = '';
                 $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_REJECTED_EDIT . "' alt='" . _AM_SF_REJECTED_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "'></a>";
                 break;
 
-            case _SF_STATUS_REJECTED_SMARTFAQ:
+            case Constants::SF_STATUS_REJECTED_SMARTFAQ:
                 $statustxt = _AM_SF_REJECTED_SMARTFAQ;
                 $approve   = '';
                 $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_REJECTED_EDIT . "' alt='" . _AM_SF_REJECTED_EDIT . "'></a>&nbsp;";
@@ -420,7 +422,7 @@ if ($numrows > 0) {
         $criteria->add(new \Criteria('faqid', $faqsObj[$i]->faqid()));
         $criteria->add(new \Criteria('status', true));
 
-        $answerObjects = $answerHandler->getObjects($criteria, true);
+        $answerObjects =& $answerHandler->getObjects($criteria, true);
 
         foreach (array_keys($answerObjects) as $j) {
             $answerObj = $answerObjects[$j];

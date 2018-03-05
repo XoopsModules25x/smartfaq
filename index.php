@@ -5,6 +5,9 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
+
+use XoopsModules\Smartfaq\Constants;
+
 require_once __DIR__ . '/header.php';
 
 // At which record shall we start for the Categories
@@ -24,7 +27,7 @@ $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 $totalCategories = $categoryHandler->getCategoriesCount(0);
 
 // Total number of published FAQ in the module
-$totalFaqs = $faqHandler->getFaqsCount(-1, [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER]);
+$totalFaqs = $faqHandler->getFaqsCount(-1, [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER]);
 
 if (0 == $totalFaqs) {
     if (($totalCategories > 0)
@@ -42,7 +45,7 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';
 
 // Creating the categories objects
-$categoriesObj = $categoryHandler->getCategories($xoopsModuleConfig['catperpage'], $catstart);
+$categoriesObj =& $categoryHandler->getCategories($xoopsModuleConfig['catperpage'], $catstart);
 // If no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
 if (0 == $totalCategoriesOnPage) {

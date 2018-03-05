@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+
 require_once __DIR__ . '/header.php';
 
 $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
@@ -74,7 +76,7 @@ if (1 == $xoopsModuleConfig['displaylastfaq']) {
 }
 $lastfaqsize = (int)$xoopsModuleConfig['lastfaqsize'];
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj    = $categoryHandler->getCategories(0, 0, $categoryid);
+$subcatsObj    =& $categoryHandler->getCategories(0, 0, $categoryid);
 $total_subcats = count($subcatsObj);
 $total_faqs    = 0;
 if (0 != $total_subcats) {
@@ -114,24 +116,24 @@ if (count($faqsObj) > 0) {
     $memberHandler = xoops_getHandler('member');
     $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
     // Adding the Q&As of the selected category
-    for ($i = 0; $i < $totalQnasOnPage; ++$i) {
-        $faq = $faqsObj[$i]->toArray(null, $categoryObj);
+    foreach ($faqsObj as $iValue) {
+        $faq = $iValue->toArray(null, $categoryObj);
 
         // Creating the answer object
-        $answerObj = $allanswers[$faqsObj[$i]->faqid()];
+        $answerObj = $allanswers[$iValue->faqid()];
 
-        $answerObj->setVar('dohtml', $faqsObj[$i]->getVar('html'));
-        $answerObj->setVar('doxcode', $faqsObj[$i]->getVar('xcodes'));
-        $answerObj->setVar('dosmiley', $faqsObj[$i]->getVar('smiley'));
-        $answerObj->setVar('doimage', $faqsObj[$i]->getVar('image'));
-        $answerObj->setVar('dobr', $faqsObj[$i]->getVar('linebreak'));
+        $answerObj->setVar('dohtml', $iValue->getVar('html'));
+        $answerObj->setVar('doxcode', $iValue->getVar('xcodes'));
+        $answerObj->setVar('dosmiley', $iValue->getVar('smiley'));
+        $answerObj->setVar('doimage', $iValue->getVar('image'));
+        $answerObj->setVar('dobr', $iValue->getVar('linebreak'));
 
         $faq['answer']    = $answerObj->answer();
         $faq['answerid']  = $answerObj->answerid();
-        $faq['datesub']   = $faqsObj[$i]->datesub();
-        $faq['adminlink'] = sf_getAdminLinks($faqsObj[$i]->faqid());
+        $faq['datesub']   = $iValue->datesub();
+        $faq['adminlink'] = sf_getAdminLinks($iValue->faqid());
 
-        $faq['who_when'] = $faqsObj[$i]->getWhoAndWhen($answerObj, $users);
+        $faq['who_when'] = $iValue->getWhoAndWhen($answerObj, $users);
 
         $xoopsTpl->append('faqs', $faq);
     }

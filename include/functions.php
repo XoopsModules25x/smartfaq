@@ -7,9 +7,9 @@
  */
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
-require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/faq.php';
-require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/answer.php';
+//require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
+//require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/faq.php';
+//require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/answer.php';
 
 /**
  * @return mixed|null
@@ -110,7 +110,7 @@ function sf_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = 
     }
     $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
-    $subCategoriesObj = $categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
+    $subCategoriesObj =& $categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
     if (count($subCategoriesObj) > 0) {
         ++$level;
         foreach ($subCategoriesObj as $catID => $subCategoryObj) {
@@ -180,7 +180,8 @@ function sf_moderator()
     if (!$xoopsUser) {
         $result = false;
     } else {
-        $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
+        /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
+        $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
         $categories = $smartPermHandler->getPermissions('moderation');
         if (0 == count($categories)) {
@@ -224,7 +225,7 @@ function sf_userIsAdmin()
     $module_id   = $smartModule->getVar('mid');
 
     if (!empty($xoopsUser)) {
-        $groups = $xoopsUser->getGroups();
+        $groups =& $xoopsUser->getGroups();
         $result = in_array(XOOPS_GROUP_ADMIN, $groups) || $xoopsUser->isAdmin($module_id);
     }
 
