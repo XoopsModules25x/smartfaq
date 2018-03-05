@@ -239,7 +239,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $criteria->setSort($sort);
         $criteria->setOrder($order);
 
-        if ($parentid != -1) {
+        if (-1 != $parentid) {
             $criteria->add(new \Criteria('parentid', $parentid));
         }
         if (!sf_userIsAdmin()) {
@@ -277,7 +277,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $criteria->setSort($sort);
         $criteria->setOrder($order);
 
-        if ($parentid != -1) {
+        if (-1 != $parentid) {
             $criteria->add(new \Criteria('c.parentid', $parentid));
         }
         if (!sf_userIsAdmin()) {
@@ -345,11 +345,11 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function getCategoriesCount($parentid = 0)
     {
-        if ($parentid == -1) {
+        if (-1 == $parentid) {
             return $this->getCount();
         }
         $criteria = new \CriteriaCompo();
-        if (isset($parentid) && ($parentid != -1)) {
+        if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
             if (!sf_userIsAdmin()) {
                 $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
@@ -368,11 +368,11 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function getCategoriesWithOpenQuestionsCount($parentid = 0)
     {
-        if ($parentid == -1) {
+        if (-1 == $parentid) {
             return $this->getCount();
         }
         $criteria = new \CriteriaCompo();
-        if (isset($parentid) && ($parentid != -1)) {
+        if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
             if (!sf_userIsAdmin()) {
                 $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');

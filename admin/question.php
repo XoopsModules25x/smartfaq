@@ -37,7 +37,7 @@ function editfaq($showmenu = false, $faqid = -1)
 
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
-    if ($faqid != -1) {
+    if (-1 != $faqid) {
         // Creating the FAQ object
         $faqObj = new Smartfaq\Faq($faqid);
 
@@ -132,7 +132,7 @@ function editfaq($showmenu = false, $faqid = -1)
     $status_tray->addElement($status_select);
     $sform->addElement($status_tray);
     */
-    if ($faqid == -1) {
+    if (-1 == $faqid) {
 
         // there's no faqid? Then it's a new faq
         // $button_tray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_CREATE, 'submit' ) );
@@ -175,7 +175,7 @@ switch ($op) {
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $modify, $myts;
         $faqid = isset($_GET['faqid']) ? $_GET['faqid'] : -1;
 
-        if ($faqid == -1) {
+        if (-1 == $faqid) {
             $totalcategories = $categoryHandler->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_SF_NEED_CATEGORY_QUESTION);
@@ -207,7 +207,7 @@ switch ($op) {
         $faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : -1;
 
         // Creating the FAQ
-        if ($faqid != -1) {
+        if (-1 != $faqid) {
             $faqObj = new Smartfaq\Faq($faqid);
         } else {
             $faqObj = $faqHandler->create();

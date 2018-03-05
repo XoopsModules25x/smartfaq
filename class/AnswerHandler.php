@@ -255,7 +255,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
             foreach ($status as $v) {
                 $criteriaStatus->add(new \Criteria('status', $v), 'OR');
             }
-        } elseif ($status != -1) {
+        } elseif (-1 != $status) {
             $hasStatusCriteria = true;
             $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }

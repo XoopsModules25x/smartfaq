@@ -43,7 +43,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
-    if ($faqid != -1) {
+    if (-1 != $faqid) {
         // Creating the FAQ object
         $faqObj = new Smartfaq\Faq($faqid);
 
@@ -51,7 +51,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
             redirect_header('faq.php', 1, _AM_SF_NOFAQSELECTED);
         }
 
-        if ($answerid == -1) {
+        if (-1 == $answerid) {
             // Creating the object for the official answer
             $answerObj = $faqObj->answer();
             if (!$answerObj) {
@@ -349,7 +349,7 @@ switch ($op) {
 
         $faqid    = isset($_GET['faqid']) ? $_GET['faqid'] : -1;
         $answerid = isset($_GET['answerid']) ? $_GET['answerid'] : -1;
-        if ($faqid == -1) {
+        if (-1 == $faqid) {
             $totalcategories = $categoryHandler->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_SF_NEED_CATEGORY_FAQ);
@@ -367,7 +367,7 @@ switch ($op) {
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $modify, $myts;
         $faqid    = isset($_GET['faqid']) ? $_GET['faqid'] : -1;
         $answerid = isset($_GET['answerid']) ? $_GET['answerid'] : -1;
-        if ($faqid == -1) {
+        if (-1 == $faqid) {
             $totalcategories = $categoryHandler->getCategoriesCount(-1);
             if (0 == $totalcategories) {
                 redirect_header('category.php?op=mod', 3, _AM_SF_NEED_CATEGORY_FAQ);
@@ -391,7 +391,7 @@ switch ($op) {
         $answerer_uid  = isset($_POST['answerer_uid']) ? (int)$_POST['answerer_uid'] : 0;
 
         // Creating the FAQ and answer objects
-        if ($faqid != -1) {
+        if (-1 != $faqid) {
             $faqObj    = new Smartfaq\Faq($faqid);
             $answerObj = $faqObj->answer();
             // If the FAQ does not have an answer, then it's an answered opened question

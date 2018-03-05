@@ -352,7 +352,7 @@ class Answer extends \XoopsObject
      */
     public function notLoaded()
     {
-        return ($this->getVar('answerid') == -1);
+        return (-1 == $this->getVar('answerid'));
     }
 
     /**

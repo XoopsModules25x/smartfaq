@@ -377,7 +377,7 @@ class Faq extends \XoopsObject
      */
     public function posterName($realName = -1)
     {
-        if ($realName == -1) {
+        if (-1 == $realName) {
             $smartConfig = sf_getModuleConfig();
             $realName    = $smartConfig['userealname'];
         }
@@ -602,7 +602,7 @@ class Faq extends \XoopsObject
      */
     public function notLoaded()
     {
-        return ($this->getVar('faqid') == -1);
+        return (-1 == $this->getVar('faqid'));
     }
 
     /**

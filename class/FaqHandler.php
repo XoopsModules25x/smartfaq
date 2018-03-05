@@ -435,7 +435,7 @@ class FaqHandler extends \XoopsObjectHandler
             }
         }
 
-        if (isset($categoryid) && ($categoryid != -1)) {
+        if (isset($categoryid) && (-1 != $categoryid)) {
             $criteriaCategory = new \Criteria('categoryid', $categoryid);
         }
 
@@ -444,7 +444,7 @@ class FaqHandler extends \XoopsObjectHandler
             foreach ($status as $v) {
                 $criteriaStatus->add(new \Criteria('status', $v), 'OR');
             }
-        } elseif (!empty($status) && ($status != -1)) {
+        } elseif (!empty($status) && (-1 != $status)) {
             $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
 
@@ -555,7 +555,7 @@ class FaqHandler extends \XoopsObjectHandler
             }
         }
 
-        if (isset($categoryid) && ($categoryid != -1)) {
+        if (isset($categoryid) && (-1 != $categoryid)) {
             if (is_array($categoryid)) {
                 $criteriaCategory = new \Criteria('categoryid', '(' . implode(',', $categoryid) . ')', 'IN');
             } else {
@@ -568,7 +568,7 @@ class FaqHandler extends \XoopsObjectHandler
             foreach ($status as $v) {
                 $criteriaStatus->add(new \Criteria('status', $v), 'OR');
             }
-        } elseif (!empty($status) && ($status != -1)) {
+        } elseif (!empty($status) && (-1 != $status)) {
             $criteriaStatus = new \CriteriaCompo();
             $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
@@ -632,7 +632,7 @@ class FaqHandler extends \XoopsObjectHandler
 
         $ret = [];
 
-        if (isset($categoryid) && ($categoryid != -1)) {
+        if (isset($categoryid) && (-1 != $categoryid)) {
             $criteriaCategory = new \Criteria('faq.categoryid', $categoryid);
         }
 
@@ -641,7 +641,7 @@ class FaqHandler extends \XoopsObjectHandler
             foreach ($status as $v) {
                 $criteriaStatus->add(new \Criteria('faq.status', $v), 'OR');
             }
-        } elseif (!empty($status) && ($status != -1)) {
+        } elseif (!empty($status) && (-1 != $status)) {
             $criteriaStatus = new \CriteriaCompo();
             $criteriaStatus->add(new \Criteria('faq.status', $status), 'OR');
         }
