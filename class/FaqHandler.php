@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Smartfaq;
 
 /**
  * Module: SmartFAQ
@@ -6,9 +6,9 @@
  * Licence: GNU
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
+//require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
 
 // FAQ status
 define('_SF_STATUS_NOTSET', -1);
@@ -33,662 +33,6 @@ define('_SF_NOT_QUESTION_PUBLISHED', 6);
 define('_SF_NOT_NEW_ANSWER_PROPOSED', 7);
 define('_SF_NOT_NEW_ANSWER_PUBLISHED', 8);
 
-/**
- * Class sfFaq
- */
-class sfFaq extends XoopsObject
-{
-
-    /**
-     * @var sfCategory
-     * @access private
-     */
-    private $category = null;
-
-    /**
-     * @var sfAnswer
-     * @access private
-     */
-    private $answer = null;
-
-    /**
-     * @var array
-     * @access private
-     */
-    private $_notifications = null;
-    // TODO : Create a seperated class for notifications
-
-    /**
-     * @var array
-     * @access private
-     */
-    private $groups_read = null;
-
-    /**
-     * @var object
-     * @access private
-     */
-    // Is this still usefull??
-    private $_smartModule = null;
-    private $_smartModuleConfig;
-
-    /**
-     * constructor
-     * @param null $id
-     */
-    public function __construct($id = null)
-    {
-        $this->db = XoopsDatabaseFactory::getDatabaseConnection();
-        $this->initVar('faqid', XOBJ_DTYPE_INT, -1, false);
-        $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('question', XOBJ_DTYPE_TXTBOX, null, true, 100000);
-        $this->initVar('howdoi', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('diduno', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('uid', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('datesub', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('status', XOBJ_DTYPE_INT, -1, false);
-        $this->initVar('counter', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('weight', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('html', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('smiley', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('image', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('linebreak', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('xcodes', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('cancomment', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('comments', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('notifypub', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('modulelink', XOBJ_DTYPE_TXTBOX, 'None', false, 50);
-        $this->initVar('contextpage', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('exacturl', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('partialview', XOBJ_DTYPE_INT, 0, false);
-
-        if (null !== $id) {
-            $faqHandler = new sfFaqHandler($this->db);
-            $faq        =& $faqHandler->get($id);
-            foreach ($faq->vars as $k => $v) {
-                $this->assignVar($k, $v['value']);
-            }
-            $this->assignOtherProperties();
-        }
-    }
-
-    public function assignOtherProperties()
-    {
-        $smartModule = sf_getModuleInfo();
-        $module_id   = $smartModule->getVar('mid');
-
-        $gpermHandler = xoops_getHandler('groupperm');
-
-        $this->category    = new sfCategory($this->getVar('categoryid'));
-        $this->groups_read = $gpermHandler->getGroupIds('item_read', $this->faqid(), $module_id);
-    }
-
-    /**
-     * @return bool
-     */
-    public function checkPermission()
-    {
-        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
-
-        $userIsAdmin = sf_userIsAdmin();
-        if ($userIsAdmin) {
-            return true;
-        }
-
-        $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
-
-        $faqsGranted = $smartPermHandler->getPermissions('item');
-        if (in_array($this->categoryid(), $faqsGranted)) {
-            $ret = true;
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @return array
-     */
-    public function getGroups_read()
-    {
-        if (count($this->groups_read) < 1) {
-            $this->assignOtherProperties();
-        }
-
-        return $this->groups_read;
-    }
-
-    /**
-     * @param array $groups_read
-     */
-    public function setGroups_read($groups_read = ['0'])
-    {
-        $this->groups_read = $groups_read;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function faqid()
-    {
-        return $this->getVar('faqid');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function categoryid()
-    {
-        return $this->getVar('categoryid');
-    }
-
-    /**
-     * @return sfCategory
-     */
-    public function category()
-    {
-        return $this->category;
-    }
-
-    /**
-     * @param  int    $maxLength
-     * @param  string $format
-     * @return mixed|string
-     */
-    public function question($maxLength = 0, $format = 'S')
-    {
-        $ret = $this->getVar('question', $format);
-        if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
-            $myts = MyTextSanitizer:: getInstance();
-            $ret  = $myts->displayTarea($ret);
-        }
-        if (0 != $maxLength) {
-            if (!XOOPS_USE_MULTIBYTES) {
-                if (strlen($ret) >= $maxLength) {
-                    $ret = substr($ret, 0, $maxLength - 1) . '...';
-                }
-            }
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @param  string $format
-     * @return mixed
-     */
-    public function howdoi($format = 'S')
-    {
-        $ret = $this->getVar('howdoi', $format);
-        if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
-            $myts = MyTextSanitizer:: getInstance();
-            $ret  = $myts->displayTarea($ret);
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @param  string $format
-     * @return mixed
-     */
-    public function diduno($format = 'S')
-    {
-        $ret = $this->getVar('diduno', $format);
-        if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
-            $myts = MyTextSanitizer:: getInstance();
-            $ret  = $myts->displayTarea($ret);
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function uid()
-    {
-        return $this->getVar('uid');
-    }
-
-    /**
-     * @param  string $dateFormat
-     * @param  string $format
-     * @return string
-     */
-    public function datesub($dateFormat = 'none', $format = 'S')
-    {
-        if ('none' === $dateFormat) {
-            $smartConfig = sf_getModuleConfig();
-            $dateFormat  = $smartConfig['dateformat'];
-        }
-
-        return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function status()
-    {
-        return $this->getVar('status');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function counter()
-    {
-        return $this->getVar('counter');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function weight()
-    {
-        return $this->getVar('weight');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function html()
-    {
-        return $this->getVar('html');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function smiley()
-    {
-        return $this->getVar('smiley');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function xcodes()
-    {
-        return $this->getVar('xcodes');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function cancomment()
-    {
-        return $this->getVar('cancomment');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function comments()
-    {
-        return $this->getVar('comments');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function notifypub()
-    {
-        return $this->getVar('notifypub');
-    }
-
-    /**
-     * @param  string $format
-     * @return mixed
-     */
-    public function modulelink($format = 'S')
-    {
-        return $this->getVar('modulelink', $format);
-    }
-
-    /**
-     * @param  string $format
-     * @return mixed
-     */
-    public function contextpage($format = 'S')
-    {
-        return $this->getVar('contextpage', $format);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function exacturl()
-    {
-        return $this->getVar('exacturl');
-    }
-
-    /**
-     * @return mixed
-     */
-    public function partialview()
-    {
-        return $this->getVar('partialview');
-    }
-
-    /**
-     * @param  int $realName
-     * @return string
-     */
-    public function posterName($realName = -1)
-    {
-        if ($realName == -1) {
-            $smartConfig = sf_getModuleConfig();
-            $realName    = $smartConfig['userealname'];
-        }
-
-        return sf_getLinkedUnameFromId($this->uid(), $realName);
-    }
-
-    /**
-     * @return mixed|object|sfAnswer
-     */
-    public function answer()
-    {
-        $answerHandler = new sfAnswerHandler($this->db);
-        switch ($this->status()) {
-            case _SF_STATUS_SUBMITTED:
-                $theAnswers = $answerHandler->getAllAnswers($this->faqid(), _SF_AN_STATUS_APPROVED, 1, 0);
-                //echo "test";
-                //exit;
-                $this->answer =& $theAnswers[0];
-                break;
-
-            case _SF_STATUS_ANSWERED:
-                $theAnswers = $answerHandler->getAllAnswers($this->faqid(), _SF_AN_STATUS_PROPOSED, 1, 0);
-                //echo "test";
-                //exit;
-                $this->answer =& $theAnswers[0];
-                break;
-
-            case _SF_STATUS_PUBLISHED:
-            case _SF_STATUS_NEW_ANSWER:
-            case _SF_STATUS_OFFLINE:
-                $this->answer = $answerHandler->getOfficialAnswer($this->faqid());
-                break;
-
-            case _SF_STATUS_ASKED:
-                $this->answer = $answerHandler->create();
-                break;
-            case _SF_STATUS_OPENED:
-                $this->answer = $answerHandler->create();
-                break;
-        }
-
-        if ($this->answer) {
-            $this->answer->setVar('dohtml', $this->getVar('html'));
-            $this->answer->setVar('doxcode', $this->getVar('xcodes'));
-            $this->answer->setVar('dosmiley', $this->getVar('smiley'));
-            $this->answer->setVar('doimage', $this->getVar('image'));
-            $this->answer->setVar('dobr', $this->getVar('linebreak'));
-        }
-
-        return $this->answer;
-    }
-
-    /**
-     * @return array
-     */
-    public function getAllAnswers()
-    {
-        $answerHandler = new sfAnswerHandler($this->db);
-
-        return $answerHandler->getAllAnswers($this->faqid());
-    }
-
-    /**
-     * @return bool
-     */
-    public function updateCounter()
-    {
-        $faqHandler = new sfFaqHandler($this->db);
-
-        return $faqHandler->updateCounter($this->faqid());
-    }
-
-    /**
-     * @param  bool $force
-     * @return bool
-     */
-    public function store($force = true)
-    {
-        $faqHandler = new sfFaqHandler($this->db);
-
-        return $faqHandler->insert($this, $force);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCategoryName()
-    {
-        if (!isset($this->category)) {
-            $this->category = new sfCategory($this->getVar('categoryid'));
-        }
-
-        return $this->category->name();
-    }
-
-    /**
-     * @param array $notifications
-     */
-    public function sendNotifications($notifications = [])
-    {
-        $smartModule = sf_getModuleInfo();
-
-        $myts                = MyTextSanitizer:: getInstance();
-        $notificationHandler = xoops_getHandler('notification');
-        //$categoryObj = $this->category();
-
-        $tags                  = [];
-        $tags['MODULE_NAME']   = $myts->displayTarea($smartModule->getVar('name'));
-        $tags['FAQ_NAME']      = $this->question();
-        $tags['CATEGORY_NAME'] = $this->getCategoryName();
-        $tags['CATEGORY_URL']  = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/category.php?categoryid=' . $this->categoryid();
-        $tags['FAQ_QUESTION']  = $this->question();
-        $answerObj             = $this->answer();
-        if (is_object($answerObj)) {
-            // TODO : Not sure about the 'formpreview' ...
-            $tags['FAQ_ANSWER'] = $answerObj->answer('formpreview');
-        }
-        $tags['DATESUB'] = $this->datesub();
-
-        foreach ($notifications as $notification) {
-            switch ($notification) {
-                case _SF_NOT_FAQ_PUBLISHED:
-                    $tags['FAQ_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/faq.php?faqid=' . $this->faqid();
-
-                    $notificationHandler->triggerEvent('global_faq', 0, 'published', $tags);
-                    $notificationHandler->triggerEvent('category_faq', $this->categoryid(), 'published', $tags);
-                    $notificationHandler->triggerEvent('faq', $this->faqid(), 'approved', $tags);
-                    break;
-
-                case _SF_NOT_FAQ_SUBMITTED:
-                    $tags['WAITINGFILES_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/admin/faq.php?faqid=' . $this->faqid();
-                    $notificationHandler->triggerEvent('global_faq', 0, 'submitted', $tags);
-                    $notificationHandler->triggerEvent('category_faq', $this->categoryid(), 'submitted', $tags);
-                    break;
-
-                case _SF_NOT_QUESTION_PUBLISHED:
-                    $tags['FAQ_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/answer.php?faqid=' . $this->faqid();
-                    $notificationHandler->triggerEvent('global_question', 0, 'published', $tags);
-                    $notificationHandler->triggerEvent('category_question', $this->categoryid(), 'published', $tags);
-                    $notificationHandler->triggerEvent('question', $this->faqid(), 'approved', $tags);
-                    break;
-
-                case _SF_NOT_QUESTION_SUBMITTED:
-                    $tags['WAITINGFILES_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/admin/question.php?op=mod&faqid=' . $this->faqid();
-                    $notificationHandler->triggerEvent('global_question', 0, 'submitted', $tags);
-                    $notificationHandler->triggerEvent('category_question', $this->categoryid(), 'submitted', $tags);
-                    break;
-
-                case _SF_NOT_FAQ_REJECTED:
-                    $notificationHandler->triggerEvent('faq', $this->faqid(), 'rejected', $tags);
-                    break;
-
-                case _SF_NOT_NEW_ANSWER_PROPOSED:
-                    $tags['WAITINGFILES_URL'] = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/admin/answer.php?op=mod&faqid=' . $this->faqid();
-                    $notificationHandler->triggerEvent('global_faq', 0, 'answer_proposed', $tags);
-                    $notificationHandler->triggerEvent('category_faq', $this->categoryid(), 'answer_proposed', $tags);
-                    break;
-
-                case _SF_NOT_NEW_ANSWER_PUBLISHED:
-                    $notificationHandler->triggerEvent('global_faq', 0, 'answer_published', $tags);
-                    $notificationHandler->triggerEvent('category_faq', $this->categoryid(), 'answer_published', $tags);
-                    break;
-
-                // TODO : I commented out this one because I'm not sure. The $this->faqid() should probably be the
-                // answerid not the faqid....
-                /*
-                case _SF_NOT_ANSWER_APPROVED:
-                $notificationHandler->triggerEvent('faq', $this->faqid(), 'answer_approved', $tags);
-                break;
-                */
-
-                // TODO : I commented out this one because I'm not sure. The $this->faqid() should probably be the
-                // answerid not the faqid....
-                /*
-                case _SF_NOT_ANSWER_REJECTED:
-                $notificationHandler->triggerEvent('faq', $this->faqid(), 'answer_approved', $tags);
-                break;
-                */
-
-                case -1:
-                default:
-                    break;
-            }
-        }
-    }
-
-    public function setDefaultPermissions()
-    {
-        $memberHandler = xoops_getHandler('member');
-        $groups        = $memberHandler->getGroupList();
-
-        $j         = 0;
-        $group_ids = [];
-        foreach (array_keys($groups) as $i) {
-            $group_ids[$j] = $i;
-            ++$j;
-        }
-        $this->groups_read = $group_ids;
-    }
-
-    /**
-     * @param $group_ids
-     */
-    public function setPermissions($group_ids)
-    {
-        if (!isset($group_ids)) {
-            $memberHandler = xoops_getHandler('member');
-            $groups        = $memberHandler->getGroupList();
-
-            $j         = 0;
-            $group_ids = [];
-            foreach (array_keys($groups) as $i) {
-                $group_ids[$j] = $i;
-                ++$j;
-            }
-        }
-    }
-
-    /**
-     * @return bool
-     */
-    public function notLoaded()
-    {
-        return ($this->getVar('faqid') == -1);
-    }
-
-    /**
-     * @param  null  $answerObj
-     * @param  array $users
-     * @return string
-     */
-    public function getWhoAndWhen($answerObj = null, $users = [])
-    {
-        $smartModuleConfig = sf_getModuleConfig();
-
-        $requester   = sf_getLinkedUnameFromId($this->uid(), $smartModuleConfig['userealname'], $users);
-        $requestdate = $this->datesub();
-
-        if ((_SF_STATUS_PUBLISHED == $this->status()) || _SF_STATUS_NEW_ANSWER == $this->status()) {
-            if (null === $answerObj) {
-                $answerObj = $this->answer();
-            }
-            $submitdate = $answerObj->datesub();
-            if ($this->uid() == $answerObj->uid()) {
-                $result = sprintf(_MD_SF_REQUESTEDANDANSWERED, $requester, $submitdate);
-            } else {
-                $submitter = sf_getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);
-                $result    = sprintf(_MD_SF_REQUESTEDBYANDANSWEREDBY, $requester, $submitter, $submitdate);
-            }
-        } else {
-            $result = sprintf(_MD_SF_REQUESTEDBY, $requester, $requestdate);
-        }
-
-        return $result;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComeFrom()
-    {
-        global $xoopsConfig;
-        $text = _MD_SF_QUESTIONCOMEFROM;
-        if ((_SF_STATUS_PUBLISHED == $this->status()) || _SF_STATUS_NEW_ANSWER == $this->status()) {
-            $text = _MD_SF_FAQCOMEFROM;
-        }
-
-        return $text . $xoopsConfig['sitename'] . ' : <a href=' . XOOPS_URL . '/modules/smartfaq/faq.php?faqid=' . $this->faqid() . '>' . XOOPS_URL . '/modules/smartfaq/faq.php?faqid=' . $this->faqid() . '</a>';
-    }
-
-    /**
-     * @param  array $faq
-     * @param  null  $category
-     * @param  bool  $linkInQuestion
-     * @return array
-     */
-    public function toArray($faq = [], $category = null, $linkInQuestion = true)
-    {
-        global $xoopsModuleConfig;
-        $lastfaqsize = (int)$xoopsModuleConfig['lastfaqsize'];
-
-        $faq['id']         = $this->faqid();
-        $faq['categoryid'] = $this->categoryid();
-        $faq['question']   = $this->question();
-        $page              = (_SF_STATUS_OPENED == $this->status()) ? 'answer.php' : 'faq.php';
-
-        $faq['questionlink'] = "<a href='$page?faqid=" . $this->faqid() . "'>" . $this->question($lastfaqsize) . '</a>';
-        if ($linkInQuestion) {
-            $faq['fullquestionlink'] = "<a href='$page?faqid=" . $this->faqid() . "'>" . $this->question() . '</a>';
-        } else {
-            $faq['fullquestionlink'] = $this->question();
-        }
-        $faq['faqid']      = $this->faqid();
-        $faq['counter']    = $this->counter();
-        $faq['cancomment'] = $this->cancomment();
-        $faq['comments']   = $this->comments();
-        $faq['datesub']    = $this->datesub();
-        if (null !== $category) {
-            if (is_object($category) && 'sfcategory' === strtolower(get_class($category))) {
-                $categoryObj = $category;
-            } elseif (is_array($category)) {
-                $categoryObj = $category[$this->categoryid()];
-            }
-            $faq['categoryname'] = $categoryObj->getVar('name');
-            $faq['categorylink'] = "<a href='" . XOOPS_URL . '/modules/smartfaq/category.php?categoryid=' . $this->categoryid() . "'>" . $categoryObj->getVar('name') . '</a>';
-        }
-
-        return $faq;
-    }
-}
 
 /**
  * Q&A handler class.
@@ -698,15 +42,15 @@ class sfFaq extends XoopsObject
  * @author  marcan <marcan@smartfactory.ca>
  * @package SmartFAQ
  */
-class sfFaqHandler extends XoopsObjectHandler
+class FaqHandler extends \XoopsObjectHandler
 {
     /**
      * @param  bool $isNew
-     * @return sfFaq
+     * @return Smartfaq\Faq
      */
     public function create($isNew = true)
     {
-        $faq = new sfFaq();
+        $faq = new Smartfaq\Faq();
         if ($isNew) {
             $faq->setDefaultPermissions();
             $faq->setNew();
@@ -719,7 +63,7 @@ class sfFaqHandler extends XoopsObjectHandler
      * retrieve an FAQ
      *
      * @param  int $id faqid of the user
-     * @return mixed reference to the {@link sfFaq} object, FALSE if failed
+     * @return mixed reference to the {@link Smartfaq\Faq} object, FALSE if failed
      */
     public function get($id)
     {
@@ -731,7 +75,7 @@ class sfFaqHandler extends XoopsObjectHandler
 
             $numrows = $this->db->getRowsNum($result);
             if (1 == $numrows) {
-                $faq = new sfFaq();
+                $faq = new Smartfaq\Faq();
                 $faq->assignVars($this->db->fetchArray($result));
 
                 return $faq;
@@ -744,11 +88,12 @@ class sfFaqHandler extends XoopsObjectHandler
     /**
      * insert a new faq in the database
      *
-     * @param  XoopsObject $faq reference to the {@link sfFaq} object
+     * @param \XoopsObject $faq reference to the {@link Smartfaq\Faq}
+     *                          object
      * @param  bool        $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(XoopsObject $faq, $force = false)
+    public function insert(\XoopsObject $faq, $force = false)
     {
         if ('sffaq' !== strtolower(get_class($faq))) {
             return false;
@@ -838,11 +183,11 @@ class sfFaqHandler extends XoopsObjectHandler
     /**
      * delete an FAQ from the database
      *
-     * @param  XoopsObject $faq reference to the FAQ to delete
+     * @param \XoopsObject $faq reference to the FAQ to delete
      * @param  bool        $force
      * @return bool        FALSE if failed.
      */
-    public function delete(XoopsObject $faq, $force = false)
+    public function delete(\XoopsObject $faq, $force = false)
     {
         $smartModule = sf_getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
@@ -852,7 +197,7 @@ class sfFaqHandler extends XoopsObjectHandler
         }
 
         // Deleting the answers
-        $answerHandler = new sfAnswerHandler($this->db);
+        $answerHandler = new Smartfaq\AnswerHandler($this->db);
         if (!$answerHandler->deleteFaqAnswers($faq)) {
             // error msg...
             echo 'error while deleteing an answer';
@@ -880,7 +225,7 @@ class sfFaqHandler extends XoopsObjectHandler
      * @param  CriteriaElement $criteria  {@link CriteriaElement} conditions to be met
      * @param  bool            $id_as_key use the faqid as key for the array?
      * @param  string          $notNullFields
-     * @return false|array  array of <a href='psi_element://sfFaq'>sfFaq</a> objects
+     * @return false|array  array of <a href='psi_element://Smartfaq\Faq'>Smartfaq\Faq</a> objects
      */
     public function &getObjects(CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
     {
@@ -919,7 +264,7 @@ class sfFaqHandler extends XoopsObjectHandler
         }
 
         while ($myrow = $this->db->fetchArray($result)) {
-            $faq = new sfFaq();
+            $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
 
             if (!$id_as_key) {
@@ -998,7 +343,7 @@ class sfFaqHandler extends XoopsObjectHandler
         }
 
         while ($myrow = $this->db->fetchArray($result)) {
-            $faq = new sfFaq();
+            $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
 
             if (!$id_as_key) {
@@ -1012,7 +357,7 @@ class sfFaqHandler extends XoopsObjectHandler
         return $ret;
 
         /*while ($myrow = $this->db->fetchArray($result)) {
-            $faq = new sfFaq($myrow['faqid']);
+            $faq = new Smartfaq\Faq($myrow['faqid']);
 
             if (!$id_as_key) {
                 $ret[] =& $faq;
@@ -1079,37 +424,37 @@ class sfFaqHandler extends XoopsObjectHandler
             $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
-            $grantedCategories = new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
+            $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
 
             $faqsGranted = $smartPermHandler->getPermissions('item');
-            $grantedFaq  = new CriteriaCompo();
-            $grantedFaq->add(new Criteria('faqid', '(' . implode(',', $faqsGranted) . ')', 'IN'), 'OR');
+            $grantedFaq  = new \CriteriaCompo();
+            $grantedFaq->add(new \Criteria('faqid', '(' . implode(',', $faqsGranted) . ')', 'IN'), 'OR');
             // If user is anonymous, check if the FAQ allow partialview
             if (!is_object($xoopsUser)) {
-                $grantedFaq->add(new Criteria('partialview', '1'), 'OR');
+                $grantedFaq->add(new \Criteria('partialview', '1'), 'OR');
             }
         }
 
         if (isset($categoryid) && ($categoryid != -1)) {
-            $criteriaCategory = new criteria('categoryid', $categoryid);
+            $criteriaCategory = new \Criteria('categoryid', $categoryid);
         }
 
-        $criteriaStatus = new CriteriaCompo();
+        $criteriaStatus = new \CriteriaCompo();
         if (!empty($status) && is_array($status)) {
             foreach ($status as $v) {
-                $criteriaStatus->add(new Criteria('status', $v), 'OR');
+                $criteriaStatus->add(new \Criteria('status', $v), 'OR');
             }
         } elseif (!empty($status) && ($status != -1)) {
-            $criteriaStatus->add(new Criteria('status', $status), 'OR');
+            $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
 
-        $criteriaPermissions = new CriteriaCompo();
+        $criteriaPermissions = new \CriteriaCompo();
         if (!$userIsAdmin) {
             $criteriaPermissions->add($grantedCategories, 'AND');
             $criteriaPermissions->add($grantedFaq, 'AND');
         }
 
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         if (!empty($criteriaCategory)) {
             $criteria->add($criteriaCategory);
         }
@@ -1199,42 +544,42 @@ class sfFaqHandler extends XoopsObjectHandler
             $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
-            $grantedCategories = new Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
+            $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
 
             $faqsGranted = $smartPermHandler->getPermissions('item');
-            $grantedFaq  = new CriteriaCompo();
-            $grantedFaq->add(new Criteria('faqid', '(' . implode(',', $faqsGranted) . ')', 'IN'), 'OR');
+            $grantedFaq  = new \CriteriaCompo();
+            $grantedFaq->add(new \Criteria('faqid', '(' . implode(',', $faqsGranted) . ')', 'IN'), 'OR');
             // If user is anonymous, check if the FAQ allow partialview
             if (!is_object($xoopsUser)) {
-                $grantedFaq->add(new Criteria('partialview', '1'), 'OR');
+                $grantedFaq->add(new \Criteria('partialview', '1'), 'OR');
             }
         }
 
         if (isset($categoryid) && ($categoryid != -1)) {
             if (is_array($categoryid)) {
-                $criteriaCategory = new Criteria('categoryid', '(' . implode(',', $categoryid) . ')', 'IN');
+                $criteriaCategory = new \Criteria('categoryid', '(' . implode(',', $categoryid) . ')', 'IN');
             } else {
-                $criteriaCategory = new Criteria('categoryid', (int)$categoryid);
+                $criteriaCategory = new \Criteria('categoryid', (int)$categoryid);
             }
         }
 
         if (!empty($status) && is_array($status)) {
-            $criteriaStatus = new CriteriaCompo();
+            $criteriaStatus = new \CriteriaCompo();
             foreach ($status as $v) {
-                $criteriaStatus->add(new Criteria('status', $v), 'OR');
+                $criteriaStatus->add(new \Criteria('status', $v), 'OR');
             }
         } elseif (!empty($status) && ($status != -1)) {
-            $criteriaStatus = new CriteriaCompo();
-            $criteriaStatus->add(new Criteria('status', $status), 'OR');
+            $criteriaStatus = new \CriteriaCompo();
+            $criteriaStatus->add(new \Criteria('status', $status), 'OR');
         }
 
-        $criteriaPermissions = new CriteriaCompo();
+        $criteriaPermissions = new \CriteriaCompo();
         if (!$userIsAdmin) {
             $criteriaPermissions->add($grantedCategories, 'AND');
             $criteriaPermissions->add($grantedFaq, 'AND');
         }
 
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         if (!empty($criteriaCategory)) {
             $criteria->add($criteriaCategory);
         }
@@ -1288,20 +633,20 @@ class sfFaqHandler extends XoopsObjectHandler
         $ret = [];
 
         if (isset($categoryid) && ($categoryid != -1)) {
-            $criteriaCategory = new criteria('faq.categoryid', $categoryid);
+            $criteriaCategory = new \Criteria('faq.categoryid', $categoryid);
         }
 
         if (!empty($status) && is_array($status)) {
-            $criteriaStatus = new CriteriaCompo();
+            $criteriaStatus = new \CriteriaCompo();
             foreach ($status as $v) {
-                $criteriaStatus->add(new Criteria('faq.status', $v), 'OR');
+                $criteriaStatus->add(new \Criteria('faq.status', $v), 'OR');
             }
         } elseif (!empty($status) && ($status != -1)) {
-            $criteriaStatus = new CriteriaCompo();
-            $criteriaStatus->add(new Criteria('faq.status', $status), 'OR');
+            $criteriaStatus = new \CriteriaCompo();
+            $criteriaStatus->add(new \Criteria('faq.status', $status), 'OR');
         }
 
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         if (!empty($criteriaCategory)) {
             $criteria->add($criteriaCategory);
         }
@@ -1359,8 +704,8 @@ class sfFaqHandler extends XoopsObjectHandler
     {
         $ret = false;
 
-        $otherCriteria = new CriteriaCompo();
-        $otherCriteria->add(new Criteria('modulelink', 'None', '<>'));
+        $otherCriteria = new \CriteriaCompo();
+        $otherCriteria->add(new \Criteria('modulelink', 'None', '<>'));
 
         $faqsObj = $this->getFaqs(0, 0, [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER], -1, 'datesub', 'DESC', '', true, $otherCriteria);
 
@@ -1465,7 +810,7 @@ class sfFaqHandler extends XoopsObjectHandler
             return $ret;
         }
         while ($row = $this->db->fetchArray($result)) {
-            $faq = new sfFaq();
+            $faq = new Smartfaq\Faq();
             $faq->assignVars($row);
             $ret[$row['categoryid']] =& $faq;
             unset($faq);
@@ -1570,17 +915,17 @@ class sfFaqHandler extends XoopsObjectHandler
         $userIsAdmin = sf_userIsAdmin();
 
         if (0 != $userid) {
-            $criteriaUser = new CriteriaCompo();
-            $criteriaUser->add(new Criteria('faq.uid', $userid), 'OR');
-            $criteriaUser->add(new Criteria('answer.uid', $userid), 'OR');
+            $criteriaUser = new \CriteriaCompo();
+            $criteriaUser->add(new \Criteria('faq.uid', $userid), 'OR');
+            $criteriaUser->add(new \Criteria('answer.uid', $userid), 'OR');
         }
 
         if ($queryarray) {
-            $criteriaKeywords = new CriteriaCompo();
+            $criteriaKeywords = new \CriteriaCompo();
             for ($i = 0, $iMax = count($queryarray); $i < $iMax; ++$i) {
-                $criteriaKeyword = new CriteriaCompo();
-                $criteriaKeyword->add(new Criteria('faq.question', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
-                $criteriaKeyword->add(new Criteria('answer.answer', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
+                $criteriaKeyword = new \CriteriaCompo();
+                $criteriaKeyword->add(new \Criteria('faq.question', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
+                $criteriaKeyword->add(new \Criteria('answer.answer', '%' . $queryarray[$i] . '%', 'LIKE'), 'OR');
                 $criteriaKeywords->add($criteriaKeyword, $andor);
                 unset($criteriaKeyword);
             }
@@ -1598,29 +943,29 @@ class sfFaqHandler extends XoopsObjectHandler
             if (!$faqsGranted) {
                 return $ret;
             }
-            $grantedCategories = new Criteria('faq.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
-            $grantedFaq        = new CriteriaCompo();
-            $grantedFaq->add(new Criteria('faq.faqid', '(' . implode(',', $faqsGranted) . ')', 'IN'), 'OR');
+            $grantedCategories = new \Criteria('faq.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
+            $grantedFaq        = new \CriteriaCompo();
+            $grantedFaq->add(new \Criteria('faq.faqid', '(' . implode(',', $faqsGranted) . ')', 'IN'), 'OR');
             // If user is anonymous, check if the FAQ allow partialview
             if (!is_object($xoopsUser)) {
-                $grantedFaq->add(new Criteria('partialview', '1'), 'OR');
+                $grantedFaq->add(new \Criteria('partialview', '1'), 'OR');
             }
         }
 
-        $criteriaPermissions = new CriteriaCompo();
+        $criteriaPermissions = new \CriteriaCompo();
         if (!$userIsAdmin) {
             $criteriaPermissions->add($grantedCategories, 'AND');
             $criteriaPermissions->add($grantedFaq, 'AND');
         }
 
-        $criteriaAnswersStatus = new CriteriaCompo();
-        $criteriaAnswersStatus->add(new Criteria('answer.status', _SF_AN_STATUS_APPROVED));
+        $criteriaAnswersStatus = new \CriteriaCompo();
+        $criteriaAnswersStatus->add(new \Criteria('answer.status', _SF_AN_STATUS_APPROVED));
 
-        $criteriaFasStatus = new CriteriaCompo();
-        $criteriaFasStatus->add(new Criteria('faq.status', _SF_STATUS_OPENED), 'OR');
-        $criteriaFasStatus->add(new Criteria('faq.status', _SF_STATUS_PUBLISHED), 'OR');
+        $criteriaFasStatus = new \CriteriaCompo();
+        $criteriaFasStatus->add(new \Criteria('faq.status', _SF_STATUS_OPENED), 'OR');
+        $criteriaFasStatus->add(new \Criteria('faq.status', _SF_STATUS_PUBLISHED), 'OR');
 
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         if (!empty($criteriaUser)) {
             $criteria->add($criteriaUser, 'AND');
         }
@@ -1675,7 +1020,7 @@ class sfFaqHandler extends XoopsObjectHandler
         }
 
         while ($myrow = $this->db->fetchArray($result)) {
-            $faq = new sfFaq();
+            $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
             $ret[] =& $faq;
             unset($faq);

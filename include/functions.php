@@ -5,7 +5,7 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
 require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/faq.php';
@@ -17,9 +17,9 @@ require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/answer.php';
 function sf_getModuleInfo()
 {
     static $smartModule;
-    if (null === ($smartModule)) {
+    if (null === $smartModule) {
         global $xoopsModule;
-        if (null !== ($xoopsModule) && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
+        if (null !== $xoopsModule && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
             $smartModule = $xoopsModule;
         } else {
             $hModule     = xoops_getHandler('module');
@@ -38,7 +38,7 @@ function sf_getModuleConfig()
     static $smartConfig;
     if (!$smartConfig) {
         global $xoopsModule;
-        if (null !== ($xoopsModule) && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
+        if (null !== $xoopsModule && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
             global $xoopsModuleConfig;
             $smartConfig = $xoopsModuleConfig;
         } else {
@@ -96,7 +96,8 @@ function sf_formatErrors($errors = [])
 function sf_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = '')
 {
     // Creating the category handler object
-    $categoryHandler = sf_gethandler('category');
+    /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+    $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
     $spaces = '';
     for ($j = 0; $j < $level; ++$j) {
@@ -135,7 +136,7 @@ function sf_createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOp
     }
 
     // Creating the category handler object
-    $categoryHandler = sf_gethandler('category');
+    $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
     // Creating category objects
     $categoriesObj = $categoryHandler->getCategories(0, 0, $parentcategory);
@@ -243,7 +244,7 @@ function sf_userIsAdmin()
  * @internal param $integer $ categoryid : categoryid of the faq
  */
 
-// TODO : Move this function to sfFaq class
+// TODO : Move this function to Smartfaq\Faq class
 function faqAccessGranted($faqObj)
 {
     global $xoopsUser;
@@ -426,7 +427,7 @@ function sf_retrieveFaqByID($faqid = 0)
  * @return string
  */
 
-// TODO : Move this to the sfFaq class
+// TODO : Move this to the Smartfaq\Faq class
 function sf_getAdminLinks($faqid = 0, $open = false)
 {
     global $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsConfig;

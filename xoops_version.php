@@ -5,7 +5,7 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once __DIR__ . '/preloads/autoloader.php';
 
@@ -156,7 +156,8 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
         require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         // Creating the FAQ handler object
-        $faqHandler = sf_gethandler('faq');
+        /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+        $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
         if ($faqHandler->getFaqsCount(-1, _SF_STATUS_OPENED) > 0) {
             $modversion['sub'][3]['name'] = _MI_SF_SUB_SMNAME3;

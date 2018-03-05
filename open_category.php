@@ -18,7 +18,7 @@ require_once __DIR__ . '/footer.php';
 $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
 
 // Creating the category object for the selected category
-$categoryObj = new sfCategory($categoryid);
+$categoryObj = new Smartfaq\Category($categoryid);
 
 // If the selected category was not found, exit
 if ($categoryObj->notLoaded()) {
@@ -31,13 +31,15 @@ if (!$categoryObj->checkPermission()) {
 }
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 // At which record shall we start
 $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
 
 // Creating the faq handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // creating the FAQ objects that belong to the selected category
 $faqsObj = $faqHandler->getFaqs($xoopsModuleConfig['indexperpage'], $start, _SF_STATUS_OPENED, $categoryid);
@@ -70,7 +72,7 @@ $subcatsObj     = $categoryHandler->getCategories(0, 0, $categoryid);
 $total_subcats  = count($subcatsObj);
 $catQnasWithSub = 0;
 if (0 != $total_subcats) {
-    $faqHandler = sf_gethandler('faq');
+    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
     // Arrays that will hold the informations passed on to smarty variables
     foreach ($subcatsObj as $key => $subcat) {
         $subcat_id = $subcat->getVar('categoryid');
@@ -95,7 +97,7 @@ if ($faqsObj) {
     }
 
     $memberHandler = xoops_getHandler('member');
-    $users         = $memberHandler->getUsers(new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
+    $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
     for ($i = 0; $i < $totalQnasOnPage; ++$i) {
         $faq = $faqsObj[$i]->toArray(null, $allcategories);
 
@@ -125,7 +127,7 @@ $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 
 // The Navigation Bar
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-$pagenav = new XoopsPageNav($totalQnas[$categoryid], $xoopsModuleConfig['indexperpage'], $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
+$pagenav = new \XoopsPageNav($totalQnas[$categoryid], $xoopsModuleConfig['indexperpage'], $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
 if (1 == $xoopsModuleConfig['useimagenavpage']) {
     $category['navbar'] = '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>';
 } else {

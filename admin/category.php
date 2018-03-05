@@ -9,7 +9,8 @@
 require_once __DIR__ . '/admin_header.php';
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 $op = '';
 
@@ -85,7 +86,8 @@ function editcat($showmenu = false, $categoryid = 0)
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     // Creating the faq handler object
-    $faqHandler = sf_gethandler('faq');
+    /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
     echo '<script type="text/javascript" src="funcs.js"></script>';
     echo '<style>';
@@ -97,7 +99,7 @@ function editcat($showmenu = false, $categoryid = 0)
     if (0 != $categoryid) {
 
         // Creating the category object for the selected category
-        $categoryObj = new sfCategory($categoryid);
+        $categoryObj = new  \XoopsModules\Smartfaq\Category($categoryid);
 
         echo "<br>\n";
         if ($categoryObj->notLoaded()) {
@@ -114,40 +116,40 @@ function editcat($showmenu = false, $categoryid = 0)
         echo "<div id='bottomtable'>";
     }
     // Start category form
-    $sform = new XoopsThemeForm(_AM_SF_CATEGORY, 'op', xoops_getenv('PHP_SELF'), 'post', true);
+    $sform = new \XoopsThemeForm(_AM_SF_CATEGORY, 'op', xoops_getenv('PHP_SELF'), 'post', true);
     $sform->setExtra('enctype="multipart/form-data"');
 
     // Name
-    $sform->addElement(new XoopsFormText(_AM_SF_CATEGORY, 'name', 50, 255, $categoryObj->name('e')), true);
+    $sform->addElement(new \XoopsFormText(_AM_SF_CATEGORY, 'name', 50, 255, $categoryObj->name('e')), true);
 
     // Parent Category
-    $mytree = new XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+    $mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
     ob_start();
     $mytree->makeMySelBox('name', 'weight', $categoryObj->parentid(), 1, 'parentid');
 
     //makeMySelBox($title,$order="",$preset_id=0, $none=0, $sel_name="", $onchange="")
-    $sform->addElement(new XoopsFormLabel(_AM_SF_PARENT_CATEGORY_EXP, ob_get_contents()));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_PARENT_CATEGORY_EXP, ob_get_contents()));
     ob_end_clean();
 
-    /*  $mytree = new XoopsTree($xoopsDB->prefix("smartfaq_categories"), "categoryid" , "parentid");
+    /*  $mytree = new \XoopsTree($xoopsDB->prefix("smartfaq_categories"), "categoryid" , "parentid");
         ob_start();
-        $sform->addElement(new XoopsFormHidden('categoryid', $categoryObj->categoryid()));
+        $sform->addElement(new \XoopsFormHidden('categoryid', $categoryObj->categoryid()));
         $mytree->makeMySelBox("name", "weight", $categoryObj->categoryid());
-        $sform->addElement(new XoopsFormLabel(_AM_SF_CATEGORY_FAQ, ob_get_contents()));
+        $sform->addElement(new \XoopsFormLabel(_AM_SF_CATEGORY_FAQ, ob_get_contents()));
         ob_end_clean();
         */
 
     // Decsription
-    $sform->addElement(new XoopsFormTextArea(_AM_SF_COLDESCRIPT, 'description', $categoryObj->description('e'), 7, 60));
+    $sform->addElement(new \XoopsFormTextArea(_AM_SF_COLDESCRIPT, 'description', $categoryObj->description('e'), 7, 60));
 
     // Weight
-    $sform->addElement(new XoopsFormText(_AM_SF_COLPOSIT, 'weight', 4, 4, $categoryObj->weight()));
+    $sform->addElement(new \XoopsFormText(_AM_SF_COLPOSIT, 'weight', 4, 4, $categoryObj->weight()));
 
     // READ PERMISSIONS
     $memberHandler = xoops_getHandler('member');
     $group_list    = $memberHandler->getGroupList();
 
-    $groups_read_checkbox = new XoopsFormCheckBox(_AM_SF_PERMISSIONS_CAT_READ, 'groups_read[]', $categoryObj->getGroups_read());
+    $groups_read_checkbox = new \XoopsFormCheckBox(_AM_SF_PERMISSIONS_CAT_READ, 'groups_read[]', $categoryObj->getGroups_read());
     foreach ($group_list as $group_id => $group_name) {
         if (XOOPS_GROUP_ADMIN != $group_id) {
             $groups_read_checkbox->addOption($group_id, $group_name);
@@ -155,62 +157,62 @@ function editcat($showmenu = false, $categoryid = 0)
     }
     $sform->addElement($groups_read_checkbox);
     // Apply permissions on all faqs
-    $addapplyall_radio = new XoopsFormRadioYN(_AM_SF_PERMISSIONS_APPLY_ON_FAQS, 'applyall', 0, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+    $addapplyall_radio = new \XoopsFormRadioYN(_AM_SF_PERMISSIONS_APPLY_ON_FAQS, 'applyall', 0, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
     $sform->addElement($addapplyall_radio);
     // MODERATORS
-    //$moderators_tray = new XoopsFormElementTray(_AM_SF_MODERATORS_DEF, '');
+    //$moderators_tray = new \XoopsFormElementTray(_AM_SF_MODERATORS_DEF, '');
 
     $module_id = $xoopsModule->getVar('mid');
 
     /*$gpermHandler = xoops_getHandler('groupperm');
     $mod_perms = $gpermHandler->getGroupIds('category_moderation', $categoryid, $module_id);
 
-    $moderators_select = new XoopsFormSelect('', 'moderators', $moderators, 5, true);
+    $moderators_select = new \XoopsFormSelect('', 'moderators', $moderators, 5, true);
     $moderators_tray->addElement($moderators_select);
 
-    $butt_mngmods = new XoopsFormButton('', '', 'Manage mods', 'button');
+    $butt_mngmods = new \XoopsFormButton('', '', 'Manage mods', 'button');
     $butt_mngmods->setExtra('onclick="javascript:small_window(\'pop.php\', 370, 350);"');
     $moderators_tray->addElement($butt_mngmods);
 
-    $butt_delmod = new XoopsFormButton('', '', 'Delete mod', 'button');
+    $butt_delmod = new \XoopsFormButton('', '', 'Delete mod', 'button');
     $butt_delmod->setExtra('onclick="javascript:deleteSelectedItemsFromList(this.form.elements[\'moderators[]\']);"');
     $moderators_tray->addElement($butt_delmod);
 
     $sform->addElement($moderators_tray);
     */
-    $sform->addElement(new XoopsFormHidden('categoryid', $categoryid));
+    $sform->addElement(new \XoopsFormHidden('categoryid', $categoryid));
 
     // Action buttons tray
-    $button_tray = new XoopsFormElementTray('', '');
+    $button_tray = new \XoopsFormElementTray('', '');
 
     /*for ($i = 0, $iMax = count($moderators); $i < $iMax; ++$i) {
     $allmods[] = $moderators[$i];
     }
 
-    $hiddenmods = new XoopsFormHidden('allmods', $allmods);
+    $hiddenmods = new \XoopsFormHidden('allmods', $allmods);
     $button_tray->addElement($hiddenmods);
     */
-    $hidden = new XoopsFormHidden('op', 'addcategory');
+    $hidden = new \XoopsFormHidden('op', 'addcategory');
     $button_tray->addElement($hidden);
     // No ID for category -- then it's new category, button says 'Create'
     if (!$categoryid) {
-        $butt_create = new XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
+        $butt_create = new \XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addcategory\'"');
         $button_tray->addElement($butt_create);
 
-        $butt_clear = new XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
+        $butt_clear = new \XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
         $button_tray->addElement($butt_clear);
 
-        $butt_cancel = new XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
+        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($butt_cancel);
     } else {
         // button says 'Update'
-        $butt_create = new XoopsFormButton('', '', _AM_SF_MODIFY, 'submit');
+        $butt_create = new \XoopsFormButton('', '', _AM_SF_MODIFY, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addcategory\'"');
         $button_tray->addElement($butt_create);
 
-        $butt_cancel = new XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
+        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($butt_cancel);
     }
@@ -243,7 +245,7 @@ switch ($op) {
         $categoryid = isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0;
 
         if (0 != $categoryid) {
-            $categoryObj = new sfCategory($categoryid);
+            $categoryObj = new Smartfaq\Category($categoryid);
         } else {
             $categoryObj = $categoryHandler->create();
         }
@@ -299,7 +301,7 @@ switch ($op) {
         $categoryid = isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0;
         $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : $categoryid;
 
-        $categoryObj = new sfCategory($categoryid);
+        $categoryObj = new Smartfaq\Category($categoryid);
 
         $confirm = isset($_POST['confirm']) ? $_POST['confirm'] : 0;
         $name    = isset($_POST['name']) ? $_POST['name'] : '';
@@ -363,7 +365,7 @@ switch ($op) {
         }
         echo "</table>\n";
         require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        $pagenav = new XoopsPageNav($totalCategories, $xoopsModuleConfig['perpage'], $startcategory, 'startcategory');
+        $pagenav = new \XoopsPageNav($totalCategories, $xoopsModuleConfig['perpage'], $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '</div>';
 

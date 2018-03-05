@@ -19,7 +19,8 @@ if (isset($_POST['op'])) {
 }
 
 // Creating the answer handler object
-$answerHandler = sf_gethandler('answer');
+/** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
+$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
 /**
  * @param string $faqid
@@ -31,7 +32,7 @@ function editfaq($faqid = '')
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     // Creating the FAQ object
-    $faqObj = new sfFaq($faqid);
+    $faqObj = new Smartfaq\Faq($faqid);
 
     // Creating the category object
     $categoryObj = $faqObj->category();
@@ -159,14 +160,14 @@ switch ($op) {
         $answerid = isset($_GET['answerid']) ? (int)$_GET['answerid'] : 0;
 
         // Creating the FAQ object
-        $faqObj = new sfFaq($faqid);
+        $faqObj = new Smartfaq\Faq($faqid);
 
         if ($faqObj->notLoaded()) {
             redirect_header('index.php', 1, _AM_SF_NOFAQSELECTED);
         }
 
         // Creating the answer object
-        $answerObj = new sfAnswer($answerid);
+        $answerObj = new Smartfaq\Answer($answerid);
 
         if ($answerObj->notLoaded()) {
             redirect_header('index.php', 1, _AM_SF_NOFAQSELECTED);
@@ -235,8 +236,8 @@ switch ($op) {
         $answerid  = isset($_POST['answerid']) ? (int)$_POST['answerid'] : 0;
         $answerid  = isset($_GET['answerid']) ? (int)$_GET['answerid'] : $answerid;
         $confirm   = isset($_POST['confirm']) ? (int)$_POST['confirm'] : 0;
-        $faqObj    = new sfFaq($faqid);
-        $answerObj = new sfAnswer($answerid);
+        $faqObj    = new Smartfaq\Faq($faqid);
+        $answerObj = new Smartfaq\Answer($answerid);
         if ($confirm) {
             $answerObj->setVar('status', _SF_AN_STATUS_REJECTED);
             $answerObj->store();

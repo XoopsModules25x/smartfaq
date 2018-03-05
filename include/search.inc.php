@@ -11,7 +11,7 @@
  * @param $userid
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 function smartfaq_search($queryarray, $andor, $limit, $offset, $userid)
 {
@@ -19,7 +19,8 @@ function smartfaq_search($queryarray, $andor, $limit, $offset, $userid)
 
     $ret = [];
 
-    $faqHandler = sf_gethandler('faq');
+    /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
     $faqsObj = $faqHandler->getFaqsFromSearch($queryarray, $andor, $limit, $offset, $userid);
 

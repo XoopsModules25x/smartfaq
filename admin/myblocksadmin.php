@@ -137,7 +137,7 @@ function list_blocks()
         }
 
         // target modules
-        $db            = XoopsDatabaseFactory::getDatabaseConnection();
+        $db            = \XoopsDatabaseFactory::getDatabaseConnection();
         $result        = $db->query('SELECT module_id FROM ' . $db->prefix('block_module_link') . " WHERE block_id='$bid'");
         $selected_mids = [];
         while (list($selected_mid) = $db->fetchRow($result)) {
@@ -145,8 +145,8 @@ function list_blocks()
         }
         /** @var XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
-        $criteria      = new CriteriaCompo(new Criteria('hasmain', 1));
-        $criteria->add(new Criteria('isactive', 1));
+        $criteria      = new \CriteriaCompo(new \Criteria('hasmain', 1));
+        $criteria->add(new \Criteria('isactive', 1));
         $module_list     = $moduleHandler->getList($criteria);
         $module_list[-1] = _AM_TOPPAGE;
         $module_list[0]  = _AM_ALLPAGES;

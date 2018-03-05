@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Smartfaq;
+
 /**
  * CBB, XOOPS forum module
  *
@@ -9,14 +10,14 @@
  * @package     module::newbb
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once XOOPS_ROOT_PATH . '/class/uploader.php';
 
 /**
- * Class sfUploader
+ * Class Uploader
  */
-class sfUploader extends XoopsMediaUploader
+class Uploader extends XoopsMediaUploader
 {
     /**
      * No admin check for uploads

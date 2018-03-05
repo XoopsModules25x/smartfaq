@@ -17,13 +17,14 @@ $catstart = isset($_GET['catstart']) ? (int)$_GET['catstart'] : 0;
 $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 // Get the total number of categories
 $totalCategories = count($categoryHandler->getCategories());
 
 // Creating the faq handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Total number of published FAQ in the module
 $totalFaqs = $faqHandler->getFaqsCount(-1, _SF_STATUS_OPENED);
@@ -54,7 +55,7 @@ $categories = [];
 $subcats    = $categoryHandler->getSubCats($categoriesObj);
 $totalQnas  = $categoryHandler->faqsCount(0, [_SF_STATUS_OPENED]);
 
-$faqHandler  = sf_gethandler('faq');
+$faqHandler  = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 $last_qnaObj = $faqHandler->getLastPublishedByCat([_SF_STATUS_OPENED]);
 
 foreach ($categoriesObj as $cat_id => $category) {
@@ -101,7 +102,7 @@ if ($displaylastfaqs) {
         }
 
         $memberHandler = xoops_getHandler('member');
-        $users         = $memberHandler->getUsers(new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
+        $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
         for ($i = 0; $i < $totalQnasOnPage; ++$i) {
             $faq = $faqsObj[$i]->toArray(null, $allcategories);
 
@@ -149,7 +150,7 @@ $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 
 // Category Navigation Bar
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-$pagenav = new XoopsPageNav($totalCategories, $xoopsModuleConfig['catperpage'], $catstart, 'catstart', '');
+$pagenav = new \XoopsPageNav($totalCategories, $xoopsModuleConfig['catperpage'], $catstart, 'catstart', '');
 if (1 == $xoopsModuleConfig['useimagenavpage']) {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
@@ -157,7 +158,7 @@ if (1 == $xoopsModuleConfig['useimagenavpage']) {
 }
 
 // FAQ Navigation Bar
-$pagenav = new XoopsPageNav($totalFaqs, $xoopsModuleConfig['indexperpage'], $start, 'start', '');
+$pagenav = new \XoopsPageNav($totalFaqs, $xoopsModuleConfig['indexperpage'], $start, 'start', '');
 if (1 == $xoopsModuleConfig['useimagenavpage']) {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {

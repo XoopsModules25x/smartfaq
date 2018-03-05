@@ -1,6 +1,6 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * @param XoopsModule $module
@@ -71,15 +71,17 @@ function xoops_module_update_smartfaq($module)
      * Check for items with categoryid=0
      */
     require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
-    $smartfaq_faqHandler      = $answerHandler = sf_gethandler('faq');
-    $smartfaq_categoryHandler = $answerHandler = sf_gethandler('category');
+    /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+    $smartfaq_faqHandler      = $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    /** @var \XoopsModules\Smartfaq\CategoryHandler $smartfaq_categoryHandler */
+    $smartfaq_categoryHandler = $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
     //find a valid categoryid
     $categoriesObj = $smartfaq_categoryHandler->getCategories(1, 0, 0, 'weight', 'ASC', false);
     if (count($categoriesObj) > 0) {
         $categoryid = $categoriesObj[0]->getVar('categoryid');
-        $criteria   = new CriteriaCompo();
-        $criteria->add(new Criteria('categoryid', 0));
+        $criteria   = new \CriteriaCompo();
+        $criteria->add(new \Criteria('categoryid', 0));
         $smartfaq_faqHandler->updateAll('categoryid', $categoryid, $criteria);
         echo '&nbsp;&nbsp;Cleaning up questions with categoryid=0<br>';
     }

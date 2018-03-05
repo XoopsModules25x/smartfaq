@@ -51,10 +51,12 @@ require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 // Creating the FAQ handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 $startentry = isset($_GET['startentry']) ? (int)$_GET['startentry'] : 0;
 
@@ -312,9 +314,9 @@ buildTable();
 
 if ($numrows > 0) {
 
-    //$answer_criteria = new Criteria('faqid', "(".implode(',', array_keys($faqsObj)).")", 'IN');
+    //$answer_criteria = new \Criteria('faqid', "(".implode(',', array_keys($faqsObj)).")", 'IN');
     //$answer_criteria->setGroupby("faqid");
-    //$answerHandler = sf_gethandler('answer');
+    //$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
     //$answer_arr = $answerHandler->getCountByFAQ($answer_criteria);
 
     foreach (array_keys($faqsObj) as $i) {
@@ -411,12 +413,12 @@ if ($numrows > 0) {
         echo "<td class='even' align='center'>" . $requester . '</td>';
 
         //adding name of the Answer Submitter
+        /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
+        $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
-        $answerHandler = sf_gethandler('answer');
-
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('faqid', $faqsObj[$i]->faqid()));
-        $criteria->add(new Criteria('status', true));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('faqid', $faqsObj[$i]->faqid()));
+        $criteria->add(new \Criteria('status', true));
 
         $answerObjects = $answerHandler->getObjects($criteria, true);
 
@@ -449,7 +451,7 @@ if ($numrows > 0) {
 }
 echo "</table>\n";
 echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display: block; \">$status_explaination</span>";
-$pagenav = new XoopsPageNav($numrows, $xoopsModuleConfig['perpage'], $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
+$pagenav = new \XoopsPageNav($numrows, $xoopsModuleConfig['perpage'], $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
 
 if (1 == $xoopsModuleConfig['useimagenavpage']) {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderImageNav() . '</div>';

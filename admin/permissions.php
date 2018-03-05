@@ -42,7 +42,7 @@ switch ($op) {
             while ($myrow_view = $xoopsDB->fetchArray($result_view)) {
                 $item_list_view['cid']   = $myrow_view['categoryid'];
                 $item_list_view['title'] = $myrow_view['name'];
-                $form_view               = new XoopsGroupPermForm('', $xoopsModule->getVar('mid'), 'category_read', "<img id='toptableicon' src="
+                $form_view               = new \XoopsGroupPermForm('', $xoopsModule->getVar('mid'), 'category_read', "<img id='toptableicon' src="
                                                                                                                     . XOOPS_URL
                                                                                                                     . '/modules/'
                                                                                                                     . $xoopsModule->dirname()

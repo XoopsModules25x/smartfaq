@@ -57,12 +57,12 @@ if ($totalfaqs > 0) {
         $requester = sf_getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
 
         //adding name of the Answer Submitter
+        /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
+        $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
-        $answerHandler = sf_gethandler('answer');
-
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('faqid', $faqsObj[$i]->faqid()));
-        $criteria->add(new Criteria('status', true));
+        $criteria = new \CriteriaCompo();
+        $criteria->add(new \Criteria('faqid', $faqsObj[$i]->faqid()));
+        $criteria->add(new \Criteria('status', true));
 
         $answerObjects = $answerHandler->getObjects($criteria, true);
 
@@ -99,6 +99,6 @@ if ($totalfaqs > 0) {
 echo "</table>\n";
 echo "<br>\n";
 
-$pagenav = new XoopsPageNav($totalfaqs, $xoopsModuleConfig['perpage'], $startfaq, 'startfaq', $pagenav_extra_args);
+$pagenav = new \XoopsPageNav($totalfaqs, $xoopsModuleConfig['perpage'], $startfaq, 'startfaq', $pagenav_extra_args);
 echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 echo '</div>';

@@ -12,10 +12,12 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 // Creating the FAQ handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Get the total number of categories
 $totalCategories = count($categoryHandler->getCategories());

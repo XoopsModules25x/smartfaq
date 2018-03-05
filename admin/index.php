@@ -27,10 +27,12 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 //----------------------
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 // Creating the FAQ handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Total FAQs -- includes everything on the table
 $totalfaqs = $faqHandler->getFaqsCount();

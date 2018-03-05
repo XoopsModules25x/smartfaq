@@ -9,11 +9,11 @@ use XoopsModules\Smartfaq\Common;
  */
 class Utility
 {
-    use common\VersionChecks; //checkVerXoops, checkVerPhp Traits
+    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    use common\ServerStats; // getServerStats Trait
+    use Common\ServerStats; // getServerStats Trait
 
-    use common\FilesManagement; // Files Management Trait
+    use Common\FilesManagement; // Files Management Trait
 
     //--------------- Custom module methods -----------------------------
 
@@ -104,7 +104,8 @@ class Utility
     public static function sf_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = '')
     {
         // Creating the category handler object
-        $categoryHandler = sf_gethandler('category');
+        /** @var Smartfaq\CategoryHandler $categoryHandler */
+        $categoryHandler = Smartfaq\Helper::getInstance()->getHandler('Category');
 
         $spaces = '';
         for ($j = 0; $j < $level; ++$j) {
@@ -143,7 +144,7 @@ class Utility
         }
 
         // Creating the category handler object
-        $categoryHandler = sf_gethandler('category');
+        $categoryHandler = Smartfaq\Helper::getInstance()->getHandler('Category');
 
         // Creating category objects
         $categoriesObj = $categoryHandler->getCategories(0, 0, $parentcategory);
@@ -251,7 +252,7 @@ class Utility
      * @internal param $integer $ categoryid : categoryid of the faq
      */
 
-    // TODO : Move this function to sfFaq class
+    // TODO : Move this function to Smartfaq\Faq class
     public static function faqAccessGranted($faqObj)
     {
         global $xoopsUser;
@@ -434,7 +435,7 @@ class Utility
      * @return string
      */
 
-    // TODO : Move this to the sfFaq class
+    // TODO : Move this to the Smartfaq\Faq class
     public static function sf_getAdminLinks($faqid = 0, $open = false)
     {
         global $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsConfig;

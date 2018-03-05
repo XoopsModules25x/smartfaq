@@ -9,10 +9,12 @@
 require_once __DIR__ . '/admin_header.php';
 
 // Creating the faq handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 $op = '';
 if (isset($_GET['op'])) {
@@ -37,7 +39,7 @@ function editfaq($showmenu = false, $faqid = -1)
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
     if ($faqid != -1) {
         // Creating the FAQ object
-        $faqObj = new sfFaq($faqid);
+        $faqObj = new Smartfaq\Faq($faqid);
 
         if ($faqObj->notLoaded()) {
             redirect_header('faq.php', 1, _AM_SF_NOARTTOEDIT);
@@ -81,11 +83,11 @@ function editfaq($showmenu = false, $faqid = -1)
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CREATEQUESTION . '</h3>';
         echo "<div id='bottomtable'>";
     }
-    $sform = new XoopsThemeForm(_AM_SF_OPEN_QUESTION, 'op', xoops_getenv('PHP_SELF'), 'post', true);
+    $sform = new \XoopsThemeForm(_AM_SF_OPEN_QUESTION, 'op', xoops_getenv('PHP_SELF'), 'post', true);
     $sform->setExtra('enctype="multipart/form-data"');
 
     // faq requester
-    $sform->addElement(new XoopsFormLabel(_AM_SF_REQUESTED_BY, sf_getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, sf_getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
 
     // CATEGORY
     /*
@@ -95,19 +97,19 @@ function editfaq($showmenu = false, $faqid = -1)
     * Last one is not set as we do not have sub menus in Smartfaq
     */
 
-    $mytree = new XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+    $mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
     ob_start();
     $mytree->makeMySelBox('name', 'weight', $categoryObj->categoryid());
-    $sform->addElement(new XoopsFormLabel(_AM_SF_CATEGORY_QUESTION, ob_get_contents()));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_CATEGORY_QUESTION, ob_get_contents()));
     ob_end_clean();
 
     // faq QUESTION
-    $sform->addElement(new XoopsFormTextArea(_AM_SF_QUESTION, 'question', $faqObj->question(), 7, 60));
+    $sform->addElement(new \XoopsFormTextArea(_AM_SF_QUESTION, 'question', $faqObj->question(), 7, 60));
 
     // PER ITEM PERMISSIONS
     $memberHandler   = xoops_getHandler('member');
     $group_list      = $memberHandler->getGroupList();
-    $groups_checkbox = new XoopsFormCheckBox(_AM_SF_PERMISSIONS_QUESTION, 'groups[]', $faqObj->getGroups_read());
+    $groups_checkbox = new \XoopsFormCheckBox(_AM_SF_PERMISSIONS_QUESTION, 'groups[]', $faqObj->getGroups_read());
     foreach ($group_list as $group_id => $group_name) {
         if (XOOPS_GROUP_ADMIN != $group_id) {
             $groups_checkbox->addOption($group_id, $group_name);
@@ -116,46 +118,46 @@ function editfaq($showmenu = false, $faqid = -1)
     $sform->addElement($groups_checkbox);
 
     // faq ID
-    $sform->addElement(new XoopsFormHidden('faqid', $faqObj->faqid()));
+    $sform->addElement(new \XoopsFormHidden('faqid', $faqObj->faqid()));
 
-    $button_tray = new XoopsFormElementTray('', '');
-    $hidden      = new XoopsFormHidden('op', 'addfaq');
+    $button_tray = new \XoopsFormElementTray('', '');
+    $hidden      = new \XoopsFormHidden('op', 'addfaq');
     $button_tray->addElement($hidden);
 
-    $sform->addElement(new XoopsFormHidden('status', $faqObj->status()));
+    $sform->addElement(new \XoopsFormHidden('status', $faqObj->status()));
     // Setting the FAQ Status
-    /*  $status_select = new XoopsFormSelect('', 'status', $status);
+    /*  $status_select = new \XoopsFormSelect('', 'status', $status);
     $status_select->addOptionArray(sf_getStatusArray());
-    $status_tray = new XoopsFormElementTray(_AM_SF_STATUS_EXP , '&nbsp;');
+    $status_tray = new \XoopsFormElementTray(_AM_SF_STATUS_EXP , '&nbsp;');
     $status_tray->addElement($status_select);
     $sform->addElement($status_tray);
     */
     if ($faqid == -1) {
 
         // there's no faqid? Then it's a new faq
-        // $button_tray -> addElement( new XoopsFormButton( '', 'mod', _AM_SF_CREATE, 'submit' ) );
-        $butt_create = new XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
+        // $button_tray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_CREATE, 'submit' ) );
+        $butt_create = new \XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addfaq\'"');
         $button_tray->addElement($butt_create);
 
-        $butt_clear = new XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
+        $butt_clear = new \XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
         $button_tray->addElement($butt_clear);
 
-        $butt_cancel = new XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
+        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($butt_cancel);
     } else {
         // else, we're editing an existing faq
-        // $button_tray -> addElement( new XoopsFormButton( '', 'mod', _AM_SF_MODIFY, 'submit' ) );
-        $butt_create = new XoopsFormButton('', '', $button_caption, 'submit');
+        // $button_tray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_MODIFY, 'submit' ) );
+        $butt_create = new \XoopsFormButton('', '', $button_caption, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addfaq\'"');
         $button_tray->addElement($butt_create);
 
-        $butt_edit = new XoopsFormButton('', '', _AM_SF_OPEN_QUESTION_EDIT, 'button');
+        $butt_edit = new \XoopsFormButton('', '', _AM_SF_OPEN_QUESTION_EDIT, 'button');
         $butt_edit->setExtra("onclick=\"location='faq.php?op=mod&amp;faqid=" . $faqid . "'\"");
         $button_tray->addElement($butt_edit);
 
-        $butt_cancel = new XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
+        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($butt_cancel);
     }
@@ -206,7 +208,7 @@ switch ($op) {
 
         // Creating the FAQ
         if ($faqid != -1) {
-            $faqObj = new sfFaq($faqid);
+            $faqObj = new Smartfaq\Faq($faqid);
         } else {
             $faqObj = $faqHandler->create();
         }
@@ -268,7 +270,7 @@ switch ($op) {
         $faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : 0;
         $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : $faqid;
 
-        $faqObj = new sfFaq($faqid);
+        $faqObj = new Smartfaq\Faq($faqid);
 
         $confirm  = isset($_POST['confirm']) ? $_POST['confirm'] : 0;
         $question = isset($_POST['question']) ? $_POST['question'] : '';
@@ -362,7 +364,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new XoopsPageNav($totalfaqs, $xoopsModuleConfig['perpage'], $startfaq, 'startfaq');
+        $pagenav = new \XoopsPageNav($totalfaqs, $xoopsModuleConfig['perpage'], $startfaq, 'startfaq');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '</div>';
 

@@ -6,18 +6,23 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+
 require_once __DIR__ . '/header.php';
 
 global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 // Creating the FAQ handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Creating the answer handler object
-$answerHandler = sf_gethandler('answer');
+/** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
+$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
 // Get the total number of categories
 $totalCategories = count($categoryHandler->getCategories());
@@ -189,7 +194,7 @@ switch ($op) {
             $maxfilesize = $forum_obj->getVar('attach_maxkb') * 1024;
             $uploaddir   = XOOPS_CACHE_PATH;
 
-            $uploader = new sfUploader($uploaddir, $newAnswerObj->getVar('attach_ext'), (int)$maxfilesize, (int)$xoopsModuleConfig['max_img_width'], (int)$xoopsModuleConfig['max_img_height']);
+            $uploader = new Smartfaq\Uploader($uploaddir, $newAnswerObj->getVar('attach_ext'), (int)$maxfilesize, (int)$xoopsModuleConfig['max_img_width'], (int)$xoopsModuleConfig['max_img_height']);
 
             if ($_FILES['userfile']['error'] > 0) {
                 switch ($_FILES['userfile']['error']) {

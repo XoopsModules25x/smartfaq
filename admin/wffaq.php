@@ -44,10 +44,10 @@ if ('start' === $op) {
         } else {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_SF_IMPORT_MODULE_FOUND, $importFromModuleName, $totalCat, $totalFAQ) . '</span>';
 
-            $form = new XoopsThemeForm(_AM_SF_IMPORT_SETTINGS, 'import_form', XOOPS_URL . '/modules/smartfaq/admin/' . $scriptname);
+            $form = new \XoopsThemeForm(_AM_SF_IMPORT_SETTINGS, 'import_form', XOOPS_URL . '/modules/smartfaq/admin/' . $scriptname);
 
             // Categories to be imported
-            $cat_cbox = new XoopsFormCheckBox(sprintf(_AM_SF_IMPORT_CATEGORIES, $importFromModuleName), 'import_category', -1);
+            $cat_cbox = new \XoopsFormCheckBox(sprintf(_AM_SF_IMPORT_CATEGORIES, $importFromModuleName), 'import_category', -1);
             $result   = $xoopsDB->queryF('SELECT c.catID, c.name, count(t.topicID) FROM ' . $xoopsDB->prefix('faqcategories') . ' AS c, ' . $xoopsDB->prefix('faqtopics') . ' AS t WHERE c.catID=t.catID GROUP BY t.catID ORDER BY c.weight');
             while (list($cid, $cat_title, $count) = $xoopsDB->fetchRow($result)) {
                 $cat_cbox->addOption($cid, "$cat_title ($count)<br\>");
@@ -55,30 +55,30 @@ if ('start' === $op) {
             $form->addElement($cat_cbox);
 
             // SmartFAQ parent category
-            $mytree = new XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+            $mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
-            $form->addElement(new XoopsFormLabel(_AM_SF_IMPORT_PARENT_CATEGORY, ob_get_contents()));
+            $form->addElement(new \XoopsFormLabel(_AM_SF_IMPORT_PARENT_CATEGORY, ob_get_contents()));
             ob_end_clean();
 
             // Auto-Approve
-            $form->addElement(new XoopsFormRadioYN(_AM_SF_IMPORT_AUTOAPPROVE, 'autoaprove', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . ''));
+            $form->addElement(new \XoopsFormRadioYN(_AM_SF_IMPORT_AUTOAPPROVE, 'autoaprove', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . ''));
 
             // Submitted and answered by
             $memberHandler = xoops_getHandler('member');
-            $user_select   = new XoopsFormSelect(_AM_SF_IMPORTED_USER, 'uid', 0);
+            $user_select   = new \XoopsFormSelect(_AM_SF_IMPORTED_USER, 'uid', 0);
             $user_select->addOption(0, '----');
-            //$criteria = new CriteriaCompo ();
+            //$criteria = new \CriteriaCompo ();
             //$criteria->setSort ('uname');
             //$criteria->setOrder ('ASC');
             $user_select->addOptionArray($memberHandler->getUserList());
             $form->addElement($user_select);
 
             // Q&As can be commented?
-            $form->addElement(new XoopsFormRadioYN(_AM_SF_IMPORT_ALLOWCOMMENTS, 'cancomment', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . ''));
+            $form->addElement(new \XoopsFormRadioYN(_AM_SF_IMPORT_ALLOWCOMMENTS, 'cancomment', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . ''));
             $group_list      = $memberHandler->getGroupList();
             $groups_selected = [];
-            $groups_checkbox = new XoopsFormCheckBox(_AM_SF_IMPORT_PERMISSIONS, 'groups_read');
+            $groups_checkbox = new \XoopsFormCheckBox(_AM_SF_IMPORT_PERMISSIONS, 'groups_read');
             foreach ($group_list as $group_id => $group_name) {
                 if (XOOPS_GROUP_ADMIN != $group_id) {
                     $groups_selected [] = $group_id;
@@ -88,8 +88,8 @@ if ('start' === $op) {
             $groups_checkbox->setValue($groups_selected);
             $form->addElement($groups_checkbox);
 
-            $form->addElement(new XoopsFormHidden('op', 'go'));
-            $form->addElement(new XoopsFormButton('', 'import', _AM_SF_IMPORT, 'submit'));
+            $form->addElement(new \XoopsFormHidden('op', 'go'));
+            $form->addElement(new \XoopsFormButton('', 'import', _AM_SF_IMPORT, 'submit'));
 
             $form->display();
         }
@@ -127,9 +127,10 @@ if ('go' === $op) {
         $import_category_list = $_POST['import_category'];
     }
 
-    $categoryHandler = sf_gethandler('category');
-    $faqHandler      = sf_gethandler('faq');
-    $answerHandler   = sf_gethandler('answer');
+    /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+    $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+    $faqHandler      = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    $answerHandler   = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
     /*echo "Parent Category ID: $parentId<br>";
     echo "Groups Read: " . implode (",", $groups_read) . "<br>";

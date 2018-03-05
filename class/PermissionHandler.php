@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Smartfaq;
 
 /**
  * Module: SmartFAQ
@@ -6,7 +6,7 @@
  * Credits: Mithrandir
  * Licence: GNU
  */
-class SmartfaqPermissionHandler extends XoopsObjectHandler
+class PermissionHandler extends \XoopsObjectHandler
 {
     /*
     * Returns permissions for a certain type

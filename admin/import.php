@@ -72,26 +72,26 @@ switch ($op) {
         }
 
         if (isset($importfile_select_array) && count($importfile_select_array) > 0) {
-            $sform = new XoopsThemeForm(_AM_SF_IMPORT_SELECTION, 'op', xoops_getenv('PHP_SELF'), 'post', true);
+            $sform = new \XoopsThemeForm(_AM_SF_IMPORT_SELECTION, 'op', xoops_getenv('PHP_SELF'), 'post', true);
             $sform->setExtra('enctype="multipart/form-data"');
 
             // Q&A set to import
-            $importfile_select = new XoopsFormSelect('', 'importfile', $importfile);
+            $importfile_select = new \XoopsFormSelect('', 'importfile', $importfile);
             $importfile_select->addOptionArray($importfile_select_array);
-            $importfile_tray = new XoopsFormElementTray(_AM_SF_IMPORT_SELECT_FILE, '&nbsp;');
+            $importfile_tray = new \XoopsFormElementTray(_AM_SF_IMPORT_SELECT_FILE, '&nbsp;');
             $importfile_tray->addElement($importfile_select);
             $sform->addElement($importfile_tray);
 
             // Buttons
-            $button_tray = new XoopsFormElementTray('', '');
-            $hidden      = new XoopsFormHidden('op', 'importExecute');
+            $button_tray = new \XoopsFormElementTray('', '');
+            $hidden      = new \XoopsFormHidden('op', 'importExecute');
             $button_tray->addElement($hidden);
 
-            $butt_import = new XoopsFormButton('', '', _AM_SF_IMPORT, 'submit');
+            $butt_import = new \XoopsFormButton('', '', _AM_SF_IMPORT, 'submit');
             $butt_import->setExtra('onclick="this.form.elements.op.value=\'importExecute\'"');
             $button_tray->addElement($butt_import);
 
-            $butt_cancel = new XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
+            $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
             $butt_cancel->setExtra('onclick="history.go(-1)"');
             $button_tray->addElement($butt_cancel);
 

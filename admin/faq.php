@@ -9,13 +9,16 @@
 require_once __DIR__ . '/admin_header.php';
 
 // Creating the faq handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 // Creating the answer handler object
-$answerHandler = sf_gethandler('answer');
+/** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
+$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
 $op = '';
 if (isset($_GET['op'])) {
@@ -42,7 +45,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
     if ($faqid != -1) {
         // Creating the FAQ object
-        $faqObj = new sfFaq($faqid);
+        $faqObj = new Smartfaq\Faq($faqid);
 
         if ($faqObj->notLoaded()) {
             redirect_header('faq.php', 1, _AM_SF_NOFAQSELECTED);
@@ -55,7 +58,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
                 $answerObj = $answerHandler->create();
             }
         } else {
-            $answerObj         = new sfAnswer($answerid);
+            $answerObj         = new Smartfaq\Answer($answerid);
             $originalAnswerObj = $faqObj->answer();
         }
 
@@ -159,14 +162,14 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CREATESMARTFAQ . '</h3>';
         echo "<div id='bottomtable'>";
     }
-    $sform = new XoopsThemeForm(_AM_SF_SMARTFAQ, 'op', xoops_getenv('PHP_SELF'), 'post', true);
+    $sform = new \XoopsThemeForm(_AM_SF_SMARTFAQ, 'op', xoops_getenv('PHP_SELF'), 'post', true);
     $sform->setExtra('enctype="multipart/form-data"');
 
     // faq requester
-    $sform->addElement(new XoopsFormLabel(_AM_SF_REQUESTED_BY, sf_getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, sf_getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
 
     // faq answered by
-    $sform->addElement(new XoopsFormLabel(_AM_SF_ANSWERED_BY, sf_getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname'])));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_ANSWERED_BY, sf_getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname'])));
 
     // CATEGORY
     /*
@@ -176,14 +179,14 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     * Last one is not set as we do not have sub menus in Smartfaq
     */
 
-    $mytree = new XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+    $mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
     ob_start();
     $mytree->makeMySelBox('name', 'weight', $categoryObj->categoryid());
-    $sform->addElement(new XoopsFormLabel(_AM_SF_CATEGORY_FAQ, ob_get_contents()));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_CATEGORY_FAQ, ob_get_contents()));
     ob_end_clean();
 
     // faq QUESTION
-    $sform->addElement(new XoopsFormTextArea(_AM_SF_QUESTION, 'question', $faqObj->question(0, 'e'), 7, 60));
+    $sform->addElement(new \XoopsFormTextArea(_AM_SF_QUESTION, 'question', $faqObj->question(0, 'e'), 7, 60));
 
     // ANSWER
     if ($merge) {
@@ -192,9 +195,9 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
         $theanswer = $answerObj->answer('e');
     }
 
-    //$sform->addElement(new XoopsFormDhtmlTextArea(_AM_SF_ANSWER_FAQ, 'answer', $theanswer, 15, 60), true);
+    //$sform->addElement(new \XoopsFormDhtmlTextArea(_AM_SF_ANSWER_FAQ, 'answer', $theanswer, 15, 60), true);
 
-    $editorTray = new XoopsFormElementTray(_AM_SF_ANSWER_FAQ, '<br>');
+    $editorTray = new \XoopsFormElementTray(_AM_SF_ANSWER_FAQ, '<br>');
     if (class_exists('XoopsFormEditor')) {
         $options['name']   = 'answer';
         $options['value']  = $theanswer;
@@ -202,20 +205,20 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
         $options['cols']   = '100%';
         $options['width']  = '100%';
         $options['height'] = '200px';
-        $answerEditor      = new XoopsFormEditor('', $xoopsModuleConfig['form_editorOptions'], $options, $nohtml = false, $onfailure = 'textarea');
+        $answerEditor      = new \XoopsFormEditor('', $xoopsModuleConfig['form_editorOptions'], $options, $nohtml = false, $onfailure = 'textarea');
         $editorTray->addElement($answerEditor, true);
     } else {
-        $answerEditor = new XoopsFormDhtmlTextArea(_AM_SF_ANSWER_FAQ, 'answer', $theanswer, '100%', '100%');
+        $answerEditor = new \XoopsFormDhtmlTextArea(_AM_SF_ANSWER_FAQ, 'answer', $theanswer, '100%', '100%');
         $editorTray->addElement($answerEditor, true);
     }
 
     $sform->addElement($editorTray);
 
     // HOW DO I
-    $sform->addElement(new XoopsFormText(_AM_SF_HOWDOI_FAQ, 'howdoi', 50, 255, $faqObj->howdoi('e')), false);
+    $sform->addElement(new \XoopsFormText(_AM_SF_HOWDOI_FAQ, 'howdoi', 50, 255, $faqObj->howdoi('e')), false);
 
     // DIDUNO
-    $sform->addElement(new XoopsFormTextArea(_AM_SF_DIDUNO_FAQ, 'diduno', $faqObj->diduno('e'), 3, 60));
+    $sform->addElement(new \XoopsFormTextArea(_AM_SF_DIDUNO_FAQ, 'diduno', $faqObj->diduno('e'), 3, 60));
 
     // CONTEXT MODULE LINK
     // Retreive the list of module currently installed. The key value is the dirname
@@ -226,30 +229,30 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $modulelink_select_array = array_merge($modules_array, $modulelink_select_array);
     $modulelink_select_array = array_merge(['None' => _AM_SF_NONE, 'All' => _AM_SF_ALL], $modulelink_select_array);
 
-    $modulelink_select = new XoopsFormSelect('', 'modulelink', $faqObj->modulelink());
+    $modulelink_select = new \XoopsFormSelect('', 'modulelink', $faqObj->modulelink());
     $modulelink_select->addOptionArray($modulelink_select_array);
-    $modulelink_tray = new XoopsFormElementTray(_AM_SF_CONTEXTMODULELINK_FAQ, '&nbsp;');
+    $modulelink_tray = new \XoopsFormElementTray(_AM_SF_CONTEXTMODULELINK_FAQ, '&nbsp;');
     $modulelink_tray->addElement($modulelink_select);
     $sform->addElement($modulelink_tray);
 
     // SPECIFICURL
-    $sform->addElement(new XoopsFormText(_AM_SF_SPECIFIC_URL, 'contextpage', 50, 60, $faqObj->contextpage()), false);
+    $sform->addElement(new \XoopsFormText(_AM_SF_SPECIFIC_URL, 'contextpage', 50, 60, $faqObj->contextpage()), false);
 
     // EXACT URL?
-    $excaturl_radio = new XoopsFormRadioYN(_AM_SF_EXACTURL, 'exacturl', $faqObj->exacturl(), ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+    $excaturl_radio = new \XoopsFormRadioYN(_AM_SF_EXACTURL, 'exacturl', $faqObj->exacturl(), ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
     $sform->addElement($excaturl_radio);
     // WEIGHT
-    $sform->addElement(new XoopsFormText(_AM_SF_WEIGHT, 'weight', 5, 5, $faqObj->weight()), true);
+    $sform->addElement(new \XoopsFormText(_AM_SF_WEIGHT, 'weight', 5, 5, $faqObj->weight()), true);
 
     // COMMENTS
     // Code to allow comments
-    $addcomments_radio = new XoopsFormRadioYN(_AM_SF_ALLOWCOMMENTS, 'cancomment', $faqObj->cancomment(), ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+    $addcomments_radio = new \XoopsFormRadioYN(_AM_SF_ALLOWCOMMENTS, 'cancomment', $faqObj->cancomment(), ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
     $sform->addElement($addcomments_radio);
 
     // PER ITEM PERMISSIONS
     $memberHandler   = xoops_getHandler('member');
     $group_list      = $memberHandler->getGroupList();
-    $groups_checkbox = new XoopsFormCheckBox(_AM_SF_PERMISSIONS_FAQ, 'groups[]', $faqObj->getGroups_read());
+    $groups_checkbox = new \XoopsFormCheckBox(_AM_SF_PERMISSIONS_FAQ, 'groups[]', $faqObj->getGroups_read());
     foreach ($group_list as $group_id => $group_name) {
         if (XOOPS_GROUP_ADMIN != $group_id) {
             $groups_checkbox->addOption($group_id, $group_name);
@@ -257,21 +260,21 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     }
     $sform->addElement($groups_checkbox);
 
-    $partial_view = new XoopsFormRadioYN(_AM_SF_PARTIALVIEW, 'partialview', $faqObj->partialview(), ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+    $partial_view = new \XoopsFormRadioYN(_AM_SF_PARTIALVIEW, 'partialview', $faqObj->partialview(), ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
     $sform->addElement($partial_view);
 
     // VARIOUS OPTIONS
-    $options_tray = new XoopsFormElementTray(_AM_SF_OPTIONS, '<br>');
+    $options_tray = new \XoopsFormElementTray(_AM_SF_OPTIONS, '<br>');
 
-    $html_checkbox = new XoopsFormCheckBox('', 'html', $faqObj->html());
+    $html_checkbox = new \XoopsFormCheckBox('', 'html', $faqObj->html());
     $html_checkbox->addOption(1, _AM_SF_DOHTML);
     $options_tray->addElement($html_checkbox);
 
-    $smiley_checkbox = new XoopsFormCheckBox('', 'smiley', $faqObj->smiley());
+    $smiley_checkbox = new \XoopsFormCheckBox('', 'smiley', $faqObj->smiley());
     $smiley_checkbox->addOption(1, _AM_SF_DOSMILEY);
     $options_tray->addElement($smiley_checkbox);
 
-    $xcodes_checkbox = new XoopsFormCheckBox('', 'xcodes', $faqObj->xcodes());
+    $xcodes_checkbox = new \XoopsFormCheckBox('', 'xcodes', $faqObj->xcodes());
     $xcodes_checkbox->addOption(1, _AM_SF_DOXCODE);
     $options_tray->addElement($xcodes_checkbox);
 
@@ -280,56 +283,56 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     // OFFLINE
     if (_SF_STATUS_OFFLINE == $faqObj->status()) {
         // Back OnLine
-        $offline_radio = new XoopsFormRadioYN(_AM_SF_OFFLINE_FIELD, 'offline', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+        $offline_radio = new \XoopsFormRadioYN(_AM_SF_OFFLINE_FIELD, 'offline', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
         $sform->addElement($offline_radio);
     }
 
     // faq ID
-    $sform->addElement(new XoopsFormHidden('faqid', $faqObj->faqid()));
+    $sform->addElement(new \XoopsFormHidden('faqid', $faqObj->faqid()));
 
     // requester id
-    $sform->addElement(new XoopsFormHidden('requester_uid', $faqObj->uid()));
+    $sform->addElement(new \XoopsFormHidden('requester_uid', $faqObj->uid()));
 
     // answerer id
-    $sform->addElement(new XoopsFormHidden('answerer_uid', $answerObj->uid()));
+    $sform->addElement(new \XoopsFormHidden('answerer_uid', $answerObj->uid()));
 
     // ANSWER ID
-    $sform->addElement(new XoopsFormHidden('answerid', $answerObj->answerid()));
+    $sform->addElement(new \XoopsFormHidden('answerid', $answerObj->answerid()));
 
-    $button_tray = new XoopsFormElementTray('', '');
-    $hidden      = new XoopsFormHidden('op', 'addfaq');
+    $button_tray = new \XoopsFormElementTray('', '');
+    $hidden      = new \XoopsFormHidden('op', 'addfaq');
     $button_tray->addElement($hidden);
 
-    $sform->addElement(new XoopsFormHidden('status', $faqObj->status()));
+    $sform->addElement(new \XoopsFormHidden('status', $faqObj->status()));
 
     // Setting the FAQ Status
-    /*  $status_select = new XoopsFormSelect('', 'status', $status);
+    /*  $status_select = new \XoopsFormSelect('', 'status', $status);
     $status_select->addOptionArray(sf_getStatusArray());
-    $status_tray = new XoopsFormElementTray(_AM_SF_STATUS_EXP , '&nbsp;');
+    $status_tray = new \XoopsFormElementTray(_AM_SF_STATUS_EXP , '&nbsp;');
     $status_tray->addElement($status_select);
     $sform->addElement($status_tray);
     */
     if (!$faqid) {
         // there's no faqid? Then it's a new faq
-        // $button_tray -> addElement( new XoopsFormButton( '', 'mod', _AM_SF_CREATE, 'submit' ) );
-        $butt_create = new XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
+        // $button_tray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_CREATE, 'submit' ) );
+        $butt_create = new \XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addfaq\'"');
         $button_tray->addElement($butt_create);
 
-        $butt_clear = new XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
+        $butt_clear = new \XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
         $button_tray->addElement($butt_clear);
 
-        $butt_cancel = new XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
+        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($butt_cancel);
     } else {
         // else, we're editing an existing faq
-        // $button_tray -> addElement( new XoopsFormButton( '', 'mod', _AM_SF_MODIFY, 'submit' ) );
-        $butt_create = new XoopsFormButton('', '', $button_caption, 'submit');
+        // $button_tray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_MODIFY, 'submit' ) );
+        $butt_create = new \XoopsFormButton('', '', $button_caption, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addfaq\'"');
         $button_tray->addElement($butt_create);
 
-        $butt_cancel = new XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
+        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
         $button_tray->addElement($butt_cancel);
     }
@@ -389,7 +392,7 @@ switch ($op) {
 
         // Creating the FAQ and answer objects
         if ($faqid != -1) {
-            $faqObj    = new sfFaq($faqid);
+            $faqObj    = new Smartfaq\Faq($faqid);
             $answerObj = $faqObj->answer();
             // If the FAQ does not have an answer, then it's an answered opened question
             if (!$answerObj) {
@@ -532,7 +535,7 @@ switch ($op) {
         $faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : 0;
         $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : $faqid;
 
-        $faqObj = new sfFaq($faqid);
+        $faqObj = new Smartfaq\Faq($faqid);
 
         $confirm  = isset($_POST['confirm']) ? $_POST['confirm'] : 0;
         $question = isset($_POST['question']) ? $_POST['question'] : '';

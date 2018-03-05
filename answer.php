@@ -37,10 +37,12 @@ if (0 == $faqid) {
 }
 
 // Creating the FAQ handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Creating the answer handler object
-$answerHandler = sf_gethandler('answer');
+/** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
+$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
 switch ($op) {
     // The answer is posted
@@ -60,7 +62,7 @@ switch ($op) {
         }
 
         // Creating the FAQ object for the selected FAQ
-        $faqObj = new sfFaq($faqid);
+        $faqObj = new Smartfaq\Faq($faqid);
 
         // If the selected FAQ was not found, exit
         if ($faqObj->notLoaded()) {
@@ -193,7 +195,7 @@ switch ($op) {
         global $xoopsUser, $xoopsModule, $HTTP_SERVER_VARS;
 
         // Creating the FAQ object for the selected FAQ
-        $faqObj = new sfFaq($faqid);
+        $faqObj = new Smartfaq\Faq($faqid);
 
         // If the selected FAQ was not found, exit
         if ($faqObj->notLoaded()) {

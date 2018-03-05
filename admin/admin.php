@@ -17,7 +17,7 @@
  * @author       XOOPS Development Team, Kazumi Ono (AKA onokazu)
  */
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 if (isset($HTTP_POST_VARS['fct'])) {
     $fct = trim($HTTP_POST_VARS['fct']);
@@ -51,13 +51,9 @@ $error = false;
 if (0 != $admintest) {
     if (isset($fct) && '' != $fct) {
         if (file_exists(XOOPS_ROOT_PATH . '/modules/system/admin/' . $fct . '/xoops_version.php')) {
-            require_once XOOPS_ROOT_PATH . '/modules/system/language/' . $xoopsConfig['language'] . '/admin.php';
+            xoops_loadLanguage('admin', 'system');
+            xoops_loadLanguage('admin/' . $fct, 'system');
 
-            if (file_exists(XOOPS_ROOT_PATH . '/modules/system/language/' . $xoopsConfig['language'] . '/admin/' . $fct . '.php')) {
-                include XOOPS_ROOT_PATH . '/modules/system/language/' . $xoopsConfig['language'] . '/admin/' . $fct . '.php';
-            } elseif (file_exists(XOOPS_ROOT_PATH . '/modules/system/language/english/admin/' . $fct . '.php')) {
-                include XOOPS_ROOT_PATH . '/modules/system/language/english/admin/' . $fct . '.php';
-            }
             include XOOPS_ROOT_PATH . '/modules/system/admin/' . $fct . '/xoops_version.php';
             $syspermHandler = xoops_getHandler('groupperm');
             $category       = !empty($modversion['category']) ? (int)$modversion['category'] : 0;

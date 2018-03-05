@@ -10,7 +10,7 @@
 
 function smartfaq_com_update($faq_id, $total_num)
 {
-    $db  = XoopsDatabaseFactory::getDatabaseConnection();
+    $db  = \XoopsDatabaseFactory::getDatabaseConnection();
     $sql = 'UPDATE ' . $db->prefix('smartfaq_faq') . ' SET comments = ' . $total_num . ' WHERE faqid = ' . $faq_id;
     $db->query($sql);
 }

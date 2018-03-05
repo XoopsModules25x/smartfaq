@@ -5,7 +5,7 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 function b_faqs_random_how_show()
 {
@@ -14,7 +14,8 @@ function b_faqs_random_how_show()
     $block = [];
 
     // Creating the faq handler object
-    $faqHandler = sf_gethandler('faq');
+    /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
     // creating the FAQ object
     $faqsObj = $faqHandler->getRandomFaq('howdoi', [_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER]);

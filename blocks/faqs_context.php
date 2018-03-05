@@ -7,7 +7,7 @@
  * @param $options
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 function b_faqs_context_show($options)
 {
@@ -24,7 +24,8 @@ function b_faqs_context_show($options)
     $limit = $options[0];
 
     // Creating the faq handler object
-    $faqHandler = sf_gethandler('faq');
+    /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
     // creating the FAQ objects that belong to the selected category
     $faqsObj   = $faqHandler->getContextualFaqs($limit);
