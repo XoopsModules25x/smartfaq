@@ -265,7 +265,7 @@ switch ($op) {
         break;
 
     case 'del':
-        global  $xoopsConfig, $xoopsDB, $_GET;
+        global  $xoopsConfig, $xoopsDB;
 
         $module_id    = $xoopsModule->getVar('mid');
         $gpermHandler = xoops_getHandler('groupperm');
