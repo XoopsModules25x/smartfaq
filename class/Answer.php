@@ -326,7 +326,7 @@ class Answer extends \XoopsObject
     public function datesub($dateFormat = 'none', $format = 'S')
     {
         if ('none' === $dateFormat) {
-            $smartModuleConfig = sf_getModuleConfig();
+            $smartModuleConfig = Smartfaq\Utility::getModuleConfig();
             $dateFormat        = $smartModuleConfig['dateformat'];
         }
 
@@ -354,7 +354,7 @@ class Answer extends \XoopsObject
      */
     public function sendNotifications($notifications = [])
     {
-        $smartModule = sf_getModuleInfo();
+        $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $myts                = \MyTextSanitizer::getInstance();
         $notificationHandler = xoops_getHandler('notification');

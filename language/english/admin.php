@@ -355,9 +355,27 @@ define('_SDU_MSG_DROP_TABLE_ERR', 'DROP TABLE Error');
 define('_SDU_MSG_DROP_TABLE', 'Drop Table');
 define('_SDU_MSG_UPDATE_TABLE_ERR', 'Update Table');
 define('_SDU_MSG_UPDATE_TABLE', 'Update Table');
+define('_SDU_MSG_DROPFIELD', 'Succesffuly dropped field %s');
 define('_SDU_MSG_DROPFIELD_ERR', 'Drop Field Error');
 define('_SDU_MSG_RENAME_TABLE', 'Rename Table');
 define('_SDU_MSG_RENAME_TABLE_ERR', 'Rename Table Error');
 
 //wffaq.php
 define('_AM_SF_IMPORT_FAQ_ERROR', 'Category');
+
+//blocksadmin.inc.php
+define('_AM_BADMIN', 'Page');
+
+
+define('_AM_TOPPAGE', 'Top Page');
+define('_AM_ALLPAGES', 'All Pages');
+define('_AM_TITLE', 'Title');
+define('_AM_SIDE', 'Side');
+define('_AM_WEIGHT', 'Weight');
+define('_AM_VISIBLE', 'Visible');
+define('_AM_VISIBLEIN', 'Visible In');
+define('_AM_ACTION', 'Action');
+
+define('_AM_ACTIVERIGHTS', 'Admin Rights');
+define('_AM_ACCESSRIGHTS', 'Access Rights');
+define('_AM_BCACHETIME', 'Cache Time');

@@ -1,18 +1,19 @@
 <?php
 
-use XoopsModules\Smartfaq;
-
 /**
  * Module: SmartFAQ
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 
-// Creating the faq handler object
+global $xoopsUser;
+
+    // Creating the faq handler object
 /** @var Smartfaq\FaqHandler $faqHandler */
 $faqHandler = Smartfaq\Helper::getInstance()->getHandler('Faq');
 
@@ -37,7 +38,7 @@ $startfaq = isset($_GET['startfaq']) ? (int)$_GET['startfaq'] : 0;
  */
 function editfaq($showmenu = false, $faqid = -1)
 {
-    global $faqHandler, $categoryHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts;
+    global $faqHandler, $categoryHandler, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts;
 
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
@@ -70,7 +71,7 @@ function editfaq($showmenu = false, $faqid = -1)
         $categoryObj = $categoryHandler->get($faqObj->categoryid());
 
         echo "<br>\n";
-        sf_collapsableBar('bottomtable', 'bottomtableicon');
+        Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . $collapsableBar_title . '</h3>';
         echo "<div id='bottomtable'>";
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $collapsableBar_info . '</span>';
@@ -83,7 +84,7 @@ function editfaq($showmenu = false, $faqid = -1)
         $breadcrumb_action = _AM_SF_CREATINGNEW;
         $button_caption    = _AM_SF_CREATE;
 
-        sf_collapsableBar('bottomtable', 'bottomtableicon');
+        Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CREATEQUESTION . '</h3>';
         echo "<div id='bottomtable'>";
     }
@@ -91,7 +92,7 @@ function editfaq($showmenu = false, $faqid = -1)
     $sform->setExtra('enctype="multipart/form-data"');
 
     // faq requester
-    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, sf_getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, Smartfaq\Utility::getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
 
     // CATEGORY
     /*
@@ -101,7 +102,7 @@ function editfaq($showmenu = false, $faqid = -1)
     * Last one is not set as we do not have sub menus in Smartfaq
     */
 
-    $mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+    $mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
     ob_start();
     $mytree->makeMySelBox('name', 'weight', $categoryObj->categoryid());
     $sform->addElement(new \XoopsFormLabel(_AM_SF_CATEGORY_QUESTION, ob_get_contents()));
@@ -131,7 +132,7 @@ function editfaq($showmenu = false, $faqid = -1)
     $sform->addElement(new \XoopsFormHidden('status', $faqObj->status()));
     // Setting the FAQ Status
     /*  $status_select = new \XoopsFormSelect('', 'status', $status);
-    $status_select->addOptionArray(sf_getStatusArray());
+    $status_select->addOptionArray(Smartfaq\Utility::getStatusArray());
     $status_tray = new \XoopsFormElementTray(_AM_SF_STATUS_EXP , '&nbsp;');
     $status_tray->addElement($status_select);
     $sform->addElement($status_tray);
@@ -176,7 +177,7 @@ function editfaq($showmenu = false, $faqid = -1)
 switch ($op) {
     case 'mod':
 
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $modify, $myts;
+        global $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $modify, $myts;
         $faqid = isset($_GET['faqid']) ? $_GET['faqid'] : -1;
 
         if (-1 == $faqid) {
@@ -196,8 +197,6 @@ switch ($op) {
         break;
 
     case 'addfaq':
-        global $xoopsUser;
-
         if (!$xoopsUser) {
             if (1 == $xoopsModuleConfig['anonpost']) {
                 $uid = 0;
@@ -253,7 +252,7 @@ switch ($op) {
 
         // Storing the FAQ
         if (!$faqObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _AM_SF_ERROR . sf_formatErrors($faqObj->getErrors()));
+            redirect_header('javascript:history.go(-1)', 3, _AM_SF_ERROR . Smartfaq\Utility::formatErrors($faqObj->getErrors()));
         }
 
         // Send notifications
@@ -266,7 +265,7 @@ switch ($op) {
         break;
 
     case 'del':
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $_GET;
+        global  $xoopsConfig, $xoopsDB, $_GET;
 
         $module_id    = $xoopsModule->getVar('mid');
         $gpermHandler = xoops_getHandler('groupperm');
@@ -310,11 +309,11 @@ switch ($op) {
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $smartModuleConfig;
+        global  $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $smartModuleConfig;
 
         echo "<br>\n";
 
-        sf_collapsableBar('toptable', 'toptableicon');
+        Smartfaq\Utility::collapsableBar('toptable', 'toptableicon');
 
         echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_OPENED_TITLE . '</h3>';
         echo "<div id='toptable'>";
@@ -346,7 +345,7 @@ switch ($op) {
                 $modify = "<a href='question.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_EDITART . "'></a>";
                 $delete = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
 
-                $requester = sf_getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
+                $requester = Smartfaq\Utility::getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
 
                 echo '<tr>';
                 echo "<td class='head' align='center'>" . $faqsObj[$i]->faqid() . '</td>';

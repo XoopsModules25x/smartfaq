@@ -177,7 +177,7 @@ if ('' != $versioninfo->getInfo('version_history')) {
 }
 
 echo '<br>';
-//$modfooter = sf_modFooter();
+//$modfooter = Smartfaq\Utility::modFooter();
 //echo "<div align='center'>" . $modfooter . "</div>";
 //xoops_cp_footer();
 require_once __DIR__ . '/admin_footer.php';

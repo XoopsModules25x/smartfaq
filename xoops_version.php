@@ -14,9 +14,9 @@ require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName = basename(__DIR__);
 
-$modversion['version']       = 1.12;
-$modversion['module_status'] = 'RC 2';
-$modversion['release_date']  = '2017/02/25';
+$modversion['version']       = 1.20;
+$modversion['module_status'] = 'Beta 1';
+$modversion['release_date']  = '2018/03/12';
 $modversion['name']          = _MI_SF_MD_NAME;
 $modversion['description']   = _MI_SF_MD_DESC;
 $modversion['author']        = 'The SmartFactory | Xuups';
@@ -156,7 +156,7 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
             $modversion['sub'][2]['url']  = 'request.php?op=add';
         }
 
-        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         // Creating the FAQ handler object
         /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */

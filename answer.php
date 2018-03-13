@@ -8,6 +8,7 @@
 
 use Xmf\Request;
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/header.php';
 
@@ -132,14 +133,15 @@ switch ($op) {
 
         // Storing the FAQ object in the database
         if (!$faqObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _MD_SF_SUBMIT_ERROR . sf_formatErrors($faqObj->getErrors()));
+            redirect_header('javascript:history.go(-1)', 3, _MD_SF_SUBMIT_ERROR . Smartfaq\Utility::formatErrors($faqObj->getErrors()));
         }
 
         // Storing the answer object in the database
         if (!$newAnswerObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _MD_SF_SUBMIT_ERROR . sf_formatErrors($newAnswerObj->getErrors()));
+            redirect_header('javascript:history.go(-1)', 3, _MD_SF_SUBMIT_ERROR . Smartfaq\Utility::formatErrors($newAnswerObj->getErrors()));
         }
 
+        /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
         switch ($notifCase) {
             case 1:
@@ -209,7 +211,7 @@ switch ($op) {
         $answerObj = $faqObj->answer();
 
         // Check user permissions to access that category of the selected FAQ
-        if (faqAccessGranted($faqObj) < 0) {
+        if (Smartfaq\Utility::faqAccessGranted($faqObj) < 0) {
             redirect_header('javascript:history.go(-1)', 1, _NOPERM);
         }
 

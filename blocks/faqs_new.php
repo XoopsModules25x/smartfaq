@@ -7,11 +7,18 @@
  * @param $options
  * @return array
  */
+
+use XoopsModules\Smartfaq;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
+/**
+ * @param $options
+ * @return array
+ */
 function b_faqs_new_show($options)
 {
-    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = [];
 
@@ -58,9 +65,9 @@ function b_faqs_new_show($options)
 function b_faqs_new_edit($options)
 {
     global $xoopsDB, $xoopsModule, $xoopsUser;
-    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $form = sf_createCategorySelect($options[0]);
+    $form = Smartfaq\Utility::createCategorySelect($options[0]);
 
     $form .= '&nbsp;<br>' . _MB_SF_ORDER . "&nbsp;<select name='options[]'>";
 

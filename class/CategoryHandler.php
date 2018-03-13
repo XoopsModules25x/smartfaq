@@ -74,7 +74,7 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function insert(\XoopsObject $category, $force = false)
     {
-        if ('sfcategory' !== strtolower(get_class($category))) {
+        if ('xoopsmodules\smartfaq\category' !== strtolower(get_class($category))) {
             return false;
         }
         if (!$category->isDirty()) {
@@ -90,7 +90,7 @@ class CategoryHandler extends \XoopsObjectHandler
 
         if ($category->isNew()) {
             $sql = sprintf(
-                'INSERT INTO %s (categoryid, parentid, name, description, total, weight, created) VALUES (NULL, %u, %s, %s, %u, %u, %u)',
+                'INSERT INTO %s (parentid, name, description, total, weight, created) VALUES (%u, %s, %s, %u, %u, %u)',
                 $this->db->prefix('smartfaq_categories'),
                            $parentid,
                 $this->db->quoteString($name),
@@ -138,7 +138,7 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function delete(\XoopsObject $category, $force = false)
     {
-        if ('sfcategory' !== strtolower(get_class($category))) {
+        if ('xoopsmodules\smartfaq\category' !== strtolower(get_class($category))) {
             return false;
         }
 
@@ -156,7 +156,7 @@ class CategoryHandler extends \XoopsObjectHandler
 
         $sql = sprintf('DELETE FROM %s WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $category->getVar('categoryid'));
 
-        $smartModule = sf_getModuleInfo();
+        $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
         if (false !== $force) {
@@ -201,7 +201,7 @@ class CategoryHandler extends \XoopsObjectHandler
             return $ret;
         }
 
-       while (false !== ($myrow = $this->db->fetchArray($result))) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $category = new Smartfaq\Category();
             $category->assignVars($myrow);
             if (!$id_as_key) {
@@ -232,7 +232,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $order = 'ASC',
         $id_as_key = true
     ) {
-        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $criteria = new \CriteriaCompo();
 
@@ -242,7 +242,7 @@ class CategoryHandler extends \XoopsObjectHandler
         if (-1 != $parentid) {
             $criteria->add(new \Criteria('parentid', $parentid));
         }
-        if (!sf_userIsAdmin()) {
+        if (!Smartfaq\Utility::userIsAdmin()) {
             /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
             $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
@@ -271,7 +271,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $sort = 'weight',
         $order = 'ASC'
     ) {
-        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $criteria = new \CriteriaCompo();
 
@@ -281,7 +281,7 @@ class CategoryHandler extends \XoopsObjectHandler
         if (-1 != $parentid) {
             $criteria->add(new \Criteria('c.parentid', $parentid));
         }
-        if (!sf_userIsAdmin()) {
+        if (!Smartfaq\Utility::userIsAdmin()) {
             /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
             $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
@@ -310,7 +310,7 @@ class CategoryHandler extends \XoopsObjectHandler
             return $ret;
         }
 
-       while (false !== ($myrow = $this->db->fetchArray($result))) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $category = new Smartfaq\Category();
             $category->assignVars($myrow);
             $ret[] = $category;
@@ -353,7 +353,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $criteria = new \CriteriaCompo();
         if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
-            if (!sf_userIsAdmin()) {
+            if (!Smartfaq\Utility::userIsAdmin()) {
                 /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
                 $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
@@ -377,7 +377,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $criteria = new \CriteriaCompo();
         if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
-            if (!sf_userIsAdmin()) {
+            if (!Smartfaq\Utility::userIsAdmin()) {
                 /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
                 $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
@@ -411,7 +411,7 @@ class CategoryHandler extends \XoopsObjectHandler
     {
         $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')'), 'IN');
         $ret      = [];
-        if (!sf_userIsAdmin()) {
+        if (!Smartfaq\Utility::userIsAdmin()) {
             /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
             $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
 
@@ -452,11 +452,11 @@ class CategoryHandler extends \XoopsObjectHandler
      *
      * @param string          $fieldname  Name of the field
      * @param string          $fieldvalue Value to write
-     * @param CriteriaElement $criteria   {@link CriteriaElement}
+     * @param \CriteriaElement $criteria   {@link CriteriaElement}
      *
      * @return bool
      **/
-    public function updateAll($fieldname, $fieldvalue, CriteriaElement $criteria = null)
+    public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null)
     {
         $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_categories') . ' SET ' . $set_clause;
@@ -487,7 +487,7 @@ class CategoryHandler extends \XoopsObjectHandler
     public function faqsCount($cat_id = 0, $status = '')
     {
         global $xoopsUser;
-        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         /** @var Smartfaq\FaqHandler $faqHandler */
         $faqHandler = Smartfaq\Helper::getInstance()->getHandler('Faq');

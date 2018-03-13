@@ -75,7 +75,7 @@ class Category extends \XoopsObject
     public function assignOtherProperties()
     {
         global $xoopsUser;
-        $smartModule = sf_getModuleInfo();
+        $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
         $gpermHandler = xoops_getHandler('groupperm');
@@ -88,9 +88,9 @@ class Category extends \XoopsObject
      */
     public function checkPermission()
     {
-        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-        $userIsAdmin = sf_userIsAdmin();
+        $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         if ($userIsAdmin) {
             return true;
         }
@@ -190,7 +190,8 @@ class Category extends \XoopsObject
      */
     public function getGroups_read()
     {
-        if (count($this->groups_read) < 1) {
+//        if(count($this->groups_read) < 1) {
+        if (!is_array($this->groups_read)) {
             $this->assignOtherProperties();
         }
 
@@ -227,7 +228,7 @@ class Category extends \XoopsObject
 
     public function sendNotifications()
     {
-        $smartModule = sf_getModuleInfo();
+        $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $myts                = \MyTextSanitizer::getInstance();
         $notificationHandler = xoops_getHandler('notification');

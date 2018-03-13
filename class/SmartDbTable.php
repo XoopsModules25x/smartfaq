@@ -10,6 +10,12 @@
  * @author xhelp development team
  */
 
+use XoopsModules\Smartfaq;
+
+/**
+ * @param $table
+ * @return bool
+ */
 function smart_TableExists($table)
 {
     $bRetVal = false;
@@ -53,12 +59,17 @@ function smart_TableExists($table)
  * Include the language constants for the SmartObjectDBUpdater
  */
 global $xoopsConfig;
-$common_file = XOOPS_ROOT_PATH . '/modules/smartfaq/language/' . $xoopsConfig['language'] . '/smartdbupdater.php';
-if (!file_exists($common_file)) {
-    $common_file = XOOPS_ROOT_PATH . '/modules/smartfaq/language/english/smartdbupdater.php';
-}
 
-include $common_file;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
+
+$helper->loadLanguage('smartdbupdater');
+//
+//$common_file = XOOPS_ROOT_PATH . '/modules/smartfaq/language/' . $xoopsConfig['language'] . '/smartdbupdater.php';
+//if (!file_exists($common_file)) {
+//    $common_file = XOOPS_ROOT_PATH . '/modules/smartfaq/language/english/smartdbupdater.php';
+//}
+//include $common_file;
 
 /**
  * Class SmartDbTable
@@ -232,7 +243,7 @@ class SmartDbTable
         global $xoopsDB;
 
         foreach ($this->getData() as $data) {
-            $query = sprintf('INSERT INTO "%s" VALUES ("%s")', $this->name(), $data);
+            $query = sprintf('INSERT INTO %s VALUES ("%s")', $this->name(), $data);
             $ret   = $xoopsDB->queryF($query);
             if (!$ret) {
                 echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA_ERR, $this->name()) . '<br>';

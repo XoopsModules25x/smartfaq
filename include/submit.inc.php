@@ -5,6 +5,9 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
+
+use XoopsModules\Smartfaq;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 global $_POST, $xoopsDB;
@@ -13,9 +16,9 @@ require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-require_once __DIR__ . '/functions.php';
+//require_once __DIR__ . '/functions.php';
 
-$mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+$mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
 $form   = new \XoopsThemeForm(_MD_SF_SUB_SMNAME, 'form', xoops_getenv('PHP_SELF'), 'post', true);
 
 // Category

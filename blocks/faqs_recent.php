@@ -7,15 +7,22 @@
  * @param $options
  * @return array
  */
+
+use XoopsModules\Smartfaq;
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
+/**
+ * @param $options
+ * @return array
+ */
 function b_faqs_recent_show($options)
 {
-    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     $myts = \MyTextSanitizer::getInstance();
 
-    $smartModule       = sf_getModuleInfo();
-    $smartModuleConfig = sf_getModuleConfig();
+    $smartModule       = Smartfaq\Utility::getModuleInfo();
+    $smartModuleConfig = Smartfaq\Utility::getModuleConfig();
 
     $block = [];
 
@@ -67,7 +74,7 @@ function b_faqs_recent_show($options)
 
             $faqs['date'] = $iValue->datesub();
 
-            $faqs['poster'] = sf_getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);
+            $faqs['poster'] = Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);
 
             $block['faqs'][] = $faqs;
         }
@@ -89,9 +96,9 @@ function b_faqs_recent_show($options)
  */
 function b_faqs_recent_edit($options)
 {
-    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $form = sf_createCategorySelect($options[0]);
+    $form = Smartfaq\Utility::createCategorySelect($options[0]);
 
     $form .= '&nbsp;<br>' . _MB_SF_ORDER . "&nbsp;<select name='options[]'>";
 

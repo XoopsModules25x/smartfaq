@@ -16,7 +16,7 @@
  * @return bool true if ready to uninstall, false if not
  */
 
-function xoops_module_pre_uninstall_xxxx(\XoopsModule $module)
+function xoops_module_pre_uninstall_smartfaq(\XoopsModule $module)
 {
     // Do some synchronization
     return true;
@@ -29,14 +29,14 @@ function xoops_module_pre_uninstall_xxxx(\XoopsModule $module)
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_xxxx(\XoopsModule $module)
+function xoops_module_uninstall_smartfaq(\XoopsModule $module)
 {
 //    return true;
 
     $moduleDirName = basename(dirname(__DIR__));
     $xsitemapHelper      = \Xmf\Module\Helper::getHelper($moduleDirName);
 
-    /** @var XXXXXXUtility $utilityClass */
+    /** @var XoopsModules\Smartfaq\Utility $utilityClass */
     $utilityClass     = ucfirst($moduleDirName) . 'Utility';
     if (!class_exists($utilityClass)) {
         xoops_load('utility', $moduleDirName);
@@ -70,7 +70,7 @@ function xoops_module_uninstall_xxxx(\XoopsModule $module)
     $xmlfile = $GLOBALS['xoops']->path('xsitemap.xml');
     if (is_file($xmlfile)) {
         if (false === ($delOk = unlink($xmlfile))) {
-            $module->setErrors(sprintf(_AM_XXXXX_ERROR_BAD_REMOVE, $xmlfile));
+            $module->setErrors(sprintf(_AM_SMARTFAQ_ERROR_BAD_REMOVE, $xmlfile));
         }
     }
 //    return $success && $delOk; // use this if you're using this routine
@@ -78,6 +78,4 @@ function xoops_module_uninstall_xxxx(\XoopsModule $module)
 
     return $success;
     //------------ END  ----------------
-
 }
-

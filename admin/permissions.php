@@ -6,10 +6,12 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+
 require_once __DIR__ . '/admin_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
-if (!sf_userIsAdmin()) {
+if (!Smartfaq\Utility::userIsAdmin()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
 }
 
@@ -35,7 +37,7 @@ switch ($op) {
         $item_list_view = [];
         $block_view     = [];
         // echo "<h3 style='color: #2F5376; '>"._AM_SF_PERMISSIONSADMIN."</h3>\n" ;
-        sf_collapsableBar('toptable', 'toptableicon');
+        Smartfaq\Utility::collapsableBar('toptable', 'toptableicon');
 
         $result_view = $xoopsDB->query('SELECT categoryid, name FROM ' . $xoopsDB->prefix('smartfaq_categories') . ' ');
         if ($xoopsDB->getRowsNum($result_view)) {

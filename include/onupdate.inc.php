@@ -6,23 +6,31 @@
  * @param XoopsModule $module
  * @return bool
  */
+
+use XoopsModules\Smartfaq;
+
+/**
+ * @param $module
+ * @return bool
+ */
 function xoops_module_update_smartfaq($module)
 {
+    /*
     // Load SmartDbUpdater from the SmartObject Framework if present
     $smartdbupdater = XOOPS_ROOT_PATH . '/modules/smartobject/class/smartdbupdater.php';
     if (!file_exists($smartdbupdater)) {
-        $smartdbupdater = XOOPS_ROOT_PATH . '/modules/smartfaq/class/smartdbupdater.php';
+        $smartdbupdater = XOOPS_ROOT_PATH . '/modules/smartfaq/class/SmartobjectDbupdater.php';
     }
     require_once $smartdbupdater;
-
-    $dbupdater = new SmartobjectDbupdater();
+*/
+    $dbupdater = new \XoopsModules\Smartfaq\SmartobjectDbupdater();
 
     ob_start();
 
     echo '<code>' . _SDU_UPDATE_UPDATING_DATABASE . '<br>';
 
     // Adding partialview field
-    $table = new SmartDbTable('smartfaq_faq');
+    $table = new Smartfaq\SmartDbTable('smartfaq_faq');
     if (!$table->fieldExists('partialview')) {
         $table->addNewField('partialview', "tinyint(1) NOT NULL default '0'");
     }
@@ -38,7 +46,7 @@ function xoops_module_update_smartfaq($module)
     unset($table);
 
     // Editing smartfaq_categories table
-    $table = new SmartDbTable('smartfaq_categories');
+    $table = new Smartfaq\SmartDbTable('smartfaq_categories');
     // Changing categoryid type to int(11)
     $table->addAlteredField('categoryid', "int(11) NOT NULL default '0'", false);
 
@@ -53,7 +61,7 @@ function xoops_module_update_smartfaq($module)
     unset($table);
 
     // Editing smartfaq_answers table
-    $table = new SmartDbTable('smartfaq_answers');
+    $table = new Smartfaq\SmartDbTable('smartfaq_answers');
     // Changing categoryid type to int(11)
     $table->addAlteredField('answerid', "int(11) NOT NULL default '0'", false);
 
@@ -70,7 +78,7 @@ function xoops_module_update_smartfaq($module)
     /**
      * Check for items with categoryid=0
      */
-    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
     $smartfaq_faqHandler      = $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
     /** @var \XoopsModules\Smartfaq\CategoryHandler $smartfaq_categoryHandler */
@@ -106,7 +114,7 @@ function xoops_module_install_smartfaq($module)
 {
     ob_start();
 
-    require_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/include/functions.php';
+//    require_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/include/functions.php';
 
     $feedback = ob_get_clean();
     if (method_exists($module, 'setMessage')) {

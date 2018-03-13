@@ -104,7 +104,7 @@ if ($faqsObj) {
     foreach ($faqsObj as $iValue) {
         $faq = $iValue->toArray(null, $allcategories);
 
-        $faq['adminlink'] = sf_getAdminLinks($iValue->faqid(), true);
+        $faq['adminlink'] = Smartfaq\Utility::getAdminLinks($iValue->faqid(), true);
 
         $faq['who_when'] = $iValue->getWhoAndWhen(null, $users);
 

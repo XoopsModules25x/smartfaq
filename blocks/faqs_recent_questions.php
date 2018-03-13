@@ -8,6 +8,7 @@
  * @return array
  */
 
+use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -18,7 +19,7 @@ use XoopsModules\Smartfaq\Constants;
  */
 function b_faqs_recent_questions_show($options)
 {
-    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = [];
 
@@ -67,9 +68,9 @@ function b_faqs_recent_questions_show($options)
  */
 function b_faqs_recent_questions_edit($options)
 {
-    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $form = sf_createCategorySelect($options[0]);
+    $form = Smartfaq\Utility::createCategorySelect($options[0]);
 
     $form .= '&nbsp;<br>' . _MB_SF_ORDER . "&nbsp;<select name='options[]'>";
 

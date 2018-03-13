@@ -6,6 +6,13 @@
  * Credits: Mithrandir
  * Licence: GNU
  */
+
+use XoopsModules\Smartfaq;
+
+/**
+ * Class PermissionHandler
+ * @package XoopsModules\Smartfaq
+ */
 class PermissionHandler extends \XoopsObjectHandler
 {
     /*
@@ -27,7 +34,7 @@ class PermissionHandler extends \XoopsObjectHandler
         static $permissions;
 
         if (!isset($permissions[$type]) || (null !== $id && !isset($permissions[$type][$id]))) {
-            $smartModule = sf_getModuleInfo();
+            $smartModule = Smartfaq\Utility::getModuleInfo();
             //Get group permissions handler
             $gpermHandler = xoops_getHandler('groupperm');
             //Get user's groups

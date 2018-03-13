@@ -6,9 +6,9 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
-
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -146,7 +146,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
         $categoryObj = $faqObj->category();
 
         echo "<br>\n";
-        sf_collapsableBar('bottomtable', 'bottomtableicon');
+        Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . $collapsableBar_title . '</h3>';
         echo "<div id='bottomtable'>";
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . $collapsableBar_info . '</span>';
@@ -162,7 +162,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
         $breadcrumb_action2 = _AM_SF_CREATINGNEW;
         $button_caption     = _AM_SF_CREATE;
 
-        sf_collapsableBar('bottomtable', 'bottomtableicon');
+        Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CREATESMARTFAQ . '</h3>';
         echo "<div id='bottomtable'>";
     }
@@ -170,10 +170,10 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $sform->setExtra('enctype="multipart/form-data"');
 
     // faq requester
-    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, sf_getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, Smartfaq\Utility::getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
 
     // faq answered by
-    $sform->addElement(new \XoopsFormLabel(_AM_SF_ANSWERED_BY, sf_getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname'])));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_ANSWERED_BY, Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname'])));
 
     // CATEGORY
     /*
@@ -183,7 +183,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     * Last one is not set as we do not have sub menus in Smartfaq
     */
 
-    $mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+    $mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
     ob_start();
     $mytree->makeMySelBox('name', 'weight', $categoryObj->categoryid());
     $sform->addElement(new \XoopsFormLabel(_AM_SF_CATEGORY_FAQ, ob_get_contents()));
@@ -194,7 +194,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
     // ANSWER
     if ($merge) {
-        $theanswer = $originalAnswerObj->answer('e') . "\n\n" . sprintf(_AM_SF_NEW_CONTRIBUTION, sf_getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname']), $answerObj->datesub(), $answerObj->answer('e'));
+        $theanswer = $originalAnswerObj->answer('e') . "\n\n" . sprintf(_AM_SF_NEW_CONTRIBUTION, Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname']), $answerObj->datesub(), $answerObj->answer('e'));
     } else {
         $theanswer = $answerObj->answer('e');
     }
@@ -311,7 +311,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
     // Setting the FAQ Status
     /*  $status_select = new \XoopsFormSelect('', 'status', $status);
-    $status_select->addOptionArray(sf_getStatusArray());
+    $status_select->addOptionArray(Smartfaq\Utility::getStatusArray());
     $status_tray = new \XoopsFormElementTray(_AM_SF_STATUS_EXP , '&nbsp;');
     $status_tray->addElement($status_select);
     $sform->addElement($status_tray);
@@ -390,9 +390,9 @@ switch ($op) {
     case 'addfaq':
         global $xoopsUser;
 
-        $faqid         = isset($_POST['faqid']) ? (int)$_POST['faqid'] : -1;
-        $requester_uid = isset($_POST['requester_uid']) ? (int)$_POST['requester_uid'] : 0;
-        $answerer_uid  = isset($_POST['answerer_uid']) ? (int)$_POST['answerer_uid'] : 0;
+        $faqid        = Request::getInt('faqid', -1, 'POST');
+        $requesterUid = Request::getInt('requester_uid', 0, 'POST');
+        $answererUid  = Request::getInt('answerer_uid', 0, 'POST');
 
         // Creating the FAQ and answer objects
         if (-1 != $faqid) {
@@ -408,33 +408,40 @@ switch ($op) {
         }
 
         // Putting the values in the FAQ object
-        if (isset($_POST['groups'])) {
-            $faqObj->setGroups_read($_POST['groups']);
+        //        if (isset($_POST['groups'])) {
+        //            $faqObj->setGroups_read($_POST['groups']);
+        //        } else {
+        //            $faqObj->setGroups_read();
+        //        }
+
+        if (Request::hasVar('groups', 'POST')) {
+            $faqObj->setGroups_read(Request::getArray('groups', [], 'POST'));
         } else {
             $faqObj->setGroups_read();
         }
-        $faqObj->setVar('categoryid', isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0);
-        $faqObj->setVar('question', $_POST['question']);
-        $faqObj->setVar('howdoi', $_POST['howdoi']);
-        $faqObj->setVar('diduno', $_POST['diduno']);
 
-        $faqObj->setVar('status', isset($_POST['status']) ? (int)$_POST['status'] : Constants::SF_STATUS_ASKED);
+        $faqObj->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
+        $faqObj->setVar('question', Request::getString('question', '', 'POST'));
+        $faqObj->setVar('howdoi', Request::getString('howdoi', '', 'POST'));
+        $faqObj->setVar('diduno', Request::getString('diduno', '', 'POST'));
+
+        $faqObj->setVar('status', Request::getInt('status', Constants::SF_STATUS_ASKED, 'POST'));
 
         // If this SmartFAQ is offline and the user set this option to No
-        $offline = isset($_POST['offline']) ? $_POST['offline'] : 1;
+        $offline = Request::getInt('offline', 1, 'POST');
         if ((0 == $offline) && (Constants::SF_STATUS_OFFLINE == $faqObj->status())) {
             $faqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
         }
-        $faqObj->setVar('weight', isset($_POST['weight']) ? (int)$_POST['weight'] : $faqObj->weight());
-        $faqObj->setVar('html', isset($_POST['html']) ? (int)$_POST['html'] : 0);
-        $faqObj->setVar('smiley', isset($_POST['smiley']) ? (int)$_POST['smiley'] : 0);
-        $faqObj->setVar('xcodes', isset($_POST['xcodes']) ? (int)$_POST['xcodes'] : 0);
-        $faqObj->setVar('cancomment', isset($_POST['cancomment']) ? (int)$_POST['cancomment'] : 0);
-        $faqObj->setVar('modulelink', $_POST['modulelink']);
-        $faqObj->setVar('contextpage', $_POST['contextpage']);
-        $faqObj->setVar('exacturl', $_POST['exacturl']);
-        $faqObj->setVar('partialview', $_POST['partialview']);
-        $faqObj->setVar('uid', $requester_uid);
+        $faqObj->setVar('weight', Request::getInt('weight', $faqObj->weight(), 'POST'));
+        $faqObj->setVar('html', Request::getInt('html', 0, 'POST'));
+        $faqObj->setVar('smiley', Request::getInt('smiley', 0, 'POST'));
+        $faqObj->setVar('xcodes', Request::getInt('xcodes', 0, 'POST'));
+        $faqObj->setVar('cancomment', Request::getInt('cancomment', 0, 'POST'));
+        $faqObj->setVar('modulelink', Request::getString('modulelink', '', 'POST'));
+        $faqObj->setVar('contextpage', Request::getString('contextpage', '', 'POST'));
+        $faqObj->setVar('exacturl', Request::getString('exacturl', '', 'POST'));
+        $faqObj->setVar('partialview', Request::getInt('partialview', 0, 'POST'));
+        $faqObj->setVar('uid', $requesterUid);
 
         switch ($faqObj->status()) {
 
@@ -509,17 +516,17 @@ switch ($op) {
         // Puting the info in the answer ibject
         $answerObj->setVar('answer', $_POST['answer']);
         $answerObj->setVar('status', $an_status);
-        $answerObj->setVar('uid', $answerer_uid);
+        $answerObj->setVar('uid', $answererUid);
 
         // Storing the FAQ
         if (!$faqObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, $error_msg . sf_formatErrors($faqObj->getErrors()));
+            redirect_header('javascript:history.go(-1)', 3, $error_msg . Smartfaq\Utility::formatErrors($faqObj->getErrors()));
         }
 
         // Storing the answer
         $answerObj->setVar('faqid', $faqObj->faqid());
         if (!$answerObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, $error_msg . sf_formatErrors($answerObj->getErrors()));
+            redirect_header('javascript:history.go(-1)', 3, $error_msg . Smartfaq\Utility::formatErrors($answerObj->getErrors()));
         }
 
         // Send notifications
@@ -536,23 +543,23 @@ switch ($op) {
         $module_id    = $xoopsModule->getVar('mid');
         $gpermHandler = xoops_getHandler('groupperm');
 
-        $faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : 0;
-        $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : $faqid;
+        $faqid = Request::getInt('faqid', 0, 'POST');
+        $faqid = Request::getInt('faqid', $faqid, 'GET');
 
         $faqObj = new Smartfaq\Faq($faqid);
 
-        $confirm  = isset($_POST['confirm']) ? $_POST['confirm'] : 0;
-        $question = isset($_POST['question']) ? $_POST['question'] : '';
+        $confirm  = Request::getInt('confirm', 0, 'POST');
+        $question = Request::getString('question', '', 'POST');
 
         if ($confirm) {
             if (!$faqHandler->delete($faqObj)) {
-                redirect_header('faq.php', 2, _AM_SF_FAQ_DELETE_ERROR . sf_formatErrors($faqObj->getErrors()));
+                redirect_header('faq.php', 2, _AM_SF_FAQ_DELETE_ERROR . Smartfaq\Utility::formatErrors($faqObj->getErrors()));
             }
 
             redirect_header('faq.php', 2, sprintf(_AM_SF_ARTISDELETED, $faqObj->question()));
         } else {
             // no confirm: show deletion condition
-            $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
+            $faqid =  Request::getInt('faqid', 0, 'POST');
             xoops_cp_header();
             xoops_confirm([
                               'op'      => 'del',

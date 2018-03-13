@@ -182,3 +182,9 @@ define('_MD_WB_CATEGORY', 'Category');
 define('_MD_WB_ALLOFTHEM', 'All of them');
 define('_MD_WB_TERM', 'Term');
 define('_MD_WB_SEARCH', 'Search');
+
+
+define('_MD_FILESIZE', 'File Size');
+define('_MD_ATTACHMENT', 'Attach file');
+define('_MD_HITS', 'Hits');
+define('_MD_REMOVE', 'Remove');

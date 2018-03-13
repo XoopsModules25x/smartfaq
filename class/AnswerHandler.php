@@ -31,7 +31,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
      */
     public function create($isNew = true)
     {
-        $answer = new Answer();
+        $answer = new Smartfaq\Answer();
         if ($isNew) {
             $answer->setNew();
         }
@@ -75,7 +75,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
      */
     public function insert(\XoopsObject $answerObj, $force = false)
     {
-        if ('sfanswer' !== strtolower(get_class($answerObj))) {
+        if ('xoopsmodules\smartfaq\answer' !== strtolower(get_class($answerObj))) {
             return false;
         }
         if (!$answerObj->isDirty()) {
@@ -123,7 +123,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
      */
     public function delete(\XoopsObject $answer, $force = false)
     {
-        if ('sfanswer' !== strtolower(get_class($answer))) {
+        if ('xoopsmodules\smartfaq\answer' !== strtolower(get_class($answer))) {
             return false;
         }
         $sql = sprintf('DELETE FROM %s WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $answer->getVar('answerid'));
@@ -151,7 +151,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
      */
     public function deleteFaqAnswers($faqObj)
     {
-        if ('sffaq' !== strtolower(get_class($faqObj))) {
+        if ('xoopsmodules\smartfaq\faq' !== strtolower(get_class($faqObj))) {
             return false;
         }
         $answers = $this->getAllAnswers($faqObj->faqid());
@@ -168,12 +168,12 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve answers from the database
      *
-     * @param  CriteriaElement $criteria  {@link CriteriaElement} conditions to be met
+     * @param  \CriteriaElement $criteria  {@link CriteriaElement} conditions to be met
      * @param  bool            $id_as_key use the answerid as key for the array?
      * @param  bool            $as_object
      * @return array           array of <a href='psi_element://sfAnswer'>sfAnswer</a> objects
      */
-    public function &getObjects(CriteriaElement $criteria = null, $id_as_key = false, $as_object = true)
+    public function &getObjects(\CriteriaElement $criteria = null, $id_as_key = false, $as_object = true)
     {
         $ret   = [];
         $limit = $start = 0;
@@ -191,13 +191,13 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
         if (!$result) {
             return $ret;
         }
-       while (false !== ($myrow = $this->db->fetchArray($result))) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $answer = new Smartfaq\Answer();
             $answer->assignVars($myrow);
             if (!$id_as_key) {
                 $ret[] =& $answer;
             } else {
-                $ret[$myrow['answerid']] =& $answer;
+                $ret[$myrow['answerid']] = $answer;
             }
             unset($answer);
         }
@@ -273,10 +273,10 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
     /**
      * count answers matching a condition
      *
-     * @param  CriteriaElement $criteria {@link CriteriaElement} to match
+     * @param  \CriteriaElement $criteria {@link CriteriaElement} to match
      * @return int             count of answers
      */
-    public function getCount(CriteriaElement $criteria = null)
+    public function getCount(\CriteriaElement $criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('smartfaq_answers');
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
@@ -322,12 +322,12 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
     /**
      * delete answers matching a set of conditions
      *
-     * @param  CriteriaElement $criteria {@link CriteriaElement}
+     * @param  \CriteriaElement $criteria {@link CriteriaElement}
      * @param  bool            $force
      * @param  bool            $asObject
      * @return bool            FALSE if deletion failed
      */
-    public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false)
+    public function deleteAll(\CriteriaElement $criteria = null, $force = true, $asObject = false)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix('smartfaq_answers');
         if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
@@ -345,11 +345,11 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
      *
      * @param  string          $fieldname  Name of the field
      * @param  string          $fieldvalue Value to write
-     * @param  CriteriaElement $criteria   {@link CriteriaElement}
+     * @param  \CriteriaElement $criteria   {@link CriteriaElement}
      * @param  bool            $force
      * @return bool
      */
-    public function updateAll($fieldname, $fieldvalue, CriteriaElement $criteria = null, $force = false)
+    public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false)
     {
         $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_answers') . ' SET ' . $set_clause;
@@ -378,7 +378,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
             return $ret;
         }
         while ($row = $this->db->fetchArray($result)) {
-            $answer = new Answer();
+            $answer = new Smartfaq\Answer();
             $answer->assignVars($row);
             $ret[$row['faqid']] =& $answer;
             unset($answer);

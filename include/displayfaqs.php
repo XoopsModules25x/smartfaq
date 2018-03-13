@@ -6,6 +6,7 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
@@ -23,7 +24,7 @@ if (!isset($categoryid) || ($categoryid < 1)) {
     $pagenav_extra_args = "op=mod&categoryid=$categoryid";
 }
 
-sf_collapsableBar('toptable', 'toptableicon');
+Smartfaq\Utility::collapsableBar('toptable', 'toptableicon');
 
 echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . $faqs_title . '</h3>';
 echo "<div id='toptable'>";
@@ -56,7 +57,7 @@ if ($totalfaqs > 0) {
         $delete      = "<a href='faq.php?op=del&amp;faqid=" . $iValue->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_EDITART . "' alt='" . _AM_SF_DELETEART . "'></a>";
 
         //adding name of the Question Submitter
-        $requester = sf_getLinkedUnameFromId($iValue->uid(), $smartModuleConfig['userealname']);
+        $requester = Smartfaq\Utility::getLinkedUnameFromId($iValue->uid(), $smartModuleConfig['userealname']);
 
         //adding name of the Answer Submitter
         /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
@@ -75,7 +76,7 @@ if ($totalfaqs > 0) {
         if (isset($answerObj->vars['uid']['value'])) {
             $answerSubmitterID = $answerObj->vars['uid']['value'];
 
-            $answerSubmitter = sf_getLinkedUnameFromId($answerSubmitterID, $smartModuleConfig['userealname']);
+            $answerSubmitter = Smartfaq\Utility::getLinkedUnameFromId($answerSubmitterID, $smartModuleConfig['userealname']);
         } else {
             $answerSubmitter = '--------';
         }

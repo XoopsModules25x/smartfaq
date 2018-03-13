@@ -6,6 +6,7 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -17,7 +18,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 //require_once __DIR__ . '/functions.php';
 
-$mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+$mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
 //$form = new \XoopsThemeForm(_MD_SF_SUBMITANSWER, "form", xoops_getenv('PHP_SELF'), 'post', true);
 $form = new \XoopsThemeForm(_MD_SF_SUBMITANSWER, 'form', '');
 // faq QUESTION

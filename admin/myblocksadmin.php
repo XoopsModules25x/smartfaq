@@ -12,10 +12,12 @@
 //                          GIJOE <http://www.peak.ne.jp>                   //
 // ------------------------------------------------------------------------- //
 
+use XoopsModules\Smartfaq;
+
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once __DIR__ . '/mygrouppermform.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php';
+//require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php';
 
 $xoops_system_path = XOOPS_ROOT_PATH . '/modules/system';
 
@@ -30,7 +32,7 @@ $error_reporting_level = error_reporting(0);
 require_once __DIR__ . '/../../system/constants.php';
 require_once __DIR__ . "/../../language/$language/admin.php";
 require_once __DIR__ . "/../../language/$language/admin/blocksadmin.php";
-require_once __DIR__ . '/../include/functions.php';
+//require_once __DIR__ . '/../include/functions.php';
 error_reporting($error_reporting_level);
 
 $group_defs = file("$xoops_system_path/language/$language/admin/groups.php");
@@ -74,7 +76,7 @@ function list_blocks()
     ];
 
     // displaying TH
-    sf_collapsableBar('toptable', 'toptableicon');
+    Smartfaq\Utility::collapsableBar('toptable', 'toptableicon');
     echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_BLOCKS . '</h3>';
     echo "<div id='toptable'>";
     echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_BLOCKSTXT . '</span>';
@@ -230,13 +232,13 @@ function list_groups()
     global $xoopsModule, $block_arr;
     $myts = \MyTextSanitizer::getInstance();
 
-    sf_collapsableBar('bottomtable', 'bottomtableicon');
+    Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
 
     foreach (array_keys($block_arr) as $i) {
         $item_list[$block_arr[$i]->getVar('bid')] = $block_arr[$i]->getVar('title');
     }
 
-    $form = new MyXoopsGroupPermForm('', 1, 'block_read', "<img id='bottomtableicon' src="
+    $form = new GroupPermForm('', 1, 'block_read', "<img id='bottomtableicon' src="
                                                           . XOOPS_URL
                                                           . '/modules/'
                                                           . $xoopsModule->dirname()

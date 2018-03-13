@@ -11,6 +11,7 @@
  *
  */
 
+use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/admin_header.php';
@@ -31,7 +32,7 @@ if ('start' === $op) {
     $result = $xoopsDB->queryF('SELECT count(*) FROM ' . $xoopsDB->prefix('xoopsfaq_categories'));
     list($totalCat) = $xoopsDB->fetchRow($result);
 
-    sf_collapsableBar('bottomtable', 'bottomtableicon');
+    Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
     echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . sprintf(_AM_SF_IMPORT_FROM, $importFromModuleName) . '</h3>';
     echo "<div id='bottomtable'>";
 
@@ -60,7 +61,7 @@ if ('start' === $op) {
             $form->addElement($cat_cbox);
 
             // SmartFAQ parent category
-            $mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+            $mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
             $form->addElement(new \XoopsFormLabel(_AM_SF_IMPORT_PARENT_CATEGORY, ob_get_contents()));
@@ -113,7 +114,7 @@ if ('go' === $op) {
 
     xoops_cp_header();
 
-    sf_collapsableBar('bottomtable', 'bottomtableicon');
+    Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
     echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . sprintf(_AM_SF_IMPORT_FROM, $importFromModuleName) . '</h3>';
     echo "<div id='bottomtable'>";
     echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_IMPORT_RESULT . '</span>';
@@ -163,7 +164,7 @@ if ('go' === $op) {
             continue;
         }
 
-        sf_saveCategory_Permissions($categoryObj->getGroups_read(), $categoryObj->categoryid(), 'category_read');
+        Smartfaq\Utility::saveCategoryPermissions($categoryObj->getGroups_read(), $categoryObj->categoryid(), 'category_read');
 
         ++$cnt_imported_cat;
 

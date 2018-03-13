@@ -7,6 +7,7 @@
  */
 
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/header.php';
 
@@ -32,7 +33,7 @@ if (0 == $totalCategories) {
 }
 
 // Find if the user is admin of the module
-$isAdmin = sf_userIsAdmin();
+$isAdmin = Smartfaq\Utility::userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
 if (!($isAdmin
       || (isset($xoopsModuleConfig['allowsubmit']) && 1 == $xoopsModuleConfig['allowsubmit']
@@ -147,7 +148,7 @@ switch ($op) {
         // Setting the status of the FAQ
 
         // if user is admin, FAQ are automatically published
-        $isAdmin = sf_userIsAdmin();
+        $isAdmin = Smartfaq\Utility::userIsAdmin();
         if ($isAdmin) {
             $newFaqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
         } elseif (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {

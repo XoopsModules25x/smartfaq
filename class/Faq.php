@@ -86,7 +86,7 @@ class Faq extends \XoopsObject
 
         if (null !== $id) {
             $faqHandler = new Smartfaq\FaqHandler($this->db);
-            $faq        =& $faqHandler->get($id);
+            $faq        = $faqHandler->get($id);
             foreach ($faq->vars as $k => $v) {
                 $this->assignVar($k, $v['value']);
             }
@@ -96,7 +96,7 @@ class Faq extends \XoopsObject
 
     public function assignOtherProperties()
     {
-        $smartModule = sf_getModuleInfo();
+        $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
         $gpermHandler = xoops_getHandler('groupperm');
@@ -110,9 +110,9 @@ class Faq extends \XoopsObject
      */
     public function checkPermission()
     {
-        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-        $userIsAdmin = sf_userIsAdmin();
+        $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         if ($userIsAdmin) {
             return true;
         }
@@ -203,7 +203,7 @@ class Faq extends \XoopsObject
     {
         $ret = $this->getVar('howdoi', $format);
         if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
-            $myts = \MyTextSanitizergetInstance();
+            $myts = \MyTextSanitizer::getInstance();
             $ret  = $myts->displayTarea($ret);
         }
 
@@ -218,7 +218,7 @@ class Faq extends \XoopsObject
     {
         $ret = $this->getVar('diduno', $format);
         if (('s' === $format) || ('S' === $format) || ('show' === $format)) {
-            $myts = \MyTextSanitizergetInstance();
+            $myts = \MyTextSanitizer::getInstance();
             $ret  = $myts->displayTarea($ret);
         }
 
@@ -241,7 +241,7 @@ class Faq extends \XoopsObject
     public function datesub($dateFormat = 'none', $format = 'S')
     {
         if ('none' === $dateFormat) {
-            $smartConfig = sf_getModuleConfig();
+            $smartConfig = Smartfaq\Utility::getModuleConfig();
             $dateFormat  = $smartConfig['dateformat'];
         }
 
@@ -361,11 +361,11 @@ class Faq extends \XoopsObject
     public function posterName($realName = -1)
     {
         if (-1 == $realName) {
-            $smartConfig = sf_getModuleConfig();
+            $smartConfig = Smartfaq\Utility::getModuleConfig();
             $realName    = $smartConfig['userealname'];
         }
 
-        return sf_getLinkedUnameFromId($this->uid(), $realName);
+        return Smartfaq\Utility::getLinkedUnameFromId($this->uid(), $realName);
     }
 
     /**
@@ -460,9 +460,9 @@ class Faq extends \XoopsObject
     /**
      * @param array $notifications
      */
-    public function sendNotifications($notifications = [])    {
-
-        $smartModule = sf_getModuleInfo();
+    public function sendNotifications($notifications = [])
+    {
+        $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $myts                = \MyTextSanitizer::getInstance();
         $notificationHandler = xoops_getHandler('notification');
@@ -595,9 +595,9 @@ class Faq extends \XoopsObject
      */
     public function getWhoAndWhen($answerObj = null, $users = [])
     {
-        $smartModuleConfig = sf_getModuleConfig();
+        $smartModuleConfig = Smartfaq\Utility::getModuleConfig();
 
-        $requester   = sf_getLinkedUnameFromId($this->uid(), $smartModuleConfig['userealname'], $users);
+        $requester   = Smartfaq\Utility::getLinkedUnameFromId($this->uid(), $smartModuleConfig['userealname'], $users);
         $requestdate = $this->datesub();
 
         if ((Constants::SF_STATUS_PUBLISHED == $this->status()) || Constants::SF_STATUS_NEW_ANSWER == $this->status()) {
@@ -608,7 +608,7 @@ class Faq extends \XoopsObject
             if ($this->uid() == $answerObj->uid()) {
                 $result = sprintf(_MD_SF_REQUESTEDANDANSWERED, $requester, $submitdate);
             } else {
-                $submitter = sf_getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);
+                $submitter = Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);
                 $result    = sprintf(_MD_SF_REQUESTEDBYANDANSWEREDBY, $requester, $submitter, $submitdate);
             }
         } else {
@@ -660,7 +660,7 @@ class Faq extends \XoopsObject
         $faq['comments']   = $this->comments();
         $faq['datesub']    = $this->datesub();
         if (null !== $category) {
-            if (is_object($category) && 'sfcategory' === strtolower(get_class($category))) {
+            if (is_object($category) && 'xoopsmodules\smartfaq\category' === strtolower(get_class($category))) {
                 $categoryObj = $category;
             } elseif (is_array($category)) {
                 $categoryObj = $category[$this->categoryid()];

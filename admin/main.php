@@ -6,6 +6,7 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/admin_header.php';
@@ -104,7 +105,7 @@ $totalrejectedsmartfaq = isset($totalfaqbystatus[Constants::SF_STATUS_REJECTED_S
 $totalnewanswers = isset($totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER]) ? $totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER] : 0;
 
 // -- //
-//sf_collapsableBar('toptable', 'toptableicon');
+//Smartfaq\Utility::collapsableBar('toptable', 'toptableicon');
 //echo "<img onclick='toggle('toptable'); toggleIcon('toptableicon');' id='toptableicon' name='toptableicon' src=" . XOOPS_URL . "/modules/" . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_INVENTORY . "</h3>";
 //echo "<div id='toptable'>";
 //echo "<br>";
@@ -132,7 +133,7 @@ $adminObject->displayButton('left', '');
 //echo "</div>";
 
 // Construction of lower table
-sf_collapsableBar('bottomtable', 'bottomtableicon');
+Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
 echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_ALLFAQS . '</h3>';
 echo "<div id='bottomtable'>";
 echo '<span style="color: #567; margin: 3px 0 18px 0; font-size: small; display: block; ">' . _AM_SF_ALLFAQSMSG . '</span>';
@@ -411,7 +412,7 @@ if ($numrows > 0) {
 
         //mb---------------------------------------
         //adding name of the Question Submitter
-        $requester = sf_getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
+        $requester = Smartfaq\Utility::getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
         echo "<td class='even' align='center'>" . $requester . '</td>';
 
         //adding name of the Answer Submitter
@@ -431,7 +432,7 @@ if ($numrows > 0) {
         if (isset($answerObj->vars['uid']['value'])) {
             $answerSubmitterID = $answerObj->vars['uid']['value'];
 
-            $answerSubmitter = sf_getLinkedUnameFromId($answerSubmitterID, $smartModuleConfig['userealname']);
+            $answerSubmitter = Smartfaq\Utility::getLinkedUnameFromId($answerSubmitterID, $smartModuleConfig['userealname']);
         } else {
             $answerSubmitter = '--------';
         }

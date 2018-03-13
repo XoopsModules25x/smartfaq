@@ -5,6 +5,8 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
+
+use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/header.php';
@@ -107,7 +109,7 @@ if ($displaylastfaqs) {
         for ($i = 0; $i < $totalQnasOnPage; ++$i) {
             $faq = $faqsObj[$i]->toArray(null, $allcategories);
 
-            $faq['adminlink'] = sf_getAdminLinks($faqsObj[$i]->faqid(), true);
+            $faq['adminlink'] = Smartfaq\Utility::getAdminLinks($faqsObj[$i]->faqid(), true);
 
             $faq['who_when'] = $faqsObj[$i]->getWhoAndWhen(null, $users);
 

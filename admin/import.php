@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+
 require_once __DIR__ . '/admin_header.php';
 
 $op = 'none';
@@ -52,7 +54,7 @@ switch ($op) {
 
         xoops_cp_header();
 
-        sf_collapsableBar('bottomtable', 'bottomtableicon');
+        Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_IMPORT_TITLE . '</h3>';
         echo "<div id='bottomtable'>";
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_IMPORT_INFO . '</span>';

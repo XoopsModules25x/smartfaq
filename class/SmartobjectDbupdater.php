@@ -1,36 +1,6 @@
 <?php namespace XoopsModules\Smartfaq;
 
 /**
- * Detemines if a table exists in the current db
- *
- * @param  string $table the table name (without XOOPS prefix)
- * @return bool   True if table exists, false if not
- *
- * @access public
- * @author xhelp development team
- */
-
-function smart_TableExists($table)
-{
-    $bRetVal = false;
-    //Verifies that a MySQL table exists
-    $xoopsDB  = \XoopsDatabaseFactory::getDatabaseConnection();
-    $realname = $xoopsDB->prefix($table);
-    $sql      = 'SHOW TABLES FROM ' . XOOPS_DB_NAME;
-    $ret      = $xoopsDB->queryF($sql);
-    while (list($m_table) = $xoopsDB->fetchRow($ret)) {
-        if ($m_table == $realname) {
-            $bRetVal = true;
-            break;
-        }
-    }
-    $xoopsDB->freeRecordSet($ret);
-
-    return $bRetVal;
-}
-
-
-/**
  * SmartobjectDbupdater class
  *
  * Class performing the database update for the module

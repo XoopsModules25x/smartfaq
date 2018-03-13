@@ -35,7 +35,7 @@ $categoryObj = $faqObj->category();
 $answerObj = $faqObj->answer();
 
 // Check user permissions to access that category of the selected FAQ
-if (faqAccessGranted($faqObj) < 0) {
+if (Smartfaq\Utility::faqAccessGranted($faqObj) < 0) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
 }
 

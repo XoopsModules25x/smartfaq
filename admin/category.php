@@ -107,13 +107,13 @@ function editcat($showmenu = false, $categoryid = 0)
         if ($categoryObj->notLoaded()) {
             redirect_header('category.php', 1, _AM_SF_NOCOLTOEDIT);
         }
-        sf_collapsableBar('bottomtable', 'bottomtableicon');
+        Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_EDITCOL . '</h3>';
         echo "<div id='bottomtable'>";
     } else {
         $categoryObj = $categoryHandler->create();
         echo "<br>\n";
-        sf_collapsableBar('bottomtable', 'bottomtableicon');
+        Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CATEGORY_CREATE . '</h3>';
         echo "<div id='bottomtable'>";
     }
@@ -125,7 +125,7 @@ function editcat($showmenu = false, $categoryid = 0)
     $sform->addElement(new \XoopsFormText(_AM_SF_CATEGORY, 'name', 50, 255, $categoryObj->name('e')), true);
 
     // Parent Category
-    $mytree = new \XoopsTree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
+    $mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
     ob_start();
     $mytree->makeMySelBox('name', 'weight', $categoryObj->parentid(), 1, 'parentid');
 
@@ -133,7 +133,7 @@ function editcat($showmenu = false, $categoryid = 0)
     $sform->addElement(new \XoopsFormLabel(_AM_SF_PARENT_CATEGORY_EXP, ob_get_contents()));
     ob_end_clean();
 
-    /*  $mytree = new \XoopsTree($xoopsDB->prefix("smartfaq_categories"), "categoryid" , "parentid");
+    /*  $mytree = new Smartfaq\Tree($xoopsDB->prefix("smartfaq_categories"), "categoryid" , "parentid");
         ob_start();
         $sform->addElement(new \XoopsFormHidden('categoryid', $categoryObj->categoryid()));
         $mytree->makeMySelBox("name", "weight", $categoryObj->categoryid());
@@ -280,15 +280,15 @@ switch ($op) {
         }
 
         if (!$categoryObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _AM_SF_CATEGORY_SAVE_ERROR . sf_formatErrors($categoryObj->getErrors()));
+            redirect_header('javascript:history.go(-1)', 3, _AM_SF_CATEGORY_SAVE_ERROR . Smartfaq\Utility::formatErrors($categoryObj->getErrors()));
         }
         // TODO : put this function in the category class
-        sf_saveCategory_Permissions($categoryObj->getGroups_read(), $categoryObj->categoryid(), 'category_read');
-        //sf_saveCategory_Permissions($groups_admin, $categoriesObj->categoryid(), 'category_admin');
+        Smartfaq\Utility::saveCategoryPermissions($categoryObj->getGroups_read(), $categoryObj->categoryid(), 'category_read');
+        //Smartfaq\Utility::saveCategoryPermissions($groups_admin, $categoriesObj->categoryid(), 'category_admin');
 
         if ($applyall) {
             // TODO : put this function in the category class
-            sf_overrideFaqsPermissions($categoryObj->getGroups_read(), $categoryObj->categoryid());
+            Smartfaq\Utility::overrideFaqsPermissions($categoryObj->getGroups_read(), $categoryObj->categoryid());
         }
 
         redirect_header($redirect_to, 2, $redirect_msg);
@@ -342,7 +342,7 @@ switch ($op) {
         // Creating the objects for top categories
         $categoriesObj =& $categoryHandler->getCategories($xoopsModuleConfig['perpage'], $startcategory, 0);
 
-        sf_collapsableBar('toptable', 'toptableicon');
+        Smartfaq\Utility::collapsableBar('toptable', 'toptableicon');
         echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CATEGORIES_TITLE . '</h3>';
         echo "<div id='toptable'>";
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_CATEGORIES_DSC . '</span>';

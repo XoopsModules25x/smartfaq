@@ -22,12 +22,12 @@ class Utility
     /**
      * @return mixed|null
      */
-    public static function sf_getModuleInfo()
+    public static function getModuleInfo()
     {
         static $smartModule;
-        if (!isset($smartModule)) {
+        if (null === $smartModule) {
             global $xoopsModule;
-            if (isset($xoopsModule) && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
+            if (null !== $xoopsModule && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
                 $smartModule = $xoopsModule;
             } else {
                 $hModule     = xoops_getHandler('module');
@@ -41,16 +41,16 @@ class Utility
     /**
      * @return mixed
      */
-    public static function sf_getModuleConfig()
+    public static function getModuleConfig()
     {
         static $smartConfig;
         if (!$smartConfig) {
             global $xoopsModule;
-            if (isset($xoopsModule) && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
+            if (null !== $xoopsModule && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
                 global $xoopsModuleConfig;
                 $smartConfig = $xoopsModuleConfig;
             } else {
-                $smartModule = sf_getModuleInfo();
+                $smartModule = self::getModuleInfo();
                 $hModConfig  = xoops_getHandler('config');
                 $smartConfig = $hModConfig->getConfigsByCat(0, $smartModule->getVar('mid'));
             }
@@ -62,9 +62,9 @@ class Utility
     /**
      * @return string
      */
-    public static function sf_getHelpPath()
+    public static function getHelpPath()
     {
-        $smartConfig = sf_getModuleConfig();
+        $smartConfig = self::getModuleConfig();
         switch ($smartConfig['helppath_select']) {
             case 'docs.xoops.org':
                 return 'http://docs.xoops.org/help/sfaqh/index.htm';
@@ -84,7 +84,7 @@ class Utility
      * @param  array $errors
      * @return string
      */
-    public static function sf_formatErrors($errors = [])
+    public static function formatErrors($errors = [])
     {
         $ret = '';
         foreach ($errors as $key => $value) {
@@ -101,7 +101,7 @@ class Utility
      * @param  string $ret
      * @return string
      */
-    public static function sf_addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = '')
+    public static function addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = '')
     {
         // Creating the category handler object
         /** @var Smartfaq\CategoryHandler $categoryHandler */
@@ -122,7 +122,7 @@ class Utility
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $catID => $subCategoryObj) {
-                $ret .= sf_addCategoryOption($subCategoryObj, $selectedid, $level);
+                $ret .= self::addCategoryOption($subCategoryObj, $selectedid, $level);
             }
         }
 
@@ -135,7 +135,7 @@ class Utility
      * @param  bool $allCatOption
      * @return string
      */
-    public static function sf_createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true)
+    public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true)
     {
         $ret = '' . _MB_SF_SELECTCAT . "&nbsp;<select name='options[]'>";
         if ($allCatOption) {
@@ -151,7 +151,7 @@ class Utility
 
         if (count($categoriesObj) > 0) {
             foreach ($categoriesObj as $catID => $categoryObj) {
-                $ret .= sf_addCategoryOption($categoryObj, $selectedid);
+                $ret .= self::addCategoryOption($categoryObj, $selectedid);
             }
         }
         $ret .= "</select>\n";
@@ -162,7 +162,7 @@ class Utility
     /**
      * @return array
      */
-    public static function sf_getStatusArray()
+    public static function getStatusArray()
     {
         $result = [
             '1' => _AM_SF_STATUS1,
@@ -181,7 +181,7 @@ class Utility
     /**
      * @return bool
      */
-    public static function sf_moderator()
+    public static function getModerator()
     {
         global $xoopsUser;
 
@@ -205,9 +205,9 @@ class Utility
     /**
      * @return string
      */
-    public static function sf_modFooter()
+    public static function modFooter()
     {
-        $smartModule = sf_getModuleInfo();
+        $smartModule = self::getModuleInfo();
 
         $modfootertxt = 'Module ' . $smartModule->getInfo('name') . ' - Version ' . $smartModule->getInfo('version') . '';
 
@@ -219,17 +219,17 @@ class Utility
     /**
      * Checks if a user is admin of Smartfaq
      *
-     * sf_userIsAdmin()
+     * self::userIsAdmin()
      *
      * @return boolean : array with userids and uname
      */
-    public static function sf_userIsAdmin()
+    public static function userIsAdmin()
     {
         global $xoopsUser;
 
         $result = false;
 
-        $smartModule = sf_getModuleInfo();
+        $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
         if (!empty($xoopsUser)) {
@@ -245,7 +245,7 @@ class Utility
      * set, access permission is denied. The user needs to have necessary category
      * permission as well.
      *
-     * faqAccessGranted()
+     * self::faqAccessGranted()
      *
      * @param $faqObj
      * @return int : -1 if no access, 0 if partialview and 1 if full access
@@ -258,7 +258,7 @@ class Utility
     {
         global $xoopsUser;
 
-        if (sf_userIsAdmin()) {
+        if (self::userIsAdmin()) {
             $result = 1;
         } else {
             $result = -1;
@@ -266,7 +266,7 @@ class Utility
             $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
             $gpermHandler = xoops_getHandler('groupperm');
-            $smartModule  = sf_getModuleInfo();
+            $smartModule  = self::getModuleInfo();
             $module_id    = $smartModule->getVar('mid');
 
             // Do we have access to the parent category
@@ -291,18 +291,18 @@ class Utility
     /**
      * Override FAQs permissions of a category by the category read permissions
      *
-     *   sf_overrideFaqsPermissions()
+     *   self::overrideFaqsPermissions()
      *
      * @param  array   $groups     : group with granted permission
      * @param  integer $categoryid :
      * @return boolean|array : TRUE if the no errors occured
      */
-    public static function sf_overrideFaqsPermissions($groups, $categoryid)
+    public static function overrideFaqsPermissions($groups, $categoryid)
     {
         global $xoopsDB;
 
         $result      = true;
-        $smartModule = sf_getModuleInfo();
+        $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
         $gpermHandler = xoops_getHandler('groupperm');
@@ -329,16 +329,16 @@ class Utility
     /**
      * Saves permissions for the selected faq
      *
-     *   sf_saveItemPermissions()
+     *   self::saveItemPermissions()
      *
      * @param  array   $groups : group with granted permission
      * @param  integer $itemID : faqid on which we are setting permissions
      * @return boolean : TRUE if the no errors occured
      */
-    public static function sf_saveItemPermissions($groups, $itemID)
+    public static function saveItemPermissions($groups, $itemID)
     {
         $result      = true;
-        $smartModule = sf_getModuleInfo();
+        $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
         $gpermHandler = xoops_getHandler('groupperm');
@@ -357,7 +357,7 @@ class Utility
     /**
      * Saves permissions for the selected category
      *
-     *   sf_saveCategory_Permissions()
+     *   self::saveCategoryPermissions()
      *
      * @param  array   $groups     : group with granted permission
      * @param  integer $categoryid : categoryid on which we are setting permissions
@@ -365,10 +365,10 @@ class Utility
      * @return boolean : TRUE if the no errors occured
      */
 
-    public static function sf_saveCategory_Permissions($groups, $categoryid, $perm_name)
+    public static function saveCategoryPermissions($groups, $categoryid, $perm_name)
     {
         $result      = true;
-        $smartModule = sf_getModuleInfo();
+        $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
         $gpermHandler = xoops_getHandler('groupperm');
@@ -387,17 +387,17 @@ class Utility
     /**
      * Saves permissions for the selected category
      *
-     *   sf_saveModerators()
+     *   self::saveModerators()
      *
      * @param  array   $moderators : moderators uids
      * @param  integer $categoryid : categoryid on which we are setting permissions
      * @return boolean : TRUE if the no errors occured
      */
 
-    public static function sf_saveModerators($moderators, $categoryid)
+    public static function saveModerators($moderators, $categoryid)
     {
         $result      = true;
-        $smartModule = sf_getModuleInfo();
+        $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
         $gpermHandler = xoops_getHandler('groupperm');
@@ -417,7 +417,7 @@ class Utility
      * @param  int $faqid
      * @return array
      */
-    public static function sf_retrieveFaqByID($faqid = 0)
+    public static function retrieveFaqByID($faqid = 0)
     {
         $ret = [];
         global $xoopsDB;
@@ -429,7 +429,7 @@ class Utility
     }
 
     /**
-     * sf_getAdminLinks()
+     * self::getAdminLinks()
      *
      * @param  integer $faqid
      * @param  bool    $open
@@ -437,7 +437,7 @@ class Utility
      */
 
     // TODO : Move this to the Smartfaq\Faq class
-    public static function sf_getAdminLinks($faqid = 0, $open = false)
+    public static function getAdminLinks($faqid = 0, $open = false)
     {
         global $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
         $adminLinks = '';
@@ -468,14 +468,14 @@ class Utility
     }
 
     /**
-     * sf_getLinkedUnameFromId()
+     * self::getLinkedUnameFromId()
      *
      * @param  integer $userid Userid of poster etc
      * @param  integer $name   :  0 Use Usenamer 1 Use realname
      * @param  array   $users
      * @return string
      */
-    public static function sf_getLinkedUnameFromId($userid = 0, $name = 0, $users = [])
+    public static function getLinkedUnameFromId($userid = 0, $name = 0, $users = [])
     {
         if (!is_numeric($userid)) {
             return $userid;
@@ -521,7 +521,7 @@ class Utility
      * @param  string $url
      * @return mixed|string
      */
-    public static function sf_getxoopslink($url = '')
+    public static function getXoopslink($url = '')
     {
         $xurl = $url;
         if (strlen($xurl) > 0) {
@@ -540,7 +540,7 @@ class Utility
      * @param string $tablename
      * @param string $iconname
      */
-    public static function sf_collapsableBar($tablename = '', $iconname = '')
+    public static function collapsableBar($tablename = '', $iconname = '')
     {
         ?>
         <script type="text/javascript"><!--
@@ -597,7 +597,7 @@ class Utility
      * @param  bool $optional
      * @return bool
      */
-    public static function sf_gethandler($name, $optional = false)
+    public static function getHandler($name, $optional = false)
     {
         static $handlers;
         $name = strtolower(trim($name));

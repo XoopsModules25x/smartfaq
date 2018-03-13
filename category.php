@@ -131,7 +131,7 @@ if (count($faqsObj) > 0) {
         $faq['answer']    = $answerObj->answer();
         $faq['answerid']  = $answerObj->answerid();
         $faq['datesub']   = $iValue->datesub();
-        $faq['adminlink'] = sf_getAdminLinks($iValue->faqid());
+        $faq['adminlink'] = Smartfaq\Utility::getAdminLinks($iValue->faqid());
 
         $faq['who_when'] = $iValue->getWhoAndWhen($answerObj, $users);
 

@@ -75,7 +75,7 @@ class FaqHandler extends \XoopsObjectHandler
      */
     public function insert(\XoopsObject $faq, $force = false)
     {
-        if ('sffaq' !== strtolower(get_class($faq))) {
+        if ('xoopsmodules\smartfaq\faq' !== strtolower(get_class($faq))) {
             return false;
         }
 
@@ -93,7 +93,7 @@ class FaqHandler extends \XoopsObjectHandler
 
         if ($faq->isNew()) {
             $sql = sprintf(
-                'INSERT INTO "%s" (faqid, categoryid, question, howdoi, diduno, uid, datesub, `status`, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
+                'INSERT INTO %s (faqid, categoryid, question, howdoi, diduno, uid, datesub, `status`, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
                            $this->db->prefix('smartfaq_faq'),
                 $categoryid,
                 $this->db->quoteString($question),
@@ -110,15 +110,16 @@ class FaqHandler extends \XoopsObjectHandler
                 $cancomment,
                 $comments,
                 $notifypub,
-                           $this->db->quoteString($modulelink),
+                $this->db->quoteString($modulelink),
                 $this->db->quoteString($contextpage),
                 $exacturl,
                 $partialview
             );
         } else {
             $sql = sprintf(
-                'UPDATE "%s" SET categoryid = "%u", question = "%s", howdoi = "%s", diduno = "%s", uid = "%u", datesub = "%u", `status` = "%u", counter = "%u", weight = "%u", html = "%u", smiley = "%u", xcodes = "%u", cancomment = "%u", comments = "%u", notifypub = "%u", modulelink = "%s", contextpage = "%s", exacturl = "%u", partialview = "%u"  WHERE faqid = "%u"',
-                           $this->db->prefix('smartfaq_faq'),
+                'UPDATE %s SET categoryid = %u, question = %s, howdoi = %s, diduno = %s, uid = %u, datesub = %u, `status` = %u, counter = %u, weight = %u, html = %u, smiley = %u, xcodes = %u, cancomment = %u, comments = %u, notifypub = %u, modulelink = %s, contextpage = %s, exacturl = %u, partialview = %u  WHERE faqid = %u',
+
+                $this->db->prefix('smartfaq_faq'),
                 $categoryid,
                 $this->db->quoteString($question),
                 $this->db->quoteString($howdoi),
@@ -134,7 +135,7 @@ class FaqHandler extends \XoopsObjectHandler
                 $cancomment,
                 $comments,
                 $notifypub,
-                           $this->db->quoteString($modulelink),
+                $this->db->quoteString($modulelink),
                 $this->db->quoteString($contextpage),
                 $exacturl,
                 $partialview,
@@ -148,14 +149,32 @@ class FaqHandler extends \XoopsObjectHandler
         }
 
         if (!$result) {
+            $faq->setErrors('Could not store data in the database.<br />'.$this->db->error().' ('.$this->db->errno().')<br />'.$sql);
+
+            $logger = \XoopsLogger::getInstance();
+            $logger->handleError(E_USER_WARNING, $sql, __FILE__, __LINE__);
+            $logger->addExtra('Token Validation', 'No valid token found in request/session');
+
+
+            /** @var Smartfaq\Helper $helper */
+            $helper = Smartfaq\Helper::getInstance();
+            $helper->addLog($this->db->error());
+
+            /** @var \XoopsObject $faq */
+//            $faq->setError($this->db->error());
+
+
+            trigger_error('Class ' . $faq . ' could not be saved ' . __FILE__ . ' at line ' . __LINE__, E_USER_WARNING);
+
             return false;
         }
+
         if ($faq->isNew()) {
             $faq->assignVar('faqid', $this->db->getInsertId());
         }
 
         // Saving permissions
-        sf_saveItemPermissions($faq->getGroups_read(), $faq->faqid());
+        Smartfaq\Utility::saveItemPermissions($faq->getGroups_read(), $faq->faqid());
 
         return true;
     }
@@ -169,10 +188,10 @@ class FaqHandler extends \XoopsObjectHandler
      */
     public function delete(\XoopsObject $faq, $force = false)
     {
-        $smartModule = sf_getModuleInfo();
+        $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        if ('sffaq' !== strtolower(get_class($faq))) {
+        if ('\'xoopsmodules\smartfaq\faq' !== strtolower(get_class($faq))) {
             return false;
         }
 
@@ -240,10 +259,11 @@ class FaqHandler extends \XoopsObjectHandler
         }
 
         if (0 == $GLOBALS['xoopsDB']->getRowsNum($result)) {
-            return false;
+            $temp = false;
+            return $temp;
         }
 
-       while (false !== ($myrow = $this->db->fetchArray($result))) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
 
@@ -322,7 +342,7 @@ class FaqHandler extends \XoopsObjectHandler
             return false;
         }
 
-       while (false !== ($myrow = $this->db->fetchArray($result))) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
 
@@ -398,7 +418,7 @@ class FaqHandler extends \XoopsObjectHandler
         //return $this->getCount();
         //}
 
-        $userIsAdmin = sf_userIsAdmin();
+        $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         // Categories for which user has access
         if (!$userIsAdmin) {
             /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
@@ -513,13 +533,13 @@ class FaqHandler extends \XoopsObjectHandler
         $otherCriteria = null
     ) {
         global $xoopsUser;
-        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         //if ( ($categoryid == -1) && (empty($status) || ($status == -1)) && ($limit == 0) && ($start ==0) ) {
         //  return $this->getObjects();
         //}
         $ret         = [];
-        $userIsAdmin = sf_userIsAdmin();
+        $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         // Categories for which user has access
         if (!$userIsAdmin) {
             /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
@@ -608,9 +628,9 @@ class FaqHandler extends \XoopsObjectHandler
         $asobject = true,
         $otherCriteria = null
     ) {
-        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+//        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-        $smartModule = sf_getModuleInfo();
+        $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $ret = [];
 
@@ -762,7 +782,7 @@ class FaqHandler extends \XoopsObjectHandler
     {
         $ret       = [];
         $faqclause = '';
-        if (!sf_userIsAdmin()) {
+        if (!Smartfaq\Utility::userIsAdmin()) {
             /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
             $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
             $items            = $smartPermHandler->getPermissions('item');
@@ -895,7 +915,7 @@ class FaqHandler extends \XoopsObjectHandler
 
         $ret = [];
 
-        $userIsAdmin = sf_userIsAdmin();
+        $userIsAdmin = Smartfaq\Utility::userIsAdmin();
 
         if (0 != $userid) {
             $criteriaUser = new \CriteriaCompo();
@@ -1003,7 +1023,7 @@ class FaqHandler extends \XoopsObjectHandler
             return $ret;
         }
 
-       while (false !== ($myrow = $this->db->fetchArray($result))) {
+        while (false !== ($myrow = $this->db->fetchArray($result))) {
             $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
             $ret[] =& $faq;
@@ -1028,7 +1048,7 @@ class FaqHandler extends \XoopsObjectHandler
             $sql .= ' AND status IN (' . implode(',', $status) . ')';
         } else {
             $sql .= ' WHERE status IN (' . implode(',', $status) . ')';
-            if (!sf_userIsAdmin()) {
+            if (!Smartfaq\Utility::userIsAdmin()) {
                 /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
                 $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
                 $items            = $smartPermHandler->getPermissions('item');

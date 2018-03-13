@@ -26,7 +26,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
      */
     function sf_htmlSpecialChars($text)
     {
-        return preg_replace(['/&amp;/i', '/&nbsp;/i'], ['&', '&amp;nbsp;'], htmlspecialchars($text));
+        return preg_replace(['/&amp;/i', '/&nbsp;/i'], ['&', '&amp;nbsp;'], htmlspecialchars($text, ENT_QUOTES));
     }
 
     /**
@@ -84,8 +84,8 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
     /**
      * Display forrum button
      *
-     * @param          $link
-     * @param          $button  image/button name, without extension
+     * @param  string  $link
+     * @param  string  $button  image/button name, without extension
      * @param  string  $alt     alt message
      * @param  boolean $asImage true for image mode; false for text mode
      * @param  string  $extra   extra attribute for the button
@@ -135,7 +135,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
     }
 
     /**
-     * @return NewbbIconHandler
+     * @return \XoopsModules\Newbb\IconHandler
      */
     function sf_getIconHandler()
     {
@@ -145,12 +145,12 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
         if (isset($iconHandler)) {
             return $iconHandler;
         }
-
-        if (!class_exists('NewbbIconHandler')) {
-            // require_once __DIR__ . '/../class/icon.php';
-        }
-
-        $iconHandler           = NewbbIconHandler::getInstance();
+        /*
+                if (!class_exists('NewbbIconHandler')) {
+                    // require_once __DIR__ . '/../class/icon.php';
+                }
+        */
+        $iconHandler           = \XoopsModules\Newbb\IconHandler::getInstance();
         $iconHandler->template = $xoTheme->template;
         $iconHandler->init($xoopsConfig['language']);
 

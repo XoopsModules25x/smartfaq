@@ -35,7 +35,7 @@ $categoryObj = $faqObj->category();
 $answerObj = $faqObj->answer();
 
 // Check user permissions to access that category of the selected FAQ
-$faqAccessGrantedResult = faqAccessGranted($faqObj);
+$faqAccessGrantedResult = Smartfaq\Utility::faqAccessGranted($faqObj);
 if ($faqAccessGrantedResult < 0) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
 }
@@ -74,7 +74,7 @@ if (0 == $faqAccessGrantedResult) {
 
 $faq['who_when'] = $faqObj->getWhoAndWhen();
 
-$faq['adminlink'] = sf_getAdminLinks($faqObj->faqid());
+$faq['adminlink'] = Smartfaq\Utility::getAdminLinks($faqObj->faqid());
 
 $faq['comments'] = $faqObj->comments();
 

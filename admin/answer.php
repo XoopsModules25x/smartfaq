@@ -7,6 +7,7 @@
  */
 
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -60,14 +61,14 @@ function editfaq($faqid = '')
     $gpermHandler = xoops_getHandler('groupperm');
     $groups       = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
-    if (!sf_userIsAdmin()
+    if (!Smartfaq\Utility::userIsAdmin()
         && (!$gpermHandler->checkRight('category_admin', $faqObj->categoryid(), $groups, $module_id))) {
         redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     }
     // Retreiving the official answer
     $official_answer = $faqObj->answer();
 
-    sf_collapsableBar('bottomtable', 'bottomtableicon');
+    Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
     echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_SUBMITTED_ANSWER . '</h3>';
     echo "<div id='bottomtable'>";
     echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_SUBMITTED_ANSWER_INFO . '</span>';
@@ -134,7 +135,7 @@ function editfaq($faqid = '')
         echo "<td class='even' align='left'>" . $proposed_answer->answer() . '</td>';
 
         //show name of the answer submitter
-        $submitter = sf_getLinkedUnameFromId($proposed_answer->uid(), $smartModuleConfig['userealname']);
+        $submitter = Smartfaq\Utility::getLinkedUnameFromId($proposed_answer->uid(), $smartModuleConfig['userealname']);
         echo "<td class='even' align='center'>" . $submitter . '</td>';
 
         echo "<td class='even' align='center'>" . $proposed_answer->datesub() . '</td>';

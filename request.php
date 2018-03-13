@@ -6,6 +6,7 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/header.php';
@@ -29,7 +30,7 @@ if (0 == $totalCategories) {
 }
 
 // Find if the user is admin of the module
-$isAdmin = sf_userIsAdmin();
+$isAdmin = Smartfaq\Utility::userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
 if (!($isAdmin
       || (isset($xoopsModuleConfig['allowrequest'])
@@ -80,7 +81,7 @@ switch ($op) {
 
         // Storing the FAQ object in the database
         if (!$newFaqObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _MD_SF_REQUEST_ERROR . sf_formatErrors($newFaqObj->getErrors()));
+            redirect_header('javascript:history.go(-1)', 3, _MD_SF_REQUEST_ERROR . Smartfaq\Utility::formatErrors($newFaqObj->getErrors()));
         }
 
         // Get the cateopry object related to that FAQ

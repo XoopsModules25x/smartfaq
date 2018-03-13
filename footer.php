@@ -6,10 +6,12 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
+
 global $xoopsTpl, $xoopsModule, $xoopsModuleConfig;
 
 $uid     = $xoopsUser ? $xoopsUser->getVar('uid') : 0;
-$isAdmin = (sf_userIsAdmin() || sf_moderator());
+$isAdmin = (Smartfaq\Utility::userIsAdmin() || Smartfaq\Utility::getModerator());
 
 $xoopsTpl->assign('sf_adminpage', "<a href='" . XOOPS_URL . "/modules/smartfaq/admin/index.php'>" . _MD_SF_ADMIN_PAGE . '</a>');
 $xoopsTpl->assign('isAdmin', $isAdmin);

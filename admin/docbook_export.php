@@ -101,7 +101,7 @@ if ('go' === $op) {
  */
 function encodeText($text)
 {
-    return utf8_encode(htmlspecialchars($text));
+    return utf8_encode(htmlspecialchars($text, ENT_QUOTES));
 }
 
 /**

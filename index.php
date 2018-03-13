@@ -6,6 +6,7 @@
  * Licence: GNU
  */
 
+use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/header.php';
@@ -148,7 +149,7 @@ if ($displaylastfaqs) {
             $faq['answer']    = $answerObj->answer();
             $faq['answerid']  = $answerObj->answerid();
             $faq['datesub']   = $faqsObj[$i]->datesub();
-            $faq['adminlink'] = sf_getAdminLinks($faqsObj[$i]->faqid());
+            $faq['adminlink'] = Smartfaq\Utility::getAdminLinks($faqsObj[$i]->faqid());
 
             $faq['who_when'] = $faqsObj[$i]->getWhoAndWhen($answerObj, $users);
 

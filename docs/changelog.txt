@@ -1,3 +1,12 @@
+<h5>1.20.xx Beta 1  [NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.3
+<hr>
++ namespaces, autoloading (mamba)
+* moved functions to Utility (mamba)
++ added Constants class (mamba)
++ added Tree class (mamba)
+
+WORK IN PROGRESS
+
 1.12 RC2        2017-02-25
 =================================
 - code cosmetics (mamba)
