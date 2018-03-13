@@ -191,7 +191,7 @@ class FaqHandler extends \XoopsObjectHandler
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        if ('\'xoopsmodules\smartfaq\faq' !== strtolower(get_class($faq))) {
+        if ('xoopsmodules\smartfaq\faq' !== strtolower(get_class($faq))) {
             return false;
         }
 
