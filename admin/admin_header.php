@@ -41,7 +41,7 @@ require_once $path . '/class/xoopsformloader.php';
 // require_once __DIR__ . '/../class/Utility.php';
 require_once __DIR__ . '/../include/common.php';
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper      = Smartfaq\Helper::getInstance();
 $adminObject = \Xmf\Module\Admin::getInstance();
 
 $pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
