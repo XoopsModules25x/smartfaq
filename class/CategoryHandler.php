@@ -90,7 +90,7 @@ class CategoryHandler extends \XoopsObjectHandler
 
         if ($category->isNew()) {
             $sql = sprintf(
-                'INSERT INTO %s (parentid, name, description, total, weight, created) VALUES (%u, %s, %s, %u, %u, %u)',
+                'INSERT INTO `%s` (parentid, name, description, total, weight, created) VALUES (%u, %s, %s, %u, %u, %u)',
                 $this->db->prefix('smartfaq_categories'),
                            $parentid,
                 $this->db->quoteString($name),
@@ -101,7 +101,7 @@ class CategoryHandler extends \XoopsObjectHandler
             );
         } else {
             $sql = sprintf(
-                'UPDATE %s SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u',
+                'UPDATE `%s` SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u',
                 $this->db->prefix('smartfaq_categories'),
                 $parentid,
                            $this->db->quoteString($name),
@@ -154,7 +154,7 @@ class CategoryHandler extends \XoopsObjectHandler
             $this->delete($subcat);
         }
 
-        $sql = sprintf('DELETE FROM %s WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $category->getVar('categoryid'));
+        $sql = sprintf('DELETE FROM `%s` WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $category->getVar('categoryid'));
 
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');

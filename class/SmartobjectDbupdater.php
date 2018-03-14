@@ -58,7 +58,7 @@ class SmartobjectDbupdater
         $from = $xoopsDB->prefix($from);
         $to   = $xoopsDB->prefix($to);
 
-        $query = sprintf('ALTER TABLE %s RENAME %s', $from, $to);
+        $query = sprintf('ALTER TABLE `%s` RENAME %s', $from, $to);
         $ret   = $xoopsDB->queryF($query);
         if (!$ret) {
             echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br>';
