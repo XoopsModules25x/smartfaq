@@ -10,8 +10,8 @@ require_once __DIR__ . '/../../../include/cp_header.php';
 
 $op = 'go';//'start';
 
-if (isset($HTTP_POST_VARS['op']) && ('go' === $HTTP_POST_VARS['op'])) {
-    $op = $HTTP_POST_VARS['op'];
+if (isset($_POST['op']) && ('go' === $_POST['op'])) {
+    $op = $_POST['op'];
 }
 
 if ('start' === $op) {

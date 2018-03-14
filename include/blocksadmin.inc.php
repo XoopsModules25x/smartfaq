@@ -32,18 +32,18 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 include XOOPS_ROOT_PATH . '/modules/system/admin/blocksadmin/blocksadmin.php';
 
 $op = 'list';
-if (isset($HTTP_POST_VARS)) {
-    foreach ($HTTP_POST_VARS as $k => $v) {
+if (isset($_POST)) {
+    foreach ($_POST as $k => $v) {
         $$k = $v;
     }
 }
 
-if (isset($HTTP_GET_VARS['op'])) {
-    if ('edit' === $HTTP_GET_VARS['op'] || 'delete' === $HTTP_GET_VARS['op'] || 'delete_ok' === $HTTP_GET_VARS['op']
-        || 'clone' === $HTTP_GET_VARS['op']
-        || 'previewpopup' === $HTTP_GET_VARS['op']) {
-        $op  = $HTTP_GET_VARS['op'];
-        $bid = isset($HTTP_GET_VARS['bid']) ? (int)$HTTP_GET_VARS['bid'] : 0;
+if (isset($_GET['op'])) {
+    if ('edit' === $_GET['op'] || 'delete' === $_GET['op'] || 'delete_ok' === $_GET['op']
+        || 'clone' === $_GET['op']
+        || 'previewpopup' === $_GET['op']) {
+        $op  = $_GET['op'];
+        $bid = isset($_GET['bid']) ? (int)$_GET['bid'] : 0;
     }
 }
 
@@ -112,7 +112,7 @@ if (isset($previewblock)) {
 }
 
 if ('previewpopup' === $op) {
-    $file = str_replace('..', '', XOOPS_CACHE_PATH . '/' . trim($HTTP_GET_VARS['file']));
+    $file = str_replace('..', '', XOOPS_CACHE_PATH . '/' . trim($_GET['file']));
     if (file_exists($file)) {
         include $file;
         @unlink($file);

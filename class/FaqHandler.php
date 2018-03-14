@@ -419,8 +419,8 @@ class FaqHandler extends \XoopsObjectHandler
         $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         // Categories for which user has access
         if (!$userIsAdmin) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -540,8 +540,8 @@ class FaqHandler extends \XoopsObjectHandler
         $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         // Categories for which user has access
         if (!$userIsAdmin) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -628,7 +628,7 @@ class FaqHandler extends \XoopsObjectHandler
     ) {
 //        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-        $smartModule = Smartfaq\Utility::getModuleInfo();
+//        $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $ret = [];
 
@@ -781,8 +781,8 @@ class FaqHandler extends \XoopsObjectHandler
         $ret       = [];
         $faqclause = '';
         if (!Smartfaq\Utility::userIsAdmin()) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
             $items            = $smartPermHandler->getPermissions('item');
             $faqclause        = ' AND faqid IN (' . implode(',', $items) . ')';
         }
@@ -921,7 +921,7 @@ class FaqHandler extends \XoopsObjectHandler
             $criteriaUser->add(new \Criteria('answer.uid', $userid), 'OR');
         }
 
-        if ($queryarray) {
+        if (! empty($queryarray)) {
             $criteriaKeywords = new \CriteriaCompo();
             foreach ($queryarray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
@@ -934,15 +934,15 @@ class FaqHandler extends \XoopsObjectHandler
 
         // Categories for which user has access
         if (!$userIsAdmin) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $faqsGranted       = $smartPermHandler->getPermissions('item');
-            if (!$categoriesGranted) {
+            if (empty($categoriesGranted)) {
                 return $ret;
             }
-            if (!$faqsGranted) {
+            if (empty($faqsGranted)) {
                 return $ret;
             }
             $grantedCategories = new \Criteria('faq.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -1047,8 +1047,8 @@ class FaqHandler extends \XoopsObjectHandler
         } else {
             $sql .= ' WHERE status IN (' . implode(',', $status) . ')';
             if (!Smartfaq\Utility::userIsAdmin()) {
-                /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-                $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+                /** @var Smartfaq\PermissionHandler $smartPermHandler */
+                $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
                 $items            = $smartPermHandler->getPermissions('item');
                 if (is_object($xoopsUser)) {
                     $sql .= ' AND faqid IN (' . implode(',', $items) . ')';

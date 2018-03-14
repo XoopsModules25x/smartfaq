@@ -3,7 +3,7 @@
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
- * which is considered copyrighted (c) material of the original comment or credit authors.
+ * which is considered copyrighted (c material of the original comment or credit authors.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -12,13 +12,13 @@
 
 /**
  * @copyright    XOOPS Project https://xoops.org/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html
  * @package
  * @since
- * @author     XOOPS Development Team
+ * @author       XOOPS Development Team
  */
 
-//defined('XOOPS_ROOT_PATH') || die('Restricted access');
+//defined('XOOPS_ROOT_PATH' || die('Restricted access';
 
 /**
  * class Constants
@@ -62,6 +62,16 @@ class Constants
     const SF_NOT_NEW_ANSWER_PROPOSED = 7;
     const SF_NOT_NEW_ANSWER_PUBLISHED = 8;
 
+    const XOOPS_SIDEBLOCK_LEFT = 0;
+    const XOOPS_SIDEBLOCK_RIGHT = 1;
+    const XOOPS_SIDEBLOCK_BOTH = 2;
+    const XOOPS_CENTERBLOCK_LEFT = 3;
+    const XOOPS_CENTERBLOCK_RIGHT = 4;
+    const XOOPS_CENTERBLOCK_CENTER = 5;
+    const XOOPS_CENTERBLOCK_ALL = 6;
+    const XOOPS_CENTERBLOCK_BOTTOMLEFT = 7;
+    const XOOPS_CENTERBLOCK_BOTTOMRIGHT = 8;
+    const XOOPS_CENTERBLOCK_BOTTOM = 9;
 
     /**#@-*/
 }

@@ -255,7 +255,7 @@ class Tree
      */
     public function getNicePathFromId($selectId, $title, $funcURL, $path = '')
     {
-        $path     = !empty($path) ? $path : $path;
+        $path     = !empty($path) ? $path : '';
         $selectId = (int)$selectId;
         $sql      = 'SELECT ' . $this->pid . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->id . "=$selectId";
         $result   = $this->db->query($sql);
