@@ -13,6 +13,7 @@
 // ------------------------------------------------------------------------- //
 
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once __DIR__ . '/mygrouppermform.php';
@@ -110,19 +111,19 @@ function list_blocks()
         } else {
             switch ($block_arr[$i]->getVar('side')) {
                 default:
-                case XOOPS_SIDEBLOCK_LEFT:
+                case Constants::XOOPS_SIDEBLOCK_LEFT:
                     $ssel0 = " checked style='background-color:#00FF00;'";
                     break;
-                case XOOPS_SIDEBLOCK_RIGHT:
+                case Constants::XOOPS_SIDEBLOCK_RIGHT:
                     $ssel1 = " checked style='background-color:#00FF00;'";
                     break;
-                case XOOPS_CENTERBLOCK_LEFT:
+                case Constants::XOOPS_CENTERBLOCK_LEFT:
                     $ssel2 = " checked style='background-color:#00FF00;'";
                     break;
-                case XOOPS_CENTERBLOCK_RIGHT:
+                case Constants::XOOPS_CENTERBLOCK_RIGHT:
                     $ssel4 = " checked style='background-color:#00FF00;'";
                     break;
-                case XOOPS_CENTERBLOCK_CENTER:
+                case Constants::XOOPS_CENTERBLOCK_CENTER:
                     $ssel3 = " checked style='background-color:#00FF00;'";
                     break;
             }
@@ -173,15 +174,15 @@ function list_blocks()
             </td>
             <td class='$class' align='center' nowrap='nowrap'>
                 <input type='radio' name='side[$bid]' value='"
-             . XOOPS_SIDEBLOCK_LEFT
+             . Constants::XOOPS_SIDEBLOCK_LEFT
              . "'$ssel0>-<input type='radio' name='side[$bid]' value='"
-             . XOOPS_CENTERBLOCK_LEFT
+             . Constants::XOOPS_CENTERBLOCK_LEFT
              . "'$ssel2><input type='radio' name='side[$bid]' value='"
-             . XOOPS_CENTERBLOCK_CENTER
+             . Constants::XOOPS_CENTERBLOCK_CENTER
              . "'$ssel3><input type='radio' name='side[$bid]' value='"
-             . XOOPS_CENTERBLOCK_RIGHT
+             . Constants::XOOPS_CENTERBLOCK_RIGHT
              . "'$ssel4>-<input type='radio' name='side[$bid]' value='"
-             . XOOPS_SIDEBLOCK_RIGHT
+             . Constants::XOOPS_SIDEBLOCK_RIGHT
              . "'$ssel1>
                 <br>
                 <br>

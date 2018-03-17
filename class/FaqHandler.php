@@ -628,7 +628,7 @@ class FaqHandler extends \XoopsObjectHandler
     ) {
 //        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-        $smartModule = Smartfaq\Utility::getModuleInfo();
+//        $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $ret = [];
 
@@ -921,7 +921,7 @@ class FaqHandler extends \XoopsObjectHandler
             $criteriaUser->add(new \Criteria('answer.uid', $userid), 'OR');
         }
 
-        if (!empty($queryarray)) {
+        if (! empty($queryarray)) {
             $criteriaKeywords = new \CriteriaCompo();
             foreach ($queryarray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
