@@ -53,8 +53,8 @@ class Category extends \XoopsObject
             if (is_array($id)) {
                 $this->assignVars($id);
             } else {
-                /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-                $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+                /** @var Smartfaq\CategoryHandler $categoryHandler */
+                $categoryHandler = Smartfaq\Helper::getInstance()->getHandler('Category');
                 $category        = $categoryHandler->get($id);
                 foreach ($category->vars as $k => $v) {
                     $this->assignVar($k, $v['value']);
@@ -95,8 +95,8 @@ class Category extends \XoopsObject
             return true;
         }
 
-        /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-        $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+        /** @var Smartfaq\PermissionHandler $smartPermHandler */
+        $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
         $categoriesGranted = $smartPermHandler->getPermissions('category');
         if (in_array($this->categoryid(), $categoriesGranted)) {
@@ -214,8 +214,8 @@ class Category extends \XoopsObject
     public function store($sendNotifications = true, $force = true)
     {
 //        $categoryHandler = new sfCategoryHandler($this->db);
-        /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-        $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+        /** @var Smartfaq\CategoryHandler $categoryHandler */
+        $categoryHandler = Smartfaq\Helper::getInstance()->getHandler('Category');
 
         $ret = $categoryHandler->insert($this, $force);
         if ($sendNotifications && $ret && $this->isNew()) {

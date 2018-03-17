@@ -52,7 +52,7 @@ if ('start' === $op) {
             // Categories to be imported
             $cat_cbox = new \XoopsFormCheckBox(sprintf(_AM_SF_IMPORT_CATEGORIES, $importFromModuleName), 'import_category', -1);
             $result   = $xoopsDB->queryF('SELECT c.catID, c.name, count(t.topicID) FROM ' . $xoopsDB->prefix('faqcategories') . ' AS c, ' . $xoopsDB->prefix('faqtopics') . ' AS t WHERE c.catID=t.catID GROUP BY t.catID ORDER BY c.weight');
-            while (list($cid, $cat_title, $count) = $xoopsDB->fetchRow($result)) {
+            while (false !== (list($cid, $cat_title, $count) = $xoopsDB->fetchRow($result))) {
                 $cat_cbox->addOption($cid, "$cat_title ($count)<br\>");
             }
             $form->addElement($cat_cbox);
@@ -144,7 +144,7 @@ if ('go' === $op) {
 
     $resultCat = $xoopsDB->queryF('select * from ' . $xoopsDB->prefix('faqcategories') . " where catID in ($import_category_list) order by weight");
 
-    while ($arrCat = $xoopsDB->fetchArray($resultCat)) {
+    while (false !== ($arrCat = $xoopsDB->fetchArray($resultCat))) {
         extract($arrCat, EXTR_PREFIX_ALL, 'wfc');
 
         // insert category into SmartFAQ
@@ -168,7 +168,7 @@ if ('go' === $op) {
         echo sprintf(_AM_SF_IMPORT_CATEGORY_SUCCESS, $wfc_name) . "<br\>";
 
         $resultFAQ = $xoopsDB->queryF('select * from ' . $xoopsDB->prefix('faqtopics') . " where catID=$wfc_catID order by weight");
-        while ($arrFAQ = $xoopsDB->fetchArray($resultFAQ)) {
+        while (false !== ($arrFAQ = $xoopsDB->fetchArray($resultFAQ))) {
             extract($arrFAQ, EXTR_PREFIX_ALL, 'wft');
 
             if ($autoaprove) {

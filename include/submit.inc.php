@@ -38,6 +38,13 @@ $form->addElement(new \XoopsFormTextArea(_MD_SF_QUESTION, 'question', $faqObj->q
 //$answer_text->setDescription(_MD_SF_ANSWER_FAQ_DSC);
 //$form->addElement($answer_text, true);
 
+$userIsAdmin = Smartfaq\Utility::userIsAdmin();
+if ($userIsAdmin) {
+    $tempEditor = $xoopsModuleConfig['form_editorOptions'];
+} else {
+    $tempEditor = $xoopsModuleConfig['form_editorOptionsUser'];
+}
+
 $editorTray = new \XoopsFormElementTray(_MD_SF_ANSWER_FAQ, '<br>');
 if (class_exists('XoopsFormEditor')) {
     $options['name']   = 'answer';
@@ -46,7 +53,7 @@ if (class_exists('XoopsFormEditor')) {
     $options['cols']   = '100%';
     $options['width']  = '100%';
     $options['height'] = '200px';
-    $answerEditor      = new \XoopsFormEditor('', $xoopsModuleConfig['form_editorOptionsUser'], $options, $nohtml = false, $onfailure = 'textarea');
+    $answerEditor      = new \XoopsFormEditor('', $tempEditor, $options, $nohtml = false, $onfailure = 'textarea');
     $editorTray->addElement($answerEditor);
 } else {
     $answerEditor = new \XoopsFormDhtmlTextArea('', 'answer', $faqObj->question(), '100%', '100%');

@@ -90,7 +90,7 @@ class CategoryHandler extends \XoopsObjectHandler
 
         if ($category->isNew()) {
             $sql = sprintf(
-                'INSERT INTO %s (parentid, name, description, total, weight, created) VALUES (%u, %s, %s, %u, %u, %u)',
+                'INSERT INTO `%s` (parentid, name, description, total, weight, created) VALUES (%u, %s, %s, %u, %u, %u)',
                 $this->db->prefix('smartfaq_categories'),
                            $parentid,
                 $this->db->quoteString($name),
@@ -101,7 +101,7 @@ class CategoryHandler extends \XoopsObjectHandler
             );
         } else {
             $sql = sprintf(
-                'UPDATE %s SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u',
+                'UPDATE `%s` SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u',
                 $this->db->prefix('smartfaq_categories'),
                 $parentid,
                            $this->db->quoteString($name),
@@ -154,7 +154,7 @@ class CategoryHandler extends \XoopsObjectHandler
             $this->delete($subcat);
         }
 
-        $sql = sprintf('DELETE FROM %s WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $category->getVar('categoryid'));
+        $sql = sprintf('DELETE FROM `%s` WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $category->getVar('categoryid'));
 
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
@@ -243,8 +243,8 @@ class CategoryHandler extends \XoopsObjectHandler
             $criteria->add(new \Criteria('parentid', $parentid));
         }
         if (!Smartfaq\Utility::userIsAdmin()) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
@@ -282,8 +282,8 @@ class CategoryHandler extends \XoopsObjectHandler
             $criteria->add(new \Criteria('c.parentid', $parentid));
         }
         if (!Smartfaq\Utility::userIsAdmin()) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler =Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
@@ -354,8 +354,8 @@ class CategoryHandler extends \XoopsObjectHandler
         if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
             if (!Smartfaq\Utility::userIsAdmin()) {
-                /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-                $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+                /** @var Smartfaq\PermissionHandler $smartPermHandler */
+                $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
                 $categoriesGranted = $smartPermHandler->getPermissions('category');
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
@@ -378,8 +378,8 @@ class CategoryHandler extends \XoopsObjectHandler
         if (isset($parentid) && (-1 != $parentid)) {
             $criteria->add(new \Criteria('parentid', $parentid));
             if (!Smartfaq\Utility::userIsAdmin()) {
-                /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-                $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+                /** @var Smartfaq\PermissionHandler $smartPermHandler */
+                $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
                 $categoriesGranted = $smartPermHandler->getPermissions('category');
                 $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
@@ -412,8 +412,8 @@ class CategoryHandler extends \XoopsObjectHandler
         $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')'), 'IN');
         $ret      = [];
         if (!Smartfaq\Utility::userIsAdmin()) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));

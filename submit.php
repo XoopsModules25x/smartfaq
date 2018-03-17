@@ -280,7 +280,7 @@ switch ($op) {
         $answerObj   = $answerHandler->create();
         $categoryObj = $categoryHandler->create();
 
-        $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.html';
+        $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
         require_once XOOPS_ROOT_PATH . '/header.php';
         require_once __DIR__ . '/footer.php';
 

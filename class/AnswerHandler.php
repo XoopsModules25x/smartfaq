@@ -90,9 +90,9 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
         }
 
         if ($answerObj->isNew()) {
-            $sql = sprintf('INSERT INTO %s (answerid, `status`, faqid, answer, uid, datesub, notifypub) VALUES (NULL, %u, %u, %s, %u, %u, %u)', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, time(), $notifypub);
+            $sql = sprintf('INSERT INTO `%s` (answerid, `status`, faqid, answer, uid, datesub, notifypub) VALUES (NULL, %u, %u, %s, %u, %u, %u)', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, time(), $notifypub);
         } else {
-            $sql = sprintf('UPDATE %s SET STATUS = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
+            $sql = sprintf('UPDATE `%s` SET STATUS = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
         }
 
         if (false !== $force) {
@@ -126,7 +126,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
         if ('xoopsmodules\smartfaq\answer' !== strtolower(get_class($answer))) {
             return false;
         }
-        $sql = sprintf('DELETE FROM %s WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $answer->getVar('answerid'));
+        $sql = sprintf('DELETE FROM `%s` WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $answer->getVar('answerid'));
 
         //echo "<br>" . $sql . "<br>";
 
@@ -312,7 +312,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
             return [];
         }
         $ret = [];
-        while (list($id, $count) = $this->db->fetchRow($result)) {
+        while (false !== (list($id, $count) = $this->db->fetchRow($result))) {
             $ret[$id] = $count;
         }
 
@@ -377,7 +377,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
         if (!$result) {
             return $ret;
         }
-        while ($row = $this->db->fetchArray($result)) {
+        while (false !== ($row = $this->db->fetchArray($result))) {
             $answer = new Smartfaq\Answer();
             $answer->assignVars($row);
             $ret[$row['faqid']] =& $answer;

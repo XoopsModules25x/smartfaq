@@ -11,7 +11,7 @@ use XoopsModules\Smartfaq;
 global $xoopsTpl, $xoopsModule, $xoopsModuleConfig;
 
 $uid     = $xoopsUser ? $xoopsUser->getVar('uid') : 0;
-$isAdmin = (Smartfaq\Utility::userIsAdmin() || Smartfaq\Utility::getModerator());
+$isAdmin = (Smartfaq\Utility::userIsAdmin() || Smartfaq\Utility::hasModerator());
 
 $xoopsTpl->assign('sf_adminpage', "<a href='" . XOOPS_URL . "/modules/smartfaq/admin/index.php'>" . _MD_SF_ADMIN_PAGE . '</a>');
 $xoopsTpl->assign('isAdmin', $isAdmin);

@@ -181,15 +181,15 @@ class Utility
     /**
      * @return bool
      */
-    public static function getModerator()
+    public static function hasModerator()
     {
         global $xoopsUser;
 
         if (!$xoopsUser) {
             $result = false;
         } else {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categories = $smartPermHandler->getPermissions('moderation');
             if (0 == count($categories)) {
@@ -311,7 +311,7 @@ class Utility
         $result = $xoopsDB->queryF($sql);
 
         if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
-            while (list($faqid) = $xoopsDB->fetchRow($result)) {
+            while (false !== (list($faqid) = $xoopsDB->fetchRow($result))) {
                 // First, if the permissions are already there, delete them
                 $gpermHandler->deleteByModule($module_id, 'item_read', $faqid);
                 // Save the new permissions
@@ -590,31 +590,5 @@ class Utility
         </script>
         <?php
         echo "<h3 style=\"color: #2F5376; margin: 6px 0 0 0; \"><a href='#' onClick=\"toggle('" . $tablename . "'); toggleIcon('" . $iconname . "');\">";
-    }
-
-    /**
-     * @param       $name
-     * @param  bool $optional
-     * @return bool
-     */
-    public static function getHandler($name, $optional = false)
-    {
-        static $handlers;
-        $name = strtolower(trim($name));
-        if (!isset($handlers[$name])) {
-            if (file_exists($hnd_file = XOOPS_ROOT_PATH . '/modules/smartfaq/class/' . $name . '.php')) {
-                require_once $hnd_file;
-            }
-            $class = 'sf' . ucfirst($name) . 'Handler';
-            if (class_exists($class)) {
-                $handlers[$name] = new $class($GLOBALS['xoopsDB']);
-            }
-        }
-        if (!$optional && !isset($handlers[$name])) {
-            trigger_error('Class <b>' . $class . '</b> does not exist<br>Handler Name: ' . $name, E_USER_ERROR);
-        }
-        $false = false;
-
-        return isset($handlers[$name]) ? $handlers[$name] : $false;
     }
 }

@@ -116,8 +116,8 @@ class Faq extends \XoopsObject
         if ($userIsAdmin) {
             return true;
         }
-        /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-        $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+        /** @var Smartfaq\PermissionHandler $smartPermHandler */
+        $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 //        $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
 
         $faqsGranted = $smartPermHandler->getPermissions('item');

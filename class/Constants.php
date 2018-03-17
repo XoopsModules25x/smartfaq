@@ -62,6 +62,5 @@ class Constants
     const SF_NOT_NEW_ANSWER_PROPOSED = 7;
     const SF_NOT_NEW_ANSWER_PUBLISHED = 8;
 
-
     /**#@-*/
 }

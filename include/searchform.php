@@ -23,7 +23,7 @@ if (1 == $xoopsModuleConfig['multicats']) {
 
     $resultcat = $xoopsDB->queryF('SELECT categoryID, name FROM ' . $xoopsDB->prefix('wbcategories') . ' ORDER BY categoryID');
 
-    while (list($categoryID, $name) = $xoopsDB->fetchRow($resultcat)) {
+    while (false !== (list($categoryID, $name) = $xoopsDB->fetchRow($resultcat))) {
         $searchcat->addOption('categoryID', "$categoryID : $name");
     }
     $sform->addElement($searchcat, true);

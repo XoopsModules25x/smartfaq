@@ -10,8 +10,8 @@ require_once __DIR__ . '/../../../include/cp_header.php';
 
 $op = 'go';//'start';
 
-if (isset($HTTP_POST_VARS['op']) && ('go' === $HTTP_POST_VARS['op'])) {
-    $op = $HTTP_POST_VARS['op'];
+if (isset($_POST['op']) && ('go' === $_POST['op'])) {
+    $op = $_POST['op'];
 }
 
 if ('start' === $op) {
@@ -45,7 +45,7 @@ if ('go' === $op) {
     echo "  <title>{module title}</title>\r\n";
 
     $resultC = $xoopsDB->queryF('SELECT * FROM ' . $xoopsDB->prefix('smartfaq_categories'));
-    while ($arrC = $xoopsDB->fetchArray($resultC)) {
+    while (false !== ($arrC = $xoopsDB->fetchArray($resultC))) {
         extract($arrC, EXTR_PREFIX_ALL, 'c');
 
         echo "  <qandadiv ID=\"c$c_categoryid\" Revision=\"$c_created\">\r\n";
@@ -53,7 +53,7 @@ if ('go' === $op) {
         echo '    <para>' . encodeText($c_description) . "</para>\r\n";
 
         $resultQ = $xoopsDB->queryF('select * from ' . $xoopsDB->prefix('smartfaq_faq') . " where categoryid=$c_categoryid");
-        while ($arrQ = $xoopsDB->fetchArray($resultQ)) {
+        while (false !== ($arrQ = $xoopsDB->fetchArray($resultQ))) {
             extract($arrQ, EXTR_PREFIX_ALL, 'q');
 
             echo "    <qandaentry ID=\"q$q_faqid\" Revision=\"$q_datesub\" Condition=\"$q_html $q_smiley $q_xcodes\" XrefLabel=\"$q_modulelink $q_contextpage\" Vendor=\"" . getUserFullName($q_uid) . "\">\r\n";
@@ -74,7 +74,7 @@ if ('go' === $op) {
             echo "      </question>\r\n";
 
             $resultA = $xoopsDB->queryF('select * from ' . $xoopsDB->prefix('smartfaq_answers') . " where answerid=$q_answerid");
-            while ($arrA = $xoopsDB->fetchArray($resultA)) {
+            while (false !== ($arrA = $xoopsDB->fetchArray($resultA))) {
                 extract($arrA, EXTR_PREFIX_ALL, 'a');
 
                 echo "      <answer ID=\"a$a_answerid\" Revision=\"$a_datesub\" Vendor=\"" . getUserFullName($a_uid) . "\">\r\n";

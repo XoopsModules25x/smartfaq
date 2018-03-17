@@ -92,8 +92,7 @@ class FaqHandler extends \XoopsObjectHandler
         }
 
         if ($faq->isNew()) {
-            $sql = sprintf(
-                'INSERT INTO %s (faqid, categoryid, question, howdoi, diduno, uid, datesub, `status`, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
+            $sql = sprintf('INSERT INTO `%s` (faqid, categoryid, question, howdoi, diduno, uid, datesub, status, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
                            $this->db->prefix('smartfaq_faq'),
                 $categoryid,
                 $this->db->quoteString($question),
@@ -116,8 +115,7 @@ class FaqHandler extends \XoopsObjectHandler
                 $partialview
             );
         } else {
-            $sql = sprintf(
-                'UPDATE %s SET categoryid = %u, question = %s, howdoi = %s, diduno = %s, uid = %u, datesub = %u, `status` = %u, counter = %u, weight = %u, html = %u, smiley = %u, xcodes = %u, cancomment = %u, comments = %u, notifypub = %u, modulelink = %s, contextpage = %s, exacturl = %u, partialview = %u  WHERE faqid = %u',
+            $sql = sprintf('UPDATE `%s` SET categoryid = %u, question = %s, howdoi = %s, diduno = %s, uid = %u, datesub = %u, status = %u, counter = %u, weight = %u, html = %u, smiley = %u, xcodes = %u, cancomment = %u, comments = %u, notifypub = %u, modulelink = %s, contextpage = %s, exacturl = %u, partialview = %u  WHERE faqid = %u',
 
                 $this->db->prefix('smartfaq_faq'),
                 $categoryid,
@@ -202,7 +200,7 @@ class FaqHandler extends \XoopsObjectHandler
             echo 'error while deleteing an answer';
         }
 
-        $sql = sprintf('DELETE FROM %s WHERE faqid = %u', $this->db->prefix('smartfaq_faq'), $faq->getVar('faqid'));
+        $sql = sprintf('DELETE FROM `%s` WHERE faqid = `%u`', $this->db->prefix('smartfaq_faq'), $faq->getVar('faqid'));
 
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -356,7 +354,7 @@ class FaqHandler extends \XoopsObjectHandler
 
         return $ret;
 
-        /*while ($myrow = $this->db->fetchArray($result)) {
+        /*while (false !== ($myrow = $this->db->fetchArray($result))) {
             $faq = new Smartfaq\Faq($myrow['faqid']);
 
             if (!$id_as_key) {
@@ -421,8 +419,8 @@ class FaqHandler extends \XoopsObjectHandler
         $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         // Categories for which user has access
         if (!$userIsAdmin) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -482,7 +480,7 @@ class FaqHandler extends \XoopsObjectHandler
             return [];
         }
         $ret = [];
-        while (list($status, $count) = $this->db->fetchRow($result)) {
+        while (false !== (list($status, $count) = $this->db->fetchRow($result))) {
             $ret[$status] = $count;
         }
 
@@ -542,8 +540,8 @@ class FaqHandler extends \XoopsObjectHandler
         $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         // Categories for which user has access
         if (!$userIsAdmin) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -783,8 +781,8 @@ class FaqHandler extends \XoopsObjectHandler
         $ret       = [];
         $faqclause = '';
         if (!Smartfaq\Utility::userIsAdmin()) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
             $items            = $smartPermHandler->getPermissions('item');
             $faqclause        = ' AND faqid IN (' . implode(',', $items) . ')';
         }
@@ -812,7 +810,7 @@ class FaqHandler extends \XoopsObjectHandler
 
             return $ret;
         }
-        while ($row = $this->db->fetchArray($result)) {
+        while (false !== ($row = $this->db->fetchArray($result))) {
             $faq = new Smartfaq\Faq();
             $faq->assignVars($row);
             $ret[$row['categoryid']] =& $faq;
@@ -923,7 +921,7 @@ class FaqHandler extends \XoopsObjectHandler
             $criteriaUser->add(new \Criteria('answer.uid', $userid), 'OR');
         }
 
-        if ($queryarray) {
+        if (!empty($queryarray)) {
             $criteriaKeywords = new \CriteriaCompo();
             foreach ($queryarray as $iValue) {
                 $criteriaKeyword = new \CriteriaCompo();
@@ -936,15 +934,15 @@ class FaqHandler extends \XoopsObjectHandler
 
         // Categories for which user has access
         if (!$userIsAdmin) {
-            /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+            /** @var Smartfaq\PermissionHandler $smartPermHandler */
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $faqsGranted       = $smartPermHandler->getPermissions('item');
-            if (!$categoriesGranted) {
+            if (empty($categoriesGranted)) {
                 return $ret;
             }
-            if (!$faqsGranted) {
+            if (empty($faqsGranted)) {
                 return $ret;
             }
             $grantedCategories = new \Criteria('faq.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
@@ -1049,8 +1047,8 @@ class FaqHandler extends \XoopsObjectHandler
         } else {
             $sql .= ' WHERE status IN (' . implode(',', $status) . ')';
             if (!Smartfaq\Utility::userIsAdmin()) {
-                /** @var \XoopsModules\Smartfaq\PermissionHandler $smartPermHandler */
-                $smartPermHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Permission');
+                /** @var Smartfaq\PermissionHandler $smartPermHandler */
+                $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
                 $items            = $smartPermHandler->getPermissions('item');
                 if (is_object($xoopsUser)) {
                     $sql .= ' AND faqid IN (' . implode(',', $items) . ')';
@@ -1067,7 +1065,7 @@ class FaqHandler extends \XoopsObjectHandler
         if (!$result) {
             return $ret;
         }
-        while ($row = $this->db->fetchArray($result)) {
+        while (false !== ($row = $this->db->fetchArray($result))) {
             $ret[$row['categoryid']] = (int)$row['count'];
         }
 
