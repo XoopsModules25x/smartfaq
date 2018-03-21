@@ -23,7 +23,9 @@ function xoops_module_update_smartfaq($module)
     }
     require_once $smartdbupdater;
 */
-    $dbupdater = new \XoopsModules\Smartfaq\SmartobjectDbupdater();
+    $dbupdater = new Smartfaq\SmartobjectDbupdater();
+    $helper = Smartfaq\Helper::getInstance();
+    $helper->loadLanguage('smartdbupdater');
 
     ob_start();
 

@@ -111,4 +111,6 @@ if ($totalnewanswers > 0) {
 $adminObject->displayNavigation(basename(__FILE__));
 $adminObject->displayIndex();
 
+echo $utility::getServerStats();
+
 require_once __DIR__ . '/admin_footer.php';

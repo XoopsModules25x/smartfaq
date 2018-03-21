@@ -283,7 +283,7 @@ class CategoryHandler extends \XoopsObjectHandler
         }
         if (!Smartfaq\Utility::userIsAdmin()) {
             /** @var Smartfaq\PermissionHandler $smartPermHandler */
-            $smartPermHandler =Smartfaq\Helper::getInstance()->getHandler('Permission');
+            $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));

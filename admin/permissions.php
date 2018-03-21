@@ -11,7 +11,7 @@ use XoopsModules\Smartfaq;
 require_once __DIR__ . '/admin_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
-if (!Smartfaq\Utility::userIsAdmin()) {
+if (! Smartfaq\Utility::userIsAdmin()) {
     redirect_header('javascript:history.go(-1)', 1, _NOPERM);
 }
 

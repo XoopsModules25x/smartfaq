@@ -92,7 +92,8 @@ class FaqHandler extends \XoopsObjectHandler
         }
 
         if ($faq->isNew()) {
-            $sql = sprintf('INSERT INTO `%s` (faqid, categoryid, question, howdoi, diduno, uid, datesub, status, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
+            $sql = sprintf(
+                'INSERT INTO `%s` (faqid, categoryid, question, howdoi, diduno, uid, datesub, status, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
                            $this->db->prefix('smartfaq_faq'),
                 $categoryid,
                 $this->db->quoteString($question),
@@ -115,7 +116,8 @@ class FaqHandler extends \XoopsObjectHandler
                 $partialview
             );
         } else {
-            $sql = sprintf('UPDATE `%s` SET categoryid = %u, question = %s, howdoi = %s, diduno = %s, uid = %u, datesub = %u, status = %u, counter = %u, weight = %u, html = %u, smiley = %u, xcodes = %u, cancomment = %u, comments = %u, notifypub = %u, modulelink = %s, contextpage = %s, exacturl = %u, partialview = %u  WHERE faqid = %u',
+            $sql = sprintf(
+                'UPDATE `%s` SET categoryid = %u, question = %s, howdoi = %s, diduno = %s, uid = %u, datesub = %u, status = %u, counter = %u, weight = %u, html = %u, smiley = %u, xcodes = %u, cancomment = %u, comments = %u, notifypub = %u, modulelink = %s, contextpage = %s, exacturl = %u, partialview = %u  WHERE faqid = %u',
 
                 $this->db->prefix('smartfaq_faq'),
                 $categoryid,

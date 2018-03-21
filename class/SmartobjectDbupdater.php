@@ -9,6 +9,9 @@
  * @author  marcan <marcan@smartfactory.ca>
  * @link    http://www.smartfactory.ca The SmartFactory
  */
+
+use XoopsModules\Smartfaq;
+
 class SmartobjectDbupdater
 {
     /**
@@ -74,7 +77,7 @@ class SmartobjectDbupdater
     /**
      * Use to update a table
      *
-     * @param object $table {@link SmartDbTable} that will be updated
+     * @param Smartfaq\SmartDbTable $table {@link SmartDbTable} that will be updated
      *
      * @see SmartDbTable
      *
@@ -92,7 +95,7 @@ class SmartobjectDbupdater
         }
 
         // If table is flag for drop, drop it
-        if ($table->getFlagForDrop) {
+        if ($table->getFlagForDrop()) {
             $ret = $table->dropTable() && $ret;
         }
 
