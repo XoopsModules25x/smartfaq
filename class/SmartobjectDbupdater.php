@@ -79,7 +79,7 @@ class SmartobjectDbupdater
      *
      * @param Smartfaq\SmartDbTable $table {@link SmartDbTable} that will be updated
      *
-     * @see SmartDbTable
+     * @see DbTable
      *
      * @return bool true if success, false if an error occured
      */
