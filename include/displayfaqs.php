@@ -8,8 +8,10 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
-global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
+global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB,  $xoopsModule;
 
 echo "<br>\n";
 if (!isset($categoryid) || ($categoryid < 1)) {
@@ -34,7 +36,7 @@ echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display:
 $totalfaqs = $faqHandler->getFaqsCount($sel_cat, [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER]);
 
 // creating the FAQ objects that are published
-$faqsObj         = $faqHandler->getAllPublished($xoopsModuleConfig['perpage'], $startfaq, $sel_cat);
+$faqsObj         = $faqHandler->getAllPublished($helper->getConfig('perpage'), $startfaq, $sel_cat);
 //$totalFaqsOnPage = count($faqsObj);
 $allCats         = $categoryHandler->getObjects(null, true);
 echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
@@ -102,6 +104,6 @@ if ($totalfaqs > 0) {
 echo "</table>\n";
 echo "<br>\n";
 
-$pagenav = new \XoopsPageNav($totalfaqs, $xoopsModuleConfig['perpage'], $startfaq, 'startfaq', $pagenav_extra_args);
+$pagenav = new \XoopsPageNav($totalfaqs, $helper->getConfig('perpage'), $startfaq, 'startfaq', $pagenav_extra_args);
 echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
 echo '</div>';

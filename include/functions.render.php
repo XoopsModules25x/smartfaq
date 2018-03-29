@@ -9,6 +9,10 @@
  * @package     module::newbb
  */
 
+use XoopsModules\Smartfaq;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
+
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 defined('NEWBB_FUNCTIONS_INI') || include __DIR__ . '/functions.ini.php';
@@ -115,15 +119,17 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
         $iconHandler = sf_getIconHandler();
         // START hacked by irmtfan
         // to show text links instead of buttons - func_num_args()==2 => only when $image, $alt is set and optional $display not set
-        global $xoopsModuleConfig;
+        /** @var Smartfaq\Helper $helper */
+        $helper = Smartfaq\Helper::getInstance();
+
         if (2 == func_num_args()) {
             // overall setting
-            if (!empty($xoopsModuleConfig['display_text_links'])) {
+            if (!empty($helper->getConfig('display_text_links'))) {
                 $display = false;
             }
             // if set for each link => overwrite $display
-            if (isset($xoopsModuleConfig['display_text_each_link'][$image])) {
-                $display = empty($xoopsModuleConfig['display_text_each_link'][$image]);
+            if  (null !== ($helper->getConfig('display_text_each_link')[$image])) {
+                $display = empty($helper->getConfig('display_text_each_link')[$image]);
             }
         }
         // END hacked by irmtfan

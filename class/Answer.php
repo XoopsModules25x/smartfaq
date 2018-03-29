@@ -8,6 +8,8 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -115,7 +117,8 @@ class Answer extends \XoopsObject
      */
     public function deleteAttachment($attach_array = null)
     {
-        global $xoopsModuleConfig;
+        /** @var Smartfaq\Helper $helper */
+        $helper = Smartfaq\Helper::getInstance();
 
         $attach_old = $this->getAttachment();
         if (!is_array($attach_old) || count($attach_old) < 1) {
@@ -132,8 +135,8 @@ class Answer extends \XoopsObject
 
         foreach ($attach_old as $key => $attach) {
             if (in_array($key, $attach_array)) {
-                @unlink(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $attach['name_saved']);
-                @unlink(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/thumbs/' . $attach['name_saved']); // delete thumbnails
+                @unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $attach['name_saved']);
+                @unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/thumbs/' . $attach['name_saved']); // delete thumbnails
                 continue;
             }
             $this->attachment_array[$key] = $attach;
@@ -183,7 +186,9 @@ class Answer extends \XoopsObject
      */
     public function displayAttachment($asSource = false)
     {
-        global $xoopsModule, $xoopsModuleConfig;
+        global $xoopsModule;
+        /** @var Smartfaq\Helper $helper */
+        $helper = Smartfaq\Helper::getInstance();
 
         $post_attachment = '';
         $attachments     = $this->getAttachment();
@@ -202,15 +207,15 @@ class Answer extends \XoopsObject
                 } else {
                     $icon_filetype = XOOPS_URL . '/' . $mime_path . '/unknown.gif';
                 }
-                $file_size = @filesize(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $att['name_saved']);
+                $file_size = @filesize(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $att['name_saved']);
                 $file_size = number_format($file_size / 1024, 2) . ' KB';
-                if ($xoopsModuleConfig['media_allowed'] && in_array(strtolower($file_extension), $image_extensions)) {
+                if ($helper->getConfig('media_allowed') && in_array(strtolower($file_extension), $image_extensions)) {
                     $post_attachment .= '<br><img src="' . $icon_filetype . '" alt="' . $filetype . '"><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>(' . $file_size . ')</small>';
                     $post_attachment .= '<br>' . sf_attachmentImage($att['name_saved']);
                     $isDisplayed     = true;
                 } else {
                     global $xoopsUser;
-                    if (empty($xoopsModuleConfig['show_userattach'])) {
+                    if (empty($helper->getConfig('show_userattach'))) {
                         $post_attachment .= '<a href="'
                                             . XOOPS_URL
                                             . '/modules/'

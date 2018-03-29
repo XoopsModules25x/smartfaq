@@ -8,6 +8,8 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -34,7 +36,7 @@ if (class_exists('XoopsFormEditor')) {
     $options['cols']   = '100%';
     $options['width']  = '100%';
     $options['height'] = '200px';
-    $answerEditor      = new \XoopsFormEditor('', $xoopsModuleConfig['form_editorOptionsUser'], $options, $nohtml = false, $onfailure = 'textarea');
+    $answerEditor      = new \XoopsFormEditor('', $helper->getConfig('form_editorOptionsUser'), $options, $nohtml = false, $onfailure = 'textarea');
     $editorTray->addElement($answerEditor, true);
 } else {
     $answerEditor = new \XoopsFormDhtmlTextArea(_MD_SF_ANSWER_FAQ, 'answer', '', '100%', '100%');

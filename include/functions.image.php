@@ -17,6 +17,10 @@
  * @author         XOOPS Development Team, phppp (D.J., infomax@gmail.com)
  */
 
+use XoopsModules\Smartfaq;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
+
 if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
     define('NEWBB_FUNCTIONS_IMAGE', true);
 
@@ -26,10 +30,11 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
      */
     function sf_attachmentImage($source)
     {
-        global $xoopsModuleConfig;
+        /** @var Smartfaq\Helper $helper */
+        $helper = Smartfaq\Helper::getInstance();
 
-        $img_path   = XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'];
-        $img_url    = XOOPS_URL . '/' . $xoopsModuleConfig['dir_attachments'];
+        $img_path   = XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments');
+        $img_url    = XOOPS_URL . '/' . $helper->getConfig('dir_attachments');
         $thumb_path = $img_path . '/thumbs';
         $thumb_url  = $img_url . '/thumbs';
 
@@ -41,26 +46,26 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
         $imginfo  = @getimagesize($image);
         $img_info = (count($imginfo) > 0) ? $imginfo[0] . 'X' . $imginfo[1] . ' px' : '';
 
-        if ($xoopsModuleConfig['max_image_width'] > 0 && $xoopsModuleConfig['max_image_height'] > 0) {
-            if ($imginfo[0] > $xoopsModuleConfig['max_image_width']
-                || $imginfo[1] > $xoopsModuleConfig['max_image_height']) {
-                //if (!file_exists($thumb_path.'/'.$source) && $imginfo[0] > $xoopsModuleConfig['max_img_width']) {
+        if ($helper->getConfig('max_image_width') > 0 && $helper->getConfig('max_image_height') > 0) {
+            if ($imginfo[0] > $helper->getConfig('max_image_width')
+                || $imginfo[1] > $helper->getConfig('max_image_height')) {
+                //if (!file_exists($thumb_path.'/'.$source) && $imginfo[0] > $helper->getConfig('max_img_width')) {
                 if (!file_exists($thumb_path . '/' . $source)) {
-                    sf_createThumbnail($source, $xoopsModuleConfig['max_image_width']);
+                    sf_createThumbnail($source, $helper->getConfig('max_image_width'));
                 }
             }
 
-            if ($imginfo[0] > $xoopsModuleConfig['max_image_width']
-                || $imginfo[1] > $xoopsModuleConfig['max_image_height']) {
-                $pseudo_width  = $xoopsModuleConfig['max_image_width'];
-                $pseudo_height = $xoopsModuleConfig['max_image_width'] * ($imginfo[1] / $imginfo[0]);
+            if ($imginfo[0] > $helper->getConfig('max_image_width')
+                || $imginfo[1] > $helper->getConfig('max_image_height')) {
+                $pseudo_width  = $helper->getConfig('max_image_width');
+                $pseudo_height = $helper->getConfig('max_image_width') * ($imginfo[1] / $imginfo[0]);
                 $pseudo_size   = "width='" . $pseudo_width . "px' height='" . $pseudo_height . "px'";
             }
             // irmtfan to fix Undefined variable: pseudo_height
-            if (!empty($pseudo_height) && $xoopsModuleConfig['max_image_height'] > 0
-                && $pseudo_height > $xoopsModuleConfig['max_image_height']) {
-                $pseudo_height = $xoopsModuleConfig['max_image_height'];
-                $pseudo_width  = $xoopsModuleConfig['max_image_height'] * ($imginfo[0] / $imginfo[1]);
+            if (!empty($pseudo_height) && $helper->getConfig('max_image_height') > 0
+                && $pseudo_height > $helper->getConfig('max_image_height')) {
+                $pseudo_height = $helper->getConfig('max_image_height');
+                $pseudo_width  = $helper->getConfig('max_image_height') * ($imginfo[0] / $imginfo[1]);
                 $pseudo_size   = "width='" . $pseudo_width . "px' height='" . $pseudo_height . "px'";
             }
         }
@@ -89,9 +94,10 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
      */
     function sf_createThumbnail($source, $thumb_width)
     {
-        global $xoopsModuleConfig;
+        /** @var Smartfaq\Helper $helper */
+        $helper = Smartfaq\Helper::getInstance();
 
-        $img_path   = XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'];
+        $img_path   = XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments');
         $thumb_path = $img_path . '/thumbs';
         $src_file   = $img_path . '/' . $source;
         $new_file   = $thumb_path . '/' . $source;
@@ -117,7 +123,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
         $newWidth  = (int)min($imginfo[0], $thumb_width);
         $newHeight = (int)($imginfo[1] * $newWidth / $imginfo[0]);
 
-        if (1 == $xoopsModuleConfig['image_lib'] or 0 == $xoopsModuleConfig['image_lib']) {
+        if (1 == $helper->getConfig('image_lib') or 0 == $helper->getConfig('image_lib')) {
             if (preg_match("#[A-Z]:|\\\\#Ai", __FILE__)) {
                 $cur_dir     = __DIR__;
                 $src_file_im = '"' . $cur_dir . '\\' . str_replace('/', '\\', $src_file) . '"';
@@ -126,7 +132,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
                 $src_file_im = @escapeshellarg($src_file);
                 $new_file_im = @escapeshellarg($new_file);
             }
-            $path           = empty($xoopsModuleConfig['path_magick']) ? '' : $xoopsModuleConfig['path_magick'] . '/';
+            $path           = empty($helper->getConfig('path_magick')) ? '' : $helper->getConfig('path_magick') . '/';
             $magick_command = $path . 'convert -quality 85 -antialias -sample ' . $newWidth . 'x' . $newHeight . ' ' . $src_file_im . ' +profile "*" ' . str_replace('\\', '/', $new_file_im) . '';
 
             @passthru($magick_command);
@@ -135,8 +141,8 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
             }
         }
 
-        if (2 == $xoopsModuleConfig['image_lib'] or 0 == $xoopsModuleConfig['image_lib']) {
-            $path = empty($xoopsModuleConfig['path_netpbm']) ? '' : $xoopsModuleConfig['path_netpbm'] . '/';
+        if (2 == $helper->getConfig('image_lib') or 0 == $helper->getConfig('image_lib')) {
+            $path = empty($helper->getConfig('path_netpbm')) ? '' : $helper->getConfig('path_netpbm') . '/';
             if (preg_match("/\.png/i", $source)) {
                 $cmd = $path . "pngtopnm $src_file | " . $path . "pnmscale -xysize $newWidth $newHeight | " . $path . "pnmtopng > $new_file";
             } elseif (preg_match("/\.(jpg|jpeg)/i", $source)) {

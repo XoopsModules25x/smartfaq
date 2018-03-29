@@ -12,7 +12,9 @@ use XoopsModules\Smartfaq\Constants;
 require_once __DIR__ . '/header.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
-global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
+global $xoopsUser, $xoopsConfig,  $xoopsModule;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
@@ -33,9 +35,9 @@ if (0 == $totalCategories) {
 $isAdmin = Smartfaq\Utility::userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
 if (!($isAdmin
-      || (isset($xoopsModuleConfig['allowrequest'])
-          && 1 == $xoopsModuleConfig['allowrequest']
-          && (is_object($xoopsUser) || (isset($xoopsModuleConfig['anonpost']) && 1 == $xoopsModuleConfig['anonpost']))))) {
+      ||  (null !== ($helper->getConfig('allowrequest'))
+          && 1 == $helper->getConfig('allowrequest')
+          && (is_object($xoopsUser) ||  (null !== ($helper->getConfig('anonpost')) && 1 == $helper->getConfig('anonpost')))))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -51,12 +53,12 @@ if (isset($_POST['op'])) {
 switch ($op) {
     case 'post':
 
-        global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsModuleConfig, $xoopsDB;
+        global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsDB;
 
         $newFaqObj = $faqHandler->create();
 
         if (!$xoopsUser) {
-            if (1 == $xoopsModuleConfig['anonpost']) {
+            if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
@@ -73,7 +75,7 @@ switch ($op) {
         $newFaqObj->setVar('notifypub', $notifypub);
 
         // Setting the status of the FAQ
-        if (1 == $xoopsModuleConfig['autoapprove_request']) {
+        if (1 == $helper->getConfig('autoapprove_request')) {
             $newFaqObj->setVar('status', Constants::SF_STATUS_OPENED);
         } else {
             $newFaqObj->setVar('status', Constants::SF_STATUS_ASKED);
@@ -86,7 +88,7 @@ switch ($op) {
 
         // Get the cateopry object related to that FAQ
         // If autoapprove_requested
-        if (1 == $xoopsModuleConfig['autoapprove_request']) {
+        if (1 == $helper->getConfig('autoapprove_request')) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
@@ -126,7 +128,7 @@ switch ($op) {
         $xoopsTpl->assign('lang_submit', _MD_SF_REQUEST);
 
         $xoopsTpl->assign('lang_intro_title', _MD_SF_REQUEST);
-        $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . $myts->displayTarea($xoopsModuleConfig['requestintromsg']));
+        $xoopsTpl->assign('lang_intro_text', _MD_SF_GOODDAY . "<b>$name</b>, " . $myts->displayTarea($helper->getConfig('requestintromsg')));
 
         require_once __DIR__ . '/include/request.inc.php';
 

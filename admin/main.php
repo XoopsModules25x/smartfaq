@@ -8,6 +8,8 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -32,7 +34,10 @@ $groups       = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
 function buildTable()
 {
-    global $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
+    global $xoopsConfig,  $xoopsModule;
+    /** @var Smartfaq\Helper $helper */
+    $helper = Smartfaq\Helper::getInstance();
+
     echo "<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>";
     echo '<tr>';
     echo "<th width='40' class='bg3' align='center'><b>" . _AM_SF_FAQID . '</b></td>';
@@ -66,7 +71,7 @@ $startentry = isset($_GET['startentry']) ? (int)$_GET['startentry'] : 0;
 $adminObject = \Xmf\Module\Admin::getInstance();
 xoops_cp_header();
 $adminObject->displayNavigation(basename(__FILE__));
-global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $faqid;
+global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $faqid;
 
 // Total FAQs -- includes everything on the table
 $totalfaqs = $faqHandler->getFaqsCount();
@@ -308,7 +313,7 @@ $numrows        = (0 == $statussel) ? $totalfaqs : $totalfaqbystatus[$statussel]
 $statusSelected = (0 == $statussel) ? Constants::SF_STATUS_ALL : $statussel;
 
 // creating the Q&As objects
-$faqsObj = $faqHandler->getFaqsAdminSide($xoopsModuleConfig['perpage'], $startentry, $statusSelected, -1, $sortsel, $ordersel);
+$faqsObj = $faqHandler->getFaqsAdminSide($helper->getConfig('perpage'), $startentry, $statusSelected, -1, $sortsel, $ordersel);
 
 // fetching all categories
 $allCats          = $categoryHandler->getObjects(null, true);
@@ -454,9 +459,9 @@ if ($numrows > 0) {
 }
 echo "</table>\n";
 echo "<span style=\"color: #567; margin: 3px 0 18px 0; font-size: small; display: block; \">$status_explaination</span>";
-$pagenav = new \XoopsPageNav($numrows, $xoopsModuleConfig['perpage'], $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
+$pagenav = new \XoopsPageNav($numrows, $helper->getConfig('perpage'), $startentry, 'startentry', "statussel=$statussel&amp;sortsel=$sortsel&amp;ordersel=$ordersel");
 
-if (1 == $xoopsModuleConfig['useimagenavpage']) {
+if (1 == $helper->getConfig('useimagenavpage')) {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderImageNav() . '</div>';
 } else {
     echo '<div style="text-align:right; background-color: white; margin: 10px 0;">' . $pagenav->renderNav() . '</div>';

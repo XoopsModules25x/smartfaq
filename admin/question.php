@@ -8,6 +8,8 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -38,7 +40,9 @@ $startfaq = isset($_GET['startfaq']) ? (int)$_GET['startfaq'] : 0;
  */
 function editfaq($showmenu = false, $faqid = -1)
 {
-    global $faqHandler, $categoryHandler, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts;
+    global $faqHandler, $categoryHandler, $xoopsUser, $xoopsConfig, $xoopsDB, $modify,  $xoopsModule, $XOOPS_URL, $myts;
+    /** @var Smartfaq\Helper $helper */
+    $helper = Smartfaq\Helper::getInstance();
 
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
@@ -92,7 +96,7 @@ function editfaq($showmenu = false, $faqid = -1)
     $sform->setExtra('enctype="multipart/form-data"');
 
     // faq requester
-    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, Smartfaq\Utility::getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, Smartfaq\Utility::getLinkedUnameFromId($faqObj->uid(), $helper->getConfig('userealname'))));
 
     // CATEGORY
     /*
@@ -177,7 +181,7 @@ function editfaq($showmenu = false, $faqid = -1)
 switch ($op) {
     case 'mod':
 
-        global $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $modify, $myts;
+        global $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
         $faqid = isset($_GET['faqid']) ? $_GET['faqid'] : -1;
 
         if (-1 == $faqid) {
@@ -198,7 +202,7 @@ switch ($op) {
 
     case 'addfaq':
         if (!$xoopsUser) {
-            if (1 == $xoopsModuleConfig['anonpost']) {
+            if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
@@ -309,7 +313,7 @@ switch ($op) {
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
-        global  $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $smartModuleConfig;
+        global  $xoopsConfig, $xoopsDB,  $xoopsModule, $smartModuleConfig;
 
         echo "<br>\n";
 
@@ -322,7 +326,7 @@ switch ($op) {
         // Get the total number of published FAQs
         $totalfaqs = $faqHandler->getFaqsCount(-1, [Constants::SF_STATUS_OPENED]);
         // creating the FAQ objects that are published
-        $faqsObj         = $faqHandler->getFaqs($xoopsModuleConfig['perpage'], $startfaq, Constants::SF_STATUS_OPENED);
+        $faqsObj         = $faqHandler->getFaqs($helper->getConfig('perpage'), $startfaq, Constants::SF_STATUS_OPENED);
 //        $totalFaqsOnPage = count($faqsObj);
         $allCats         = $categoryHandler->getObjects(null, true);
         echo "<table width='100%' cellspacing=1 cellpadding=3 border=0 class = outer>";
@@ -367,7 +371,7 @@ switch ($op) {
         echo "</table>\n";
         echo "<br>\n";
 
-        $pagenav = new \XoopsPageNav($totalfaqs, $xoopsModuleConfig['perpage'], $startfaq, 'startfaq');
+        $pagenav = new \XoopsPageNav($totalfaqs, $helper->getConfig('perpage'), $startfaq, 'startfaq');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '</div>';
 

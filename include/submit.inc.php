@@ -7,6 +7,8 @@
  */
 
 use XoopsModules\Smartfaq;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -40,9 +42,9 @@ $form->addElement(new \XoopsFormTextArea(_MD_SF_QUESTION, 'question', $faqObj->q
 
 $userIsAdmin = Smartfaq\Utility::userIsAdmin();
 if ($userIsAdmin) {
-    $tempEditor = $xoopsModuleConfig['form_editorOptions'];
+    $tempEditor = $helper->getConfig('form_editorOptions');
 } else {
-    $tempEditor = $xoopsModuleConfig['form_editorOptionsUser'];
+    $tempEditor = $helper->getConfig('form_editorOptionsUser');
 }
 
 $editorTray = new \XoopsFormElementTray(_MD_SF_ANSWER_FAQ, '<br>');
@@ -78,20 +80,20 @@ $form->addElement($diduno_text);
 //if ($topicHandler->getPermission($forum_obj, $topic_status, 'attach')) {
 $upload_tray = new \XoopsFormElementTray(_MD_SF_ATTACHMENT);
 //    $upload_tray->addElement(new \XoopsFormFile('', 'userfile', ($forum_obj->getVar('attach_maxkb') * 1024)));
-$upload_tray->addElement(new \XoopsFormFile('', 'userfile', $xoopsModuleConfig['max_image_size'] * 1024));
+$upload_tray->addElement(new \XoopsFormFile('', 'userfile', $helper->getConfig('max_image_size') * 1024));
 $upload_tray->addElement(new \XoopsFormButton('', 'contents_upload', _MD_SF_UPLOAD, 'submit'));
-$upload_tray->addElement(new \XoopsFormLabel('<br><br>' . _MD_SF_MAX_FILESIZE . ':', $xoopsModuleConfig['max_image_size'] . 'Kb; '));
-$extensions = trim(str_replace('|', ' ', $xoopsModuleConfig['attach_ext']));
+$upload_tray->addElement(new \XoopsFormLabel('<br><br>' . _MD_SF_MAX_FILESIZE . ':', $helper->getConfig('max_image_size') . 'Kb; '));
+$extensions = trim(str_replace('|', ' ', $helper->getConfig('attach_ext')));
 $extensions = (empty($extensions) || '*' === $extensions) ? _ALL : $extensions;
 $upload_tray->addElement(new \XoopsFormLabel(_MD_SF_ALLOWED_EXTENSIONS . ':', $extensions));
-$upload_tray->addElement(new \XoopsFormLabel('<br>' . sprintf(_MD_SF_MAXPIC, $xoopsModuleConfig['max_img_height'], $xoopsModuleConfig['max_img_width'])));
+$upload_tray->addElement(new \XoopsFormLabel('<br>' . sprintf(_MD_SF_MAXPIC, $helper->getConfig('max_img_height'), $helper->getConfig('max_img_width'))));
 $form->addElement($upload_tray);
 //}
 
 if (!empty($attachments) && is_array($attachments) && count($attachments)) {
     $delete_attach_checkbox = new \XoopsFormCheckBox(_MD_SF_ATTACHED_FILES, 'delete_attach[]');
     foreach ($attachments as $key => $attachment) {
-        $attach = ' ' . _DELETE . ' <a href=' . XOOPS_URL . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $attachment['name_saved'] . ' rel="external">' . $attachment['name_display'] . '</a><br>';
+        $attach = ' ' . _DELETE . ' <a href=' . XOOPS_URL . '/' . $helper->getConfig('dir_attachments') . '/' . $attachment['name_saved'] . ' rel="external">' . $attachment['name_display'] . '</a><br>';
         $delete_attach_checkbox->addOption($key, $attach);
     }
     $form->addElement($delete_attach_checkbox);

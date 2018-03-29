@@ -7,8 +7,10 @@
  */
 
 use XoopsModules\Smartfaq;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
-global $xoopsTpl, $xoopsModule, $xoopsModuleConfig;
+global $xoopsTpl, $xoopsModule;
 
 $uid     = $xoopsUser ? $xoopsUser->getVar('uid') : 0;
 $isAdmin = (Smartfaq\Utility::userIsAdmin() || Smartfaq\Utility::hasModerator());
@@ -26,13 +28,13 @@ $xoopsTpl->assign([
 $xoopsTpl->assign('sectionname', $myts->displayTarea($xoopsModule->getVar('name')));
 
 $xoopsTpl->assign('modulename', $xoopsModule->dirname());
-$xoopsTpl->assign('displaylastfaq', $xoopsModuleConfig['displaylastfaq']);
-$xoopsTpl->assign('displaysubcatdsc', $xoopsModuleConfig['displaysubcatdsc']);
-$xoopsTpl->assign('displaycollaps', $xoopsModuleConfig['displaycollaps']);
-$xoopsTpl->assign('display_date_col', $xoopsModuleConfig['display_date_col']);
-$xoopsTpl->assign('display_hits_col', $xoopsModuleConfig['display_hits_col']);
+$xoopsTpl->assign('displaylastfaq', $helper->getConfig('displaylastfaq'));
+$xoopsTpl->assign('displaysubcatdsc', $helper->getConfig('displaysubcatdsc'));
+$xoopsTpl->assign('displaycollaps', $helper->getConfig('displaycollaps'));
+$xoopsTpl->assign('display_date_col', $helper->getConfig('display_date_col'));
+$xoopsTpl->assign('display_hits_col', $helper->getConfig('display_hits_col'));
 
-$xoopsTpl->assign('displaytopcatdsc', $xoopsModuleConfig['displaytopcatdsc']);
+$xoopsTpl->assign('displaytopcatdsc', $helper->getConfig('displaytopcatdsc'));
 
 $xoopsTpl->assign('ref_smartfaq', 'SmartFAQ is developed by The SmartFactory (http://www.smartfactory.ca), a division of InBox Solutions (http://www.inboxsolutions.net)');
 

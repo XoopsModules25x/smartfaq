@@ -7,6 +7,8 @@
  */
 
 use XoopsModules\Smartfaq;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/header.php';
 
@@ -46,14 +48,14 @@ $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
 $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // creating the FAQ objects that belong to the selected category
-if (1 == $xoopsModuleConfig['orderbydate']) {
+if (1 == $helper->getConfig('orderbydate')) {
     $sort  = 'datesub';
     $order = 'DESC';
 } else {
     $sort  = 'weight';
     $order = 'ASC';
 }
-$faqsObj = $faqHandler->getAllPublished($xoopsModuleConfig['indexperpage'], $start, $categoryid, $sort, $order);
+$faqsObj = $faqHandler->getAllPublished($helper->getConfig('indexperpage'), $start, $categoryid, $sort, $order);
 
 $totalQnasOnPage = 0;
 if ($faqsObj) {
@@ -70,11 +72,11 @@ $totalQnas = $categoryHandler->publishedFaqsCount();
 
 $category['categoryPath'] = $categoryObj->getCategoryPath();
 
-if (1 == $xoopsModuleConfig['displaylastfaq']) {
+if (1 == $helper->getConfig('displaylastfaq')) {
     // Get the last smartfaq
     $last_qnaObj = $faqHandler->getLastPublishedByCat();
 }
-$lastfaqsize = (int)$xoopsModuleConfig['lastfaqsize'];
+$lastfaqsize = (int)$helper->getConfig('lastfaqsize');
 // Creating the sub-categories objects that belong to the selected category
 $subcatsObj    =& $categoryHandler->getCategories(0, 0, $categoryid);
 $total_subcats = count($subcatsObj);
@@ -147,7 +149,7 @@ if (count($faqsObj) > 0) {
 $xoopsTpl->assign('whereInSection', $myts->displayTarea($xoopsModule->getVar('name')));
 $xoopsTpl->assign('displaylastfaqs', true);
 $xoopsTpl->assign('display_categoryname', true);
-$xoopsTpl->assign('displayFull', 'full' === $xoopsModuleConfig['displaytype']);
+$xoopsTpl->assign('displayFull', 'full' === $helper->getConfig('displaytype'));
 
 // Language constants
 $xoopsTpl->assign('lang_index_faqs', _MD_SF_SMARTFAQS);
@@ -166,8 +168,8 @@ $xoopsTpl->assign('lang_comments', _MD_SF_COMMENTS);
 
 // The Navigation Bar
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-$pagenav = new \XoopsPageNav($thiscategory_faqcount, $xoopsModuleConfig['indexperpage'], $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
-if (1 == $xoopsModuleConfig['useimagenavpage']) {
+$pagenav = new \XoopsPageNav($thiscategory_faqcount, $helper->getConfig('indexperpage'), $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
+if (1 == $helper->getConfig('useimagenavpage')) {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');

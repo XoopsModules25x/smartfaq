@@ -439,7 +439,10 @@ class Utility
     // TODO : Move this to the Smartfaq\Faq class
     public static function getAdminLinks($faqid = 0, $open = false)
     {
-        global $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
+        global $xoopsUser, $xoopsModule,  $xoopsConfig;
+        /** @var Smartfaq\Helper $helper */
+        $helper = Smartfaq\Helper::getInstance();
+
         $adminLinks = '';
         $modulePath = XOOPS_URL . '/modules/' . $xoopsModule->dirname() . '/';
         $page       = $open ? 'question.php' : 'faq.php';
@@ -459,7 +462,7 @@ class Utility
         $adminLinks .= '<a href="' . $maillink . "\"><img src='" . $modulePath . "assets/images/links/friend.gif' title='" . _MD_SF_MAIL . "' alt='" . _MD_SF_MAIL . "'></a>";
         $adminLinks .= ' ';
         // Submit New Answer button
-        if ($xoopsModuleConfig['allownewanswer'] && (is_object($xoopsUser) || $xoopsModuleConfig['anonpost'])) {
+        if ($helper->getConfig('allownewanswer') && (is_object($xoopsUser) || $helper->getConfig('anonpost'))) {
             $adminLinks .= "<a href='" . $modulePath . 'answer.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/newanswer.gif' title='" . _MD_SF_SUBMITANSWER . "' alt='" . _MD_SF_SUBMITANSWER . "'></a>";
             $adminLinks .= ' ';
         }

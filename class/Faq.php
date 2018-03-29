@@ -8,6 +8,8 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -640,8 +642,10 @@ class Faq extends \XoopsObject
      */
     public function toArray($faq = [], $category = null, $linkInQuestion = true)
     {
-        global $xoopsModuleConfig;
-        $lastfaqsize = (int)$xoopsModuleConfig['lastfaqsize'];
+        /** @var Smartfaq\Helper $helper */
+        $helper = Smartfaq\Helper::getInstance();
+
+        $lastfaqsize = (int)$helper->getConfig('lastfaqsize');
 
         $faq['id']         = $this->faqid();
         $faq['categoryid'] = $this->categoryid();

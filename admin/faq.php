@@ -9,6 +9,8 @@
 use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -43,7 +45,9 @@ $startfaq = isset($_GET['startfaq']) ? (int)$_GET['startfaq'] : 0;
  */
 function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 {
-    global $answerHandler, $faqHandler, $categoryHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts;
+    global $answerHandler, $faqHandler, $categoryHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify,  $xoopsModule, $XOOPS_URL, $myts;
+    /** @var Smartfaq\Helper $helper */
+    $helper = Smartfaq\Helper::getInstance();
 
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
@@ -170,10 +174,10 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $sform->setExtra('enctype="multipart/form-data"');
 
     // faq requester
-    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, Smartfaq\Utility::getLinkedUnameFromId($faqObj->uid(), $xoopsModuleConfig['userealname'])));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_REQUESTED_BY, Smartfaq\Utility::getLinkedUnameFromId($faqObj->uid(), $helper->getConfig('userealname'))));
 
     // faq answered by
-    $sform->addElement(new \XoopsFormLabel(_AM_SF_ANSWERED_BY, Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname'])));
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_ANSWERED_BY, Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $helper->getConfig('userealname'))));
 
     // CATEGORY
     /*
@@ -194,7 +198,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
     // ANSWER
     if ($merge) {
-        $theanswer = $originalAnswerObj->answer('e') . "\n\n" . sprintf(_AM_SF_NEW_CONTRIBUTION, Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $xoopsModuleConfig['userealname']), $answerObj->datesub(), $answerObj->answer('e'));
+        $theanswer = $originalAnswerObj->answer('e') . "\n\n" . sprintf(_AM_SF_NEW_CONTRIBUTION, Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $helper->getConfig('userealname')), $answerObj->datesub(), $answerObj->answer('e'));
     } else {
         $theanswer = $answerObj->answer('e');
     }
@@ -209,7 +213,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
         $options['cols']   = '100%';
         $options['width']  = '100%';
         $options['height'] = '200px';
-        $answerEditor      = new \XoopsFormEditor('', $xoopsModuleConfig['form_editorOptions'], $options, $nohtml = false, $onfailure = 'textarea');
+        $answerEditor      = new \XoopsFormEditor('', $helper->getConfig('form_editorOptions'), $options, $nohtml = false, $onfailure = 'textarea');
         $editorTray->addElement($answerEditor, true);
     } else {
         $answerEditor = new \XoopsFormDhtmlTextArea(_AM_SF_ANSWER_FAQ, 'answer', $theanswer, '100%', '100%');
@@ -368,7 +372,7 @@ switch ($op) {
 
     case 'mod':
 
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $modify, $myts;
+        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
         $faqid    = isset($_GET['faqid']) ? $_GET['faqid'] : -1;
         $answerid = isset($_GET['answerid']) ? $_GET['answerid'] : -1;
         if (-1 == $faqid) {

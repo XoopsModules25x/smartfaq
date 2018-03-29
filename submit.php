@@ -11,7 +11,9 @@ use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/header.php';
 
-global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
+global $xoopsUser, $xoopsConfig, $xoopsModule;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
@@ -36,10 +38,10 @@ if (0 == $totalCategories) {
 $isAdmin = Smartfaq\Utility::userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
 if (!($isAdmin
-      || (isset($xoopsModuleConfig['allowsubmit']) && 1 == $xoopsModuleConfig['allowsubmit']
+      ||  (null !== ($helper->getConfig('allowsubmit')) && 1 == $helper->getConfig('allowsubmit')
           && (is_object($xoopsUser)
-              || (isset($xoopsModuleConfig['anonpost'])
-                  && 1 == $xoopsModuleConfig['anonpost']))))) {
+              ||  (null !== ($helper->getConfig('anonpost'))
+                  && 1 == $helper->getConfig('anonpost')))))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
@@ -54,14 +56,14 @@ if (isset($_POST['post'])) {
 switch ($op) {
     case 'preview':
 
-        global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsModuleConfig, $xoopsDB;
+        global $xoopsUser, $xoopsConfig, $xoopsModule,  $xoopsDB;
 
         $faqObj      = $faqHandler->create();
         $answerObj   = $answerHandler->create();
         $categoryObj = $categoryHandler->get($_POST['categoryid']);
 
         if (!$xoopsUser) {
-            if (1 == $xoopsModuleConfig['anonpost']) {
+            if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
@@ -118,13 +120,13 @@ switch ($op) {
 
     case 'post':
 
-        global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsModuleConfig, $xoopsDB;
+        global $xoopsUser, $xoopsConfig, $xoopsModule,  $xoopsDB;
 
         $newFaqObj    = $faqHandler->create();
         $newAnswerObj = $answerHandler->create();
 
         if (!$xoopsUser) {
-            if (1 == $xoopsModuleConfig['anonpost']) {
+            if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
@@ -151,7 +153,7 @@ switch ($op) {
         $isAdmin = Smartfaq\Utility::userIsAdmin();
         if ($isAdmin) {
             $newFaqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
-        } elseif (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
+        } elseif (1 == $helper->getConfig('autoapprove_submitted_faq')) {
             $newFaqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
         } else {
             $newFaqObj->setVar('status', Constants::SF_STATUS_SUBMITTED);
@@ -175,14 +177,14 @@ switch ($op) {
             $attachments_tmp = unserialize(base64_decode($_POST['attachments_tmp']));
             if (isset($_POST['delete_tmp']) && count($_POST['delete_tmp'])) {
                 foreach ($_POST['delete_tmp'] as $key) {
-                    unlink(XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $attachments_tmp[$key][0]);
+                    unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $attachments_tmp[$key][0]);
                     unset($attachments_tmp[$key]);
                 }
             }
         }
         if (count($attachments_tmp)) {
             foreach ($attachments_tmp as $key => $attach) {
-                if (rename(XOOPS_CACHE_PATH . '/' . $attachments_tmp[$key][0], XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $attachments_tmp[$key][0])) {
+                if (rename(XOOPS_CACHE_PATH . '/' . $attachments_tmp[$key][0], XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $attachments_tmp[$key][0])) {
                     $post_obj->setAttachment($attach[0], $attach[1], $attach[2]);
                 }
             }
@@ -195,7 +197,7 @@ switch ($op) {
             $maxfilesize = $forum_obj->getVar('attach_maxkb') * 1024;
             $uploaddir   = XOOPS_CACHE_PATH;
 
-            $uploader = new Smartfaq\Uploader($uploaddir, $newAnswerObj->getVar('attach_ext'), (int)$maxfilesize, (int)$xoopsModuleConfig['max_img_width'], (int)$xoopsModuleConfig['max_img_height']);
+            $uploader = new Smartfaq\Uploader($uploaddir, $newAnswerObj->getVar('attach_ext'), (int)$maxfilesize, (int)$helper->getConfig('max_img_width'), (int)$helper->getConfig('max_img_height'));
 
             if ($_FILES['userfile']['error'] > 0) {
                 switch ($_FILES['userfile']['error']) {
@@ -219,7 +221,7 @@ switch ($op) {
                         $error_message[] = $error_upload =& $uploader->getErrors();
                     } else {
                         if (is_file($uploader->getSavedDestination())) {
-                            if (rename(XOOPS_CACHE_PATH . '/' . $uploader->getSavedFileName(), XOOPS_ROOT_PATH . '/' . $xoopsModuleConfig['dir_attachments'] . '/' . $uploader->getSavedFileName())) {
+                            if (rename(XOOPS_CACHE_PATH . '/' . $uploader->getSavedFileName(), XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $uploader->getSavedFileName())) {
                                 $post_obj->setAttachment($uploader->getSavedFileName(), $uploader->getMediaName(), $uploader->getMediaType());
                             }
                         }
@@ -248,7 +250,7 @@ switch ($op) {
             $newFaqObj->sendNotifications([Constants::SF_NOT_FAQ_PUBLISHED]);
 
             $redirect_msg = _MD_SF_SUBMIT_FROM_ADMIN;
-        } elseif (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
+        } elseif (1 == $helper->getConfig('autoapprove_submitted_faq')) {
             // We do not not subscribe user to notification on publish since we publish it right away
 
             // Send notifications

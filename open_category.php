@@ -8,10 +8,12 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/header.php';
 
-global $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
+global $xoopsConfig, $xoopsModule;
 
 $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 
@@ -45,7 +47,7 @@ $start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
 $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // creating the FAQ objects that belong to the selected category
-$faqsObj = $faqHandler->getFaqs($xoopsModuleConfig['indexperpage'], $start, Constants::SF_STATUS_OPENED, $categoryid);
+$faqsObj = $faqHandler->getFaqs($helper->getConfig('indexperpage'), $start, Constants::SF_STATUS_OPENED, $categoryid);
 
 $totalQnasOnPage = 0;
 if ($faqsObj) {
@@ -130,8 +132,8 @@ $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 
 // The Navigation Bar
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-$pagenav = new \XoopsPageNav($totalQnas[$categoryid], $xoopsModuleConfig['indexperpage'], $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
-if (1 == $xoopsModuleConfig['useimagenavpage']) {
+$pagenav = new \XoopsPageNav($totalQnas[$categoryid], $helper->getConfig('indexperpage'), $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
+if (1 == $helper->getConfig('useimagenavpage')) {
     $category['navbar'] = '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>';
 } else {
     $category['navbar'] = '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';

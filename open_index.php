@@ -9,9 +9,12 @@
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
+
 require_once __DIR__ . '/header.php';
 
-global $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
+global $xoopsConfig, $xoopsModule;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 // At which record shall we start for the Categories
 $catstart = isset($_GET['catstart']) ? (int)$_GET['catstart'] : 0;
@@ -36,7 +39,7 @@ if (0 == $totalFaqs) {
 }
 
 // Creating the categories objects
-$categoriesObj = $categoryHandler->getCategories($xoopsModuleConfig['catperpage'], $catstart);
+$categoriesObj = $categoryHandler->getCategories($helper->getConfig('catperpage'), $catstart);
 
 // If no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
@@ -91,10 +94,10 @@ foreach ($categoriesObj as $cat_id => $category) {
 }
 $xoopsTpl->assign('categories', $categories);
 
-$displaylastfaqs = $xoopsModuleConfig['displaylastfaqs'];
+$displaylastfaqs = $helper->getConfig('displaylastfaqs');
 if ($displaylastfaqs) {
     // Creating the last FAQs
-    $faqsObj         = $faqHandler->getFaqs($xoopsModuleConfig['indexperpage'], $start, Constants::SF_STATUS_OPENED);
+    $faqsObj         = $faqHandler->getFaqs($helper->getConfig('indexperpage'), $start, Constants::SF_STATUS_OPENED);
     $totalQnasOnPage = count($faqsObj);
 
     if ($faqsObj) {
@@ -130,7 +133,7 @@ $xoopsTpl->assign([
 
 $moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
 $xoopsTpl->assign('lang_mainhead', sprintf(_MD_SF_OPEN_WELCOME, $xoopsConfig['sitename']));
-$xoopsTpl->assign('lang_mainintro', $myts->displayTarea($xoopsModuleConfig['openquestionintromsg'], 1));
+$xoopsTpl->assign('lang_mainintro', $myts->displayTarea($helper->getConfig('openquestionintromsg'), 1));
 $xoopsTpl->assign('lang_total', _MD_SF_TOTAL_QUESTIONS);
 $xoopsTpl->assign('lang_home', _MD_SF_HOME);
 $xoopsTpl->assign('lang_description', _MD_SF_DESCRIPTION);
@@ -139,7 +142,7 @@ $xoopsTpl->assign('sectionname', $moduleName);
 $xoopsTpl->assign('whereInSection', "<a href='index.php'>" . $moduleName . '</a> > ' . _MD_SF_OPEN_SECTION);
 
 $xoopsTpl->assign('displayFull', false);
-$xoopsTpl->assign('displaylastfaqs', $xoopsModuleConfig['displaylastfaqs']);
+$xoopsTpl->assign('displaylastfaqs', $helper->getConfig('displaylastfaqs'));
 $xoopsTpl->assign('display_categoryname', true);
 
 $xoopsTpl->assign('lang_reads', _MD_SF_READS);
@@ -153,16 +156,16 @@ $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 
 // Category Navigation Bar
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-$pagenav = new \XoopsPageNav($totalCategories, $xoopsModuleConfig['catperpage'], $catstart, 'catstart', '');
-if (1 == $xoopsModuleConfig['useimagenavpage']) {
+$pagenav = new \XoopsPageNav($totalCategories, $helper->getConfig('catperpage'), $catstart, 'catstart', '');
+if (1 == $helper->getConfig('useimagenavpage')) {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');
 }
 
 // FAQ Navigation Bar
-$pagenav = new \XoopsPageNav($totalFaqs, $xoopsModuleConfig['indexperpage'], $start, 'start', '');
-if (1 == $xoopsModuleConfig['useimagenavpage']) {
+$pagenav = new \XoopsPageNav($totalFaqs, $helper->getConfig('indexperpage'), $start, 'start', '');
+if (1 == $helper->getConfig('useimagenavpage')) {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');

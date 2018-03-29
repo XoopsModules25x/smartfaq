@@ -9,6 +9,9 @@
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
+
 require_once __DIR__ . '/admin_header.php';
 
 $op = '';
@@ -30,7 +33,9 @@ $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answe
  */
 function editfaq($faqid = '')
 {
-    global $answerHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts, $pathIcon16, $smartModuleConfig;
+    global $answerHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $XOOPS_URL, $myts, $pathIcon16, $smartModuleConfig;
+    /** @var Smartfaq\Helper $helper */
+    $helper = Smartfaq\Helper::getInstance();
 
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
@@ -151,13 +156,13 @@ switch ($op) {
     case 'mod':
         xoops_cp_header();
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule, $modify, $myts;
+        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
         $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
         editfaq($faqid);
         break;
 
     case 'selectanswer':
-        global $xoopsUser, $_GET, $xoopsModuleConfig;
+        global $xoopsUser, $_GET;
 
         $faqid    = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
         $answerid = isset($_GET['answerid']) ? (int)$_GET['answerid'] : 0;
@@ -184,7 +189,7 @@ switch ($op) {
         switch ($faqObj->status()) {
             // This was an Open Question that became a Submitted FAQ
             case Constants::SF_STATUS_ANSWERED:
-                if (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
+                if (1 == $helper->getConfig('autoapprove_submitted_faq')) {
                     // We automatically approve Submitted Q&A
                     $redirect_msg = _AM_SF_ANSWER_APPROVED_PUBLISHED;
                     $faqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
@@ -282,7 +287,9 @@ switch ($op) {
         xoops_cp_header();
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModuleConfig, $xoopsModule;
+        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule;
+        /** @var Smartfaq\Helper $helper */
+        $helper = Smartfaq\Helper::getInstance();
 
         editfaq();
         break;

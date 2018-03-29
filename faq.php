@@ -7,6 +7,8 @@
  */
 
 use XoopsModules\Smartfaq;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/header.php';
 
@@ -41,7 +43,7 @@ if ($faqAccessGrantedResult < 0) {
 }
 
 // Update the read counter of the selected FAQ
-if (!$xoopsUser || ($xoopsUser->isAdmin($xoopsModule->mid()) && 1 == $xoopsModuleConfig['adminhits'])
+if (!$xoopsUser || ($xoopsUser->isAdmin($xoopsModule->mid()) && 1 == $helper->getConfig('adminhits'))
     || ($xoopsUser
         && !$xoopsUser->isAdmin($xoopsModule->mid()))) {
     $faqObj->updateCounter();
@@ -53,7 +55,7 @@ require_once __DIR__ . '/footer.php';
 $faq = $faqObj->toArray(null, $categoryObj, false);
 
 // Populating the smarty variables with informations related to the selected FAQ
-/*$faq['questionlink'] = $faqObj->question($xoopsModuleConfig['questionsize']);
+/*$faq['questionlink'] = $faqObj->question($helper->getConfig('questionsize'));
 $faq['question'] = $faqObj->question();
 
 $faq['categoryid'] = $categoryObj->categoryid();

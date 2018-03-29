@@ -9,13 +9,15 @@
 use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/header.php';
 
-global $xoopsUser, $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
+global $xoopsUser, $xoopsConfig, $xoopsModule;
 
 // If user is anonymous and we don't allow anonymous posting, exit; else, get the uid
-if (!$xoopsUser && (1 != $xoopsModuleConfig['anonpost'])) {
+if (!$xoopsUser && (1 != $helper->getConfig('anonpost'))) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
@@ -54,7 +56,7 @@ switch ($op) {
 
         // If user is anonymous and we don't allow anonymous posting, exit; else, get the uid
         if (!$xoopsUser) {
-            if (1 == $xoopsModuleConfig['anonpost']) {
+            if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
@@ -87,9 +89,9 @@ switch ($op) {
         switch ($original_status) {
             // This is an Open Question
             case Constants::SF_STATUS_OPENED:
-                if (1 == $xoopsModuleConfig['autoapprove_answer']) {
+                if (1 == $helper->getConfig('autoapprove_answer')) {
                     // We automatically approve submitted answer for Open Question, so the question become a Submitted Q&A
-                    if (1 == $xoopsModuleConfig['autoapprove_submitted_faq']) {
+                    if (1 == $helper->getConfig('autoapprove_submitted_faq')) {
                         // We automatically approve Submitted Q&A
                         $redirect_msg = _MD_SF_QNA_RECEIVED_AND_PUBLISHED;
                         $faqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
@@ -115,7 +117,7 @@ switch ($op) {
             // This is a published FAQ for which a user submitted a new answer
             case Constants::SF_STATUS_PUBLISHED:
             case Constants::SF_STATUS_NEW_ANSWER:
-                if (1 == $xoopsModuleConfig['autoapprove_answer_new']) {
+                if (1 == $helper->getConfig('autoapprove_answer_new')) {
                     // We automatically approve new submitted answer for already published FAQ
                     $redirect_msg = '4';
                     $faqObj->setVar('status', Constants::SF_STATUS_SUBMITTED);

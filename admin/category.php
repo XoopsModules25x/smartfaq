@@ -7,6 +7,8 @@
  */
 
 use XoopsModules\Smartfaq;
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -84,7 +86,9 @@ function editcat($showmenu = false, $categoryid = 0)
     //$moderators = array(); // just to define the variable
     //$allmods = array();
     $startfaq = isset($_GET['startfaq']) ? (int)$_GET['startfaq'] : 0;
-    global $categoryHandler, $xoopsUser, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $_GET;
+    global $categoryHandler, $xoopsUser, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify,  $xoopsModule, $_GET;
+    /** @var Smartfaq\Helper $helper */
+    $helper = Smartfaq\Helper::getInstance();
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     // Creating the faq handler object
@@ -242,7 +246,7 @@ switch ($op) {
         break;
 
     case 'addcategory':
-        global $_POST, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $xoopsModuleConfig, $modify, $myts, $categoryid;
+        global $_POST, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule,  $modify, $myts, $categoryid;
 
         $categoryid = isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0;
 
@@ -340,7 +344,7 @@ switch ($op) {
         echo "<br>\n";
 
         // Creating the objects for top categories
-        $categoriesObj =& $categoryHandler->getCategories($xoopsModuleConfig['perpage'], $startcategory, 0);
+        $categoriesObj =& $categoryHandler->getCategories($helper->getConfig('perpage'), $startcategory, 0);
 
         Smartfaq\Utility::collapsableBar('toptable', 'toptableicon');
         echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CATEGORIES_TITLE . '</h3>';
@@ -367,7 +371,7 @@ switch ($op) {
         }
         echo "</table>\n";
         require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        $pagenav = new \XoopsPageNav($totalCategories, $xoopsModuleConfig['perpage'], $startcategory, 'startcategory');
+        $pagenav = new \XoopsPageNav($totalCategories, $helper->getConfig('perpage'), $startcategory, 'startcategory');
         echo '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>';
         echo '</div>';
 
