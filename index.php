@@ -14,10 +14,10 @@ $helper = Smartfaq\Helper::getInstance();
 require_once __DIR__ . '/header.php';
 
 // At which record shall we start for the Categories
-$catstart = isset($_GET['catstart']) ? (int)$_GET['catstart'] : 0;
+$catstart = \Xmf\Request::getInt('catstart', 0, 'GET');
 
 // At which record shall we start for the FAQ
-$start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
+$start = \Xmf\Request::getInt('start', 0, 'GET');
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */

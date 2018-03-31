@@ -26,7 +26,7 @@ if (isset($_POST['op'])) {
 }
 
 // Where do we start?
-$startcategory = isset($_GET['startcategory']) ? (int)$_GET['startcategory'] : 0;
+$startcategory = \Xmf\Request::getInt('startcategory', 0, 'GET');
 
 /**
  * @param XoopsObject $categoryObj
@@ -85,7 +85,7 @@ function editcat($showmenu = false, $categoryid = 0)
 {
     //$moderators = array(); // just to define the variable
     //$allmods = array();
-    $startfaq = isset($_GET['startfaq']) ? (int)$_GET['startfaq'] : 0;
+    $startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
     global $categoryHandler, $xoopsUser, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify,  $xoopsModule, $_GET;
     /** @var Smartfaq\Helper $helper */
     $helper = Smartfaq\Helper::getInstance();
@@ -236,8 +236,8 @@ function editcat($showmenu = false, $categoryid = 0)
 
 switch ($op) {
     case 'mod':
-        $categoryid  = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
-        $destList    = isset($_POST['destList']) ? $_POST['destList'] : '';
+        $categoryid  = \Xmf\Request::getInt('categoryid', 0, 'GET');
+        $destList    = \Xmf\Request::getString('destList', '', 'POST');
         $adminObject = \Xmf\Module\Admin::getInstance();
         xoops_cp_header();
 
@@ -248,7 +248,7 @@ switch ($op) {
     case 'addcategory':
         global $_POST, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule,  $modify, $myts, $categoryid;
 
-        $categoryid = isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0;
+        $categoryid = \Xmf\Request::getInt('categoryid', 0, 'POST');
 
         if (0 != $categoryid) {
             $categoryObj = new Smartfaq\Category($categoryid);
@@ -260,7 +260,7 @@ switch ($op) {
         //if (isset($_POST['moderators'])) $moderators = $_POST['moderators'];
 
         $categoryObj->setVar('parentid', isset($_POST['parentid']) ? (int)$_POST['parentid'] : 0);
-        $applyall = isset($_POST['applyall']) ? (int)$_POST['applyall'] : 0;
+        $applyall = \Xmf\Request::getInt('applyall', 0, 'POST');
         $categoryObj->setVar('weight', isset($_POST['weight']) ? (int)$_POST['weight'] : 1);
 
         // Groups and permissions
@@ -304,13 +304,13 @@ switch ($op) {
         $module_id    = $xoopsModule->getVar('mid');
         $gpermHandler = xoops_getHandler('groupperm');
 
-        $categoryid = isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0;
-        $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : $categoryid;
+        $categoryid = \Xmf\Request::getInt('categoryid', 0, 'POST');
+        $categoryid = \Xmf\Request::getInt('categoryid', $categoryid, 'GET');
 
         $categoryObj = new Smartfaq\Category($categoryid);
 
-        $confirm = isset($_POST['confirm']) ? $_POST['confirm'] : 0;
-        $name    = isset($_POST['name']) ? $_POST['name'] : '';
+        $confirm = \Xmf\Request::getInt('confirm', 0, POST);
+        $name    = \Xmf\Request::getString('name', '', 'POST');
 
         if ($confirm) {
             if (!$categoryHandler->delete($categoryObj)) {
@@ -319,7 +319,7 @@ switch ($op) {
             redirect_header('category.php', 1, sprintf(_AM_SF_COLISDELETED, $name));
         } else {
             // no confirm: show deletion condition
-            $categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
+            $categoryid = \Xmf\Request::getInt('categoryid', 0, 'GET');
             xoops_cp_header();
             xoops_confirm([
                               'op'         => 'del',

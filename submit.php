@@ -72,7 +72,7 @@ switch ($op) {
             $uid = $xoopsUser->uid();
         }
 
-        $notifypub = isset($_POST['notifypub']) ? $_POST['notifypub'] : 0;
+        $notifypub = \Xmf\Request::getInt('notifypub', 0, POST);
 
         // Putting the values about the FAQ in the FAQ object
         $faqObj->setVar('categoryid', $_POST['categoryid']);
@@ -135,7 +135,7 @@ switch ($op) {
             $uid = $xoopsUser->uid();
         }
 
-        $notifypub = isset($_POST['notifypub']) ? $_POST['notifypub'] : 0;
+        $notifypub = \Xmf\Request::getInt('notifypub', 0, POST);
 
         // Putting the values about the FAQ in the FAQ object
         $newFaqObj->setVar('categoryid', $_POST['categoryid']);

@@ -14,13 +14,13 @@ $helper = Smartfaq\Helper::getInstance();
 require_once __DIR__ . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
-$faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : 0;
+$faqid = \Xmf\Request::getInt('faqid', 0, 'POST');
 
 //$pick = isset($_GET['pick'])? (int)($_GET['pick']) : 0;
 //$pick = isset($_POST['pick'])? (int)($_POST['pick']) : $_GET['pick'];
 
-$statussel = isset($_GET['statussel']) ? (int)$_GET['statussel'] : Constants::SF_STATUS_ALL;
-$statussel = isset($_POST['statussel']) ? (int)$_POST['statussel'] : $statussel;
+$statussel = \Xmf\Request::getInt('statussel', Constants::SF_STATUS_ALL, 'GET');
+$statussel = \Xmf\Request::getInt('statussel', $statussel, 'POST');
 
 $sortsel = isset($_GET['sortsel']) ? $_GET['sortsel'] : 'faqid';
 $sortsel = isset($_POST['sortsel']) ? $_POST['sortsel'] : $sortsel;
@@ -66,7 +66,7 @@ $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Cat
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
 $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
-$startentry = isset($_GET['startentry']) ? (int)$_GET['startentry'] : 0;
+$startentry = \Xmf\Request::getInt('startentry', 0, 'GET');
 
 $adminObject = \Xmf\Module\Admin::getInstance();
 xoops_cp_header();

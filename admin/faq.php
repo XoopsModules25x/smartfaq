@@ -35,7 +35,7 @@ if (isset($_POST['op'])) {
 }
 
 // Where shall we start?
-$startfaq = isset($_GET['startfaq']) ? (int)$_GET['startfaq'] : 0;
+$startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
 
 /**
  * @param bool $showmenu

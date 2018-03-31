@@ -32,7 +32,7 @@ if (isset($_POST['op'])) {
 }
 
 // Where shall we start?
-$startfaq = isset($_GET['startfaq']) ? (int)$_GET['startfaq'] : 0;
+$startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
 
 /**
  * @param bool $showmenu
@@ -211,7 +211,7 @@ switch ($op) {
             $uid = $xoopsUser->uid();
         }
 
-        $faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : -1;
+        $faqid = \Xmf\Request::getInt('faqid', -1, 'POST');
 
         // Creating the FAQ
         if (-1 != $faqid) {
@@ -274,13 +274,13 @@ switch ($op) {
         $module_id    = $xoopsModule->getVar('mid');
         $gpermHandler = xoops_getHandler('groupperm');
 
-        $faqid = isset($_POST['faqid']) ? (int)$_POST['faqid'] : 0;
-        $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : $faqid;
+        $faqid = \Xmf\Request::getInt('faqid', 0, 'POST');
+        $faqid = \Xmf\Request::getInt('faqid', $faqid, 'GET');
 
         $faqObj = new Smartfaq\Faq($faqid);
 
-        $confirm  = isset($_POST['confirm']) ? $_POST['confirm'] : 0;
-        $question = isset($_POST['question']) ? $_POST['question'] : '';
+        $confirm  = \Xmf\Request::getInt('confirm', 0, POST);
+        $question = \Xmf\Request::getString('question', '', 'POST');
 
         if ($confirm) {
             if (!$faqHandler->delete($faqObj)) {
@@ -290,7 +290,7 @@ switch ($op) {
             redirect_header('question.php', 2, sprintf(_AM_SF_QUESTIONISDELETED, $faqObj->question()));
         } else {
             // no confirm: show deletion condition
-            $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
+            $faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
             xoops_cp_header();
             xoops_confirm([
                               'op'      => 'del',

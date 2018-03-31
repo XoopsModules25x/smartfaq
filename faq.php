@@ -12,7 +12,7 @@ $helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/header.php';
 
-$faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
+$faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
 
 if (0 == $faqid) {
     redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);

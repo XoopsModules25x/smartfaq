@@ -17,10 +17,10 @@ global $xoopsConfig, $xoopsModule;
 $helper = Smartfaq\Helper::getInstance();
 
 // At which record shall we start for the Categories
-$catstart = isset($_GET['catstart']) ? (int)$_GET['catstart'] : 0;
+$catstart = \Xmf\Request::getInt('catstart', 0, 'GET');
 
 // At which record shall we start for the FAQs
-$start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
+$start = \Xmf\Request::getInt('start', 0, 'GET');
 
 // Creating the category handler object
 $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');

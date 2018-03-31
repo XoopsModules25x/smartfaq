@@ -20,7 +20,7 @@ $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';
 
-$categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
+$categoryid = \Xmf\Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
 $categoryObj = new Smartfaq\Category($categoryid);
@@ -40,7 +40,7 @@ if (!$categoryObj->checkPermission()) {
 $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 // At which record shall we start
-$start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
+$start = \Xmf\Request::getInt('start', 0, 'GET');
 
 // Creating the faq handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */

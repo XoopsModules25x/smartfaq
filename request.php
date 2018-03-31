@@ -71,7 +71,7 @@ switch ($op) {
         $newFaqObj->setVar('categoryid', $_POST['categoryid']);
         $newFaqObj->setVar('uid', $uid);
         $newFaqObj->setVar('question', $_POST['question']);
-        $notifypub = isset($_POST['notifypub']) ? $_POST['notifypub'] : 0;
+        $notifypub = \Xmf\Request::getInt('notifypub', 0, POST);
         $newFaqObj->setVar('notifypub', $notifypub);
 
         // Setting the status of the FAQ

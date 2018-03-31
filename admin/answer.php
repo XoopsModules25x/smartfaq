@@ -157,15 +157,15 @@ switch ($op) {
         xoops_cp_header();
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
-        $faqid = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
+        $faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
         editfaq($faqid);
         break;
 
     case 'selectanswer':
         global $xoopsUser, $_GET;
 
-        $faqid    = isset($_GET['faqid']) ? (int)$_GET['faqid'] : 0;
-        $answerid = isset($_GET['answerid']) ? (int)$_GET['answerid'] : 0;
+        $faqid    = \Xmf\Request::getInt('faqid', 0, 'GET');
+        $answerid = \Xmf\Request::getInt('answerid', 0, 'GET');
 
         // Creating the FAQ object
         $faqObj = new Smartfaq\Faq($faqid);
@@ -239,11 +239,11 @@ switch ($op) {
     case 'del':
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB;
 
-        $faqid     = isset($_POST['faqid']) ? (int)$_POST['faqid'] : 0;
-        $faqid     = isset($_GET['faqid']) ? (int)$_GET['faqid'] : $faqid;
-        $answerid  = isset($_POST['answerid']) ? (int)$_POST['answerid'] : 0;
-        $answerid  = isset($_GET['answerid']) ? (int)$_GET['answerid'] : $answerid;
-        $confirm   = isset($_POST['confirm']) ? (int)$_POST['confirm'] : 0;
+        $faqid     = \Xmf\Request::getInt('faqid', 0, 'POST');
+        $faqid     = \Xmf\Request::getInt('faqid', $faqid, 'GET');
+        $answerid  = \Xmf\Request::getInt('answerid', 0, 'POST');
+        $answerid  = \Xmf\Request::getInt('answerid', $answerid, 'GET');
+        $confirm   = \Xmf\Request::getInt('confirm', 0, 'POST');
         $faqObj    = new Smartfaq\Faq($faqid);
         $answerObj = new Smartfaq\Answer($answerid);
         if ($confirm) {
