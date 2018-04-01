@@ -7,10 +7,11 @@
  */
 
 use XoopsModules\Smartfaq;
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/admin_header.php';
+
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
