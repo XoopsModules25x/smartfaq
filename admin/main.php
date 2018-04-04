@@ -29,7 +29,7 @@ $ordersel = isset($_GET['ordersel']) ? $_GET['ordersel'] : 'DESC';
 $ordersel = isset($_POST['ordersel']) ? $_POST['ordersel'] : $ordersel;
 
 $module_id    = $xoopsModule->getVar('mid');
-$gpermHandler = xoops_getHandler('groupperm');
+$grouppermHandler = xoops_getHandler('groupperm');
 $groups       = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
 function buildTable()

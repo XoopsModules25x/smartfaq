@@ -101,10 +101,10 @@ class Faq extends \XoopsObject
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         $this->category    = new Smartfaq\Category($this->getVar('categoryid'));
-        $this->groups_read = $gpermHandler->getGroupIds('item_read', $this->faqid(), $module_id);
+        $this->groups_read = $grouppermHandler->getGroupIds('item_read', $this->faqid(), $module_id);
     }
 
     /**

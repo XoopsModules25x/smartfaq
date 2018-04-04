@@ -36,7 +36,7 @@ class PermissionHandler extends \XoopsObjectHandler
         if (!isset($permissions[$type]) || (null !== $id && !isset($permissions[$type][$id]))) {
             $smartModule = Smartfaq\Utility::getModuleInfo();
             //Get group permissions handler
-            $gpermHandler = xoops_getHandler('groupperm');
+            $grouppermHandler = xoops_getHandler('groupperm');
             //Get user's groups
             $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : [XOOPS_GROUP_ANONYMOUS];
 
@@ -55,7 +55,7 @@ class PermissionHandler extends \XoopsObjectHandler
             }
 
             //Get all allowed item ids in this module and for this user's groups
-            $userpermissions    = $gpermHandler->getItemIds($gperm_name, $groups, $smartModule->getVar('mid'));
+            $userpermissions    = $grouppermHandler->getItemIds($gperm_name, $groups, $smartModule->getVar('mid'));
             $permissions[$type] = $userpermissions;
         }
 

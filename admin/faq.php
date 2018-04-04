@@ -546,7 +546,7 @@ switch ($op) {
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $_GET;
 
         $module_id    = $xoopsModule->getVar('mid');
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         $faqid = Request::getInt('faqid', 0, 'POST');
         $faqid = Request::getInt('faqid', $faqid, 'GET');

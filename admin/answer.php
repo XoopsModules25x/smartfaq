@@ -63,11 +63,11 @@ function editfaq($faqid = '')
     }
 
     $module_id    = $xoopsModule->getVar('mid');
-    $gpermHandler = xoops_getHandler('groupperm');
+    $grouppermHandler = xoops_getHandler('groupperm');
     $groups       = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
     if (!Smartfaq\Utility::userIsAdmin()
-        && (!$gpermHandler->checkRight('category_admin', $faqObj->categoryid(), $groups, $module_id))) {
+        && (!$grouppermHandler->checkRight('category_admin', $faqObj->categoryid(), $groups, $module_id))) {
         redirect_header('javascript:history.go(-1)', 1, _NOPERM);
     }
     // Retreiving the official answer

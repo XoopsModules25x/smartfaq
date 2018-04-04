@@ -78,9 +78,9 @@ class Category extends \XoopsObject
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
-        $this->groups_read = $gpermHandler->getGroupIds('category_read', $this->categoryid(), $module_id);
+        $this->groups_read = $grouppermHandler->getGroupIds('category_read', $this->categoryid(), $module_id);
     }
 
     /**

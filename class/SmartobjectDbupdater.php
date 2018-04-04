@@ -126,7 +126,7 @@ class SmartobjectDbupdater
         //felix
         // If table has updated field values, update the table
         if ($table->getUpdatedWhere()) {
-            $ret = $table->UpdateWhereValues($table) && $ret;
+            $ret = $table->updateWhereValues($table) && $ret;
         }
 
         return $ret;

@@ -272,7 +272,7 @@ switch ($op) {
         global  $xoopsConfig, $xoopsDB;
 
         $module_id    = $xoopsModule->getVar('mid');
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         $faqid = \Xmf\Request::getInt('faqid', 0, 'POST');
         $faqid = \Xmf\Request::getInt('faqid', $faqid, 'GET');

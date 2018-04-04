@@ -55,7 +55,7 @@ if (!$syspermHandler->checkRight('system_admin', XOOPS_SYSTEM_BLOCK, $xoopsUser-
 }
 
 // get blocks owned by the module
-$block_arr = XoopsBlock::getByModule($xoopsModule->mid());
+$block_arr = \XoopsBlock::getByModule($xoopsModule->mid());
 
 function list_blocks()
 {

@@ -265,14 +265,14 @@ class Utility
 
             $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
-            $gpermHandler = xoops_getHandler('groupperm');
+            $grouppermHandler = xoops_getHandler('groupperm');
             $smartModule  = self::getModuleInfo();
             $module_id    = $smartModule->getVar('mid');
 
             // Do we have access to the parent category
-            if ($gpermHandler->checkRight('category_read', $faqObj->categoryid(), $groups, $module_id)) {
+            if ($grouppermHandler->checkRight('category_read', $faqObj->categoryid(), $groups, $module_id)) {
                 // Do we have access to the faq?
-                if ($gpermHandler->checkRight('item_read', $faqObj->faqid(), $groups, $module_id)) {
+                if ($grouppermHandler->checkRight('item_read', $faqObj->faqid(), $groups, $module_id)) {
                     $result = 1;
                 } else { // No we don't !
                     // Check to see if we have partial view access
@@ -305,7 +305,7 @@ class Utility
         $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         $sql    = 'SELECT faqid FROM ' . $xoopsDB->prefix('smartfaq_faq') . " WHERE categoryid = '$categoryid' ";
         $result = $xoopsDB->queryF($sql);
@@ -313,11 +313,11 @@ class Utility
         if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
             while (false !== (list($faqid) = $xoopsDB->fetchRow($result))) {
                 // First, if the permissions are already there, delete them
-                $gpermHandler->deleteByModule($module_id, 'item_read', $faqid);
+                $grouppermHandler->deleteByModule($module_id, 'item_read', $faqid);
                 // Save the new permissions
                 if (count($groups) > 0) {
                     foreach ($groups as $group_id) {
-                        $gpermHandler->addRight('item_read', $faqid, $group_id, $module_id);
+                        $grouppermHandler->addRight('item_read', $faqid, $group_id, $module_id);
                     }
                 }
             }
@@ -341,13 +341,13 @@ class Utility
         $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gpermHandler->deleteByModule($module_id, 'item_read', $itemID);
+        $grouppermHandler->deleteByModule($module_id, 'item_read', $itemID);
         // Save the new permissions
         if (count($groups) > 0) {
             foreach ($groups as $group_id) {
-                $gpermHandler->addRight('item_read', $itemID, $group_id, $module_id);
+                $grouppermHandler->addRight('item_read', $itemID, $group_id, $module_id);
             }
         }
 
@@ -371,13 +371,13 @@ class Utility
         $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gpermHandler->deleteByModule($module_id, $perm_name, $categoryid);
+        $grouppermHandler->deleteByModule($module_id, $perm_name, $categoryid);
         // Save the new permissions
         if (count($groups) > 0) {
             foreach ($groups as $group_id) {
-                $gpermHandler->addRight($perm_name, $categoryid, $group_id, $module_id);
+                $grouppermHandler->addRight($perm_name, $categoryid, $group_id, $module_id);
             }
         }
 
@@ -400,13 +400,13 @@ class Utility
         $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
-        $gpermHandler->deleteByModule($module_id, 'category_moderation', $categoryid);
+        $grouppermHandler->deleteByModule($module_id, 'category_moderation', $categoryid);
         // Save the new permissions
         if (count($moderators) > 0) {
             foreach ($moderators as $uid) {
-                $gpermHandler->addRight('category_moderation', $categoryid, $uid, $module_id);
+                $grouppermHandler->addRight('category_moderation', $categoryid, $uid, $module_id);
             }
         }
 

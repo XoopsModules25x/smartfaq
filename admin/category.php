@@ -171,8 +171,8 @@ function editcat($showmenu = false, $categoryid = 0)
 
     $module_id = $xoopsModule->getVar('mid');
 
-    /*$gpermHandler = xoops_getHandler('groupperm');
-    $mod_perms = $gpermHandler->getGroupIds('category_moderation', $categoryid, $module_id);
+    /*$grouppermHandler = xoops_getHandler('groupperm');
+    $mod_perms = $grouppermHandler->getGroupIds('category_moderation', $categoryid, $module_id);
 
     $moderators_select = new \XoopsFormSelect('', 'moderators', $moderators, 5, true);
     $moderators_tray->addElement($moderators_select);
@@ -303,7 +303,7 @@ switch ($op) {
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $_GET;
 
         $module_id    = $xoopsModule->getVar('mid');
-        $gpermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = xoops_getHandler('groupperm');
 
         $categoryid = \Xmf\Request::getInt('categoryid', 0, 'POST');
         $categoryid = \Xmf\Request::getInt('categoryid', $categoryid, 'GET');
