@@ -17,14 +17,7 @@ $helper = Smartfaq\Helper::getInstance();
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
 $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
-$op = '';
-
-if (isset($_GET['op'])) {
-    $op = $_GET['op'];
-}
-if (isset($_POST['op'])) {
-    $op = $_POST['op'];
-}
+$op    = \Xmf\Request::getCmd('op', '');
 
 // Where do we start?
 $startcategory = \Xmf\Request::getInt('startcategory', 0, 'GET');
@@ -260,9 +253,9 @@ switch ($op) {
         //if (isset($_POST['allmods'])) $allmods = $_POST['allmods'];
         //if (isset($_POST['moderators'])) $moderators = $_POST['moderators'];
 
-        $categoryObj->setVar('parentid', isset($_POST['parentid']) ? (int)$_POST['parentid'] : 0);
+        $categoryObj->setVar('parentid',\Xmf\Request::getInt('parentid', 0, 'POST'));
         $applyall = \Xmf\Request::getInt('applyall', 0, 'POST');
-        $categoryObj->setVar('weight', isset($_POST['weight']) ? (int)$_POST['weight'] : 1);
+        $categoryObj->setVar('weight',\Xmf\Request::getInt('weight', 1, 'POST'));
 
         // Groups and permissions
         if (isset($_POST['groups_read'])) {

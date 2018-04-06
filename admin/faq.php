@@ -27,13 +27,7 @@ $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Cat
 /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
 $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
-$op = '';
-if (isset($_GET['op'])) {
-    $op = $_GET['op'];
-}
-if (isset($_POST['op'])) {
-    $op = $_POST['op'];
-}
+$op    = \Xmf\Request::getCmd('op', '');
 
 // Where shall we start?
 $startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');

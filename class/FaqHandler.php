@@ -602,7 +602,7 @@ class FaqHandler extends \XoopsObjectHandler
         $criteria->setStart($start);
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $ret =& $this->getObjects($criteria, false, $notNullFields);
+        $ret = $this->getObjects($criteria, false, $notNullFields);
 
         return $ret;
     }

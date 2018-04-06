@@ -21,15 +21,8 @@ if (!$xoopsUser && (1 != $helper->getConfig('anonpost'))) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
-$op = 'form';
-
 // Getting the operation we are doing
-if (isset($_GET['op'])) {
-    $op = $_GET['op'];
-}
-if (isset($_POST['op'])) {
-    $op = $_POST['op'];
-}
+$op    = \Xmf\Request::getCmd('op', 'form');
 
 // Getting the faqid
 $faqid = Request::getInt('faqid', 0, 'GET');

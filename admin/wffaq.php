@@ -20,10 +20,9 @@ $scriptname           = 'wffaq.php';
 
 $op = 'start';
 
-if (isset($_POST['op']) && ('go' === $_POST['op'])) {
-    $op = $_POST['op'];
+if ('go' === \Xmf\Request::getCmd('op', 'start', 'POST')) {
+    $op = 'go';
 }
-
 if ('start' === $op) {
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     xoops_cp_header();

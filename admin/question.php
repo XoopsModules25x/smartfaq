@@ -222,9 +222,9 @@ switch ($op) {
 
         // Putting the values in the FAQ object
         $faqObj->setGroups_read(isset($_POST['groups']) ? $_POST['groups'] : []);
-        $faqObj->setVar('categoryid', isset($_POST['categoryid']) ? (int)$_POST['categoryid'] : 0);
+        $faqObj->setVar('categoryid',\Xmf\Request::getInt('categoryid', 0, 'POST'));
         $faqObj->setVar('question', $_POST['question']);
-        $faqObj->setVar('status', isset($_POST['status']) ? (int)$_POST['status'] : Constants::SF_STATUS_ASKED);
+        $faqObj->setVar('status',\Xmf\Request::getInt('status', Constants::SF_STATUS_ASKED, 'POST'));
 
         $notifToDo = null;
 

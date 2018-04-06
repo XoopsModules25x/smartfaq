@@ -418,7 +418,7 @@ class CategoryHandler extends \XoopsObjectHandler
             $categoriesGranted = $smartPermHandler->getPermissions('category');
             $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
         }
-        $subcats =& $this->getObjects($criteria, true);
+        $subcats = $this->getObjects($criteria, true);
         foreach ($subcats as $subcat_id => $subcat) {
             $ret[$subcat->getVar('parentid')][$subcat->getVar('categoryid')] = $subcat;
         }
