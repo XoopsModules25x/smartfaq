@@ -173,7 +173,7 @@ switch ($op) {
         //====================================================================================
         //TODO post Attachment
         $attachments_tmp = [];
-        if (!empty($_POST['attachments_tmp'])) {
+       if (\Xmf\Request::hasVar('attachments_tmp', 'POST')) {
             $attachments_tmp = unserialize(base64_decode($_POST['attachments_tmp']));
             if (isset($_POST['delete_tmp']) && count($_POST['delete_tmp'])) {
                 foreach ($_POST['delete_tmp'] as $key) {
