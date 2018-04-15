@@ -10,8 +10,6 @@
  */
 
 use XoopsModules\Smartfaq;
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -153,7 +151,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
         }
         /*
                 if (!class_exists('NewbbIconHandler')) {
-                    // require_once __DIR__ . '/../class/icon.php';
+                    // require_once  dirname(__DIR__) . '/class/icon.php';
                 }
         */
         $iconHandler           = \XoopsModules\Newbb\IconHandler::getInstance();

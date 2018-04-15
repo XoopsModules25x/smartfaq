@@ -9,6 +9,8 @@
  */
 
 
+use XoopsModules\Smartfaq;
+
 /**
  * Prepares system prior to attempting to uninstall module
  * @param XoopsModule $module {@link XoopsModule}
@@ -34,13 +36,10 @@ function xoops_module_uninstall_smartfaq(\XoopsModule $module)
 //    return true;
 
     $moduleDirName = basename(dirname(__DIR__));
-     $helper      =XXX\Helper::getInstance();
+     $helper      = Smartfaq\Helper::getInstance();
 
     /** @var XoopsModules\Smartfaq\Utility $utility */
-    $utility     = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utility)) {
-        xoops_load('utility', $moduleDirName);
-    }
+    $utility = new \XoopsModules\Smartfaq\Utility();
 
     $success = true;
     $helper->loadLanguage('admin');

@@ -15,7 +15,7 @@
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
-require_once __DIR__ . '/../../../include/cp_header.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once __DIR__ . '/mygrouppermform.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
 //require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/include/functions.php';
@@ -30,10 +30,10 @@ if (!file_exists("$xoops_system_path/language/$language/admin/blocksadmin.php"))
 
 // to prevent from notice that constants already defined
 $error_reporting_level = error_reporting(0);
-require_once __DIR__ . '/../../system/constants.php';
+require_once  dirname(dirname(__DIR__)) . '/system/constants.php';
 require_once __DIR__ . "/../../language/$language/admin.php";
 require_once __DIR__ . "/../../language/$language/admin/blocksadmin.php";
-//require_once __DIR__ . '/../include/functions.php';
+//require_once  dirname(__DIR__) . '/include/functions.php';
 error_reporting($error_reporting_level);
 
 $group_defs = file("$xoops_system_path/language/$language/admin/groups.php");

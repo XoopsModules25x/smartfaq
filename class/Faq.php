@@ -8,13 +8,10 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 //require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
-
 
 
 /**
@@ -467,6 +464,7 @@ class Faq extends \XoopsObject
         $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $myts                = \MyTextSanitizer::getInstance();
+        /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
         //$categoryObj = $this->category();
 

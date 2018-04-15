@@ -8,6 +8,7 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+
 /** @var Smartfaq\Helper $helper */
 $helper = Smartfaq\Helper::getInstance();
 

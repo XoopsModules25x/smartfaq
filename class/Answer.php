@@ -8,8 +8,6 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -362,6 +360,7 @@ class Answer extends \XoopsObject
         $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $myts                = \MyTextSanitizer::getInstance();
+        /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
 
         $faqObj = new Smartfaq\Faq($this->faqid());

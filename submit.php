@@ -261,6 +261,7 @@ switch ($op) {
             // Subscribe the user to On Published notification, if requested
             if (1 == $notifypub) {
                 require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
+                /** @var \XoopsNotificationHandler $notificationHandler */
                 $notificationHandler = xoops_getHandler('notification');
                 $notificationHandler->subscribe('faq', $newFaqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
             }

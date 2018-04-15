@@ -40,7 +40,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsform/form.php';
  * @package     kernel
  * @subpackage  form
  */
-class GroupPermForm extends XoopsForm
+class GroupPermForm extends \XoopsForm
 {
 
     /**
@@ -221,7 +221,7 @@ class GroupPermForm extends XoopsForm
  * @package     kernel
  * @subpackage  form
  */
-class MyXoopsGroupFormCheckBox extends XoopsFormElement
+class MyXoopsGroupFormCheckBox extends \XoopsFormElement
 {
 
     /**

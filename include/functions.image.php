@@ -18,8 +18,6 @@
  */
 
 use XoopsModules\Smartfaq;
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
 
 if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
     define('NEWBB_FUNCTIONS_IMAGE', true);

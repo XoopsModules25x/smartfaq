@@ -9,10 +9,11 @@
 use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/header.php';
+
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 global $xoopsUser, $xoopsConfig, $xoopsModule;
 

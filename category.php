@@ -7,10 +7,11 @@
  */
 
 use XoopsModules\Smartfaq;
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/header.php';
+
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 $categoryid = \Xmf\Request::getInt('categoryid', 0, 'GET');
 

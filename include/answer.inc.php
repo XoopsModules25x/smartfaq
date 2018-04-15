@@ -8,10 +8,11 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 global $_POST;
 

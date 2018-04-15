@@ -20,7 +20,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class SmartfaqCorePreload
  */
-class SmartfaqCorePreload extends XoopsPreloadItem
+class SmartfaqCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
     /**

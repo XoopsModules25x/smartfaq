@@ -296,6 +296,7 @@ switch ($op) {
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $_GET;
 
         $module_id    = $xoopsModule->getVar('mid');
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
         $categoryid = \Xmf\Request::getInt('categoryid', 0, 'POST');

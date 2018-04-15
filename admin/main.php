@@ -8,11 +8,12 @@
 
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
 
 require_once __DIR__ . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
+
+/** @var Smartfaq\Helper $helper */
+$helper = Smartfaq\Helper::getInstance();
 
 $faqid = \Xmf\Request::getInt('faqid', 0, 'POST');
 

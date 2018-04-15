@@ -231,6 +231,7 @@ class Category extends \XoopsObject
         $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $myts                = \MyTextSanitizer::getInstance();
+        /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
 
         $tags                  = [];
