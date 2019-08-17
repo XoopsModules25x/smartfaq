@@ -521,7 +521,7 @@ class Utility
     public static function getXoopslink($url = '')
     {
         $xurl = $url;
-        if (mb_strlen($xurl) > 0) {
+        if ('' !== $xurl) {
             if ($xurl[0] = '/') {
                 $xurl = str_replace('/', '', $xurl);
             }
