@@ -251,7 +251,7 @@ function myblocksadmin_update_block(
         $sql = sprintf('DELETE FROM `%s` WHERE block_id = %u', $db->prefix('block_module_link'), $bid);
         $db->query($sql);
         foreach ($bmodule as $bmid) {
-            $sql = sprintf('INSERT INTO `%s` (block_id, module_id) VALUES (`%u`, `%d`)', $db->prefix('block_module_link'), $bid, (int)$bmid);
+            $sql = sprintf('INSERT INTO `%s` (block_id, module_id) VALUES (%u, %d)', $db->prefix('block_module_link'), $bid, (int)$bmid);
             $db->query($sql);
         }
         require_once XOOPS_ROOT_PATH . '/class/template.php';
