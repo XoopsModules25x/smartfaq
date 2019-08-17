@@ -373,3 +373,5 @@ define('_AM_ACTION', 'Action');
 define('_AM_ACTIVERIGHTS', 'Admin Rights');
 define('_AM_ACCESSRIGHTS', 'Access Rights');
 define('_AM_BCACHETIME', 'Cache Time');
+
+define('_AM_BLOCKTAG1', '%s will print %s');

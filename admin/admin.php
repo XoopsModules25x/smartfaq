@@ -97,7 +97,7 @@ if (false !== $error) {
     $all_ok = false;
     if (!in_array(XOOPS_GROUP_ADMIN, $groups)) {
         $grouppermHandler = xoops_getHandler('groupperm');
-        $ok_syscats     = &$grouppermHandler->getItemIds('system_admin', $groups);
+        $ok_syscats     = $grouppermHandler->getItemIds('system_admin', $groups);
     } else {
         $all_ok = true;
     }

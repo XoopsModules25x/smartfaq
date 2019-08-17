@@ -335,7 +335,7 @@ function list_groups()
 {
     global $target_mid, $target_mname, $block_arr;
     lx_collapsableBar('groups', 'groupIcon');
-    echo "<img  onclick=\"toggle('groups'); toggleIcon('groupsIcon');\" id='groupsIcon' src='" . XOOPS_URL . "/modules/lexikon/assets/images/close12.gif' alt='' ></a>&nbsp; " . _MD_AM_ADGS . ' <br>';
+    echo "<img  onclick=\"toggle('groups'); toggleIcon('groupsIcon');\" id='groupsIcon' src='" . XOOPS_URL . "/modules/smartfaq/assets/images/close12.gif' alt='' ></a>&nbsp; " . _MD_AM_ADGS . ' <br>';
     echo "<div id='groups' style='float:left; width:100%;'>";
     $item_list = [];
     foreach (array_keys($block_arr) as $i) {

@@ -23,7 +23,7 @@ $op = \Xmf\Request::getCmd('op', '');
 $startcategory = \Xmf\Request::getInt('startcategory', 0, 'GET');
 
 /**
- * @param \XoopsObject $categoryObj
+ * @param \XoopsObject|Smartfaq\Category $categoryObj
  * @param int         $level
  */
 function displayCategory($categoryObj, $level = 0)
