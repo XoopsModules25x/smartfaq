@@ -96,6 +96,7 @@ if (false !== $error) {
     $groups = &$xoopsUser->getGroups();
     $all_ok = false;
     if (!in_array(XOOPS_GROUP_ADMIN, $groups)) {
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
         $ok_syscats     = $grouppermHandler->getItemIds('system_admin', $groups);
     } else {
