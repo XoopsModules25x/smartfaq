@@ -121,7 +121,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
         $newWidth  = (int)min($imginfo[0], $thumb_width);
         $newHeight = (int)($imginfo[1] * $newWidth / $imginfo[0]);
 
-        if (1 == $helper->getConfig('image_lib') or 0 == $helper->getConfig('image_lib')) {
+        if (1 == $helper->getConfig('image_lib') || 0 == $helper->getConfig('image_lib')) {
             if (preg_match('#[A-Z]:|\\\\#Ai', __FILE__)) {
                 $cur_dir     = __DIR__;
                 $src_file_im = '"' . $cur_dir . '\\' . str_replace('/', '\\', $src_file) . '"';
@@ -139,7 +139,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
             }
         }
 
-        if (2 == $helper->getConfig('image_lib') or 0 == $helper->getConfig('image_lib')) {
+        if (2 == $helper->getConfig('image_lib') || 0 == $helper->getConfig('image_lib')) {
             $path = empty($helper->getConfig('path_netpbm')) ? '' : $helper->getConfig('path_netpbm') . '/';
             if (preg_match("/\.png/i", $source)) {
                 $cmd = $path . "pngtopnm $src_file | " . $path . "pnmscale -xysize $newWidth $newHeight | " . $path . "pnmtopng > $new_file";
