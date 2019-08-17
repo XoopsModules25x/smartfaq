@@ -97,7 +97,7 @@ class Faq extends \XoopsObject
     {
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
-
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
         $this->category    = new Smartfaq\Category($this->getVar('categoryid'));

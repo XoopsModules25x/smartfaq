@@ -55,6 +55,7 @@ if (0 != $admintest) {
             xoops_loadLanguage('admin/' . $fct, 'system');
 
             require_once XOOPS_ROOT_PATH . '/modules/system/admin/' . $fct . '/xoops_version.php';
+            /** @var \XoopsGroupPermHandler $grouppermHandler */
             $grouppermHandler = xoops_getHandler('groupperm');
             $category       = !empty($modversion['category']) ? (int)$modversion['category'] : 0;
             unset($modversion);

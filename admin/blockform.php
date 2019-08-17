@@ -91,7 +91,7 @@ $cache_select->addOptionArray([
                                   '2592000' => _MONTH,
                               ]);
 $form->addElement($cache_select);
-
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 $groups           = $grouppermHandler->getGroupIds('block_read', $block['bid']);
 

@@ -81,7 +81,7 @@ class Category extends \XoopsObject
         global $xoopsUser;
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
-
+        /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
         $this->groups_read = $grouppermHandler->getGroupIds('category_read', $this->categoryid(), $module_id);

@@ -23,6 +23,7 @@ use XoopsModules\Smartfaq;
 class AnswerHandler extends \XoopsPersistableObjectHandler
 {
 
+    public $helper;
     /**
      * @param \XoopsDatabase $db
      * @param null|\XoopsModules\Smartfaq\Helper           $helper

@@ -75,6 +75,7 @@ if (!empty($target_module) && is_object($target_module)) {
 }
 
 // check access right (needs system_admin of BLOCK)
+/** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 if (!$grouppermHandler->checkRight('system_admin', XOOPS_SYSTEM_BLOCK, $xoopsUser->getGroups())) {
     redirect_header(XOOPS_URL . '/user.php', 1, _NOPERM);

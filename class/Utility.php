@@ -260,7 +260,7 @@ class Utility
             $result = -1;
 
             $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-
+            /** @var \XoopsGroupPermHandler $grouppermHandler */
             $grouppermHandler = xoops_getHandler('groupperm');
             $smartModule      = self::getModuleInfo();
             $module_id        = $smartModule->getVar('mid');
