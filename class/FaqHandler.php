@@ -7,7 +7,6 @@ namespace XoopsModules\Smartfaq;
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-
 use XoopsModules\Smartfaq;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -25,9 +24,9 @@ use XoopsModules\Smartfaq;
 class FaqHandler extends \XoopsObjectHandler
 {
     protected $helper;
+
     /**
      * @param \XoopsDatabase $db
-     * @param null|\XoopsModules\Smartfaq\Helper           $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
     {
@@ -45,6 +44,7 @@ class FaqHandler extends \XoopsObjectHandler
         $smartfaqIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'smartfaq_faq', Faq::class, 'faqid', 'faqid');
     }
+
     /**
      * @param  bool $isNew
      * @return Smartfaq\Faq
@@ -113,14 +113,54 @@ class FaqHandler extends \XoopsObjectHandler
         }
 
         if ($faq->isNew()) {
-            $sql = sprintf('INSERT INTO `%s` (faqid, categoryid, question, howdoi, diduno, uid, datesub, status, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
-                           $this->db->prefix('smartfaq_faq'), $categoryid, $this->db->quoteString($question), $this->db->quoteString($howdoi), $this->db->quoteString($diduno), $uid, time(), $status, $counter, $weight, $html, $smiley, $xcodes, $cancomment, $comments, $notifypub,
-                           $this->db->quoteString($modulelink), $this->db->quoteString($contextpage), $exacturl, $partialview);
+            $sql = sprintf(
+                'INSERT INTO `%s` (faqid, categoryid, question, howdoi, diduno, uid, datesub, status, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
+                $this->db->prefix('smartfaq_faq'),
+                $categoryid,
+                $this->db->quoteString($question),
+                $this->db->quoteString($howdoi),
+                $this->db->quoteString($diduno),
+                $uid,
+                time(),
+                $status,
+                $counter,
+                $weight,
+                $html,
+                $smiley,
+                $xcodes,
+                $cancomment,
+                $comments,
+                $notifypub,
+                $this->db->quoteString($modulelink),
+                $this->db->quoteString($contextpage),
+                $exacturl,
+                $partialview
+            );
         } else {
-            $sql = sprintf('UPDATE `%s` SET categoryid = %u, question = %s, howdoi = %s, diduno = %s, uid = %u, datesub = %u, status = %u, counter = %u, weight = %u, html = %u, smiley = %u, xcodes = %u, cancomment = %u, comments = %u, notifypub = %u, modulelink = %s, contextpage = %s, exacturl = %u, partialview = %u  WHERE faqid = %u',
-
-                           $this->db->prefix('smartfaq_faq'), $categoryid, $this->db->quoteString($question), $this->db->quoteString($howdoi), $this->db->quoteString($diduno), $uid, $datesub, $status, $counter, $weight, $html, $smiley, $xcodes, $cancomment, $comments, $notifypub,
-                           $this->db->quoteString($modulelink), $this->db->quoteString($contextpage), $exacturl, $partialview, $faqid);
+            $sql = sprintf(
+                'UPDATE `%s` SET categoryid = %u, question = %s, howdoi = %s, diduno = %s, uid = %u, datesub = %u, status = %u, counter = %u, weight = %u, html = %u, smiley = %u, xcodes = %u, cancomment = %u, comments = %u, notifypub = %u, modulelink = %s, contextpage = %s, exacturl = %u, partialview = %u  WHERE faqid = %u',
+                $this->db->prefix('smartfaq_faq'),
+                $categoryid,
+                $this->db->quoteString($question),
+                $this->db->quoteString($howdoi),
+                $this->db->quoteString($diduno),
+                $uid,
+                $datesub,
+                $status,
+                $counter,
+                $weight,
+                $html,
+                $smiley,
+                $xcodes,
+                $cancomment,
+                $comments,
+                $notifypub,
+                $this->db->quoteString($modulelink),
+                $this->db->quoteString($contextpage),
+                $exacturl,
+                $partialview,
+                $faqid
+            );
         }
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -167,7 +207,7 @@ class FaqHandler extends \XoopsObjectHandler
     public function delete(\XoopsObject $faq, $force = false)
     {
         $smartModule = Smartfaq\Utility::getModuleInfo();
-        $module_id   = $smartModule->getVar('mid');
+        $module_id = $smartModule->getVar('mid');
 
 //        if ('XoopsModules\Smartfaq\Faq' !== mb_strtolower(get_class($faq))) {
         if (Faq::class !== get_class($faq)) {
@@ -207,9 +247,9 @@ class FaqHandler extends \XoopsObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
     {
-        $ret   = [];
+        $ret = [];
         $limit = $start = 0;
-        $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_faq');
+        $sql = 'SELECT * FROM ' . $this->db->prefix('smartfaq_faq');
 
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $whereClause = $criteria->renderWhere();
@@ -259,16 +299,15 @@ class FaqHandler extends \XoopsObjectHandler
     }
 
     /**
-     * @param  null|\CriteriaElement $criteria
      * @param  bool                  $id_as_key
      * @param  string                $notNullFields
      * @return array|bool
      */
     public function getObjectsAdminSide(\CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
     {
-        $ret   = [];
+        $ret = [];
         $limit = $start = 0;
-        $sql   = 'SELECT
+        $sql = 'SELECT
                             faq.faqid AS faqid,
                             faq.categoryid AS categoryid,
                             faq.question AS question,
@@ -408,7 +447,7 @@ class FaqHandler extends \XoopsObjectHandler
             $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
 
             $faqsGranted = $smartPermHandler->getPermissions('item');
-            $grantedFaq  = new \CriteriaCompo();
+            $grantedFaq = new \CriteriaCompo();
             $grantedFaq->add(new \Criteria('faqid', '(' . implode(',', $faqsGranted) . ')', 'IN'), 'OR');
             // If user is anonymous, check if the FAQ allow partialview
             if (!is_object($xoopsUser)) {
@@ -456,7 +495,7 @@ class FaqHandler extends \XoopsObjectHandler
      */
     public function getFaqsCountByStatus()
     {
-        $sql    = 'SELECT status, COUNT(*) FROM ' . $this->db->prefix('smartfaq_faq') . ' GROUP BY status';
+        $sql = 'SELECT status, COUNT(*) FROM ' . $this->db->prefix('smartfaq_faq') . ' GROUP BY status';
         $result = $this->db->query($sql);
         if (!$result) {
             return [];
@@ -484,8 +523,8 @@ class FaqHandler extends \XoopsObjectHandler
         $categoryid = -1,
         $sort = 'datesub',
         $order = 'DESC',
-        $asobject = true)
-    {
+        $asobject = true
+    ) {
         return $this->getFaqs($limit, $start, [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER], $categoryid, $sort, $order, null, $asobject, null);
     }
 
@@ -510,15 +549,15 @@ class FaqHandler extends \XoopsObjectHandler
         $order = 'DESC',
         $notNullFields = '',
         $asobject = true,
-        $otherCriteria = null)
-    {
+        $otherCriteria = null
+    ) {
         global $xoopsUser;
         //        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         //if ( ($categoryid == -1) && (empty($status) || ($status == -1)) && ($limit == 0) && ($start ==0) ) {
         //  return $this->getObjects();
         //}
-        $ret         = [];
+        $ret = [];
         $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         $criteriaCategory = null;
         // Categories for which user has access
@@ -530,7 +569,7 @@ class FaqHandler extends \XoopsObjectHandler
             $grantedCategories = new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
 
             $faqsGranted = $smartPermHandler->getPermissions('item');
-            $grantedFaq  = new \CriteriaCompo();
+            $grantedFaq = new \CriteriaCompo();
             $grantedFaq->add(new \Criteria('faqid', '(' . implode(',', $faqsGranted) . ')', 'IN'), 'OR');
             // If user is anonymous, check if the FAQ allow partialview
             if (!is_object($xoopsUser)) {
@@ -567,11 +606,11 @@ class FaqHandler extends \XoopsObjectHandler
             $criteria->add($criteriaCategory);
         }
 
-        if ($criteriaPermissions !== null && (!$userIsAdmin)) {
+        if (null !== $criteriaPermissions && (!$userIsAdmin)) {
             $criteria->add($criteriaPermissions);
         }
 
-        if ($criteriaStatus !== null) {
+        if (null !== $criteriaStatus) {
             $criteria->add($criteriaStatus);
         }
 
@@ -607,8 +646,8 @@ class FaqHandler extends \XoopsObjectHandler
         $sort = 'datesub',
         $order = 'DESC',
         $asobject = true,
-        $otherCriteria = null)
-    {
+        $otherCriteria = null
+    ) {
         //        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         //        $smartModule = Smartfaq\Utility::getModuleInfo();
@@ -670,7 +709,7 @@ class FaqHandler extends \XoopsObjectHandler
         if ($totalFaqs > 0) {
             --$totalFaqs;
             $entrynumber = mt_rand(0, $totalFaqs);
-            $faq         = $this->getFaqs(1, $entrynumber, $status, -1, 'datesub', 'DESC', $notNullFields);
+            $faq = $this->getFaqs(1, $entrynumber, $status, -1, 'datesub', 'DESC', $notNullFields);
             if ($faq) {
                 $ret = &$faq[0];
             }
@@ -692,20 +731,20 @@ class FaqHandler extends \XoopsObjectHandler
 
         $faqsObj = $this->getFaqs(0, 0, [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER], -1, 'datesub', 'DESC', '', true, $otherCriteria);
 
-        $totalfaqs  = is_array($faqsObj) ? count($faqsObj) : 0;
+        $totalfaqs = is_array($faqsObj) ? count($faqsObj) : 0;
         $randomFaqs = [];
         if ($faqsObj) {
             foreach ($faqsObj as $i => $iValue) {
                 $display = false;
 
-                $http        = (false === mb_strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
-                $phpself     = $_SERVER['PHP_SELF'];
-                $httphost    = $_SERVER['HTTP_HOST'];
+                $http = (false === mb_strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
+                $phpself = $_SERVER['PHP_SELF'];
+                $httphost = $_SERVER['HTTP_HOST'];
                 $querystring = $_SERVER['QUERY_STRING'];
                 if ('' != $querystring) {
                     $querystring = '?' . $querystring;
                 }
-                $currenturl     = $http . $httphost . $phpself . $querystring;
+                $currenturl = $http . $httphost . $phpself . $querystring;
                 $fullcontexturl = XOOPS_URL . '/' . $iValue->contextpage();
                 switch ($iValue->modulelink()) {
                     case '':
@@ -758,16 +797,16 @@ class FaqHandler extends \XoopsObjectHandler
      */
     public function getLastPublishedByCat($status = [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER])
     {
-        $ret       = [];
+        $ret = [];
         $faqclause = '';
         if (!Smartfaq\Utility::userIsAdmin()) {
             /** @var Smartfaq\PermissionHandler $smartPermHandler */
             $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
-            $items            = $smartPermHandler->getPermissions('item');
-            $faqclause        = ' AND faqid IN (' . implode(',', $items) . ')';
+            $items = $smartPermHandler->getPermissions('item');
+            $faqclause = ' AND faqid IN (' . implode(',', $items) . ')';
         }
 
-        $sql  = "CREATE TEMPORARY TABLE tmp (categoryid INT(8) UNSIGNED NOT NULL,datesub INT(11) DEFAULT '0' NOT NULL);";
+        $sql = "CREATE TEMPORARY TABLE tmp (categoryid INT(8) UNSIGNED NOT NULL,datesub INT(11) DEFAULT '0' NOT NULL);";
         $sql2 = ' LOCK TABLES ' . $this->db->prefix('smartfaq_faq') . ' READ;';
         $sql3 = ' INSERT INTO tmp SELECT categoryid, MAX(datesub) FROM ' . $this->db->prefix('smartfaq_faq') . ' WHERE status IN (' . implode(',', $status) . ") $faqclause GROUP BY categoryid;";
         $sql4 = ' SELECT ' . $this->db->prefix('smartfaq_faq') . '.categoryid, faqid, question, uid, ' . $this->db->prefix('smartfaq_faq') . '.datesub FROM ' . $this->db->prefix('smartfaq_faq') . ', tmp
@@ -782,7 +821,7 @@ class FaqHandler extends \XoopsObjectHandler
         $this->db->queryF($sql2);
         $this->db->queryF($sql3);
         $result = $this->db->query($sql4);
-        $error  = $this->db->error();
+        $error = $this->db->error();
         $this->db->queryF('UNLOCK TABLES;');
         $this->db->queryF('DROP TABLE tmp;');
         if (!$result) {
@@ -832,7 +871,7 @@ class FaqHandler extends \XoopsObjectHandler
     public function updateAll($fieldname, $fieldvalue, $criteria = null)
     {
         $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
-        $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_faq') . ' SET ' . $set_clause;
+        $sql = 'UPDATE ' . $this->db->prefix('smartfaq_faq') . ' SET ' . $set_clause;
         if (isset($criteria) && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
@@ -918,7 +957,7 @@ class FaqHandler extends \XoopsObjectHandler
             $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
-            $faqsGranted       = $smartPermHandler->getPermissions('item');
+            $faqsGranted = $smartPermHandler->getPermissions('item');
             if (empty($categoriesGranted)) {
                 return $ret;
             }
@@ -926,7 +965,7 @@ class FaqHandler extends \XoopsObjectHandler
                 return $ret;
             }
             $grantedCategories = new \Criteria('faq.categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN');
-            $grantedFaq        = new \CriteriaCompo();
+            $grantedFaq = new \CriteriaCompo();
             $grantedFaq->add(new \Criteria('faq.faqid', '(' . implode(',', $faqsGranted) . ')', 'IN'), 'OR');
             // If user is anonymous, check if the FAQ allow partialview
             if (!is_object($xoopsUser)) {
@@ -948,23 +987,23 @@ class FaqHandler extends \XoopsObjectHandler
         $criteriaFasStatus->add(new \Criteria('faq.status', Constants::SF_STATUS_PUBLISHED), 'OR');
 
         $criteria = new \CriteriaCompo();
-        if ($criteriaUser !== null) {
+        if (null !== $criteriaUser) {
             $criteria->add($criteriaUser, 'AND');
         }
 
-        if ($criteriaKeywords !== null) {
+        if (null !== $criteriaKeywords) {
             $criteria->add($criteriaKeywords, 'AND');
         }
 
-        if ($criteriaPermissions !== null && (!$userIsAdmin)) {
+        if (null !== $criteriaPermissions && (!$userIsAdmin)) {
             $criteria->add($criteriaPermissions);
         }
 
-        if ($criteriaAnswersStatus !== null) {
+        if (null !== $criteriaAnswersStatus) {
             $criteria->add($criteriaAnswersStatus, 'AND');
         }
 
-        if ($criteriaFasStatus !== null) {
+        if (null !== $criteriaFasStatus) {
             $criteria->add($criteriaFasStatus, 'AND');
         }
 
@@ -1029,7 +1068,7 @@ class FaqHandler extends \XoopsObjectHandler
             if (!Smartfaq\Utility::userIsAdmin()) {
                 /** @var Smartfaq\PermissionHandler $smartPermHandler */
                 $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
-                $items            = $smartPermHandler->getPermissions('item');
+                $items = $smartPermHandler->getPermissions('item');
                 if (is_object($xoopsUser)) {
                     $sql .= ' AND faqid IN (' . implode(',', $items) . ')';
                 } else {

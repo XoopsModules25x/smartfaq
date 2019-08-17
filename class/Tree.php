@@ -20,7 +20,6 @@ namespace XoopsModules\Smartfaq;
  * @link            https://xoops.org/
  * @since           1.0.6
  */
-
 use XoopsModules\Smartfaq;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -53,10 +52,10 @@ class Tree
      */
     public function __construct($tableName, $idName, $pidName)
     {
-        $this->db    = \XoopsDatabaseFactory::getDatabaseConnection();
+        $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
         $this->table = $tableName;
-        $this->id    = $idName;
-        $this->pid   = $pidName;
+        $this->id = $idName;
+        $this->pid = $pidName;
     }
 
     // returns an array of first child objects for a given id($selectId)
@@ -70,13 +69,13 @@ class Tree
     public function getFirstChild($selectId, $order = '')
     {
         $selectId = (int)$selectId;
-        $arr      = [];
-        $sql      = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . ' ';
+        $arr = [];
+        $sql = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . ' ';
         if ('' !== $order) {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
-        $count  = $this->db->getRowsNum($result);
+        $count = $this->db->getRowsNum($result);
         if (0 == $count) {
             return $arr;
         }
@@ -97,9 +96,9 @@ class Tree
     public function getFirstChildId($selectId)
     {
         $selectId = (int)$selectId;
-        $idarray  = [];
-        $result   = $this->db->query('SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . '');
-        $count    = $this->db->getRowsNum($result);
+        $idarray = [];
+        $result = $this->db->query('SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . '');
+        $count = $this->db->getRowsNum($result);
         if (0 == $count) {
             return $idarray;
         }
@@ -115,25 +114,24 @@ class Tree
     /**
      * @param        $selectId
      * @param string $order
-     * @param array  $idarray
      *
      * @return array
      */
     public function getAllChildId($selectId, $order = '', array $idarray = [])
     {
         $selectId = (int)$selectId;
-        $sql      = 'SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . '';
+        $sql = 'SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . '';
         if ('' !== $order) {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
-        $count  = $this->db->getRowsNum($result);
+        $count = $this->db->getRowsNum($result);
         if (0 == $count) {
             return $idarray;
         }
         while (list($r_id) = $this->db->fetchRow($result)) {
             $idarray[] = $r_id;
-            $idarray   = $this->getAllChildId($r_id, $order, $idarray);
+            $idarray = $this->getAllChildId($r_id, $order, $idarray);
         }
 
         return $idarray;
@@ -144,14 +142,13 @@ class Tree
     /**
      * @param        $selectId
      * @param string $order
-     * @param array  $idarray
      *
      * @return array
      */
     public function getAllParentId($selectId, $order = '', array $idarray = [])
     {
         $selectId = (int)$selectId;
-        $sql      = 'SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' . $selectId . '';
+        $sql = 'SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' . $selectId . '';
         if ('' !== $order) {
             $sql .= " ORDER BY $order";
         }
@@ -161,7 +158,7 @@ class Tree
             return $idarray;
         }
         $idarray[] = $r_id;
-        $idarray   = $this->getAllParentId($r_id, $order, $idarray);
+        $idarray = $this->getAllParentId($r_id, $order, $idarray);
 
         return $idarray;
     }
@@ -179,7 +176,7 @@ class Tree
     public function getPathFromId($selectId, $title, $path = '')
     {
         $selectId = (int)$selectId;
-        $result   = $this->db->query('SELECT ' . $this->pid . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->id . "=$selectId");
+        $result = $this->db->query('SELECT ' . $this->pid . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->id . "=$selectId");
         if (0 == $this->db->getRowsNum($result)) {
             return $path;
         }
@@ -236,7 +233,7 @@ class Tree
             $arr = $this->getChildTreeArray($catid, $order);
             foreach ($arr as $option) {
                 $option['prefix'] = str_replace('.', '--', $option['prefix']);
-                $catpath          = $option['prefix'] . '&nbsp;' . $myts->htmlSpecialChars($option[$title]);
+                $catpath = $option['prefix'] . '&nbsp;' . $myts->htmlSpecialChars($option[$title]);
                 if ($option[$this->id] == $preset_id) {
                     $sel = " selected='selected'";
                 }
@@ -259,10 +256,10 @@ class Tree
      */
     public function getNicePathFromId($selectId, $title, $funcURL, $path = '')
     {
-        $path     = !empty($path) ? $path : '';
+        $path = !empty($path) ? $path : '';
         $selectId = (int)$selectId;
-        $sql      = 'SELECT ' . $this->pid . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->id . "=$selectId";
-        $result   = $this->db->query($sql);
+        $sql = 'SELECT ' . $this->pid . ', ' . $title . ' FROM ' . $this->table . ' WHERE ' . $this->id . "=$selectId";
+        $result = $this->db->query($sql);
         if (0 == $this->db->getRowsNum($result)) {
             return $path;
         }
@@ -290,7 +287,7 @@ class Tree
     public function getIdPathFromId($selectId, $path = '')
     {
         $selectId = (int)$selectId;
-        $result   = $this->db->query('SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . "=$selectId");
+        $result = $this->db->query('SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . "=$selectId");
         if (0 == $this->db->getRowsNum($result)) {
             return $path;
         }
@@ -309,25 +306,24 @@ class Tree
      *
      * @param int    $selectId
      * @param string $order
-     * @param array  $parray
      *
      * @return array
      */
     public function getAllChild($selectId = 0, $order = '', array $parray = [])
     {
         $selectId = (int)$selectId;
-        $sql      = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . ' ';
+        $sql = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . ' ';
         if ('' !== $order) {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
-        $count  = $this->db->getRowsNum($result);
+        $count = $this->db->getRowsNum($result);
         if (0 == $count) {
             return $parray;
         }
         while (false !== ($row = $this->db->fetchArray($result))) {
             $parray[] = $row;
-            $parray   = $this->getAllChild($row[$this->id], $order, $parray);
+            $parray = $this->getAllChild($row[$this->id], $order, $parray);
         }
 
         return $parray;
@@ -338,7 +334,6 @@ class Tree
      *
      * @param int    $selectId
      * @param string $order
-     * @param array  $parray
      * @param string $r_prefix
      *
      * @return array
@@ -346,19 +341,19 @@ class Tree
     public function getChildTreeArray($selectId = 0, $order = '', array $parray = [], $r_prefix = '')
     {
         $selectId = (int)$selectId;
-        $sql      = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . ' ';
+        $sql = 'SELECT * FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . ' ';
         if ('' !== $order) {
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
-        $count  = $this->db->getRowsNum($result);
+        $count = $this->db->getRowsNum($result);
         if (0 == $count) {
             return $parray;
         }
         while (false !== ($row = $this->db->fetchArray($result))) {
             $row['prefix'] = $r_prefix . '.';
-            $parray[]      = $row;
-            $parray        = $this->getChildTreeArray($row[$this->id], $order, $parray, $row['prefix']);
+            $parray[] = $row;
+            $parray = $this->getChildTreeArray($row[$this->id], $order, $parray, $row['prefix']);
         }
 
         return $parray;

@@ -7,7 +7,6 @@ namespace XoopsModules\Smartfaq;
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-
 use XoopsModules\Smartfaq;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -22,11 +21,10 @@ use XoopsModules\Smartfaq;
  */
 class AnswerHandler extends \XoopsPersistableObjectHandler
 {
-
     public $helper;
+
     /**
      * @param \XoopsDatabase $db
-     * @param null|\XoopsModules\Smartfaq\Helper           $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
     {
@@ -39,7 +37,6 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
         $smartfaqIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'smartfaq_answers', Answer::class, 'answerid', 'answer');
     }
-
 
     /**
      * create a new answer
@@ -173,7 +170,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
             return false;
         }
         $answers = $this->getAllAnswers($faqObj->faqid());
-        $result  = true;
+        $result = true;
         foreach ($answers as $answer) {
             if (!$this->delete($answer)) {
                 $result = false;
@@ -193,9 +190,9 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
      */
     public function &getObjects(\CriteriaElement $criteria = null, $id_as_key = false, $as_object = true)
     {
-        $ret   = [];
+        $ret = [];
         $limit = $start = 0;
-        $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_answers');
+        $sql = 'SELECT * FROM ' . $this->db->prefix('smartfaq_answers');
         if (isset($criteria) && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -232,7 +229,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
     public function getOfficialAnswer($faqid = 0)
     {
         $theaAnswers = $this->getAllAnswers($faqid, Constants::SF_AN_STATUS_APPROVED, 1, 0);
-        $ret         = false;
+        $ret = false;
         if (1 == count($theaAnswers)) {
             $ret = $theaAnswers[0];
         }
@@ -257,10 +254,10 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
         $limit = 0,
         $start = 0,
         $sort = 'datesub',
-        $order = 'DESC')
-    {
+        $order = 'DESC'
+    ) {
         $hasStatusCriteria = false;
-        $criteriaStatus    = new \CriteriaCompo();
+        $criteriaStatus = new \CriteriaCompo();
         if (is_array($status)) {
             $hasStatusCriteria = true;
             foreach ($status as $v) {
@@ -370,7 +367,7 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null, $force = false)
     {
         $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
-        $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_answers') . ' SET ' . $set_clause;
+        $sql = 'UPDATE ' . $this->db->prefix('smartfaq_answers') . ' SET ' . $set_clause;
         if (isset($criteria) && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
@@ -388,8 +385,8 @@ class AnswerHandler extends \XoopsPersistableObjectHandler
      */
     public function getLastPublishedByFaq($faqids)
     {
-        $ret    = [];
-        $sql    = 'SELECT faqid, answer, uid, datesub FROM ' . $this->db->prefix('smartfaq_answers') . '
+        $ret = [];
+        $sql = 'SELECT faqid, answer, uid, datesub FROM ' . $this->db->prefix('smartfaq_answers') . '
                WHERE faqid IN (' . implode(',', $faqids) . ') AND status = ' . Constants::SF_AN_STATUS_APPROVED . ' GROUP BY faqid';
         $result = $this->db->query($sql);
         if (!$result) {

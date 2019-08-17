@@ -7,7 +7,6 @@ namespace XoopsModules\Smartfaq;
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-
 use XoopsModules\Smartfaq;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -23,9 +22,9 @@ use XoopsModules\Smartfaq;
 class CategoryHandler extends \XoopsObjectHandler
 {
     protected $helper;
+
     /**
      * @param \XoopsDatabase $db
-     * @param null|\XoopsModules\Smartfaq\Helper           $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
     {
@@ -42,7 +41,6 @@ class CategoryHandler extends \XoopsObjectHandler
         $smartfaqIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'smartfaq_categories', Category::class, 'categoryid', 'answer');
     }
-
 
     /**
      * create a new category
@@ -114,8 +112,17 @@ class CategoryHandler extends \XoopsObjectHandler
         if ($category->isNew()) {
             $sql = sprintf('INSERT INTO `%s` (parentid, name, description, total, weight, created) VALUES (%u, %s, %s, %u, %u, %u)', $this->db->prefix('smartfaq_categories'), $parentid, $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, time());
         } else {
-            $sql = sprintf('UPDATE `%s` SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $parentid, $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, $created,
-                           $categoryid);
+            $sql = sprintf(
+                'UPDATE `%s` SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u',
+                $this->db->prefix('smartfaq_categories'),
+                $parentid,
+                $this->db->quoteString($name),
+                $this->db->quoteString($description),
+                $total,
+                $weight,
+                $created,
+                $categoryid
+            );
         }
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -162,7 +169,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $sql = sprintf('DELETE FROM `%s` WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $category->getVar('categoryid'));
 
         $smartModule = Smartfaq\Utility::getModuleInfo();
-        $module_id   = $smartModule->getVar('mid');
+        $module_id = $smartModule->getVar('mid');
 
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -189,9 +196,9 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function getObjects($criteria = null, $id_as_key = false)
     {
-        $ret   = [];
+        $ret = [];
         $limit = $start = 0;
-        $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_categories');
+        $sql = 'SELECT * FROM ' . $this->db->prefix('smartfaq_categories');
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -235,8 +242,8 @@ class CategoryHandler extends \XoopsObjectHandler
         $parentid = 0,
         $sort = 'weight',
         $order = 'ASC',
-        $id_as_key = true)
-    {
+        $id_as_key = true
+    ) {
         //        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $criteria = new \CriteriaCompo();
@@ -274,8 +281,8 @@ class CategoryHandler extends \XoopsObjectHandler
         $start = 0,
         $parentid = 0,
         $sort = 'weight',
-        $order = 'ASC')
-    {
+        $order = 'ASC'
+    ) {
         //        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $criteria = new \CriteriaCompo();
@@ -298,9 +305,9 @@ class CategoryHandler extends \XoopsObjectHandler
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        $ret   = [];
+        $ret = [];
         $limit = $start = 0;
-        $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
+        $sql = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -415,7 +422,7 @@ class CategoryHandler extends \XoopsObjectHandler
     public function getSubCats($categories)
     {
         $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')'), 'IN');
-        $ret      = [];
+        $ret = [];
         if (!Smartfaq\Utility::userIsAdmin()) {
             /** @var Smartfaq\PermissionHandler $smartPermHandler */
             $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
@@ -464,7 +471,7 @@ class CategoryHandler extends \XoopsObjectHandler
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null)
     {
         $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
-        $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_categories') . ' SET ' . $set_clause;
+        $sql = 'UPDATE ' . $this->db->prefix('smartfaq_categories') . ' SET ' . $set_clause;
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
