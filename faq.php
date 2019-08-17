@@ -16,7 +16,7 @@ $helper = Smartfaq\Helper::getInstance();
 $faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
 
 if (0 == $faqid) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_SF_NOFAQSELECTED);
 }
 
 // Creating the FAQ handler object
@@ -28,7 +28,7 @@ $faqObj = new Smartfaq\Faq($faqid);
 
 // If the selected FAQ was not found, exit
 if ($faqObj->notLoaded()) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_SF_NOFAQSELECTED);
 }
 
 // Creating the category object that holds the selected FAQ
@@ -40,7 +40,7 @@ $answerObj = $faqObj->answer();
 // Check user permissions to access that category of the selected FAQ
 $faqAccessGrantedResult = Smartfaq\Utility::faqAccessGranted($faqObj);
 if ($faqAccessGrantedResult < 0) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
 // Update the read counter of the selected FAQ

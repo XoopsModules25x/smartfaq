@@ -5,7 +5,6 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-
 require_once __DIR__ . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
@@ -13,7 +12,7 @@ global $xoopsModule;
 
 xoops_cp_header();
 
-/** @var XoopsModuleHandler $moduleHandler */
+/** @var \XoopsModuleHandler $moduleHandler */
 $moduleHandler = xoops_getHandler('module');
 $versioninfo   = $moduleHandler->get($xoopsModule->getVar('mid'));
 

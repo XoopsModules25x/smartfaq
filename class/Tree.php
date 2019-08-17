@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Smartfaq;
+<?php
+
+namespace XoopsModules\Smartfaq;
 
 /**
  * Module: XoopsTube
@@ -20,7 +22,6 @@
  */
 
 use XoopsModules\Smartfaq;
-use XoopsModules\Smartfaq\Common;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -44,6 +45,7 @@ class Tree
 
     //constructor of class XoopsTree
     //sets the names of table, unique id, and parend id
+
     /**
      * @param $tableName
      * @param $idName
@@ -101,7 +103,7 @@ class Tree
         if (0 == $count) {
             return $idarray;
         }
-        while (false !== (list($id) = $this->db->fetchRow($result))) {
+        while (list($id) = $this->db->fetchRow($result)) {
             array_push($idarray, $id);
         }
 
@@ -129,7 +131,7 @@ class Tree
         if (0 == $count) {
             return $idarray;
         }
-        while (false !== (list($r_id) = $this->db->fetchRow($result))) {
+        while (list($r_id) = $this->db->fetchRow($result)) {
             array_push($idarray, $r_id);
             $idarray = $this->getAllChildId($r_id, $order, $idarray);
         }
@@ -166,6 +168,7 @@ class Tree
 
     //generates path from the root id to a given id($selectId)
     // the path is delimetered with "/"
+
     /**
      * @param        $selectId
      * @param        $title
@@ -182,7 +185,7 @@ class Tree
         }
         list($parentid, $name) = $this->db->fetchRow($result);
         $myts = \MyTextSanitizer::getInstance();
-        $name = $myts->htmlspecialchars($name);
+        $name = $myts->htmlSpecialChars($name);
         $path = '/' . $name . $path . '';
         if (0 == $parentid) {
             return $path;
@@ -195,6 +198,7 @@ class Tree
     //makes a nicely ordered selection box
     //$preset_id is used to specify a preselected item
     //set $none to 1 to add a option with value 0
+
     /**
      * @param        $title
      * @param string $order
@@ -222,7 +226,7 @@ class Tree
         if ($none) {
             echo "<option value='0'>----</option>\n";
         }
-        while (false !== (list($catid, $name) = $this->db->fetchRow($result))) {
+        while (list($catid, $name) = $this->db->fetchRow($result)) {
             $sel = '';
             if ($catid == $preset_id) {
                 $sel = " selected='selected'";
@@ -232,7 +236,7 @@ class Tree
             $arr = $this->getChildTreeArray($catid, $order);
             foreach ($arr as $option) {
                 $option['prefix'] = str_replace('.', '--', $option['prefix']);
-                $catpath          = $option['prefix'] . '&nbsp;' . $myts->htmlspecialchars($option[$title]);
+                $catpath          = $option['prefix'] . '&nbsp;' . $myts->htmlSpecialChars($option[$title]);
                 if ($option[$this->id] == $preset_id) {
                     $sel = " selected='selected'";
                 }
@@ -264,7 +268,7 @@ class Tree
         }
         list($parentid, $name) = $this->db->fetchRow($result);
         $myts = \MyTextSanitizer::getInstance();
-        $name = $myts->htmlspecialchars($name);
+        $name = $myts->htmlSpecialChars($name);
         $path = "<li><a href='" . $funcURL . '&amp;' . $this->id . '=' . $selectId . "'>" . $name . '</a></li>' . $path . '';
         if (0 == $parentid) {
             return $path;
@@ -276,6 +280,7 @@ class Tree
 
     //generates id path from the root id to a given id
     // the path is delimetered with "/"
+
     /**
      * @param        $selectId
      * @param string $path

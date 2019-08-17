@@ -8,13 +8,12 @@
  * @param $item_id
  * @return mixed
  */
-
 function smartfaq_notify_iteminfo($category, $item_id)
 {
     global $xoopsModule, $xoopsModuleConfig, $xoopsConfig;
 
     if (empty($xoopsModule) || 'smartfaq' !== $xoopsModule->getVar('dirname')) {
-        /** @var XoopsModuleHandler $moduleHandler */
+        /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $module        = $moduleHandler->getByDirname('smartfaq');
         $configHandler = xoops_getHandler('config');

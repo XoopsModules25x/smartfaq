@@ -122,7 +122,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
         $newHeight = (int)($imginfo[1] * $newWidth / $imginfo[0]);
 
         if (1 == $helper->getConfig('image_lib') or 0 == $helper->getConfig('image_lib')) {
-            if (preg_match("#[A-Z]:|\\\\#Ai", __FILE__)) {
+            if (preg_match('#[A-Z]:|\\\\#Ai', __FILE__)) {
                 $cur_dir     = __DIR__;
                 $src_file_im = '"' . $cur_dir . '\\' . str_replace('/', '\\', $src_file) . '"';
                 $new_file_im = '"' . $cur_dir . '\\' . str_replace('/', '\\', $new_file) . '"';
@@ -207,9 +207,9 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
 
         if (file_exists($new_file)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
 endif;

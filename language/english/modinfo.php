@@ -113,10 +113,8 @@ define('_MI_SF_INDEXWELCOMEMSGDEF', 'In this area of our site, you will find the
 
 define('_MI_SF_REQUESTINTROMSG', 'Request introduction message:');
 define('_MI_SF_REQUESTINTROMSGDSC', 'Introduction message to be displayed in the Request a Q&amp;A page of the module.');
-define(
-    '_MI_SF_REQUESTINTROMSGDEF',
-       'You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!'
-);
+define('_MI_SF_REQUESTINTROMSGDEF',
+       'You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!');
 
 define('_MI_SF_OPENINTROMSG', 'Open Questions section introduction message:');
 define('_MI_SF_OPENINTROMSGDSC', 'Introduction message to be displayed in the Open Questions section of the module.');
@@ -126,10 +124,8 @@ define('_MI_SF_USEREALNAME', 'Use the Real Name of users');
 define('_MI_SF_USEREALNAMEDSC', 'When displaying a username, use the real name of that user if he has a set his real name.');
 
 define('_MI_SF_HELP_PATH_SELECT', "Path of SmartFAQ's help files");
-define(
-    '_MI_SF_HELP_PATH_SELECT_DSC',
-       "SELECT FROM where you would LIKE TO access SmartFAQ's help files. If you downloaded the 'SmartFAQ's Help Package' AND uploaded it IN 'modules/smartfaq/doc/', you can SELECT 'Inside the module'. Alternatively, you can access the module's help file directly from docs.xoops.org by chosing this in the selector. You can also select 'Custom Path' and specify yourself the path of the help files in the next config option 'Custom path of SmartFAQ's help files'"
-);
+define('_MI_SF_HELP_PATH_SELECT_DSC',
+       "SELECT FROM where you would LIKE TO access SmartFAQ's help files. If you downloaded the 'SmartFAQ's Help Package' AND uploaded it IN 'modules/smartfaq/doc/', you can SELECT 'Inside the module'. Alternatively, you can access the module's help file directly from docs.xoops.org by chosing this in the selector. You can also select 'Custom PATH' and specify yourself the path of the help files in the next config option 'Custom PATH OF SmartFAQ's help files'");
 
 define('_MI_SF_HELP_PATH_CUSTOM', "Custom path of SmartFAQ's help files");
 define('_MI_SF_HELP_PATH_CUSTOM_DSC', "If you selected 'Custom path' in the previous option 'Path of SmartFAQ's help files', please specify the URL of SmartFAQ's help files, in that format : http://www.yoursite.com/doc");
@@ -349,10 +345,8 @@ define('_MI_SF_AUTO', 'AUTO');
 //------------------------------
 
 define('_MI_SF_DIR_ATTACHMENT', 'Attachments physical path.');
-define(
-    '_MI_SF_DIR_ATTACHMENT_DESC',
-       "Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/newbb the path entered would then be '/uploads/newbb' never include a trailing slash '/' the thumbnails path becomes '/uploads/newbb/thumbs'"
-);
+define('_MI_SF_DIR_ATTACHMENT_DESC',
+       "Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/newbb the path entered would then be '/uploads/newbb' never include a trailing slash '/' the thumbnails path becomes '/uploads/newbb/thumbs'");
 define('_MI_SF_PATH_MAGICK', 'Path for ImageMagick');
 define('_MI_SF_PATH_MAGICK_DESC', "Usually it is '/usr/bin/X11'. Leave it BLANK if you do not have ImageMagicK installed or for autodetecting.");
 define('_MI_SF_SUBFORUM_DISPLAY', 'Display Mode of subforums on index page');
@@ -404,3 +398,4 @@ define('_MI_SF_SUPPORT', 'Support');
 
 define('_MI_SF_HOME', 'Home');
 define('_MI_SF_ABOUT', 'About');
+define('_MI_SF_BLOCKS', 'Block Admin');

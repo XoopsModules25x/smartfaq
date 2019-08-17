@@ -38,25 +38,25 @@ if (0 == $totalCategories) {
 $isAdmin = Smartfaq\Utility::userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
 if (!($isAdmin
-      ||  (null !== ($helper->getConfig('allowsubmit')) && 1 == $helper->getConfig('allowsubmit')
+      || (null !== $helper->getConfig('allowsubmit') && 1 == $helper->getConfig('allowsubmit')
           && (is_object($xoopsUser)
-              ||  (null !== ($helper->getConfig('anonpost'))
+              || (null !== $helper->getConfig('anonpost')
                   && 1 == $helper->getConfig('anonpost')))))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
 $op = 'form';
 
-if (isset($_POST['post'])) {
+if (\Xmf\Request::hasVar('post', 'POST')) {
     $op = 'post';
-} elseif (isset($_POST['preview'])) {
+} elseif (\Xmf\Request::hasVar('preview', 'POST')) {
     $op = 'preview';
 }
 
 switch ($op) {
     case 'preview':
 
-        global $xoopsUser, $xoopsConfig, $xoopsModule,  $xoopsDB;
+        global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsDB;
 
         $faqObj      = $faqHandler->create();
         $answerObj   = $answerHandler->create();
@@ -72,7 +72,7 @@ switch ($op) {
             $uid = $xoopsUser->uid();
         }
 
-        $notifypub = \Xmf\Request::getInt('notifypub', 0, POST);
+        $notifypub = \Xmf\Request::getInt('notifypub', 0, 'POST');
 
         // Putting the values about the FAQ in the FAQ object
         $faqObj->setVar('categoryid', $_POST['categoryid']);
@@ -96,7 +96,7 @@ switch ($op) {
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
-        $moduleName          =& $myts->displayTarea($xoopsModule->getVar('name'));
+        $moduleName          = &$myts->displayTarea($xoopsModule->getVar('name'));
         $faq                 = $faqObj->toArray(null, $categoryObj, false);
         $faq['categoryPath'] = $categoryObj->getCategoryPath(true);
         $faq['answer']       = $answerObj->answer();
@@ -117,10 +117,9 @@ switch ($op) {
 
         exit();
         break;
-
     case 'post':
 
-        global $xoopsUser, $xoopsConfig, $xoopsModule,  $xoopsDB;
+        global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsDB;
 
         $newFaqObj    = $faqHandler->create();
         $newAnswerObj = $answerHandler->create();
@@ -135,7 +134,7 @@ switch ($op) {
             $uid = $xoopsUser->uid();
         }
 
-        $notifypub = \Xmf\Request::getInt('notifypub', 0, POST);
+        $notifypub = \Xmf\Request::getInt('notifypub', 0, 'POST');
 
         // Putting the values about the FAQ in the FAQ object
         $newFaqObj->setVar('categoryid', $_POST['categoryid']);
@@ -161,7 +160,7 @@ switch ($op) {
 
         // Storing the FAQ object in the database
         if (!$newFaqObj->store()) {
-            redirect_header('javascript:history.go(-1)', 2, _MD_SF_SUBMIT_ERROR);
+            redirect_header('<script>javascript:history.go(-1)</script>', 2, _MD_SF_SUBMIT_ERROR);
         }
 
         // Putting the values in the answer object
@@ -173,9 +172,9 @@ switch ($op) {
         //====================================================================================
         //TODO post Attachment
         $attachments_tmp = [];
-       if (\Xmf\Request::hasVar('attachments_tmp', 'POST')) {
-            $attachments_tmp = unserialize(base64_decode($_POST['attachments_tmp']));
-            if (isset($_POST['delete_tmp']) && count($_POST['delete_tmp'])) {
+        if (\Xmf\Request::hasVar('attachments_tmp', 'POST')) {
+            $attachments_tmp = unserialize(base64_decode($_POST['attachments_tmp'], true));
+            if (\Xmf\Request::hasVar('delete_tmp', 'POST') && count($_POST['delete_tmp'])) {
                 foreach ($_POST['delete_tmp'] as $key) {
                     unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $attachments_tmp[$key][0]);
                     unset($attachments_tmp[$key]);
@@ -215,10 +214,10 @@ switch ($op) {
                 $uploader->setCheckMediaTypeByExt();
 
                 if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
-                    $prefix = is_object($xoopsUser) ? (string)$xoopsUser->uid() . '_' : 'newbb_';
+                    $prefix = is_object($xoopsUser) ? $xoopsUser->uid() . '_' : 'newbb_';
                     $uploader->setPrefix($prefix);
                     if (!$uploader->upload()) {
-                        $error_message[] = $error_upload =& $uploader->getErrors();
+                        $error_message[] = $error_upload = &$uploader->getErrors();
                     } else {
                         if (is_file($uploader->getSavedDestination())) {
                             if (rename(XOOPS_CACHE_PATH . '/' . $uploader->getSavedFileName(), XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $uploader->getSavedFileName())) {
@@ -227,7 +226,7 @@ switch ($op) {
                         }
                     }
                 } else {
-                    $error_message[] = $error_upload =& $uploader->getErrors();
+                    $error_message[] = $error_upload = &$uploader->getErrors();
                 }
             }
         }
@@ -236,7 +235,7 @@ switch ($op) {
 
         // Storing the answer object in the database
         if (!$newAnswerObj->store()) {
-            redirect_header('javascript:history.go(-1)', 2, _MD_SF_SUBMIT_ERROR);
+            redirect_header('<script>javascript:history.go(-1)</script>', 2, _MD_SF_SUBMIT_ERROR);
         }
 
         // Get the cateopry object related to that FAQ
@@ -273,7 +272,6 @@ switch ($op) {
 
         redirect_header('index.php', 2, $redirect_msg);
         break;
-
     case 'form':
     default:
 
@@ -289,7 +287,7 @@ switch ($op) {
 
         $name       = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
         $notifypub  = 1;
-        $moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
+        $moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
         $xoopsTpl->assign('whereInSection', $moduleName);
         $xoopsTpl->assign('lang_submit', _MD_SF_SUB_SNEWNAME);
 

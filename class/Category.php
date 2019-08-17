@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Smartfaq;
+<?php
+
+namespace XoopsModules\Smartfaq;
 
 /**
  * Module: SmartFAQ
@@ -6,7 +8,7 @@
  * Licence: GNU
  */
 
-use \XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -16,6 +18,8 @@ use \XoopsModules\Smartfaq;
  */
 class Category extends \XoopsObject
 {
+    public $db;
+
     /**
      * @var array
      * @access private
@@ -88,7 +92,7 @@ class Category extends \XoopsObject
      */
     public function checkPermission()
     {
-//        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+        //        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         $userIsAdmin = Smartfaq\Utility::userIsAdmin();
         if ($userIsAdmin) {
@@ -170,7 +174,7 @@ class Category extends \XoopsObject
         } else {
             $ret = $this->name();
         }
-        $parentid        = $this->parentid();
+        $parentid = $this->parentid();
         /** @var Smartfaq\CategoryHandler $categoryHandler */
         $categoryHandler = Smartfaq\Helper::getInstance()->getHandler('Category');
         if (0 != $parentid) {
@@ -190,7 +194,7 @@ class Category extends \XoopsObject
      */
     public function getGroups_read()
     {
-//        if(count($this->groups_read) < 1) {
+        //        if(count($this->groups_read) < 1) {
         if (!is_array($this->groups_read)) {
             $this->assignOtherProperties();
         }
@@ -213,7 +217,7 @@ class Category extends \XoopsObject
      */
     public function store($sendNotifications = true, $force = true)
     {
-//        $categoryHandler = new sfCategoryHandler($this->db);
+        //        $categoryHandler = new sfCategoryHandler($this->db);
         /** @var Smartfaq\CategoryHandler $categoryHandler */
         $categoryHandler = Smartfaq\Helper::getInstance()->getHandler('Category');
 
@@ -230,7 +234,7 @@ class Category extends \XoopsObject
     {
         $smartModule = Smartfaq\Utility::getModuleInfo();
 
-        $myts                = \MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
 

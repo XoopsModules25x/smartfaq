@@ -5,10 +5,9 @@
  * Author: mariuss
  * Licence: GNU
  */
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-
-$op = 'go';//'start';
+$op = 'go'; //'start';
 
 if ('go' === \Xmf\Request::getCmd('op', 'start', 'POST')) {
     $op = 'go';

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Smartfaq;
+<?php
+
+namespace XoopsModules\Smartfaq;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -45,7 +47,6 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsform/form.php';
  */
 class GroupFormCheckBox extends \XoopsFormElement
 {
-
     /**
      * Pre-selected value(s)
      * @var array;
@@ -109,7 +110,7 @@ class GroupFormCheckBox extends \XoopsFormElement
      */
     public function setOptionTree(&$optionTree)
     {
-        $this->_optionTree =& $optionTree;
+        $this->_optionTree = &$optionTree;
     }
 
     /**

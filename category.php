@@ -24,12 +24,12 @@ $categoryObj = new Smartfaq\Category($categoryid);
 
 // If the selected category was not found, exit
 if ($categoryObj->notLoaded()) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOCATEGORYSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_SF_NOCATEGORYSELECTED);
 }
 
 // Check user permissions to access this category
 if (!$categoryObj->checkPermission()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 $totalQnas = $categoryHandler->publishedFaqsCount($categoryid);
 // If there is no FAQ under this categories or the sub-categories, exit
@@ -79,7 +79,7 @@ if (1 == $helper->getConfig('displaylastfaq')) {
 }
 $lastfaqsize = (int)$helper->getConfig('lastfaqsize');
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj    =& $categoryHandler->getCategories(0, 0, $categoryid);
+$subcatsObj    = &$categoryHandler->getCategories(0, 0, $categoryid);
 $total_subcats = count($subcatsObj);
 $total_faqs    = 0;
 if (0 != $total_subcats) {

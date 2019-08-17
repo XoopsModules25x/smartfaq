@@ -1,8 +1,8 @@
-<?php namespace XoopsModules\Smartfaq;
+<?php
 
-use Xmf\Request;
+namespace XoopsModules\Smartfaq;
+
 use XoopsModules\Smartfaq;
-use XoopsModules\Smartfaq\Common;
 
 /**
  * Class Utility
@@ -17,8 +17,6 @@ class Utility
 
     //--------------- Custom module methods -----------------------------
 
-
-
     /**
      * @return mixed|null
      */
@@ -30,8 +28,8 @@ class Utility
             if (null !== $xoopsModule && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
                 $smartModule = $xoopsModule;
             } else {
-                $hModule     = xoops_getHandler('module');
-                $smartModule = $hModule->getByDirname('smartfaq');
+                $moduleHandler = xoops_getHandler('module');
+                $smartModule   = $moduleHandler->getByDirname('smartfaq');
             }
         }
 
@@ -69,11 +67,9 @@ class Utility
             case 'docs.xoops.org':
                 return 'http://docs.xoops.org/help/sfaqh/index.htm';
                 break;
-
             case 'inside':
                 return XOOPS_URL . '/modules/smartfaq/doc/';
                 break;
-
             case 'custom':
                 return $smartConfig['helppath_custom'];
                 break;
@@ -118,7 +114,7 @@ class Utility
         }
         $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
-        $subCategoriesObj =& $categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
+        $subCategoriesObj = &$categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
         if (count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $catID => $subCategoryObj) {
@@ -172,7 +168,7 @@ class Utility
             '5' => _AM_SF_STATUS5,
             '6' => _AM_SF_STATUS6,
             '7' => _AM_SF_STATUS7,
-            '8' => _AM_SF_STATUS8
+            '8' => _AM_SF_STATUS8,
         ];
 
         return $result;
@@ -221,7 +217,7 @@ class Utility
      *
      * self::userIsAdmin()
      *
-     * @return boolean : array with userids and uname
+     * @return bool : array with userids and uname
      */
     public static function userIsAdmin()
     {
@@ -233,7 +229,7 @@ class Utility
         $module_id   = $smartModule->getVar('mid');
 
         if (!empty($xoopsUser)) {
-            $groups =& $xoopsUser->getGroups();
+            $groups = &$xoopsUser->getGroups();
             $result = in_array(XOOPS_GROUP_ADMIN, $groups) || $xoopsUser->isAdmin($module_id);
         }
 
@@ -266,8 +262,8 @@ class Utility
             $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
             $grouppermHandler = xoops_getHandler('groupperm');
-            $smartModule  = self::getModuleInfo();
-            $module_id    = $smartModule->getVar('mid');
+            $smartModule      = self::getModuleInfo();
+            $module_id        = $smartModule->getVar('mid');
 
             // Do we have access to the parent category
             if ($grouppermHandler->checkRight('category_read', $faqObj->categoryid(), $groups, $module_id)) {
@@ -293,9 +289,9 @@ class Utility
      *
      *   self::overrideFaqsPermissions()
      *
-     * @param  array   $groups     : group with granted permission
-     * @param  integer $categoryid :
-     * @return boolean|array : TRUE if the no errors occured
+     * @param  array $groups     : group with granted permission
+     * @param  int   $categoryid :
+     * @return bool|array : TRUE if the no errors occured
      */
     public static function overrideFaqsPermissions($groups, $categoryid)
     {
@@ -311,7 +307,7 @@ class Utility
         $result = $xoopsDB->queryF($sql);
 
         if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
-            while (false !== (list($faqid) = $xoopsDB->fetchRow($result))) {
+            while (list($faqid) = $xoopsDB->fetchRow($result)) {
                 // First, if the permissions are already there, delete them
                 $grouppermHandler->deleteByModule($module_id, 'item_read', $faqid);
                 // Save the new permissions
@@ -331,9 +327,9 @@ class Utility
      *
      *   self::saveItemPermissions()
      *
-     * @param  array   $groups : group with granted permission
-     * @param  integer $itemID : faqid on which we are setting permissions
-     * @return boolean : TRUE if the no errors occured
+     * @param  array $groups : group with granted permission
+     * @param  int   $itemID : faqid on which we are setting permissions
+     * @return bool : TRUE if the no errors occured
      */
     public static function saveItemPermissions($groups, $itemID)
     {
@@ -359,12 +355,11 @@ class Utility
      *
      *   self::saveCategoryPermissions()
      *
-     * @param  array   $groups     : group with granted permission
-     * @param  integer $categoryid : categoryid on which we are setting permissions
-     * @param  string  $perm_name  : name of the permission
-     * @return boolean : TRUE if the no errors occured
+     * @param  array  $groups     : group with granted permission
+     * @param  int    $categoryid : categoryid on which we are setting permissions
+     * @param  string $perm_name  : name of the permission
+     * @return bool : TRUE if the no errors occured
      */
-
     public static function saveCategoryPermissions($groups, $categoryid, $perm_name)
     {
         $result      = true;
@@ -389,11 +384,10 @@ class Utility
      *
      *   self::saveModerators()
      *
-     * @param  array   $moderators : moderators uids
-     * @param  integer $categoryid : categoryid on which we are setting permissions
-     * @return boolean : TRUE if the no errors occured
+     * @param  array $moderators : moderators uids
+     * @param  int   $categoryid : categoryid on which we are setting permissions
+     * @return bool : TRUE if the no errors occured
      */
-
     public static function saveModerators($moderators, $categoryid)
     {
         $result      = true;
@@ -431,15 +425,15 @@ class Utility
     /**
      * self::getAdminLinks()
      *
-     * @param  integer $faqid
-     * @param  bool    $open
+     * @param  int  $faqid
+     * @param  bool $open
      * @return string
      */
 
     // TODO : Move this to the Smartfaq\Faq class
     public static function getAdminLinks($faqid = 0, $open = false)
     {
-        global $xoopsUser, $xoopsModule,  $xoopsConfig;
+        global $xoopsUser, $xoopsModule, $xoopsConfig;
         /** @var Smartfaq\Helper $helper */
         $helper = Smartfaq\Helper::getInstance();
 
@@ -473,9 +467,9 @@ class Utility
     /**
      * self::getLinkedUnameFromId()
      *
-     * @param  integer $userid Userid of poster etc
-     * @param  integer $name   :  0 Use Usenamer 1 Use realname
-     * @param  array   $users
+     * @param  int   $userid Userid of poster etc
+     * @param  int   $name   :  0 Use Usenamer 1 Use realname
+     * @param  array $users
      * @return string
      */
     public static function getLinkedUnameFromId($userid = 0, $name = 0, $users = [])
@@ -494,7 +488,7 @@ class Utility
                 if (!isset($users[$userid])) {
                     return $GLOBALS['xoopsConfig']['anonymous'];
                 }
-                $user =& $users[$userid];
+                $user = &$users[$userid];
             }
 
             if (is_object($user)) {
@@ -527,7 +521,7 @@ class Utility
     public static function getXoopslink($url = '')
     {
         $xurl = $url;
-        if (strlen($xurl) > 0) {
+        if (mb_strlen($xurl) > 0) {
             if ($xurl[0] = '/') {
                 $xurl = str_replace('/', '', $xurl);
             }

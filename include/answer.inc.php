@@ -59,15 +59,15 @@ if ((Constants::SF_STATUS_PUBLISHED == $faqObj->status()) || (Constants::SF_STAT
 
 $form->addElement(new \XoopsFormHidden('faqid', $faqObj->faqid()));
 
-$button_tray = new \XoopsFormElementTray('', '');
-$hidden      = new \XoopsFormHidden('op', 'post');
-$button_tray->addElement($hidden);
+$buttonTray = new \XoopsFormElementTray('', '');
+$hidden     = new \XoopsFormHidden('op', 'post');
+$buttonTray->addElement($hidden);
 
-$button_tray = new \XoopsFormElementTray('', '');
-$hidden      = new \XoopsFormHidden('op', 'post');
-$button_tray->addElement($hidden);
-$button_tray->addElement(new \XoopsFormButton('', 'post', _MD_SF_SUBMITANSWER, 'submit'));
-$form->addElement($button_tray);
+$buttonTray = new \XoopsFormElementTray('', '');
+$hidden     = new \XoopsFormHidden('op', 'post');
+$buttonTray->addElement($hidden);
+$buttonTray->addElement(new \XoopsFormButton('', 'post', _MD_SF_SUBMITANSWER, 'submit'));
+$form->addElement($buttonTray);
 
 $form->assign($xoopsTpl);
 

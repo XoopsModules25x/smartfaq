@@ -27,7 +27,7 @@ $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Cat
 /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
 $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
 
-$op    = \Xmf\Request::getCmd('op', '');
+$op = \Xmf\Request::getCmd('op', '');
 
 // Where shall we start?
 $startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
@@ -40,7 +40,7 @@ $startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
  */
 function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 {
-    global $answerHandler, $faqHandler, $categoryHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify,  $xoopsModule, $XOOPS_URL, $myts;
+    global $answerHandler, $faqHandler, $categoryHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $XOOPS_URL, $myts;
     /** @var Smartfaq\Helper $helper */
     $helper = Smartfaq\Helper::getInstance();
 
@@ -66,7 +66,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
         }
 
         switch ($faqObj->status()) {
-
             case Constants::SF_STATUS_ASKED:
                 $breadcrumb_action1   = _AM_SF_ASKED;
                 $breadcrumb_action2   = _AM_SF_APPROVING;
@@ -76,7 +75,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
                 $an_status            = Constants::SF_AN_STATUS_APPROVED;
                 $answerObj->setVar('uid', $xoopsUser->getVar('uid'));
                 break;
-
             case Constants::SF_STATUS_ANSWERED:
                 $breadcrumb_action1   = _AM_SF_ANSWERED;
                 $breadcrumb_action2   = _AM_SF_APPROVING;
@@ -85,7 +83,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
                 $button_caption       = _AM_SF_APPROVE;
                 $an_status            = Constants::SF_AN_STATUS_PROPOSED;
                 break;
-
             case Constants::SF_STATUS_SUBMITTED:
                 $breadcrumb_action1   = _AM_SF_SUBMITTED;
                 $breadcrumb_action2   = _AM_SF_APPROVING;
@@ -94,7 +91,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
                 $button_caption       = _AM_SF_APPROVE;
                 $an_status            = Constants::SF_AN_STATUS_PROPOSED;
                 break;
-
             case Constants::SF_STATUS_PUBLISHED:
                 $breadcrumb_action1   = _AM_SF_PUBLISHED;
                 $breadcrumb_action2   = _AM_SF_EDITING;
@@ -103,7 +99,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
                 $button_caption       = _AM_SF_MODIFY;
                 $an_status            = Constants::SF_AN_STATUS_APPROVED;
                 break;
-
             case Constants::SF_STATUS_OFFLINE:
                 $breadcrumb_action1   = _AM_SF_OFFLINE;
                 $breadcrumb_action2   = _AM_SF_EDITING;
@@ -112,7 +107,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
                 $button_caption       = _AM_SF_MODIFY;
                 $an_status            = Constants::SF_AN_STATUS_APPROVED;
                 break;
-
             case Constants::SF_STATUS_OPENED:
                 $breadcrumb_action1   = _AM_SF_OPEN_QUESTIONS;
                 $breadcrumb_action2   = _AM_SF_ANSWERING;
@@ -122,7 +116,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
                 $an_status            = Constants::SF_AN_STATUS_NOTSET;
                 $answerObj->setVar('uid', $xoopsUser->getVar('uid'));
                 break;
-
             case Constants::SF_STATUS_NEW_ANSWER:
                 $breadcrumb_action1   = _AM_SF_PUBLISHED;
                 $breadcrumb_action2   = _AM_SF_EDITING;
@@ -131,7 +124,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
                 $button_caption       = _AM_SF_PUBLISH;
                 $an_status            = Constants::SF_AN_STATUS_NOTSET;
                 break;
-
             case 'default':
             default:
                 break;
@@ -185,8 +177,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
     ob_start();
     $mytree->makeMySelBox('name', 'weight', $categoryObj->categoryid());
-    $sform->addElement(new \XoopsFormLabel(_AM_SF_CATEGORY_FAQ, ob_get_contents()));
-    ob_end_clean();
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_CATEGORY_FAQ, ob_get_clean()));
 
     // faq QUESTION
     $sform->addElement(new \XoopsFormTextArea(_AM_SF_QUESTION, 'question', $faqObj->question(0, 'e'), 7, 60));
@@ -225,7 +216,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
     // CONTEXT MODULE LINK
     // Retreive the list of module currently installed. The key value is the dirname
-    /** @var XoopsModuleHandler $moduleHandler */
+    /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler           = xoops_getHandler('module');
     $modules_array           = $moduleHandler->getList(null, true);
     $modulelink_select_array = ['url' => _AM_SF_SPECIFIC_URL_SELECT];
@@ -302,9 +293,9 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     // ANSWER ID
     $sform->addElement(new \XoopsFormHidden('answerid', $answerObj->answerid()));
 
-    $button_tray = new \XoopsFormElementTray('', '');
-    $hidden      = new \XoopsFormHidden('op', 'addfaq');
-    $button_tray->addElement($hidden);
+    $buttonTray = new \XoopsFormElementTray('', '');
+    $hidden     = new \XoopsFormHidden('op', 'addfaq');
+    $buttonTray->addElement($hidden);
 
     $sform->addElement(new \XoopsFormHidden('status', $faqObj->status()));
 
@@ -317,30 +308,30 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     */
     if (!$faqid) {
         // there's no faqid? Then it's a new faq
-        // $button_tray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_CREATE, 'submit' ) );
+        // $buttonTray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_CREATE, 'submit' ) );
         $butt_create = new \XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addfaq\'"');
-        $button_tray->addElement($butt_create);
+        $buttonTray->addElement($butt_create);
 
         $butt_clear = new \XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
-        $button_tray->addElement($butt_clear);
+        $buttonTray->addElement($butt_clear);
 
         $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($butt_cancel);
+        $buttonTray->addElement($butt_cancel);
     } else {
         // else, we're editing an existing faq
-        // $button_tray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_MODIFY, 'submit' ) );
+        // $buttonTray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_MODIFY, 'submit' ) );
         $butt_create = new \XoopsFormButton('', '', $button_caption, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addfaq\'"');
-        $button_tray->addElement($butt_create);
+        $buttonTray->addElement($butt_create);
 
         $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($butt_cancel);
+        $buttonTray->addElement($butt_cancel);
     }
 
-    $sform->addElement($button_tray);
+    $sform->addElement($buttonTray);
     $sform->display();
     echo '</div>';
     unset($hidden);
@@ -364,7 +355,6 @@ switch ($op) {
 
         editfaq(true, $faqid, $answerid, true);
         break;
-
     case 'mod':
 
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
@@ -385,7 +375,6 @@ switch ($op) {
 
         editfaq(true, $faqid, $answerid);
         break;
-
     case 'addfaq':
         global $xoopsUser;
 
@@ -407,7 +396,7 @@ switch ($op) {
         }
 
         // Putting the values in the FAQ object
-        //        if (isset($_POST['groups'])) {
+        //        if (\Xmf\Request::hasVar('groups', 'POST')) {
         //            $faqObj->setGroups_read($_POST['groups']);
         //        } else {
         //            $faqObj->setGroups_read();
@@ -443,7 +432,6 @@ switch ($op) {
         $faqObj->setVar('uid', $requesterUid);
 
         switch ($faqObj->status()) {
-
             case Constants::SF_STATUS_ASKED:
                 $redirect_msg = _AM_SF_ASKED_APPROVE_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
@@ -452,7 +440,6 @@ switch ($op) {
                 $an_status = Constants::SF_AN_STATUS_APPROVED;
                 $notifToDo = [Constants::SF_NOT_FAQ_PUBLISHED];
                 break;
-
             case Constants::SF_STATUS_ANSWERED:
                 $redirect_msg = _AM_SF_ANSWERED_APPROVE_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
@@ -461,7 +448,6 @@ switch ($op) {
                 $an_status = Constants::SF_AN_STATUS_APPROVED;
                 $notifToDo = [Constants::SF_NOT_FAQ_PUBLISHED];
                 break;
-
             case Constants::SF_STATUS_SUBMITTED:
                 $redirect_msg = _AM_SF_SUBMITTED_APPROVE_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
@@ -470,7 +456,6 @@ switch ($op) {
                 $an_status = Constants::SF_AN_STATUS_APPROVED;
                 $notifToDo = [Constants::SF_NOT_FAQ_PUBLISHED];
                 break;
-
             case Constants::SF_STATUS_PUBLISHED:
                 $redirect_msg = _AM_SF_PUBLISHED_MOD_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
@@ -478,7 +463,6 @@ switch ($op) {
                 $status    = Constants::SF_STATUS_PUBLISHED;
                 $an_status = Constants::SF_AN_STATUS_APPROVED;
                 break;
-
             case Constants::SF_STATUS_OPENED:
                 $redirect_msg = _AM_SF_OPENED_ANSWERING_SUCCESS;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
@@ -487,7 +471,6 @@ switch ($op) {
                 $an_status = Constants::SF_AN_STATUS_APPROVED;
                 $notifToDo = [Constants::SF_NOT_FAQ_PUBLISHED];
                 break;
-
             case Constants::SF_STATUS_NEW_ANSWER:
                 $redirect_msg = _AM_SF_FAQ_NEW_ANSWER_PUBLISHED;
                 $error_msg    = _AM_SF_ARTNOTUPDATED;
@@ -496,10 +479,8 @@ switch ($op) {
                 $an_status = Constants::SF_AN_STATUS_APPROVED;
                 //$notifToDo = array(Constants::SF_NOT_FAQ_PUBLISHED);
                 break;
-
             case Constants::SF_STATUS_OFFLINE:
                 break;
-
             case 'default':
             default:
                 $redirect_msg = _AM_SF_SUBMITTED_APPROVE_SUCCESS;
@@ -512,20 +493,20 @@ switch ($op) {
         }
         $faqObj->setVar('status', $status);
 
-        // Puting the info in the answer ibject
+        // Puting the info in the answer object
         $answerObj->setVar('answer', $_POST['answer']);
         $answerObj->setVar('status', $an_status);
         $answerObj->setVar('uid', $answererUid);
 
         // Storing the FAQ
         if (!$faqObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, $error_msg . Smartfaq\Utility::formatErrors($faqObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, $error_msg . Smartfaq\Utility::formatErrors($faqObj->getErrors()));
         }
 
         // Storing the answer
         $answerObj->setVar('faqid', $faqObj->faqid());
         if (!$answerObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, $error_msg . Smartfaq\Utility::formatErrors($answerObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, $error_msg . Smartfaq\Utility::formatErrors($answerObj->getErrors()));
         }
 
         // Send notifications
@@ -535,11 +516,10 @@ switch ($op) {
 
         redirect_header('faq.php', 2, $redirect_msg);
         break;
-
     case 'del':
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $_GET;
 
-        $module_id    = $xoopsModule->getVar('mid');
+        $module_id        = $xoopsModule->getVar('mid');
         $grouppermHandler = xoops_getHandler('groupperm');
 
         $faqid = Request::getInt('faqid', 0, 'POST');
@@ -558,20 +538,19 @@ switch ($op) {
             redirect_header('faq.php', 2, sprintf(_AM_SF_ARTISDELETED, $faqObj->question()));
         } else {
             // no confirm: show deletion condition
-            $faqid =  Request::getInt('faqid', 0, 'POST');
+            $faqid = Request::getInt('faqid', 0, 'POST');
             xoops_cp_header();
             xoops_confirm([
                               'op'      => 'del',
                               'faqid'   => $faqObj->faqid(),
                               'confirm' => 1,
-                              'name'    => $faqObj->question()
+                              'name'    => $faqObj->question(),
                           ], 'faq.php', _AM_SF_DELETETHISARTICLE . " <br>'" . $faqObj->question() . "'. <br> <br>", _AM_SF_DELETE);
             xoops_cp_footer();
         }
 
         exit();
         break;
-
     case 'default':
     default:
         $adminObject = \Xmf\Module\Admin::getInstance();

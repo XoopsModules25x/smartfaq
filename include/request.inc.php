@@ -29,11 +29,11 @@ ob_end_clean();
 // QUESTION
 $form->addElement(new \XoopsFormTextArea(_MD_SF_QUESTION, 'question', '', 10, 38), true);
 
-$button_tray = new \XoopsFormElementTray('', '');
-$hidden      = new \XoopsFormHidden('op', 'post');
-$button_tray->addElement($hidden);
-$button_tray->addElement(new \XoopsFormButton('', 'post', _SUBMIT, 'submit'));
-$form->addElement($button_tray);
+$buttonTray = new \XoopsFormElementTray('', '');
+$hidden     = new \XoopsFormHidden('op', 'post');
+$buttonTray->addElement($hidden);
+$buttonTray->addElement(new \XoopsFormButton('', 'post', _SUBMIT, 'submit'));
+$form->addElement($buttonTray);
 // NOTIFY ON PUBLISH
 if (is_object($xoopsUser)) {
     $notify_checkbox = new \XoopsFormCheckBox('', 'notifypub', 1);

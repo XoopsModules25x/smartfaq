@@ -13,7 +13,7 @@ require_once __DIR__ . '/header.php';
 $faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
 
 if (0 == $faqid) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_SF_NOFAQSELECTED);
 }
 
 // Creating the FAQ handler object
@@ -25,7 +25,7 @@ $faqObj = new Smartfaq\Faq($faqid);
 
 // If the selected FAQ was not found, exit
 if ($faqObj->notLoaded()) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_SF_NOFAQSELECTED);
 }
 
 // Creating the category object that holds the selected FAQ
@@ -36,7 +36,7 @@ $answerObj = $faqObj->answer();
 
 // Check user permissions to access that category of the selected FAQ
 if (Smartfaq\Utility::faqAccessGranted($faqObj) < 0) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 
 global $xoopsConfig, $xoopsDB, $xoopsModule, $myts;
@@ -44,7 +44,7 @@ global $xoopsConfig, $xoopsDB, $xoopsModule, $myts;
 $who_where = $faqObj->getWhoAndWhen();
 $comeFrom  = $faqObj->getComeFrom();
 
-echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>\n";
+echo "<!DOCTYPE HTML>\n";
 echo "<html>\n<head>\n";
 echo '<title>' . _MD_SF_FAQCOMEFROM . ' ' . $xoopsConfig['sitename'] . "</title>\n";
 echo "<meta http-equiv='Content-Type' content='text/html; charset=" . _CHARSET . "'>\n";

@@ -19,7 +19,7 @@
 
 use XoopsModules\Smartfaq;
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 //require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 
 // require_once  dirname(__DIR__) . '/class/Utility.php';
@@ -39,7 +39,7 @@ require_once $path . '/class/xoopsformloader.php';
 // require_once  dirname(__DIR__) . '/class/faq.php';
 // require_once  dirname(__DIR__) . '/class/answer.php';
 // require_once  dirname(__DIR__) . '/class/Utility.php';
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 /** @var Smartfaq\Helper $helper */
 $helper      = Smartfaq\Helper::getInstance();
 $adminObject = \Xmf\Module\Admin::getInstance();

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Smartfaq;
+<?php
+
+namespace XoopsModules\Smartfaq;
 
 /**
  * Detemines if a table exists in the current db
@@ -24,7 +26,7 @@ function smart_TableExists($table)
     $realname = $xoopsDB->prefix($table);
     $sql      = 'SHOW TABLES FROM ' . XOOPS_DB_NAME;
     $ret      = $xoopsDB->queryF($sql);
-    while (false !== (list($m_table) = $xoopsDB->fetchRow($ret))) {
+    while (list($m_table) = $xoopsDB->fetchRow($ret)) {
         if ($m_table == $realname) {
             $bRetVal = true;
             break;
@@ -69,7 +71,7 @@ $helper->loadLanguage('smartdbupdater');
 //if (!file_exists($common_file)) {
 //    $common_file = XOOPS_ROOT_PATH . '/modules/smartfaq/language/english/smartdbupdater.php';
 //}
-//include $common_file;
+//require_once $common_file;
 
 /**
  * Class SmartDbTable
@@ -125,7 +127,6 @@ class SmartDbTable
      * Constructor
      *
      * @param string $name name of the table
-     *
      */
     public function __construct($name)
     {
@@ -137,7 +138,6 @@ class SmartDbTable
      * Return the table name, prefixed with site table prefix
      *
      * @return string table name
-     *
      */
     public function name()
     {
@@ -150,7 +150,6 @@ class SmartDbTable
      * Checks if the table already exists in the database
      *
      * @return bool TRUE if it exists, FALSE if not
-     *
      */
     public function exists()
     {
@@ -192,7 +191,6 @@ class SmartDbTable
      * Set the table structure
      *
      * @param string $structure table structure
-     *
      */
     public function setStructure($structure)
     {
@@ -203,7 +201,6 @@ class SmartDbTable
      * Return the table structure
      *
      * @return string table structure
-     *
      */
     public function getStructure()
     {
@@ -214,7 +211,6 @@ class SmartDbTable
      * Add values of a record to be added
      *
      * @param string $data values of a record
-     *
      */
     public function setData($data)
     {
@@ -225,7 +221,6 @@ class SmartDbTable
      * Get the data array
      *
      * @return array containing the records values to be added
-     *
      */
     public function getData()
     {
@@ -236,7 +231,6 @@ class SmartDbTable
      * Use to insert data in a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function addData()
     {
@@ -279,6 +273,7 @@ class SmartDbTable
      * @internal param string $old old propertie
      * @internal param string $new new propertie
      */    //felix
+
     public function addUpdatedWhere($name, $newValue, $oldValue)
     {
         $field['name']         = $name;
@@ -292,7 +287,6 @@ class SmartDbTable
      *
      * @param string $name       name of the field
      * @param string $properties properties of the field
-     *
      */
     public function addNewField($name, $properties)
     {
@@ -305,7 +299,6 @@ class SmartDbTable
      * Get fields that need to be altered
      *
      * @return array fields that need to be altered
-     *
      */
     public function getAlteredFields()
     {
@@ -317,7 +310,6 @@ class SmartDbTable
      *
      * @param string $name  name of the field
      * @param string $value value to be set
-     *
      */
     public function addUpdatedField($name, $value)
     {
@@ -330,7 +322,6 @@ class SmartDbTable
      * Get new fields to be added
      *
      * @return array fields to be added
-     *
      */
     public function getNewFields()
     {
@@ -341,7 +332,6 @@ class SmartDbTable
      * Get fields which values need to be updated
      *
      * @return array fields which values need to be updated
-     *
      */
     public function getUpdatedFields()
     {
@@ -352,8 +342,8 @@ class SmartDbTable
      * Get fields which values need to be updated
      *
      * @return array fields which values need to be updated
-     *
      */    //felix
+
     public function getUpdatedWhere()
     {
         return $this->_updatedWhere;
@@ -363,7 +353,6 @@ class SmartDbTable
      * Add values of a record to be added
      *
      * @param string $name name of the field
-     *
      */
     public function addDroppedField($name)
     {
@@ -374,7 +363,6 @@ class SmartDbTable
      * Get fields that need to be dropped
      *
      * @return array fields that need to be dropped
-     *
      */
     public function getDroppedFields()
     {
@@ -383,7 +371,6 @@ class SmartDbTable
 
     /**
      * Set the flag to drop the table
-     *
      */
     public function setFlagForDrop()
     {
@@ -392,7 +379,6 @@ class SmartDbTable
 
     /**
      * Get the flag to drop the table
-     *
      */
     public function getFlagForDrop()
     {
@@ -403,7 +389,6 @@ class SmartDbTable
      * Use to create a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function createTable()
     {
@@ -425,7 +410,6 @@ class SmartDbTable
      * Use to drop a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function dropTable()
     {
@@ -437,18 +421,16 @@ class SmartDbTable
             echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE_ERR, $this->name()) . '<br>';
 
             return false;
-        } else {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE, $this->name()) . '<br>';
-
-            return true;
         }
+        echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE, $this->name()) . '<br>';
+
+        return true;
     }
 
     /**
      * Use to alter a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function alterTable()
     {
@@ -476,7 +458,6 @@ class SmartDbTable
      * Use to add new fileds in the table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function addNewFields()
     {
@@ -501,7 +482,6 @@ class SmartDbTable
      * Use to update fields values
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function updateFieldsValues()
     {
@@ -521,12 +501,13 @@ class SmartDbTable
 
         return $ret;
     }
+
     /**
      * Use to update fields values
      *
      * @return bool true if success, false if an error occured
-     *
      */        //felix
+
     public function updateWhereValues()
     {
         global $xoopsDB;
@@ -551,7 +532,6 @@ class SmartDbTable
      * Use to drop fields
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function dropFields()
     {

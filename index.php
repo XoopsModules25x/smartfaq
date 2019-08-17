@@ -49,11 +49,11 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';
 
 // Creating the categories objects
-$categoriesObj =& $categoryHandler->getCategories($helper->getConfig('catperpage'), $catstart);
+$categoriesObj = &$categoryHandler->getCategories($helper->getConfig('catperpage'), $catstart);
 // If no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
 if (0 == $totalCategoriesOnPage) {
-    redirect_header('javascript:history.go(-1)', 2, _AM_SF_NO_CAT_EXISTS);
+    redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_SF_NO_CAT_EXISTS);
 }
 // Arrays that will hold the informations passed on to smarty variables
 
@@ -162,7 +162,7 @@ if ($displaylastfaqs) {
 }
 
 // Language constants
-$moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
+$moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
 $xoopsTpl->assign('whereInSection', $moduleName);
 $xoopsTpl->assign('displaysubcatonindex', $helper->getConfig('displaysubcatonindex'));
 $xoopsTpl->assign('displaylastfaqs', $helper->getConfig('displaylastfaqs'));

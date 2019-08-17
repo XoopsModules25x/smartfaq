@@ -23,7 +23,7 @@ if (!$xoopsUser && (1 != $helper->getConfig('anonpost'))) {
 }
 
 // Getting the operation we are doing
-$op    = \Xmf\Request::getCmd('op', 'form');
+$op = \Xmf\Request::getCmd('op', 'form');
 
 // Getting the faqid
 $faqid = Request::getInt('faqid', 0, 'GET');
@@ -31,7 +31,7 @@ $faqid = Request::getInt('faqid', $faqid, 'POST');
 
 // If no FAQ is selected, exit
 if (0 == $faqid) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_SF_NOFAQSELECTED);
 }
 
 // Creating the FAQ handler object
@@ -107,7 +107,6 @@ switch ($op) {
                     $notifCase = 3;
                 }
                 break;
-
             // This is a published FAQ for which a user submitted a new answer
             case Constants::SF_STATUS_PUBLISHED:
             case Constants::SF_STATUS_NEW_ANSWER:
@@ -129,12 +128,12 @@ switch ($op) {
 
         // Storing the FAQ object in the database
         if (!$faqObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _MD_SF_SUBMIT_ERROR . Smartfaq\Utility::formatErrors($faqObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, _MD_SF_SUBMIT_ERROR . Smartfaq\Utility::formatErrors($faqObj->getErrors()));
         }
 
         // Storing the answer object in the database
         if (!$newAnswerObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _MD_SF_SUBMIT_ERROR . Smartfaq\Utility::formatErrors($newAnswerObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, _MD_SF_SUBMIT_ERROR . Smartfaq\Utility::formatErrors($newAnswerObj->getErrors()));
         }
 
         /** @var \XoopsNotificationHandler $notificationHandler */
@@ -147,20 +146,18 @@ switch ($op) {
                 // Send notifications
                 $faqObj->sendNotifications([Constants::SF_NOT_FAQ_PUBLISHED]);
                 break;
-
             case 2:
                 // Answer for an open question submitted, auto-approved; became Q&A, need approbation
-                if (isset($_POST['notifypub']) && 1 == $_POST['notifypub']) {
+                if (\Xmf\Request::hasVar('notifypub', 'POST') && 1 == $_POST['notifypub']) {
                     require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('faq', $faqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
                 // Send notifications
                 $faqObj->sendNotifications([Constants::SF_NOT_FAQ_SUBMITTED]);
                 break;
-
             case 3:
                 // Answer submitted, needs approbation
-                if (isset($_POST['notifypub']) && 1 == $_POST['notifypub']) {
+                if (\Xmf\Request::hasVar('notifypub', 'POST') && 1 == $_POST['notifypub']) {
                     require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('question', $newAnswerObj->answerid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
@@ -171,11 +168,10 @@ switch ($op) {
                 // New answer submitted for a published Q&A, auto-approved
                 // TODO...
                 break;
-
             case 5:
                 // New answer submitted for a published Q&A, need approbation
                 // Send notifications
-                if (isset($_POST['notifypub']) && 1 == $_POST['notifypub']) {
+                if (\Xmf\Request::hasVar('notifypub', 'POST') && 1 == $_POST['notifypub']) {
                     require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('faq', $newAnswerObj->answerid(), 'answer_approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
@@ -186,7 +182,6 @@ switch ($op) {
 
         redirect_header('index.php', 3, $redirect_msg);
         break;
-
     case 'form':
     default:
 
@@ -197,7 +192,7 @@ switch ($op) {
 
         // If the selected FAQ was not found, exit
         if ($faqObj->notLoaded()) {
-            redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOFAQSELECTED);
+            redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_SF_NOFAQSELECTED);
         }
 
         // Creating the category object that holds the selected FAQ
@@ -208,7 +203,7 @@ switch ($op) {
 
         // Check user permissions to access that category of the selected FAQ
         if (Smartfaq\Utility::faqAccessGranted($faqObj) < 0) {
-            redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+            redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
         }
 
         $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
@@ -217,7 +212,7 @@ switch ($op) {
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
-        $moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
+        $moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
         $xoopsTpl->assign('whereInSection', $moduleName);
         $xoopsTpl->assign('lang_submit', _MD_SF_SUBMITANSWER);
 

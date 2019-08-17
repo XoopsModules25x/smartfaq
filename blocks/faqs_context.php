@@ -11,7 +11,7 @@
 
 function b_faqs_context_show($options)
 {
-//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = [];
 
@@ -28,7 +28,7 @@ function b_faqs_context_show($options)
     $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
     // creating the FAQ objects that belong to the selected category
-    $faqsObj   = $faqHandler->getContextualFaqs($limit);
+    $faqsObj = $faqHandler->getContextualFaqs($limit);
 
     if ($faqsObj) {
         foreach ($faqsObj as $iValue) {

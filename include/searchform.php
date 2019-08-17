@@ -22,14 +22,13 @@ $sform->addElement($searchtype, true);
 /** @var Smartfaq\Helper $helper */
 $helper = Smartfaq\Helper::getInstance();
 
-
 if (1 == $helper->getConfig('multicats')) {
     $searchcat = new \XoopsFormSelect(_MD_WB_CATEGORY, 'categoryID', $categoryID);
     $searchcat->addOption('0', _MD_WB_ALLOFTHEM);
 
     $resultcat = $xoopsDB->queryF('SELECT categoryID, name FROM ' . $xoopsDB->prefix('wbcategories') . ' ORDER BY categoryID');
 
-    while (false !== (list($categoryID, $name) = $xoopsDB->fetchRow($resultcat))) {
+    while (list($categoryID, $name) = $xoopsDB->fetchRow($resultcat)) {
         $searchcat->addOption('categoryID', "$categoryID : $name");
     }
     $sform->addElement($searchcat, true);

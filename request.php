@@ -12,7 +12,7 @@ use XoopsModules\Smartfaq\Constants;
 require_once __DIR__ . '/header.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
-global $xoopsUser, $xoopsConfig,  $xoopsModule;
+global $xoopsUser, $xoopsConfig, $xoopsModule;
 /** @var Smartfaq\Helper $helper */
 $helper = Smartfaq\Helper::getInstance();
 
@@ -35,13 +35,13 @@ if (0 == $totalCategories) {
 $isAdmin = Smartfaq\Utility::userIsAdmin();
 // If the user is not admin AND we don't allow user submission, exit
 if (!($isAdmin
-      ||  (null !== ($helper->getConfig('allowrequest'))
+      || (null !== $helper->getConfig('allowrequest')
           && 1 == $helper->getConfig('allowrequest')
-          && (is_object($xoopsUser) ||  (null !== ($helper->getConfig('anonpost')) && 1 == $helper->getConfig('anonpost')))))) {
+          && (is_object($xoopsUser) || (null !== $helper->getConfig('anonpost') && 1 == $helper->getConfig('anonpost')))))) {
     redirect_header('index.php', 1, _NOPERM);
 }
 
-$op    = \Xmf\Request::getCmd('op', '');
+$op = \Xmf\Request::getCmd('op', '');
 
 switch ($op) {
     case 'post':
@@ -64,7 +64,7 @@ switch ($op) {
         $newFaqObj->setVar('categoryid', $_POST['categoryid']);
         $newFaqObj->setVar('uid', $uid);
         $newFaqObj->setVar('question', $_POST['question']);
-        $notifypub = \Xmf\Request::getInt('notifypub', 0, POST);
+        $notifypub = \Xmf\Request::getInt('notifypub', 0, 'POST');
         $newFaqObj->setVar('notifypub', $notifypub);
 
         // Setting the status of the FAQ
@@ -76,7 +76,7 @@ switch ($op) {
 
         // Storing the FAQ object in the database
         if (!$newFaqObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _MD_SF_REQUEST_ERROR . Smartfaq\Utility::formatErrors($newFaqObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, _MD_SF_REQUEST_ERROR . Smartfaq\Utility::formatErrors($newFaqObj->getErrors()));
         }
 
         // Get the cateopry object related to that FAQ
@@ -105,7 +105,6 @@ switch ($op) {
         //redirect_header("javascript:history.go(-2)", 3, $redirect_msg);
         redirect_header('index.php', 2, $redirect_msg);
         break;
-
     case 'form':
     default:
 
@@ -117,7 +116,7 @@ switch ($op) {
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
-        $moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
+        $moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
         $xoopsTpl->assign('whereInSection', $moduleName);
         $xoopsTpl->assign('lang_submit', _MD_SF_REQUEST);
 

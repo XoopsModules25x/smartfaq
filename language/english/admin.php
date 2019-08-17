@@ -5,7 +5,6 @@
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-
 define('_AM_SF_ABOUT', 'About');
 define('_AM_SF_ACTION', 'Action');
 define('_AM_SF_ADMINCOLMNGMT', 'Categories management');
@@ -26,7 +25,7 @@ define('_AM_SF_ANSWERED_TITLE', 'Answered Opened Question');
 define('_AM_SF_ANSWERED_TITLE_INFO', 'This opened question was provided an answer. You can edit the Q&amp;A here. Upon approval, this Q&amp;A will be published in public section of the site.');
 define('_AM_SF_ANSWERING', 'Answering');
 define('_AM_SF_ANSWERED', 'Answered');
-define('_AM_SF_ANSWERED_EXP', '<b>Answered questions</b> : Questions in the Open Questions section that have been answered by users. Once an answer has been approved for a question, this very question becomes a submitted Q&amp;A and will require approval as well.');
+define('_AM_SF_ANSWERED_EXP', '<b>Answered questions</b> : Questions in the Open Questions section that have been answered by users. Once an answer has been approved for a question, this very question becomes a submitted Q&amp;A and will require_once approval as well.');
 define('_AM_SF_ANSWERED_MODERATE', 'Moderate the answer to this question');
 define('_AM_SF_ANSWERISDELETED', 'The answer has been deleted.');
 define('_AM_SF_ANSWERNOTFOUND', 'Error : No official answer was found');
@@ -76,10 +75,8 @@ define('_AM_SF_COLPOSIT', 'Category position');
 define('_AM_SF_CATEGORIES', 'Categories');
 define('_AM_SF_CATHEADER', 'Categories Management');
 define('_AM_SF_CONTEXTMODULELINK', 'Contextually linked to this module');
-define(
-    '_AM_SF_CONTEXTMODULELINK_FAQ',
-       "Contextually linked to this module<span style='font-size: xx-small; font-weight: normal; display: block;'>Select the module to which this Q&amp;A will be<br>linked. If the Contextual FAQ block is visible<br>on that module, the 'How do I' statement of<br>this Q&amp;A will be displayed.</span>"
-);
+define('_AM_SF_CONTEXTMODULELINK_FAQ',
+       "Contextually linked to this module<span style='font-size: xx-small; font-weight: normal; display: block;'>Select the module to which this Q&amp;A will be<br>linked. If the Contextual FAQ block is visible<br>on that module, the 'How do I' statement of<br>this Q&amp;A will be displayed.</span>");
 define('_AM_SF_CONTEXTOPTIONS', 'Contextual options');
 define('_AM_SF_CONTEXTPAGE', 'Contextually linked to this URL');
 define('_AM_SF_CONTEXTURLLINK', 'Link to this URL');
@@ -119,10 +116,8 @@ define('_AM_SF_EDITSUBM', 'Edit submission');
 define('_AM_SF_ERROR', ' An error has occurred.');
 define('_AM_SF_ERROR_ANSWER_NOT_SAVED', 'An error occured. The answer was not saved in the database.');
 define('_AM_SF_ERROR_FAQ_NOT_SAVED', 'An error occured. The Q&amp;A was not saved in the database.');
-define(
-    '_AM_SF_EXACTURL',
-       "Exact URL?<span style='font-size: xx-small; font-weight: normal; display: block;'>If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed in all pages that match a part of the root of the specific URL. ie; modules/newbb/*.php</span>"
-);
+define('_AM_SF_EXACTURL',
+       "Exact URL?<span style='font-size: xx-small; font-weight: normal; display: block;'>If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed in all pages that match a part of the root of the specific URL. ie; modules/newbb/*.php</span>");
 define('_AM_SF_FAQ_EDIT', 'Edit this Q&amp;A');
 define('_AM_SF_FAQ_NEW_ANSWER_PUBLISHED', 'The original answer was replaced by this answer.');
 define('_AM_SF_FAQ_REVIEW', 'Edit this answer before approbation');
@@ -365,7 +360,6 @@ define('_AM_SF_IMPORT_FAQ_ERROR', 'Category');
 
 //blocksadmin.inc.php
 define('_AM_BADMIN', 'Page');
-
 
 define('_AM_TOPPAGE', 'Top Page');
 define('_AM_ALLPAGES', 'All Pages');

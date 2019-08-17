@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Smartfaq;
+<?php
+
+namespace XoopsModules\Smartfaq;
 
 /**
  * Module: SmartFAQ
@@ -23,6 +25,7 @@ class PermissionHandler extends \XoopsObjectHandler
     *
     * @return array
     */
+
     /**
      * @param  string $type
      * @param  null   $id
@@ -44,11 +47,9 @@ class PermissionHandler extends \XoopsObjectHandler
                 case 'category':
                     $gperm_name = 'category_read';
                     break;
-
                 case 'item':
                     $gperm_name = 'item_read';
                     break;
-
                 case 'moderation':
                     $gperm_name = 'category_moderation';
                     $groups     = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0;

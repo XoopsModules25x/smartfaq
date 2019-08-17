@@ -13,7 +13,7 @@ use XoopsModules\Smartfaq;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-defined('NEWBB_FUNCTIONS_INI') || include __DIR__ . '/functions.ini.php';
+defined('NEWBB_FUNCTIONS_INI') || require __DIR__ . '/functions.ini.php';
 define('NEWBB_FUNCTIONS_RENDER_LOADED', true);
 
 if (!defined('NEWBB_FUNCTIONS_RENDER')):
@@ -58,14 +58,14 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
             // decode xcode
             if (0 != $image) {
                 // image allowed
-                $text =& $myts->xoopsCodeDecode($text);
+                $text = &$myts->xoopsCodeDecode($text);
             } else {
                 // image not allowed
-                $text =& $myts->xoopsCodeDecode($text, 0);
+                $text = &$myts->xoopsCodeDecode($text, 0);
             }
         }
         if (0 != $br) {
-            $text =& $myts->nl2Br($text);
+            $text = &$myts->nl2Br($text);
         }
         $text = $myts->codeConv($text, $xcode, $image);    // Ryuji_edit(2003-11-18)
 
@@ -86,11 +86,11 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
     /**
      * Display forrum button
      *
-     * @param  string  $link
-     * @param  string  $button  image/button name, without extension
-     * @param  string  $alt     alt message
-     * @param  boolean $asImage true for image mode; false for text mode
-     * @param  string  $extra   extra attribute for the button
+     * @param  string $link
+     * @param  string $button  image/button name, without extension
+     * @param  string $alt     alt message
+     * @param  bool   $asImage true for image mode; false for text mode
+     * @param  string $extra   extra attribute for the button
      * @return mixed
      */
     function sf_getButton($link, $button, $alt = '', $asImage = true, $extra = "class='forum_button'")
@@ -106,10 +106,10 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
     /**
      * Display forrum images
      *
-     * @param  string  $image   image name, without extension
-     * @param  string  $alt     alt message
-     * @param  boolean $display true for return image anchor; faulse for assign to $xoopsTpl
-     * @param  string  $extra   extra attribute for the image
+     * @param  string $image   image name, without extension
+     * @param  string $alt     alt message
+     * @param  bool   $display true for return image anchor; faulse for assign to $xoopsTpl
+     * @param  string $extra   extra attribute for the image
      * @return mixed
      */
     function sf_displayImage($image, $alt = '', $display = true, $extra = "class='forum_icon'")
@@ -126,16 +126,16 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
                 $display = false;
             }
             // if set for each link => overwrite $display
-            if  (null !== ($helper->getConfig('display_text_each_link')[$image])) {
+            if (null !== $helper->getConfig('display_text_each_link')[$image]) {
                 $display = empty($helper->getConfig('display_text_each_link')[$image]);
             }
         }
         // END hacked by irmtfan
         if (empty($display)) {
             return $iconHandler->assignImage($image, $alt, $extra);
-        } else {
-            return $iconHandler->getImage($image, $alt, $extra);
         }
+
+        return $iconHandler->getImage($image, $alt, $extra);
     }
 
     /**

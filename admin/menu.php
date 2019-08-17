@@ -8,13 +8,14 @@
 
 use XoopsModules\Smartfaq;
 
-// require_once  dirname(__DIR__) . '/class/Helper.php';
 //require_once  dirname(__DIR__) . '/include/common.php';
+/** @var Smartfaq\Helper $helper */
 $helper = Smartfaq\Helper::getInstance();
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
-$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
-
+if (is_object($helper->getModule())) {
+    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+}
 
 $adminmenu[] = [
     'title' => _MI_SF_HOME,
@@ -50,6 +51,13 @@ $adminmenu[] = [
     'title' => _MI_SF_ADMENU5,
     'link'  => 'admin/permissions.php',
     'icon'  => $pathIcon32 . '/permissions.png',
+];
+
+// Blocks Admin
+$adminmenu[] = [
+    'title' => _MI_SF_BLOCKS,
+    'link'  => 'admin/blocksadmin.php',
+    'icon'  => $pathIcon32 . '/block.png',
 ];
 
 $adminmenu[] = [

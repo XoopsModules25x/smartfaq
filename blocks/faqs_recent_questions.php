@@ -19,7 +19,7 @@ use XoopsModules\Smartfaq\Constants;
  */
 function b_faqs_recent_questions_show($options)
 {
-//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = [];
 
@@ -38,7 +38,7 @@ function b_faqs_recent_questions_show($options)
     $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
     // creating the FAQ objects that belong to the selected category
-    $faqsObj   = $faqHandler->getFaqs($limit, 0, Constants::SF_STATUS_OPENED, $categoryid, $sort);
+    $faqsObj = $faqHandler->getFaqs($limit, 0, Constants::SF_STATUS_OPENED, $categoryid, $sort);
 
     if ($faqsObj) {
         foreach ($faqsObj as $iValue) {
@@ -68,7 +68,7 @@ function b_faqs_recent_questions_show($options)
  */
 function b_faqs_recent_questions_edit($options)
 {
-//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $form = Smartfaq\Utility::createCategorySelect($options[0]);
 

@@ -14,6 +14,10 @@ $myts = \MyTextSanitizer::getInstance();
 
 /** @var Smartfaq\Helper $helper */
 $helper = Smartfaq\Helper::getInstance();
+$smartModuleConfig = $helper->getConfig();
+$xoopsModule = $helper->getModule();
+$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+
 
 $faqid = \Xmf\Request::getInt('faqid', 0, 'POST');
 
@@ -29,13 +33,12 @@ $sortsel = isset($_POST['sortsel']) ? $_POST['sortsel'] : $sortsel;
 $ordersel = isset($_GET['ordersel']) ? $_GET['ordersel'] : 'DESC';
 $ordersel = isset($_POST['ordersel']) ? $_POST['ordersel'] : $ordersel;
 
-$module_id    = $xoopsModule->getVar('mid');
+$module_id        = $xoopsModule->getVar('mid');
 $grouppermHandler = xoops_getHandler('groupperm');
-$groups       = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+$groups           = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
 function buildTable()
 {
-    global $xoopsConfig,  $xoopsModule;
     /** @var Smartfaq\Helper $helper */
     $helper = Smartfaq\Helper::getInstance();
 
@@ -61,18 +64,18 @@ require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+$categoryHandler = $helper::getInstance()->getHandler('Category');
 
 // Creating the FAQ handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = $helper::getInstance()->getHandler('Faq');
 
 $startentry = \Xmf\Request::getInt('startentry', 0, 'GET');
 
 $adminObject = \Xmf\Module\Admin::getInstance();
 xoops_cp_header();
 $adminObject->displayNavigation(basename(__FILE__));
-global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $faqid;
+global $xoopsUser, $xoopsUser, $xoopsDB, $faqid;
 
 // Total FAQs -- includes everything on the table
 $totalfaqs = $faqHandler->getFaqsCount();
@@ -172,19 +175,15 @@ switch ($sortsel) {
     case 'faq.question':
         $sorttxtquestion = 'selected';
         break;
-
     case 'category.name':
         $sorttxtcategory = 'selected';
         break;
-
     case 'faq.datesub':
         $sorttxtcreated = 'selected';
         break;
-
     case 'faq.weight':
         $sorttxtweight = 'selected';
         break;
-
     default:
         $sorttxtfaqid = 'selected';
         break;
@@ -194,7 +193,6 @@ switch ($ordersel) {
     case 'ASC':
         $ordertxtasc = 'selected';
         break;
-
     default:
         $ordertxtdesc = 'selected';
         break;
@@ -207,63 +205,54 @@ switch ($statussel) {
         $cond                = '';
         $status_explaination = _AM_SF_ALL_EXP;
         break;
-
     case Constants::SF_STATUS_ASKED:
         $selectedtxt1        = 'selected';
         $caption             = _AM_SF_ASKED;
         $cond                = ' WHERE status = ' . Constants::SF_STATUS_ASKED . ' ';
         $status_explaination = _AM_SF_ASKED_EXP;
         break;
-
     case Constants::SF_STATUS_OPENED:
         $selectedtxt2        = 'selected';
         $caption             = _AM_SF_OPENED;
         $cond                = ' WHERE status = ' . Constants::SF_STATUS_OPENED . ' ';
         $status_explaination = _AM_SF_OPENED_EXP;
         break;
-
     case Constants::SF_STATUS_ANSWERED:
         $selectedtxt3        = 'selected';
         $caption             = _AM_SF_ANSWERED;
         $cond                = ' WHERE status = ' . Constants::SF_STATUS_ANSWERED . ' ';
         $status_explaination = _AM_SF_ANSWERED_EXP;
         break;
-
     case Constants::SF_STATUS_SUBMITTED:
         $selectedtxt4        = 'selected';
         $caption             = _AM_SF_SUBMITTED;
         $cond                = ' WHERE status = ' . Constants::SF_STATUS_SUBMITTED . ' ';
         $status_explaination = _AM_SF_SUBMITTED_EXP;
         break;
-
     case Constants::SF_STATUS_PUBLISHED:
         $selectedtxt5        = 'selected';
         $caption             = _AM_SF_PUBLISHED;
         $cond                = ' WHERE status = ' . Constants::SF_STATUS_PUBLISHED . ' ';
         $status_explaination = _AM_SF_PUBLISHED_EXP;
         break;
-
     case Constants::SF_STATUS_NEW_ANSWER:
         $selectedtxt6        = 'selected';
         $caption             = _AM_SF_NEW_ANSWER;
         $cond                = ' WHERE status = ' . Constants::SF_STATUS_NEW_ANSWER . ' ';
         $status_explaination = _AM_SF_NEW_ANSWER_EXP;
         break;
-
     case Constants::SF_STATUS_OFFLINE:
         $selectedtxt7        = 'selected';
         $caption             = _AM_SF_OFFLINE;
         $cond                = ' WHERE status = ' . Constants::SF_STATUS_OFFLINE . ' ';
         $status_explaination = _AM_SF_OFFLINE_EXP;
         break;
-
     case Constants::SF_STATUS_REJECTED_QUESTION:
         $selectedtxt8        = 'selected';
         $caption             = _AM_SF_REJECTED_QUESTION;
         $cond                = ' WHERE status = ' . Constants::SF_STATUS_REJECTED_QUESTION . ' ';
         $status_explaination = _AM_SF_REJECTED_QUESTION_EXP;
         break;
-
     case Constants::SF_STATUS_REJECTED_SMARTFAQ:
         $selectedtxt9        = 'selected';
         $caption             = _AM_SF_REJECTED_SMARTFAQ;
@@ -317,12 +306,11 @@ $statusSelected = (0 == $statussel) ? Constants::SF_STATUS_ALL : $statussel;
 $faqsObj = $faqHandler->getFaqsAdminSide($helper->getConfig('perpage'), $startentry, $statusSelected, -1, $sortsel, $ordersel);
 
 // fetching all categories
-$allCats          = $categoryHandler->getObjects(null, true);
+$allCats = $categoryHandler->getObjects(null, true);
 //$totalItemsOnPage = count($faqsObj);
 buildTable();
 
 if ($numrows > 0) {
-
     //$answer_criteria = new \Criteria('faqid', "(".implode(',', array_keys($faqsObj)).")", 'IN');
     //$answer_criteria->setGroupby("faqid");
     //$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
@@ -331,7 +319,6 @@ if ($numrows > 0) {
     foreach (array_keys($faqsObj) as $i) {
         // Creating the category object to which this faq is linked
         $categoryObj = $allCats[$faqsObj[$i]->categoryid()];
-        global $pathIcon16, $smartModuleConfig;
 
         //$answers = $answer_arr[$i];
 
@@ -344,63 +331,54 @@ if ($numrows > 0) {
                 $modify    = '';
                 $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "'></a>";
                 break;
-
             case Constants::SF_STATUS_OPENED:
                 $statustxt = _AM_SF_OPENED;
                 $approve   = '';
                 $modify    = "<a href='question.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_QUESTION_EDIT . "' alt='" . _AM_SF_QUESTION_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "'></a>";
                 break;
-
             case Constants::SF_STATUS_ANSWERED:
                 $statustxt = _AM_SF_ANSWERED;
                 $approve   = "<a href='answer.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/approve.gif' title='" . _AM_SF_ANSWERED_MODERATE . "' alt='" . _AM_SF_ANSWERED_MODERATE . "'></a>&nbsp;";
                 $modify    = '';
                 $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/delete.gif' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "'></a>";
                 break;
-
             case Constants::SF_STATUS_SUBMITTED:
                 $statustxt = _AM_SF_SUBMITTED;
                 $approve   = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/approve.gif' title='" . _AM_SF_SUBMISSION_MODERATE . "' alt='" . _AM_SF_SUBMISSION_MODERATE . "'></a>&nbsp;";
                 $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/delete.gif' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
                 $modify    = '';
                 break;
-
             case Constants::SF_STATUS_PUBLISHED:
                 $statustxt = _AM_SF_PUBLISHED;
                 $approve   = '';
                 $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_FAQ_EDIT . "' alt='" . _AM_SF_FAQ_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
                 break;
-
             case Constants::SF_STATUS_NEW_ANSWER:
                 $statustxt = _AM_SF_NEWANSWER;
                 $approve   = "<a href='answer.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/approve.gif' title='" . _AM_SF_FAQ_EDIT . "' alt='" . _AM_SF_FAQ_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/delete.gif' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
                 $modify    = '';
                 break;
-
             case Constants::SF_STATUS_OFFLINE:
                 $statustxt = _AM_SF_OFFLINE;
                 $approve   = '';
                 $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_FAQ_EDIT . "' alt='" . _AM_SF_FAQ_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
                 break;
-
             case Constants::SF_STATUS_REJECTED_QUESTION:
                 $statustxt = _AM_SF_REJECTED_QUESTION;
                 $approve   = '';
                 $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_REJECTED_EDIT . "' alt='" . _AM_SF_REJECTED_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='question.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEQUESTION . "' alt='" . _AM_SF_DELETEQUESTION . "'></a>";
                 break;
-
             case Constants::SF_STATUS_REJECTED_SMARTFAQ:
                 $statustxt = _AM_SF_REJECTED_SMARTFAQ;
                 $approve   = '';
                 $modify    = "<a href='faq.php?op=mod&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_REJECTED_EDIT . "' alt='" . _AM_SF_REJECTED_EDIT . "'></a>&nbsp;";
                 $delete    = "<a href='faq.php?op=del&amp;faqid=" . $faqsObj[$i]->faqid() . "'><img src='" . $pathIcon16 . '/delete.png' . "' title='" . _AM_SF_DELETEART . "' alt='" . _AM_SF_DELETEART . "'></a>";
                 break;
-
             case 'default':
             default:
                 $statustxt = _AM_SF_STATUS0;
@@ -418,18 +396,20 @@ if ($numrows > 0) {
 
         //mb---------------------------------------
         //adding name of the Question Submitter
-        $requester = Smartfaq\Utility::getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
-        echo "<td class='even' align='center'>" . $requester . '</td>';
+        if (isset($faqsObj[$i])) {
+            $requester = Smartfaq\Utility::getLinkedUnameFromId($faqsObj[$i]->uid(), $smartModuleConfig['userealname']);
+            echo "<td class='even' align='center'>" . $requester . '</td>';
+        }
 
         //adding name of the Answer Submitter
         /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-        $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+        $answerHandler = $helper::getInstance()->getHandler('Answer');
 
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('faqid', $faqsObj[$i]->faqid()));
         $criteria->add(new \Criteria('status', true));
 
-        $answerObjects =& $answerHandler->getObjects($criteria, true);
+        $answerObjects = &$answerHandler->getObjects($criteria, true);
 
         foreach (array_keys($answerObjects) as $j) {
             $answerObj = $answerObjects[$j];

@@ -4,6 +4,7 @@
 * moved functions to Utility (mamba)
 + added Constants class (mamba)
 + added Tree class (mamba)
++ cosmetics
 
 WORK IN PROGRESS
 

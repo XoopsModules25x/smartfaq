@@ -143,15 +143,15 @@ if (is_object($xoopsUser)) {
     $form->addElement($notify_checkbox);
 }
 
-$button_tray = new \XoopsFormElementTray('', '');
+$buttonTray = new \XoopsFormElementTray('', '');
 
 $butt_create = new \XoopsFormButton('', 'post', _MD_SF_CREATE, 'submit');
-$button_tray->addElement($butt_create);
+$buttonTray->addElement($butt_create);
 
 $butt_preview = new \XoopsFormButton('', 'preview', _MD_SF_PREVIEW, 'submit');
-$button_tray->addElement($butt_preview);
+$buttonTray->addElement($butt_preview);
 
-$form->addElement($button_tray);
+$form->addElement($buttonTray);
 $form->assign($xoopsTpl);
 
 unset($hidden, $hidden2);

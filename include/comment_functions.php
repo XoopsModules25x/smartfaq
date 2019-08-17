@@ -7,7 +7,6 @@
  * @param $faq_id
  * @param $total_num
  */
-
 function smartfaq_com_update($faq_id, $total_num)
 {
     $db  = \XoopsDatabaseFactory::getDatabaseConnection();

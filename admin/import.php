@@ -12,10 +12,10 @@ require_once __DIR__ . '/admin_header.php';
 
 $op = 'none';
 
-if (isset($_GET['op'])) {
+if (\Xmf\Request::hasVar('op', 'GET')) {
     $op = $_GET['op'];
 }
-if (isset($_POST['op'])) {
+if (\Xmf\Request::hasVar('op', 'POST')) {
     $op = $_POST['op'];
 }
 
@@ -46,7 +46,6 @@ switch ($op) {
         echo "<a href='import.php'>" . _AM_SF_IMPORT_BACK . '</a>';
         echo '<br><br>';
         break;
-
     case 'default':
     default:
 
@@ -63,7 +62,7 @@ switch ($op) {
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-        /** @var XoopsModuleHandler $moduleHandler */
+        /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         if ($moduleHandler->getByDirname('xoopsfaq')) {
             $importfile_select_array['xoopsfaq'] = _AM_SF_IMPORT_XOOPSFAQ_110;
@@ -85,19 +84,19 @@ switch ($op) {
             $sform->addElement($importfile_tray);
 
             // Buttons
-            $button_tray = new \XoopsFormElementTray('', '');
-            $hidden      = new \XoopsFormHidden('op', 'importExecute');
-            $button_tray->addElement($hidden);
+            $buttonTray = new \XoopsFormElementTray('', '');
+            $hidden     = new \XoopsFormHidden('op', 'importExecute');
+            $buttonTray->addElement($hidden);
 
             $butt_import = new \XoopsFormButton('', '', _AM_SF_IMPORT, 'submit');
             $butt_import->setExtra('onclick="this.form.elements.op.value=\'importExecute\'"');
-            $button_tray->addElement($butt_import);
+            $buttonTray->addElement($butt_import);
 
             $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
             $butt_cancel->setExtra('onclick="history.go(-1)"');
-            $button_tray->addElement($butt_cancel);
+            $buttonTray->addElement($butt_cancel);
 
-            $sform->addElement($button_tray);
+            $sform->addElement($buttonTray);
             $sform->display();
             unset($hidden);
         } else {

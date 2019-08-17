@@ -3,7 +3,7 @@
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * @param XoopsModule $module
+ * @param \XoopsModule $module
  * @return bool
  */
 
@@ -24,6 +24,7 @@ function xoops_module_update_smartfaq($module)
     require_once $smartdbupdater;
 */
     $dbupdater = new Smartfaq\SmartobjectDbupdater();
+    /** @var Smartfaq\Helper $helper */
     $helper = Smartfaq\Helper::getInstance();
     $helper->loadLanguage('smartdbupdater');
 
@@ -80,9 +81,9 @@ function xoops_module_update_smartfaq($module)
     /**
      * Check for items with categoryid=0
      */
-//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-    $smartfaq_faqHandler      = $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    $smartfaq_faqHandler = $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
     /** @var \XoopsModules\Smartfaq\CategoryHandler $smartfaq_categoryHandler */
     $smartfaq_categoryHandler = $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
@@ -109,14 +110,14 @@ function xoops_module_update_smartfaq($module)
 }
 
 /**
- * @param XoopsModule $module
+ * @param \XoopsModule $module
  * @return bool
  */
 function xoops_module_install_smartfaq($module)
 {
     ob_start();
 
-//    require_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/' . $module->getVar('dirname') . '/include/functions.php';
 
     $feedback = ob_get_clean();
     if (method_exists($module, 'setMessage')) {

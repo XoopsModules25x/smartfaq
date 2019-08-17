@@ -18,7 +18,7 @@ use XoopsModules\Smartfaq;
  */
 function b_faqs_new_show($options)
 {
-//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = [];
 
@@ -36,7 +36,7 @@ function b_faqs_new_show($options)
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
     $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
     // creating the FAQ objects that belong to the selected category
-    $faqsObj   = $faqHandler->getAllPublished($limit, 0, $categoryid, $sort);
+    $faqsObj = $faqHandler->getAllPublished($limit, 0, $categoryid, $sort);
 
     if ($faqsObj) {
         foreach ($faqsObj as $iValue) {
@@ -65,7 +65,7 @@ function b_faqs_new_show($options)
 function b_faqs_new_edit($options)
 {
     global $xoopsDB, $xoopsModule, $xoopsUser;
-//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $form = Smartfaq\Utility::createCategorySelect($options[0]);
 

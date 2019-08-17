@@ -11,17 +11,16 @@ use XoopsModules\Smartfaq\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 
-
 /** @var Smartfaq\Helper $helper */
 $helper = Smartfaq\Helper::getInstance();
 
 $op = '';
 
 // Getting the operation we are doing
-if (isset($_GET['op'])) {
+if (\Xmf\Request::hasVar('op', 'GET')) {
     $op = $_GET['op'];
 }
-if (isset($_POST['op'])) {
+if (\Xmf\Request::hasVar('op', 'POST')) {
     $op = $_POST['op'];
 }
 
@@ -51,7 +50,6 @@ function editfaq($faqid = '')
     }
 
     switch ($faqObj->status()) {
-
         case Constants::SF_STATUS_ANSWERED:
             $breadcrumb_action1   = _AM_SF_SUBMITTED;
             $breadcrumb_action2   = _AM_SF_APPROVING;
@@ -60,16 +58,15 @@ function editfaq($faqid = '')
             $button_caption       = _AM_SF_APPROVE;
             $an_status            = Constants::SF_AN_STATUS_PROPOSED;
             break;
-
     }
 
-    $module_id    = $xoopsModule->getVar('mid');
+    $module_id        = $xoopsModule->getVar('mid');
     $grouppermHandler = xoops_getHandler('groupperm');
-    $groups       = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+    $groups           = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
     if (!Smartfaq\Utility::userIsAdmin()
         && (!$grouppermHandler->checkRight('category_admin', $faqObj->categoryid(), $groups, $module_id))) {
-        redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+        redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
     }
     // Retreiving the official answer
     $official_answer = $faqObj->answer();
@@ -161,7 +158,6 @@ switch ($op) {
         $faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
         editfaq($faqid);
         break;
-
     case 'selectanswer':
         global $xoopsUser, $_GET;
 
@@ -204,7 +200,6 @@ switch ($op) {
                     $notifToDo_faq = [Constants::SF_NOT_FAQ_SUBMITTED];
                 }
                 break;
-
             // This is a published FAQ for which a user submitted a new answer and we just accepeted one
             case Constants::SF_STATUS_NEW_ANSWER:
                 $redirect_msg = _AM_SF_FAQ_NEW_ANSWER_PUBLISHED;
@@ -216,12 +211,12 @@ switch ($op) {
 
         // Storing the FAQ object in the database
         if (!$faqObj->store()) {
-            redirect_header('javascript:history.go(-1)', 2, _AM_SF_ERROR_FAQ_NOT_SAVED);
+            redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_SF_ERROR_FAQ_NOT_SAVED);
         }
 
         // Storing the answer object in the database
         if (!$answerObj->store()) {
-            redirect_header('javascript:history.go(-1)', 2, _AM_SF_ERROR_ANSWER_NOT_SAVED);
+            redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_SF_ERROR_ANSWER_NOT_SAVED);
         }
 
         // Send FAQ notifications
@@ -236,7 +231,6 @@ switch ($op) {
 
         redirect_header('index.php', 2, $redirect_msg);
         break;
-
     case 'del':
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB;
 
@@ -258,7 +252,6 @@ switch ($op) {
                     $redirect_msg  = _AM_SF_ANSWER_REJECTED_OPEN_QUESTION;
                     $faqObj->setVar('status', Constants::SF_STATUS_OPENED);
                     break;
-
                 case Constants::SF_STATUS_NEW_ANSWER:
                     $proposed_answers = $answerHandler->getAllAnswers($faqid, Constants::SF_AN_STATUS_PROPOSED);
                     if (count($proposed_answers) > 0) {
@@ -282,7 +275,6 @@ switch ($op) {
         }
         exit();
         break;
-
     case 'default':
     default:
         xoops_cp_header();

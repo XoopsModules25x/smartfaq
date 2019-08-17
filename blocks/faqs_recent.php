@@ -18,11 +18,13 @@ use XoopsModules\Smartfaq;
  */
 function b_faqs_recent_show($options)
 {
-//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     $myts = \MyTextSanitizer::getInstance();
 
-    $smartModule       = Smartfaq\Utility::getModuleInfo();
-    $smartModuleConfig = Smartfaq\Utility::getModuleConfig();
+    /** @var \XoopsModules\Smartfaq\Helper $helper */
+    $helper = \XoopsModules\Smartfaq\Helper::getInstance();
+    $smartModule       = $helper->getModule();
+    $smartModuleConfig = $helper->getConfig();
 
     $block = [];
 
@@ -38,11 +40,11 @@ function b_faqs_recent_show($options)
 
     // Creating the faq handler object
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    $faqHandler = $helper->getHandler('Faq');
 
     // Creating the category handler object
     /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-    $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+    $categoryHandler = $helper->getHandler('Category');
 
     // Creating the last FAQs
     $faqsObj       = $faqHandler->getAllPublished($limit, 0, $categoryid, $sort);
@@ -54,7 +56,7 @@ function b_faqs_recent_show($options)
             $userids[$thisfaq->uid()] = 1;
         }
         /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-        $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+        $answerHandler = $helper->getHandler('Answer');
         $allanswers    = $answerHandler->getLastPublishedByFaq($faqids);
 
         foreach ($allanswers as $key => $thisanswer) {
@@ -70,11 +72,14 @@ function b_faqs_recent_show($options)
             $faqs['categoryname'] = $allcategories[$iValue->categoryid()]->getVar('name');
 
             // Creating the answer object
-            $answerObj = $allanswers[$iValue->faqid()];
+            $faqid = $iValue->faqid();
+            $answerObj = $allanswers[$faqid];
 
             $faqs['date'] = $iValue->datesub();
-
-            $faqs['poster'] = Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);
+            $faqs['poster'] = '';
+            if (null !== $answerObj) {
+                $faqs['poster'] = Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);
+            }
 
             $block['faqs'][] = $faqs;
         }
@@ -96,7 +101,7 @@ function b_faqs_recent_show($options)
  */
 function b_faqs_recent_edit($options)
 {
-//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $form = Smartfaq\Utility::createCategorySelect($options[0]);
 

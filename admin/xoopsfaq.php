@@ -8,7 +8,6 @@
  * Import script from XoopsFAQ to SmartFAQ.
  *
  * It was tested with XoopsFAQ version 1.1 and SmartFAQ version 1.0 beta
- *
  */
 
 use XoopsModules\Smartfaq;
@@ -54,7 +53,7 @@ if ('start' === $op) {
             $cat_cbox = new \XoopsFormCheckBox(sprintf(_AM_SF_IMPORT_CATEGORIES, $importFromModuleName), 'import_category', -1);
             $result   = $xoopsDB->queryF('SELECT c.category_id, c.category_title, count(q.contents_id) FROM ' . $xoopsDB->prefix('xoopsfaq_categories') . ' AS c, ' . $xoopsDB->prefix('xoopsfaq_contents') . ' AS q WHERE c.category_id=q.category_id GROUP BY c.category_id ORDER BY category_order');
 
-            while (false !== (list($cid, $cat_title, $count) = $xoopsDB->fetchRow($result))) {
+            while (list($cid, $cat_title, $count) = $xoopsDB->fetchRow($result)) {
                 $cat_cbox->addOption($cid, "$cat_title ($count)<br\>");
             }
             $form->addElement($cat_cbox);
@@ -63,8 +62,7 @@ if ('start' === $op) {
             $mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
             ob_start();
             $mytree->makeMySelBox('name', 'weight', $preset_id = 0, $none = 1, $sel_name = 'parent_category');
-            $form->addElement(new \XoopsFormLabel(_AM_SF_IMPORT_PARENT_CATEGORY, ob_get_contents()));
-            ob_end_clean();
+            $form->addElement(new \XoopsFormLabel(_AM_SF_IMPORT_PARENT_CATEGORY, ob_get_clean()));
 
             // Auto-Approve
             $form->addElement(new \XoopsFormRadioYN(_AM_SF_IMPORT_AUTOAPPROVE, 'autoaprove', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . ''));
@@ -199,20 +197,18 @@ if ('go' === $op) {
             if (!$faqObj->store(false)) {
                 echo sprintf('  ' . _AM_SF_IMPORT_FAQ_ERROR, $xfaq_contents_title) . '<br>';
                 continue;
-            } else {
-                $answerObj->setVar('faqid', $faqObj->faqid());
-                $answerObj->setVar('answer', $xfaq_contents_contents);
-                $answerObj->setVar('uid', $uid);
-                $answerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
-
-                if (!$answerObj->store()) {
-                    echo sprintf('  ' . _AM_SF_IMPORT_FAQ_ERROR) . '<br>';
-                    continue;
-                } else {
-                    echo '&nbsp;&nbsp;' . sprintf(_AM_SF_IMPORTED_QUESTION, $faqObj->question(50)) . '<br>';
-                    ++$cnt_imported_faq;
-                }
             }
+            $answerObj->setVar('faqid', $faqObj->faqid());
+            $answerObj->setVar('answer', $xfaq_contents_contents);
+            $answerObj->setVar('uid', $uid);
+            $answerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
+
+            if (!$answerObj->store()) {
+                echo sprintf('  ' . _AM_SF_IMPORT_FAQ_ERROR) . '<br>';
+                continue;
+            }
+            echo '&nbsp;&nbsp;' . sprintf(_AM_SF_IMPORTED_QUESTION, $faqObj->question(50)) . '<br>';
+            ++$cnt_imported_faq;
         }
 
         echo '<br>';

@@ -9,7 +9,6 @@
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
-
 require_once __DIR__ . '/header.php';
 
 global $xoopsConfig, $xoopsModule;
@@ -44,7 +43,7 @@ $categoriesObj = $categoryHandler->getCategories($helper->getConfig('catperpage'
 // If no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
 if (0 == $totalCategoriesOnPage) {
-    redirect_header('javascript:history.go(-1)', 2, _AM_SF_NO_CAT_EXISTS);
+    redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_SF_NO_CAT_EXISTS);
 }
 
 $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_index.tpl';
@@ -121,17 +120,17 @@ if ($displaylastfaqs) {
     }
 }
 // Language constants
-$moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
+$moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
 $xoopsTpl->assign([
                       'lang_on'       => _MD_SF_ON,
                       'lang_postedby' => _MD_SF_POSTEDBY,
                       'lang_total'    => $totalQnasOnPage,
                       'lang_faq'      => _MD_SF_FAQ,
                       'lang_datesub'  => _MD_SF_DATESUB,
-                      'lang_hits'     => _MD_SF_HITS
+                      'lang_hits'     => _MD_SF_HITS,
                   ]);
 
-$moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
+$moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
 $xoopsTpl->assign('lang_mainhead', sprintf(_MD_SF_OPEN_WELCOME, $xoopsConfig['sitename']));
 $xoopsTpl->assign('lang_mainintro', $myts->displayTarea($helper->getConfig('openquestionintromsg'), 1));
 $xoopsTpl->assign('lang_total', _MD_SF_TOTAL_QUESTIONS);

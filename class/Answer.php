@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Smartfaq;
+<?php
+
+namespace XoopsModules\Smartfaq;
 
 /**
  * Module: SmartFAQ
@@ -7,10 +9,8 @@
  */
 
 use XoopsModules\Smartfaq;
-use XoopsModules\Smartfaq\Constants;
 
 // defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 
 /**
  * Class Answer
@@ -18,6 +18,7 @@ use XoopsModules\Smartfaq\Constants;
 class Answer extends \XoopsObject
 {
     public $attachment_array = [];
+    public $db;
 
     /**
      * constructor
@@ -58,6 +59,7 @@ class Answer extends \XoopsObject
 
     // ////////////////////////////////////////////////////////////////////////////////////
     // attachment functions    TODO: there should be a file/attachment management class
+
     /**
      * @return array|mixed|null
      */
@@ -70,7 +72,7 @@ class Answer extends \XoopsObject
         if (empty($attachment)) {
             $this->attachment_array = null;
         } else {
-            $this->attachment_array = @unserialize(base64_decode($attachment));
+            $this->attachment_array = @unserialize(base64_decode($attachment, true));
         }
 
         return $this->attachment_array;
@@ -96,7 +98,7 @@ class Answer extends \XoopsObject
     public function saveAttachment()
     {
         $attachment_save = '';
-        if (is_array($this->attachment_array) && count($this->attachment_array) > 0) {
+        if ($this->attachment_array && is_array($this->attachment_array)) {
             $attachment_save = base64_encode(serialize($this->attachment_array));
         }
         $this->setVar('attachment', $attachment_save);
@@ -140,7 +142,7 @@ class Answer extends \XoopsObject
             $this->attachment_array[$key] = $attach;
         }
         $attachment_save = '';
-        if (is_array($this->attachment_array) && count($this->attachment_array) > 0) {
+        if ($this->attachment_array && is_array($this->attachment_array)) {
             $attachment_save = base64_encode(serialize($this->attachment_array));
         }
         $this->setVar('attachment', $attachment_save);
@@ -165,7 +167,7 @@ class Answer extends \XoopsObject
                 'name_saved'   => $name_saved,
                 'name_display' => isset($name_display) ? $name_display : $name_saved,
                 'mimetype'     => $mimetype,
-                'num_download' => isset($num_download) ? (int)$num_download : 0
+                'num_download' => isset($num_download) ? (int)$num_download : 0,
             ];
         }
         $attachment_save = null;
@@ -190,7 +192,7 @@ class Answer extends \XoopsObject
 
         $post_attachment = '';
         $attachments     = $this->getAttachment();
-        if (is_array($attachments) && count($attachments) > 0) {
+        if ($attachments && is_array($attachments)) {
             $iconHandler = sf_getIconHandler();
             $mime_path   = $iconHandler->getPath('mime');
             require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/include/functions.image.php';
@@ -198,7 +200,7 @@ class Answer extends \XoopsObject
             $post_attachment  .= '<br><strong>' . _MD_ATTACHMENT . '</strong>:';
             $post_attachment  .= '<br><hr size="1" noshade="noshade"><br>';
             foreach ($attachments as $key => $att) {
-                $file_extension = ltrim(strrchr($att['name_saved'], '.'), '.');
+                $file_extension = ltrim(mb_strrchr($att['name_saved'], '.'), '.');
                 $filetype       = $file_extension;
                 if (file_exists(XOOPS_ROOT_PATH . '/' . $mime_path . '/' . $filetype . '.gif')) {
                     $icon_filetype = XOOPS_URL . '/' . $mime_path . '/' . $filetype . '.gif';
@@ -207,7 +209,7 @@ class Answer extends \XoopsObject
                 }
                 $file_size = @filesize(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $att['name_saved']);
                 $file_size = number_format($file_size / 1024, 2) . ' KB';
-                if ($helper->getConfig('media_allowed') && in_array(strtolower($file_extension), $image_extensions)) {
+                if ($helper->getConfig('media_allowed') && in_array(mb_strtolower($file_extension), $image_extensions)) {
                     $post_attachment .= '<br><img src="' . $icon_filetype . '" alt="' . $filetype . '"><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>(' . $file_size . ')</small>';
                     $post_attachment .= '<br>' . sf_attachmentImage($att['name_saved']);
                     $isDisplayed     = true;
@@ -269,6 +271,7 @@ class Answer extends \XoopsObject
 
         return $post_attachment;
     }
+
     // attachment functions
     // ////////////////////////////////////////////////////////////////////////////////////
 
@@ -329,7 +332,9 @@ class Answer extends \XoopsObject
     public function datesub($dateFormat = 'none', $format = 'S')
     {
         if ('none' === $dateFormat) {
-            $smartModuleConfig = Smartfaq\Utility::getModuleConfig();
+            /** @var Smartfaq\Helper $helper */
+            $helper = Smartfaq\Helper::getInstance();
+            $smartModuleConfig = $helper->getConfig();
             $dateFormat        = $smartModuleConfig['dateformat'];
         }
 
@@ -359,7 +364,7 @@ class Answer extends \XoopsObject
     {
         $smartModule = Smartfaq\Utility::getModuleInfo();
 
-        $myts                = \MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = xoops_getHandler('notification');
 

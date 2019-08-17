@@ -17,13 +17,13 @@ $helper = Smartfaq\Helper::getInstance();
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
 $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
-$op    = \Xmf\Request::getCmd('op', '');
+$op = \Xmf\Request::getCmd('op', '');
 
 // Where do we start?
 $startcategory = \Xmf\Request::getInt('startcategory', 0, 'GET');
 
 /**
- * @param XoopsObject $categoryObj
+ * @param \XoopsObject $categoryObj
  * @param int         $level
  */
 function displayCategory($categoryObj, $level = 0)
@@ -31,8 +31,8 @@ function displayCategory($categoryObj, $level = 0)
     global $xoopsModule, $categoryHandler, $pathIcon16;
     $description = $categoryObj->description();
     if (!XOOPS_USE_MULTIBYTES) {
-        if (strlen($description) >= 100) {
-            $description = substr($description, 0, 100 - 1) . '...';
+        if (mb_strlen($description) >= 100) {
+            $description = mb_substr($description, 0, 100 - 1) . '...';
         }
     }
     $modify = "<a href='category.php?op=mod&categoryid=" . $categoryObj->categoryid() . "'><img src='" . $pathIcon16 . '/edit.png' . "' title='" . _AM_SF_EDITCOL . "' alt='" . _AM_SF_EDITCOL . "'></a>";
@@ -61,7 +61,7 @@ function displayCategory($categoryObj, $level = 0)
     echo "<td class='even' align='center'>" . $categoryObj->weight() . '</td>';
     echo "<td class='even' align='center'> $modify $delete </td>";
     echo '</tr>';
-    $subCategoriesObj =& $categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
+    $subCategoriesObj = &$categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
     if (count($subCategoriesObj) > 0) {
         ++$level;
         foreach ($subCategoriesObj as $key => $thiscat) {
@@ -80,7 +80,7 @@ function editcat($showmenu = false, $categoryid = 0)
     //$moderators = array(); // just to define the variable
     //$allmods = array();
     $startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
-    global $categoryHandler, $xoopsUser, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify,  $xoopsModule, $_GET;
+    global $categoryHandler, $xoopsUser, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $_GET;
     /** @var Smartfaq\Helper $helper */
     $helper = Smartfaq\Helper::getInstance();
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -97,7 +97,6 @@ function editcat($showmenu = false, $categoryid = 0)
     echo '</style>';
     // If there is a parameter, and the id exists, retrieve data: we're editing a category
     if (0 != $categoryid) {
-
         // Creating the category object for the selected category
         $categoryObj = new  \XoopsModules\Smartfaq\Category($categoryid);
 
@@ -128,8 +127,7 @@ function editcat($showmenu = false, $categoryid = 0)
     $mytree->makeMySelBox('name', 'weight', $categoryObj->parentid(), 1, 'parentid');
 
     //makeMySelBox($title,$order="",$preset_id=0, $none=0, $sel_name="", $onchange="")
-    $sform->addElement(new \XoopsFormLabel(_AM_SF_PARENT_CATEGORY_EXP, ob_get_contents()));
-    ob_end_clean();
+    $sform->addElement(new \XoopsFormLabel(_AM_SF_PARENT_CATEGORY_EXP, ob_get_clean()));
 
     /*  $mytree = new Smartfaq\Tree($xoopsDB->prefix("smartfaq_categories"), "categoryid" , "parentid");
         ob_start();
@@ -183,41 +181,41 @@ function editcat($showmenu = false, $categoryid = 0)
     $sform->addElement(new \XoopsFormHidden('categoryid', $categoryid));
 
     // Action buttons tray
-    $button_tray = new \XoopsFormElementTray('', '');
+    $buttonTray = new \XoopsFormElementTray('', '');
 
     /*for ($i = 0, $iMax = count($moderators); $i < $iMax; ++$i) {
     $allmods[] = $moderators[$i];
     }
 
     $hiddenmods = new \XoopsFormHidden('allmods', $allmods);
-    $button_tray->addElement($hiddenmods);
+    $buttonTray->addElement($hiddenmods);
     */
     $hidden = new \XoopsFormHidden('op', 'addcategory');
-    $button_tray->addElement($hidden);
+    $buttonTray->addElement($hidden);
     // No ID for category -- then it's new category, button says 'Create'
     if (!$categoryid) {
         $butt_create = new \XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addcategory\'"');
-        $button_tray->addElement($butt_create);
+        $buttonTray->addElement($butt_create);
 
         $butt_clear = new \XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
-        $button_tray->addElement($butt_clear);
+        $buttonTray->addElement($butt_clear);
 
         $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($butt_cancel);
+        $buttonTray->addElement($butt_cancel);
     } else {
         // button says 'Update'
         $butt_create = new \XoopsFormButton('', '', _AM_SF_MODIFY, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addcategory\'"');
-        $button_tray->addElement($butt_create);
+        $buttonTray->addElement($butt_create);
 
         $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $button_tray->addElement($butt_cancel);
+        $buttonTray->addElement($butt_cancel);
     }
 
-    $sform->addElement($button_tray);
+    $sform->addElement($buttonTray);
     $sform->display();
     echo '</div>';
 
@@ -238,9 +236,8 @@ switch ($op) {
         $adminObject->displayNavigation(basename(__FILE__));
         editcat(true, $categoryid);
         break;
-
     case 'addcategory':
-        global $_POST, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule,  $modify, $myts, $categoryid;
+        global $_POST, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts, $categoryid;
 
         $categoryid = \Xmf\Request::getInt('categoryid', 0, 'POST');
 
@@ -250,15 +247,15 @@ switch ($op) {
             $categoryObj = $categoryHandler->create();
         }
 
-        //if (isset($_POST['allmods'])) $allmods = $_POST['allmods'];
-        //if (isset($_POST['moderators'])) $moderators = $_POST['moderators'];
+        //if (\Xmf\Request::hasVar('allmods', 'POST')) $allmods = $_POST['allmods'];
+        //if (\Xmf\Request::hasVar('moderators', 'POST')) $moderators = $_POST['moderators'];
 
-        $categoryObj->setVar('parentid',\Xmf\Request::getInt('parentid', 0, 'POST'));
+        $categoryObj->setVar('parentid', \Xmf\Request::getInt('parentid', 0, 'POST'));
         $applyall = \Xmf\Request::getInt('applyall', 0, 'POST');
-        $categoryObj->setVar('weight',\Xmf\Request::getInt('weight', 1, 'POST'));
+        $categoryObj->setVar('weight', \Xmf\Request::getInt('weight', 1, 'POST'));
 
         // Groups and permissions
-        if (isset($_POST['groups_read'])) {
+        if (\Xmf\Request::hasVar('groups_read', 'POST')) {
             $categoryObj->setGroups_read($_POST['groups_read']);
         } else {
             $categoryObj->setGroups_read();
@@ -278,7 +275,7 @@ switch ($op) {
         }
 
         if (!$categoryObj->store()) {
-            redirect_header('javascript:history.go(-1)', 3, _AM_SF_CATEGORY_SAVE_ERROR . Smartfaq\Utility::formatErrors($categoryObj->getErrors()));
+            redirect_header('<script>javascript:history.go(-1)</script>', 3, _AM_SF_CATEGORY_SAVE_ERROR . Smartfaq\Utility::formatErrors($categoryObj->getErrors()));
         }
         // TODO : put this function in the category class
         Smartfaq\Utility::saveCategoryPermissions($categoryObj->getGroups_read(), $categoryObj->categoryid(), 'category_read');
@@ -291,11 +288,10 @@ switch ($op) {
 
         redirect_header($redirect_to, 2, $redirect_msg);
         break;
-
     case 'del':
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $_GET;
 
-        $module_id    = $xoopsModule->getVar('mid');
+        $module_id = $xoopsModule->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
@@ -304,7 +300,7 @@ switch ($op) {
 
         $categoryObj = new Smartfaq\Category($categoryid);
 
-        $confirm = \Xmf\Request::getInt('confirm', 0, POST);
+        $confirm = \Xmf\Request::getInt('confirm', 0, 'POST');
         $name    = \Xmf\Request::getString('name', '', 'POST');
 
         if ($confirm) {
@@ -320,13 +316,12 @@ switch ($op) {
                               'op'         => 'del',
                               'categoryid' => $categoryObj->categoryid(),
                               'confirm'    => 1,
-                              'name'       => $categoryObj->name()
+                              'name'       => $categoryObj->name(),
                           ], 'category.php', _AM_SF_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_SF_DELETE_CAT_CONFIRM, _AM_SF_DELETE);
             xoops_cp_footer();
         }
         exit();
         break;
-
     case 'cancel':
         redirect_header('category.php', 1, sprintf(_AM_SF_BACK2IDX, ''));
         break;
@@ -339,7 +334,7 @@ switch ($op) {
         echo "<br>\n";
 
         // Creating the objects for top categories
-        $categoriesObj =& $categoryHandler->getCategories($helper->getConfig('perpage'), $startcategory, 0);
+        $categoriesObj = &$categoryHandler->getCategories($helper->getConfig('perpage'), $startcategory, 0);
 
         Smartfaq\Utility::collapsableBar('toptable', 'toptableicon');
         echo "<img id='toptableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CATEGORIES_TITLE . '</h3>';

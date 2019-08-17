@@ -15,7 +15,7 @@ use XoopsModules\Smartfaq\Constants;
  */
 function b_faqs_random_faq_show()
 {
-//    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
     $block = [];
 

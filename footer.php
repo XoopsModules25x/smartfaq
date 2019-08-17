@@ -24,7 +24,7 @@ $xoopsTpl->assign([
                       'lang_postedby' => _MD_SF_POSTEDBY,
                       'lang_faq'      => _MD_SF_QUESTION,
                       'lang_datesub'  => _MD_SF_DATESUB,
-                      'lang_hits'     => _MD_SF_HITS
+                      'lang_hits'     => _MD_SF_HITS,
                   ]);
 $xoopsTpl->assign('sectionname', $myts->displayTarea($xoopsModule->getVar('name')));
 

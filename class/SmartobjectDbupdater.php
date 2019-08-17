@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Smartfaq;
+<?php
+
+namespace XoopsModules\Smartfaq;
 
 /**
  * SmartobjectDbupdater class
@@ -12,6 +14,10 @@
 
 use XoopsModules\Smartfaq;
 
+/**
+ * Class SmartobjectDbupdater
+ * @package XoopsModules\Smartfaq
+ */
 class SmartobjectDbupdater
 {
     /**
@@ -29,7 +35,6 @@ class SmartobjectDbupdater
      * @param string $badmsg  message displayed on error
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function runQuery($query, $goodmsg, $badmsg)
     {
@@ -39,11 +44,10 @@ class SmartobjectDbupdater
             echo "&nbsp;&nbsp;$badmsg<br>";
 
             return false;
-        } else {
-            echo "&nbsp;&nbsp;$goodmsg<br>";
-
-            return true;
         }
+        echo "&nbsp;&nbsp;$goodmsg<br>";
+
+        return true;
     }
 
     /**
@@ -67,11 +71,10 @@ class SmartobjectDbupdater
             echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br>';
 
             return false;
-        } else {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE, $from, $to) . '<br>';
-
-            return true;
         }
+        echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE, $from, $to) . '<br>';
+
+        return true;
     }
 
     /**
