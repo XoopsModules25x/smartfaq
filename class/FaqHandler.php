@@ -709,8 +709,6 @@ class FaqHandler extends \XoopsObjectHandler
                 $fullcontexturl = XOOPS_URL . '/' . $iValue->contextpage();
                 switch ($iValue->modulelink()) {
                     case '':
-                        $display = false;
-                        break;
                     case 'None':
                         $display = false;
                         break;

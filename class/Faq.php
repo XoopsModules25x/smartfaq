@@ -392,8 +392,6 @@ class Faq extends \XoopsObject
                 $this->answer = $answerHandler->getOfficialAnswer($this->faqid());
                 break;
             case Constants::SF_STATUS_ASKED:
-                $this->answer = $answerHandler->create();
-                break;
             case Constants::SF_STATUS_OPENED:
                 $this->answer = $answerHandler->create();
                 break;
