@@ -218,7 +218,7 @@ class GroupFormCheckBox extends \XoopsFormElement
                  . "\"><br>\n";
         if (isset($option['children'])) {
             foreach ($option['children'] as $child) {
-                array_push($parentIds, $option['id']);
+                $parentIds[] = $option['id'];
                 $this->renderOptionTree($tree, $this->_optionTree[$child], $prefix . '&nbsp;-', $parentIds);
             }
         }
