@@ -24,33 +24,33 @@ class Faq extends \XoopsObject
      * @var Smartfaq\Category
      * @access private
      */
-    private $category = null;
+    private $category;
 
     /**
      * @var Answer
      * @access private
      */
-    private $answer = null;
+    private $answer;
 
     /**
      * @var array
      * @access private
      */
-    private $_notifications = null;
+    private $_notifications;
     // TODO : Create a seperated class for notifications
 
     /**
      * @var array
      * @access private
      */
-    private $groups_read = null;
+    private $groups_read;
 
     /**
      * @var object
      * @access private
      */
     // Is this still usefull??
-    private $_smartModule = null;
+    private $_smartModule;
     private $_smartModuleConfig;
 
     /**

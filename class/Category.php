@@ -24,13 +24,13 @@ class Category extends \XoopsObject
      * @var array
      * @access private
      */
-    private $groups_read = null;
+    private $groups_read;
 
     /**
      * @var array
      * @access private
      */
-    private $groups_admin = null;
+    private $groups_admin;
 
     /**
      * constructor
