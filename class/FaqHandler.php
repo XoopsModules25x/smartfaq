@@ -37,6 +37,11 @@ class FaqHandler extends \XoopsObjectHandler
         } else {
             $this->helper = $helper;
         }
+
+        if (null === $db) {
+            $db = \XoopsDatabaseFactory::getDatabaseConnection();
+        }
+
         $smartfaqIsAdmin = $this->helper->isUserAdmin();
         parent::__construct($db, 'smartfaq_faq', Faq::class, 'faqid', 'faqid');
     }
