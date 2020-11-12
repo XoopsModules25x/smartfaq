@@ -8,7 +8,8 @@
 
 use XoopsModules\Smartfaq\Constants;
 
-require_once __DIR__ . '/preloads/autoloader.php';
+$moduleDirName      = basename(__DIR__);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 $moduleDirName = basename(__DIR__);
 
@@ -755,6 +756,30 @@ $modversion['config'][] = [
     'default'     => 1024,
 ];
 
+/**
+ * Make Sample button visible?
+ */
+$modversion['config'][] = [
+    'name'        => 'displaySampleButton',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+/**
+ * Show Developer Tools?
+ */
+$modversion['config'][] = [
+    'name'        => 'displayDeveloperTools',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
 define('_MI_XDIR_SHOTWIDTH3', '<span style="color:#FF0000; font-size:12px;"><b>Comments/Notifications</b></span> ');
 
 $modversion['config'][] = [
@@ -765,6 +790,8 @@ $modversion['config'][] = [
     'valuetype'   => 'textbox',
     'default'     => 'odd',
 ];
+
+
 
 //mb ------------- end --------------------------
 
