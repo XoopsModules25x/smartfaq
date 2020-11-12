@@ -8,15 +8,13 @@
 
 use XoopsModules\Smartfaq;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 global $_POST;
 
 require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-$form = new \XoopsThemeForm(_MD_SF_REQUEST, 'form', xoops_getenv('PHP_SELF'), 'post', true);
+$form = new \XoopsThemeForm(_MD_SF_REQUEST, 'form', xoops_getenv('SCRIPT_NAME'), 'post', true);
 // CATEGORY
 $mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
 ob_start();

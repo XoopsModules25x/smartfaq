@@ -12,9 +12,8 @@ use XoopsModules\Smartfaq\Constants;
 require_once __DIR__ . '/admin_header.php';
 
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper            = Smartfaq\Helper::getInstance();
 $smartModuleConfig = $helper->getConfig();
-
 
 global $xoopsUser;
 
@@ -93,7 +92,7 @@ function editfaq($showmenu = false, $faqid = -1)
         echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . _AM_SF_CREATEQUESTION . '</h3>';
         echo "<div id='bottomtable'>";
     }
-    $sform = new \XoopsThemeForm(_AM_SF_OPEN_QUESTION, 'op', xoops_getenv('PHP_SELF'), 'post', true);
+    $sform = new \XoopsThemeForm(_AM_SF_OPEN_QUESTION, 'op', xoops_getenv('SCRIPT_NAME'), 'post', true);
     $sform->setExtra('enctype="multipart/form-data"');
 
     // faq requester
@@ -116,6 +115,7 @@ function editfaq($showmenu = false, $faqid = -1)
     $sform->addElement(new \XoopsFormTextArea(_AM_SF_QUESTION, 'question', $faqObj->question(), 7, 60));
 
     // PER ITEM PERMISSIONS
+    /** @var \XoopsMemberHandler $memberHandler */
     $memberHandler   = xoops_getHandler('member');
     $group_list      = $memberHandler->getGroupList();
     $groups_checkbox = new \XoopsFormCheckBox(_AM_SF_PERMISSIONS_QUESTION, 'groups[]', $faqObj->getGroups_read());
@@ -265,7 +265,7 @@ switch ($op) {
     case 'del':
         global $xoopsConfig, $xoopsDB;
 
-        $module_id        = $xoopsModule->getVar('mid');
+        $module_id = $xoopsModule->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
@@ -287,12 +287,17 @@ switch ($op) {
             // no confirm: show deletion condition
             $faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
             xoops_cp_header();
-            xoops_confirm([
-                              'op'      => 'del',
-                              'faqid'   => $faqObj->faqid(),
-                              'confirm' => 1,
-                              'name'    => $faqObj->question(),
-                          ], 'question.php', _AM_SF_DELETETHISQUESTION . " <br>'" . $faqObj->question() . "'. <br> <br>", _AM_SF_DELETE);
+            xoops_confirm(
+                [
+                    'op'      => 'del',
+                    'faqid'   => $faqObj->faqid(),
+                    'confirm' => 1,
+                    'name'    => $faqObj->question(),
+                ],
+                'question.php',
+                _AM_SF_DELETETHISQUESTION . " <br>'" . $faqObj->question() . "'. <br> <br>",
+                _AM_SF_DELETE
+            );
             xoops_cp_footer();
         }
 

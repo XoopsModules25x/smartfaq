@@ -21,7 +21,7 @@
         </tr>
         <!-- start of form elements loop -->
         <{foreach item=element from=$form.elements}>
-            <{if $element.hidden != true}>
+            <{if $element.hidden !== true}>
                 <tr>
                     <td class="head"><{$element.caption}>
                         <{if $element.description}>

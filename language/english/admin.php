@@ -75,8 +75,10 @@ define('_AM_SF_COLPOSIT', 'Category position');
 define('_AM_SF_CATEGORIES', 'Categories');
 define('_AM_SF_CATHEADER', 'Categories Management');
 define('_AM_SF_CONTEXTMODULELINK', 'Contextually linked to this module');
-define('_AM_SF_CONTEXTMODULELINK_FAQ',
-       "Contextually linked to this module<span style='font-size: xx-small; font-weight: normal; display: block;'>Select the module to which this Q&amp;A will be<br>linked. If the Contextual FAQ block is visible<br>on that module, the 'How do I' statement of<br>this Q&amp;A will be displayed.</span>");
+define(
+    '_AM_SF_CONTEXTMODULELINK_FAQ',
+    "Contextually linked to this module<span style='font-size: xx-small; font-weight: normal; display: block;'>Select the module to which this Q&amp;A will be<br>linked. If the Contextual FAQ block is visible<br>on that module, the 'How do I' statement of<br>this Q&amp;A will be displayed.</span>"
+);
 define('_AM_SF_CONTEXTOPTIONS', 'Contextual options');
 define('_AM_SF_CONTEXTPAGE', 'Contextually linked to this URL');
 define('_AM_SF_CONTEXTURLLINK', 'Link to this URL');
@@ -116,8 +118,10 @@ define('_AM_SF_EDITSUBM', 'Edit submission');
 define('_AM_SF_ERROR', ' An error has occurred.');
 define('_AM_SF_ERROR_ANSWER_NOT_SAVED', 'An error occured. The answer was not saved in the database.');
 define('_AM_SF_ERROR_FAQ_NOT_SAVED', 'An error occured. The Q&amp;A was not saved in the database.');
-define('_AM_SF_EXACTURL',
-       "Exact URL?<span style='font-size: xx-small; font-weight: normal; display: block;'>If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed in all pages that match a part of the root of the specific URL. ie; modules/newbb/*.php</span>");
+define(
+    '_AM_SF_EXACTURL',
+    "Exact URL?<span style='font-size: xx-small; font-weight: normal; display: block;'>If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed in all pages that match a part of the root of the specific URL. ie; modules/newbb/*.php</span>"
+);
 define('_AM_SF_FAQ_EDIT', 'Edit this Q&amp;A');
 define('_AM_SF_FAQ_NEW_ANSWER_PUBLISHED', 'The original answer was replaced by this answer.');
 define('_AM_SF_FAQ_REVIEW', 'Edit this answer before approbation');

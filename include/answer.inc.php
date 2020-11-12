@@ -9,8 +9,6 @@
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 /** @var Smartfaq\Helper $helper */
 $helper = Smartfaq\Helper::getInstance();
 
@@ -22,7 +20,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 //require_once __DIR__ . '/functions.php';
 
 $mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
-//$form = new \XoopsThemeForm(_MD_SF_SUBMITANSWER, "form", xoops_getenv('PHP_SELF'), 'post', true);
+//$form = new \XoopsThemeForm(_MD_SF_SUBMITANSWER, "form", xoops_getenv('SCRIPT_NAME'), 'post', true);
 $form = new \XoopsThemeForm(_MD_SF_SUBMITANSWER, 'form', '');
 // faq QUESTION
 $form->addElement(new \XoopsFormLabel(_MD_SF_QUESTION, $faqObj->question()), false);

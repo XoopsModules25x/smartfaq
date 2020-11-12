@@ -116,6 +116,7 @@ if (count($faqsObj) > 0) {
         $userids[$thisanswer->uid()] = 1;
     }
 
+    /** @var \XoopsMemberHandler $memberHandler */
     $memberHandler = xoops_getHandler('member');
     $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
     // Adding the Q&As of the selected category

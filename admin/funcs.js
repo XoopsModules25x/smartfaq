@@ -34,7 +34,7 @@ function addSrcToDestList() {
                     }
                 }
             }
-            if (found != true) {
+            if (found !== true) {
                 destList.options[len] = new Option(srcList.options[i].text);
                 len++;
             }

@@ -3,20 +3,15 @@
 namespace XoopsModules\Smartfaq;
 
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Common;
+use XoopsModules\Smartfaq\Constants;
 
 /**
  * Class Utility
  */
-class Utility
+class Utility extends Common\SysUtility
 {
-    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
-
-    use Common\ServerStats; // getServerStats Trait
-
-    use Common\FilesManagement; // Files Management Trait
-
     //--------------- Custom module methods -----------------------------
-
     /**
      * @return mixed|null
      */
@@ -25,10 +20,10 @@ class Utility
         static $smartModule;
         if (null === $smartModule) {
             global $xoopsModule;
-            if (null !== $xoopsModule && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
+            if (null !== $xoopsModule && \is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
                 $smartModule = $xoopsModule;
             } else {
-                $moduleHandler = xoops_getHandler('module');
+                $moduleHandler = \xoops_getHandler('module');
                 $smartModule   = $moduleHandler->getByDirname('smartfaq');
             }
         }
@@ -44,12 +39,12 @@ class Utility
         static $smartConfig;
         if (!$smartConfig) {
             global $xoopsModule;
-            if (null !== $xoopsModule && is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
+            if (null !== $xoopsModule && \is_object($xoopsModule) && 'smartfaq' === $xoopsModule->getVar('dirname')) {
                 global $xoopsModuleConfig;
                 $smartConfig = $xoopsModuleConfig;
             } else {
                 $smartModule = self::getModuleInfo();
-                $hModConfig  = xoops_getHandler('config');
+                $hModConfig  = \xoops_getHandler('config');
                 $smartConfig = $hModConfig->getConfigsByCat(0, $smartModule->getVar('mid'));
             }
         }
@@ -77,7 +72,7 @@ class Utility
     }
 
     /**
-     * @param  array $errors
+     * @param array $errors
      * @return string
      */
     public static function formatErrors($errors = [])
@@ -92,9 +87,9 @@ class Utility
 
     /**
      * @param         $categoryObj
-     * @param  int    $selectedid
-     * @param  int    $level
-     * @param  string $ret
+     * @param int     $selectedid
+     * @param int     $level
+     * @param string  $ret
      * @return string
      */
     public static function addCategoryOption($categoryObj, $selectedid = 0, $level = 0, $ret = '')
@@ -115,7 +110,7 @@ class Utility
         $ret .= '>' . $spaces . $categoryObj->name() . "</option>\n";
 
         $subCategoriesObj = &$categoryHandler->getCategories(0, 0, $categoryObj->categoryid());
-        if (count($subCategoriesObj) > 0) {
+        if (\count($subCategoriesObj) > 0) {
             ++$level;
             foreach ($subCategoriesObj as $catID => $subCategoryObj) {
                 $ret .= self::addCategoryOption($subCategoryObj, $selectedid, $level);
@@ -126,9 +121,9 @@ class Utility
     }
 
     /**
-     * @param  int  $selectedid
-     * @param  int  $parentcategory
-     * @param  bool $allCatOption
+     * @param int  $selectedid
+     * @param int  $parentcategory
+     * @param bool $allCatOption
      * @return string
      */
     public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true)
@@ -145,7 +140,7 @@ class Utility
         // Creating category objects
         $categoriesObj = $categoryHandler->getCategories(0, 0, $parentcategory);
 
-        if (count($categoriesObj) > 0) {
+        if (\count($categoriesObj) > 0) {
             foreach ($categoriesObj as $catID => $categoryObj) {
                 $ret .= self::addCategoryOption($categoryObj, $selectedid);
             }
@@ -188,7 +183,7 @@ class Utility
             $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categories = $smartPermHandler->getPermissions('moderation');
-            if (0 == count($categories)) {
+            if (0 == \count($categories)) {
                 $result = false;
             } else {
                 $result = true;
@@ -230,7 +225,7 @@ class Utility
 
         if (!empty($xoopsUser)) {
             $groups = &$xoopsUser->getGroups();
-            $result = in_array(XOOPS_GROUP_ADMIN, $groups) || $xoopsUser->isAdmin($module_id);
+            $result = \in_array(XOOPS_GROUP_ADMIN, $groups) || $xoopsUser->isAdmin($module_id);
         }
 
         return $result;
@@ -261,7 +256,7 @@ class Utility
 
             $groups = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
             /** @var \XoopsGroupPermHandler $grouppermHandler */
-            $grouppermHandler = xoops_getHandler('groupperm');
+            $grouppermHandler = \xoops_getHandler('groupperm');
             $smartModule      = self::getModuleInfo();
             $module_id        = $smartModule->getVar('mid');
 
@@ -272,7 +267,7 @@ class Utility
                     $result = 1;
                 } else { // No we don't !
                     // Check to see if we have partial view access
-                    if (!is_object($xoopsUser) && $faqObj->partialView()) {
+                    if (!\is_object($xoopsUser) && $faqObj->partialView()) {
                         return 0;
                     }
                 }
@@ -289,8 +284,8 @@ class Utility
      *
      *   self::overrideFaqsPermissions()
      *
-     * @param  array $groups     : group with granted permission
-     * @param  int   $categoryid :
+     * @param array $groups     : group with granted permission
+     * @param int   $categoryid :
      * @return bool|array : TRUE if the no errors occured
      */
     public static function overrideFaqsPermissions($groups, $categoryid)
@@ -301,7 +296,7 @@ class Utility
         $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
         $sql    = 'SELECT faqid FROM ' . $xoopsDB->prefix('smartfaq_faq') . " WHERE categoryid = '$categoryid' ";
         $result = $xoopsDB->queryF($sql);
@@ -311,7 +306,7 @@ class Utility
                 // First, if the permissions are already there, delete them
                 $grouppermHandler->deleteByModule($module_id, 'item_read', $faqid);
                 // Save the new permissions
-                if (count($groups) > 0) {
+                if (\count($groups) > 0) {
                     foreach ($groups as $group_id) {
                         $grouppermHandler->addRight('item_read', $faqid, $group_id, $module_id);
                     }
@@ -327,8 +322,8 @@ class Utility
      *
      *   self::saveItemPermissions()
      *
-     * @param  array $groups : group with granted permission
-     * @param  int   $itemID : faqid on which we are setting permissions
+     * @param array $groups : group with granted permission
+     * @param int   $itemID : faqid on which we are setting permissions
      * @return bool : TRUE if the no errors occured
      */
     public static function saveItemPermissions($groups, $itemID)
@@ -337,11 +332,11 @@ class Utility
         $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($module_id, 'item_read', $itemID);
         // Save the new permissions
-        if (count($groups) > 0) {
+        if (\count($groups) > 0) {
             foreach ($groups as $group_id) {
                 $grouppermHandler->addRight('item_read', $itemID, $group_id, $module_id);
             }
@@ -355,9 +350,9 @@ class Utility
      *
      *   self::saveCategoryPermissions()
      *
-     * @param  array  $groups     : group with granted permission
-     * @param  int    $categoryid : categoryid on which we are setting permissions
-     * @param  string $perm_name  : name of the permission
+     * @param array  $groups     : group with granted permission
+     * @param int    $categoryid : categoryid on which we are setting permissions
+     * @param string $perm_name  : name of the permission
      * @return bool : TRUE if the no errors occured
      */
     public static function saveCategoryPermissions($groups, $categoryid, $perm_name)
@@ -366,11 +361,11 @@ class Utility
         $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($module_id, $perm_name, $categoryid);
         // Save the new permissions
-        if (count($groups) > 0) {
+        if (\count($groups) > 0) {
             foreach ($groups as $group_id) {
                 $grouppermHandler->addRight($perm_name, $categoryid, $group_id, $module_id);
             }
@@ -384,8 +379,8 @@ class Utility
      *
      *   self::saveModerators()
      *
-     * @param  array $moderators : moderators uids
-     * @param  int   $categoryid : categoryid on which we are setting permissions
+     * @param array $moderators : moderators uids
+     * @param int   $categoryid : categoryid on which we are setting permissions
      * @return bool : TRUE if the no errors occured
      */
     public static function saveModerators($moderators, $categoryid)
@@ -394,11 +389,11 @@ class Utility
         $smartModule = self::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
         // First, if the permissions are already there, delete them
         $grouppermHandler->deleteByModule($module_id, 'category_moderation', $categoryid);
         // Save the new permissions
-        if (count($moderators) > 0) {
+        if (\count($moderators) > 0) {
             foreach ($moderators as $uid) {
                 $grouppermHandler->addRight('category_moderation', $categoryid, $uid, $module_id);
             }
@@ -408,7 +403,7 @@ class Utility
     }
 
     /**
-     * @param  int $faqid
+     * @param int $faqid
      * @return array
      */
     public static function retrieveFaqByID($faqid = 0)
@@ -425,8 +420,8 @@ class Utility
     /**
      * self::getAdminLinks()
      *
-     * @param  int  $faqid
-     * @param  bool $open
+     * @param int  $faqid
+     * @param bool $open
      * @return string
      */
 
@@ -452,11 +447,11 @@ class Utility
         $adminLinks .= "<a href='" . $modulePath . 'print.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/print.gif' title='" . _MD_SF_PRINT . "' alt='" . _MD_SF_PRINT . "'></a>";
         $adminLinks .= ' ';
         // Email button
-        $maillink   = 'mailto:?subject=' . sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename']) . '&amp;body=' . sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename']) . ':  ' . $modulePath . 'faq.php?faqid=' . $faqid;
+        $maillink   = 'mailto:?subject=' . \sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename']) . '&amp;body=' . \sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename']) . ':  ' . $modulePath . 'faq.php?faqid=' . $faqid;
         $adminLinks .= '<a href="' . $maillink . "\"><img src='" . $modulePath . "assets/images/links/friend.gif' title='" . _MD_SF_MAIL . "' alt='" . _MD_SF_MAIL . "'></a>";
         $adminLinks .= ' ';
         // Submit New Answer button
-        if ($helper->getConfig('allownewanswer') && (is_object($xoopsUser) || $helper->getConfig('anonpost'))) {
+        if ($helper->getConfig('allownewanswer') && (\is_object($xoopsUser) || $helper->getConfig('anonpost'))) {
             $adminLinks .= "<a href='" . $modulePath . 'answer.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/newanswer.gif' title='" . _MD_SF_SUBMITANSWER . "' alt='" . _MD_SF_SUBMITANSWER . "'></a>";
             $adminLinks .= ' ';
         }
@@ -467,14 +462,14 @@ class Utility
     /**
      * self::getLinkedUnameFromId()
      *
-     * @param  int   $userid Userid of poster etc
-     * @param  int   $name   :  0 Use Usenamer 1 Use realname
-     * @param  array $users
+     * @param int   $userid Userid of poster etc
+     * @param int   $name   :  0 Use Usenamer 1 Use realname
+     * @param array $users
      * @return string
      */
     public static function getLinkedUnameFromId($userid = 0, $name = 0, $users = [])
     {
-        if (!is_numeric($userid)) {
+        if (!\is_numeric($userid)) {
             return $userid;
         }
 
@@ -482,7 +477,7 @@ class Utility
         if ($userid > 0) {
             if ($users == []) {
                 //fetching users
-                $memberHandler = xoops_getHandler('member');
+                $memberHandler = \xoops_getHandler('member');
                 $user          = $memberHandler->getUser($userid);
             } else {
                 if (!isset($users[$userid])) {
@@ -491,7 +486,7 @@ class Utility
                 $user = &$users[$userid];
             }
 
-            if (is_object($user)) {
+            if (\is_object($user)) {
                 $ts       = \MyTextSanitizer::getInstance();
                 $username = $user->getVar('uname');
                 $fullname = '';
@@ -504,7 +499,7 @@ class Utility
                 if (!empty($fullname)) {
                     $linkeduser = "$fullname [<a href='" . XOOPS_URL . '/userinfo.php?uid=' . $userid . "'>" . $ts->htmlSpecialChars($username) . '</a>]';
                 } else {
-                    $linkeduser = "<a href='" . XOOPS_URL . '/userinfo.php?uid=' . $userid . "'>" . ucwords($ts->htmlSpecialChars($username)) . '</a>';
+                    $linkeduser = "<a href='" . XOOPS_URL . '/userinfo.php?uid=' . $userid . "'>" . \ucwords($ts->htmlSpecialChars($username)) . '</a>';
                 }
 
                 return $linkeduser;
@@ -515,17 +510,18 @@ class Utility
     }
 
     /**
-     * @param  string $url
+     * @param string $url
      * @return mixed|string
      */
     public static function getXoopslink($url = '')
     {
         $xurl = $url;
         if ('' !== $xurl) {
-            if ($xurl[0] = '/') {
-                $xurl = str_replace('/', '', $xurl);
+            $xurl[0] = '/';
+            if ($xurl[0]) {
+                $xurl = \str_replace('/', '', $xurl);
             }
-            $xurl = str_replace('{SITE_URL}', XOOPS_URL, $xurl);
+            $xurl = \str_replace('{SITE_URL}', XOOPS_URL, $xurl);
         }
 
         //        $xurl = $url;

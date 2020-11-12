@@ -7,9 +7,8 @@ namespace XoopsModules\Smartfaq;
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-use XoopsModules\Smartfaq;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
+use XoopsModules\Smartfaq;
 
 /**
  * Categories handler class.
@@ -24,11 +23,12 @@ class CategoryHandler extends \XoopsObjectHandler
     protected $helper;
 
     /**
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase                     $db
+     * @param \XoopsModules\Smartfaq\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
     {
-        /** @var \XoopsModules\Smartfaq\Helper $this->helper */
+        /** @var \XoopsModules\Smartfaq\Helper $this ->helper */
         if (null === $helper) {
             $this->helper = \XoopsModules\Smartfaq\Helper::getInstance();
         } else {
@@ -45,7 +45,7 @@ class CategoryHandler extends \XoopsObjectHandler
     /**
      * create a new category
      *
-     * @param  bool $isNew flag the new objects as "new"?
+     * @param bool $isNew flag the new objects as "new"?
      * @return object Smartfaq\Category
      */
     public function create($isNew = true)
@@ -61,7 +61,7 @@ class CategoryHandler extends \XoopsObjectHandler
     /**
      * retrieve a category
      *
-     * @param  int $id categoryid of the category
+     * @param int $id categoryid of the category
      * @return mixed reference to the {@link Smartfaq\Category} object, FALSE if failed
      */
     public function get($id)
@@ -90,12 +90,12 @@ class CategoryHandler extends \XoopsObjectHandler
      *
      * @param \XoopsObject $category reference to the {@link Smartfaq\Category}
      *                               object
-     * @param  bool        $force
+     * @param bool         $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
     public function insert(\XoopsObject $category, $force = false)
     {
-        if ('xoopsmodules\smartfaq\category' !== mb_strtolower(get_class($category))) {
+        if ('xoopsmodules\smartfaq\category' !== mb_strtolower(\get_class($category))) {
             return false;
         }
         if (!$category->isDirty()) {
@@ -110,9 +110,9 @@ class CategoryHandler extends \XoopsObjectHandler
         }
 
         if ($category->isNew()) {
-            $sql = sprintf('INSERT INTO `%s` (parentid, name, description, total, weight, created) VALUES (%u, %s, %s, %u, %u, %u)', $this->db->prefix('smartfaq_categories'), $parentid, $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, time());
+            $sql = \sprintf('INSERT INTO `%s` (parentid, name, description, total, weight, created) VALUES (%u, %s, %s, %u, %u, %u)', $this->db->prefix('smartfaq_categories'), $parentid, $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, \time());
         } else {
-            $sql = sprintf(
+            $sql = \sprintf(
                 'UPDATE `%s` SET parentid = %u, name = %s, description = %s, total = %s, weight = %u, created = %u WHERE categoryid = %u',
                 $this->db->prefix('smartfaq_categories'),
                 $parentid,
@@ -145,12 +145,12 @@ class CategoryHandler extends \XoopsObjectHandler
      * delete a category from the database
      *
      * @param \XoopsObject $category reference to the category to delete
-     * @param  bool        $force
+     * @param bool         $force
      * @return bool        FALSE if failed.
      */
     public function delete(\XoopsObject $category, $force = false)
     {
-        if ('xoopsmodules\smartfaq\category' !== mb_strtolower(get_class($category))) {
+        if ('xoopsmodules\smartfaq\category' !== mb_strtolower(\get_class($category))) {
             return false;
         }
 
@@ -166,10 +166,10 @@ class CategoryHandler extends \XoopsObjectHandler
             $this->delete($subcat);
         }
 
-        $sql = sprintf('DELETE FROM `%s` WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $category->getVar('categoryid'));
+        $sql = \sprintf('DELETE FROM `%s` WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $category->getVar('categoryid'));
 
         $smartModule = Smartfaq\Utility::getModuleInfo();
-        $module_id = $smartModule->getVar('mid');
+        $module_id   = $smartModule->getVar('mid');
 
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -177,7 +177,7 @@ class CategoryHandler extends \XoopsObjectHandler
             $result = $this->db->query($sql);
         }
 
-        xoops_groupperm_deletebymoditem($module_id, 'category_read', $category->categoryid());
+        \xoops_groupperm_deletebymoditem($module_id, 'category_read', $category->categoryid());
         //xoops_groupperm_deletebymoditem ($module_id, "category_admin", $categoryObj->categoryid());
 
         if (!$result) {
@@ -190,15 +190,15 @@ class CategoryHandler extends \XoopsObjectHandler
     /**
      * retrieve categories from the database
      *
-     * @param  object $criteria  {@link CriteriaElement} conditions to be met
-     * @param  bool   $id_as_key use the categoryid as key for the array?
+     * @param object $criteria  {@link CriteriaElement} conditions to be met
+     * @param bool   $id_as_key use the categoryid as key for the array?
      * @return array  array of {@link XoopsFaq} objects
      */
     public function getObjects($criteria = null, $id_as_key = false)
     {
-        $ret = [];
+        $ret   = [];
         $limit = $start = 0;
-        $sql = 'SELECT * FROM ' . $this->db->prefix('smartfaq_categories');
+        $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_categories');
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -228,12 +228,12 @@ class CategoryHandler extends \XoopsObjectHandler
     }
 
     /**
-     * @param  int    $limit
-     * @param  int    $start
-     * @param  int    $parentid
-     * @param  string $sort
-     * @param  string $order
-     * @param  bool   $id_as_key
+     * @param int    $limit
+     * @param int    $start
+     * @param int    $parentid
+     * @param string $sort
+     * @param string $order
+     * @param bool   $id_as_key
      * @return array
      */
     public function &getCategories(
@@ -259,7 +259,7 @@ class CategoryHandler extends \XoopsObjectHandler
             $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
-            $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+            $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
         }
         $criteria->setStart($start);
         $criteria->setLimit($limit);
@@ -269,11 +269,11 @@ class CategoryHandler extends \XoopsObjectHandler
     }
 
     /**
-     * @param  int    $limit
-     * @param  int    $start
-     * @param  int    $parentid
-     * @param  string $sort
-     * @param  string $order
+     * @param int    $limit
+     * @param int    $start
+     * @param int    $parentid
+     * @param string $sort
+     * @param string $order
      * @return array
      */
     public function &getCategoriesWithOpenQuestion(
@@ -298,16 +298,16 @@ class CategoryHandler extends \XoopsObjectHandler
             $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
-            $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+            $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
         }
 
         $criteria->add(new \Criteria('f.status', Constants::SF_STATUS_OPENED));
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        $ret = [];
+        $ret   = [];
         $limit = $start = 0;
-        $sql = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
+        $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
@@ -335,7 +335,7 @@ class CategoryHandler extends \XoopsObjectHandler
     /**
      * count Categories matching a condition
      *
-     * @param  object $criteria {@link CriteriaElement} to match
+     * @param object $criteria {@link CriteriaElement} to match
      * @return int    count of categories
      */
     public function getCount($criteria = null)
@@ -348,13 +348,13 @@ class CategoryHandler extends \XoopsObjectHandler
         if (!$result) {
             return 0;
         }
-        list($count) = $this->db->fetchRow($result);
+        [$count] = $this->db->fetchRow($result);
 
         return $count;
     }
 
     /**
-     * @param  int $parentid
+     * @param int $parentid
      * @return int
      */
     public function getCategoriesCount($parentid = 0)
@@ -370,7 +370,7 @@ class CategoryHandler extends \XoopsObjectHandler
                 $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
                 $categoriesGranted = $smartPermHandler->getPermissions('category');
-                $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+                $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
             }
         }
 
@@ -378,7 +378,7 @@ class CategoryHandler extends \XoopsObjectHandler
     }
 
     /**
-     * @param  int $parentid
+     * @param int $parentid
      * @return int
      */
     public function getCategoriesWithOpenQuestionsCount($parentid = 0)
@@ -394,7 +394,7 @@ class CategoryHandler extends \XoopsObjectHandler
                 $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
                 $categoriesGranted = $smartPermHandler->getPermissions('category');
-                $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+                $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
             }
         }
 
@@ -410,7 +410,7 @@ class CategoryHandler extends \XoopsObjectHandler
         if (!$result) {
             return 0;
         }
-        list($count) = $this->db->fetchRow($result);
+        [$count] = $this->db->fetchRow($result);
 
         return $count;
     }
@@ -421,14 +421,14 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function getSubCats($categories)
     {
-        $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')'), 'IN');
-        $ret = [];
+        $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . \implode(',', \array_keys($categories)) . ')'), 'IN');
+        $ret      = [];
         if (!Smartfaq\Utility::userIsAdmin()) {
             /** @var Smartfaq\PermissionHandler $smartPermHandler */
             $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
             $categoriesGranted = $smartPermHandler->getPermissions('category');
-            $criteria->add(new \Criteria('categoryid', '(' . implode(',', $categoriesGranted) . ')', 'IN'));
+            $criteria->add(new \Criteria('categoryid', '(' . \implode(',', $categoriesGranted) . ')', 'IN'));
         }
         $subcats = $this->getObjects($criteria, true);
         foreach ($subcats as $subcat_id => $subcat) {
@@ -441,7 +441,7 @@ class CategoryHandler extends \XoopsObjectHandler
     /**
      * delete categories matching a set of conditions
      *
-     * @param  object $criteria {@link CriteriaElement}
+     * @param object $criteria {@link CriteriaElement}
      * @return bool   FALSE if deletion failed
      */
     public function deleteAll($criteria = null)
@@ -470,8 +470,8 @@ class CategoryHandler extends \XoopsObjectHandler
      **/
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null)
     {
-        $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
-        $sql = 'UPDATE ' . $this->db->prefix('smartfaq_categories') . ' SET ' . $set_clause;
+        $set_clause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
+        $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_categories') . ' SET ' . $set_clause;
         if (null !== $criteria && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
@@ -483,7 +483,7 @@ class CategoryHandler extends \XoopsObjectHandler
     }
 
     /**
-     * @param  int $cat_id
+     * @param int $cat_id
      * @return mixed
      */
     public function publishedFaqsCount($cat_id = 0)
@@ -492,8 +492,8 @@ class CategoryHandler extends \XoopsObjectHandler
     }
 
     /**
-     * @param  int    $cat_id
-     * @param  string $status
+     * @param int    $cat_id
+     * @param string $status
      * @return mixed
      */
     public function faqsCount($cat_id = 0, $status = '')

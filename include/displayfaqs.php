@@ -10,10 +10,10 @@ use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper            = Smartfaq\Helper::getInstance();
 $smartModuleConfig = $helper->getConfig();
-$xoopsModule = $helper->getModule();
-$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+$xoopsModule       = $helper->getModule();
+$pathIcon16        = \Xmf\Module\Admin::iconUrl('', 16);
 
 global $xoopsUser, $xoopsDB;
 

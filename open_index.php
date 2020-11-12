@@ -106,6 +106,7 @@ if ($displaylastfaqs) {
             $userids[$thisfaq->uid()] = 1;
         }
 
+        /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = xoops_getHandler('member');
         $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
         for ($i = 0; $i < $totalQnasOnPage; ++$i) {
@@ -121,14 +122,16 @@ if ($displaylastfaqs) {
 }
 // Language constants
 $moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
-$xoopsTpl->assign([
-                      'lang_on'       => _MD_SF_ON,
-                      'lang_postedby' => _MD_SF_POSTEDBY,
-                      'lang_total'    => $totalQnasOnPage,
-                      'lang_faq'      => _MD_SF_FAQ,
-                      'lang_datesub'  => _MD_SF_DATESUB,
-                      'lang_hits'     => _MD_SF_HITS,
-                  ]);
+$xoopsTpl->assign(
+    [
+        'lang_on'       => _MD_SF_ON,
+        'lang_postedby' => _MD_SF_POSTEDBY,
+        'lang_total'    => $totalQnasOnPage,
+        'lang_faq'      => _MD_SF_FAQ,
+        'lang_datesub'  => _MD_SF_DATESUB,
+        'lang_hits'     => _MD_SF_HITS,
+    ]
+);
 
 $moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
 $xoopsTpl->assign('lang_mainhead', sprintf(_MD_SF_OPEN_WELCOME, $xoopsConfig['sitename']));

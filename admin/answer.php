@@ -60,7 +60,7 @@ function editfaq($faqid = '')
             break;
     }
 
-    $module_id        = $xoopsModule->getVar('mid');
+    $module_id = $xoopsModule->getVar('mid');
     /** @var \XoopsGroupPermHandler $grouppermHandler */
     $grouppermHandler = xoops_getHandler('groupperm');
     $groups           = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;

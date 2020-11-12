@@ -1,7 +1,5 @@
 <?php
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 /**
  * @param \XoopsModule $module
  * @return bool
@@ -80,8 +78,7 @@ function xoops_module_update_smartfaq($module)
 
     /**
      * Check for items with categoryid=0
-     */
-    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+     */ //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
     $smartfaq_faqHandler = $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
     /** @var \XoopsModules\Smartfaq\CategoryHandler $smartfaq_categoryHandler */

@@ -65,14 +65,14 @@ class SmartobjectDbupdater
         $from = $xoopsDB->prefix($from);
         $to   = $xoopsDB->prefix($to);
 
-        $query = sprintf('ALTER TABLE `%s` RENAME %s', $from, $to);
+        $query = \sprintf('ALTER TABLE `%s` RENAME %s', $from, $to);
         $ret   = $xoopsDB->queryF($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br>';
+            echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br>';
 
             return false;
         }
-        echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_RENAME_TABLE, $from, $to) . '<br>';
+        echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_RENAME_TABLE, $from, $to) . '<br>';
 
         return true;
     }
@@ -82,9 +82,9 @@ class SmartobjectDbupdater
      *
      * @param Smartfaq\SmartDbTable $table {@link SmartDbTable} that will be updated
      *
+     * @return bool true if success, false if an error occured
      * @see DbTable
      *
-     * @return bool true if success, false if an error occured
      */
     public function updateTable($table)
     {

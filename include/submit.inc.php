@@ -8,8 +8,6 @@
 
 use XoopsModules\Smartfaq;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 global $_POST, $xoopsDB;
 
 require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
@@ -21,7 +19,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 $helper = Smartfaq\Helper::getInstance();
 
 $mytree = new Smartfaq\Tree($xoopsDB->prefix('smartfaq_categories'), 'categoryid', 'parentid');
-$form   = new \XoopsThemeForm(_MD_SF_SUB_SMNAME, 'form', xoops_getenv('PHP_SELF'), 'post', true);
+$form   = new \XoopsThemeForm(_MD_SF_SUB_SMNAME, 'form', xoops_getenv('SCRIPT_NAME'), 'post', true);
 
 // Category
 ob_start();
@@ -117,15 +115,16 @@ if (!empty($attachments_tmp) && is_array($attachments_tmp) && count($attachments
 
 // CONTEXT MODULE LINK
 // Retreive the list of module currently installed. The key value is the dirname
-/*$moduleHandler = xoops_getHandler('module');
-$modules_array = $moduleHandler->getList(null, true);
-$modulelink_select_array = array("url" => _MD_SF_SPECIFIC_URL_SELECT);
+/*/** @var \XoopsModuleHandler $moduleHandler */
+$moduleHandler           = xoops_getHandler('module');
+$modules_array           = $moduleHandler->getList(null, true);
+$modulelink_select_array = ["url" => _MD_SF_SPECIFIC_URL_SELECT];
 $modulelink_select_array = array_merge($modules_array, $modulelink_select_array);
-$modulelink_select_array = array_merge(array("None" => _MD_SF_NONE, "All" => _MD_SF_ALL), $modulelink_select_array);
+$modulelink_select_array = array_merge(["None" => _MD_SF_NONE, "All" => _MD_SF_ALL], $modulelink_select_array);
 
 $modulelink_select = new \XoopsFormSelect('', 'modulelink', '');
 $modulelink_select->addOptionArray($modulelink_select_array);
-$modulelink_tray = new \XoopsFormElementTray(_MD_SF_CONTEXTMODULELINK_FAQ , '&nbsp;');
+$modulelink_tray = new \XoopsFormElementTray(_MD_SF_CONTEXTMODULELINK_FAQ, '&nbsp;');
 $modulelink_tray->addElement($modulelink_select);
 $form->addElement($modulelink_tray);
 */

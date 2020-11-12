@@ -12,8 +12,6 @@ namespace XoopsModules\Smartfaq;
  * @package     module::newbb
  */
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 require_once XOOPS_ROOT_PATH . '/class/uploader.php';
 
 /**
@@ -41,11 +39,11 @@ class Uploader extends \XoopsMediaUploader
      */
     public function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize = 0, $maxWidth = 0, $maxHeight = 0)
     {
-        if (!is_array($allowedMimeTypes)) {
+        if (!\is_array($allowedMimeTypes)) {
             if (empty($allowedMimeTypes) || '*' === $allowedMimeTypes) {
                 $allowedMimeTypes = [];
             } else {
-                $allowedMimeTypes = array_filter(array_map('trim', explode('|', mb_strtolower($allowedMimeTypes))));
+                $allowedMimeTypes = \array_filter(\array_map('\trim', \explode('|', mb_strtolower($allowedMimeTypes))));
             }
         }
         $_allowedMimeTypes = [];
@@ -97,7 +95,7 @@ class Uploader extends \XoopsMediaUploader
      */
     public function getExt()
     {
-        $this->ext = mb_strtolower(ltrim(mb_strrchr($this->getMediaName(), '.'), '.'));
+        $this->ext = mb_strtolower(\ltrim(mb_strrchr($this->getMediaName(), '.'), '.'));
 
         return $this->ext;
     }

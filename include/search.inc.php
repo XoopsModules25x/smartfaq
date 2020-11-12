@@ -11,7 +11,6 @@
  * @param $userid
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 function smartfaq_search($queryarray, $andor, $limit, $offset, $userid)
 {

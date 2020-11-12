@@ -11,13 +11,11 @@
 
 /**
  * @copyright    XOOPS Project https://xoops.org/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
  * @author       XOOPS Development Team, Kazumi Ono (AKA onokazu)
  */
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 if (\Xmf\Request::hasVar('fct', 'POST')) {
     $fct = trim($_POST['fct']);
@@ -57,7 +55,7 @@ if (0 != $admintest) {
             require_once XOOPS_ROOT_PATH . '/modules/system/admin/' . $fct . '/xoops_version.php';
             /** @var \XoopsGroupPermHandler $grouppermHandler */
             $grouppermHandler = xoops_getHandler('groupperm');
-            $category       = !empty($modversion['category']) ? (int)$modversion['category'] : 0;
+            $category         = !empty($modversion['category']) ? (int)$modversion['category'] : 0;
             unset($modversion);
             if ($category > 0) {
                 $groups = &$xoopsUser->getGroups();
@@ -98,7 +96,7 @@ if (false !== $error) {
     if (!in_array(XOOPS_GROUP_ADMIN, $groups)) {
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
-        $ok_syscats     = $grouppermHandler->getItemIds('system_admin', $groups);
+        $ok_syscats       = $grouppermHandler->getItemIds('system_admin', $groups);
     } else {
         $all_ok = true;
     }

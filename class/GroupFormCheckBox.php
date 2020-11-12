@@ -14,7 +14,7 @@ namespace XoopsModules\Smartfaq;
 
 /**
  * @copyright    XOOPS Project https://xoops.org/
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
  * @author       XOOPS Development Team, Kazumi Ono (AKA onokazu)
@@ -26,8 +26,6 @@ namespace XoopsModules\Smartfaq;
  */
 
 use XoopsModules\Smartfaq;
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/formelement.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsform/formhidden.php';
@@ -93,7 +91,7 @@ class GroupFormCheckBox extends \XoopsFormElement
      */
     public function setValue($value)
     {
-        if (is_array($value)) {
+        if (\is_array($value)) {
             foreach ($value as $v) {
                 $this->setValue($v);
             }
@@ -134,7 +132,7 @@ class GroupFormCheckBox extends \XoopsFormElement
     {
         $ret = '';
 
-        if (count($this->_appendix) > 0) {
+        if (\count($this->_appendix) > 0) {
             $ret  .= '<table class="outer"><tr>';
             $cols = 1;
             foreach ($this->_appendix as $append) {
@@ -198,24 +196,13 @@ class GroupFormCheckBox extends \XoopsFormElement
             $tree      .= "var ele = xoopsGetElementById('" . $child_ele . "'); if (this.checked !== true) {ele.checked = false;}";
         }
         $tree .= '" value="1"';
-        if (null !== $this->_value && in_array($option['id'], $this->_value)) {
+        if (null !== $this->_value && \in_array($option['id'], $this->_value)) {
             $tree .= ' checked';
         }
-        $tree .= '>'
-                 . $option['name']
-                 . '<input type="hidden" name="'
-                 . $this->getName()
-                 . '[parents]['
-                 . $option['id']
-                 . ']" value="'
-                 . implode(':', $parentIds)
-                 . '"><input type="hidden" name="'
-                 . $this->getName()
-                 . '[itemname]['
-                 . $option['id']
-                 . ']" value="'
-                 . htmlspecialchars($option['name'], ENT_QUOTES)
-                 . "\"><br>\n";
+        $tree .= '>' . $option['name'] . '<input type="hidden" name="' . $this->getName() . '[parents][' . $option['id'] . ']" value="' . \implode(':', $parentIds) . '"><input type="hidden" name="' . $this->getName() . '[itemname][' . $option['id'] . ']" value="' . \htmlspecialchars(
+                $option['name'],
+                \ENT_QUOTES
+            ) . "\"><br>\n";
         if (isset($option['children'])) {
             foreach ($option['children'] as $child) {
                 $parentIds[] = $option['id'];

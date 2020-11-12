@@ -26,7 +26,7 @@ if ('start' === $op) {
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     xoops_cp_header();
     $result = $xoopsDB->queryF('SELECT count(*) FROM ' . $xoopsDB->prefix('faqcategories'));
-    list($totalCat) = $xoopsDB->fetchRow($result);
+    [$totalCat] = $xoopsDB->fetchRow($result);
 
     Smartfaq\Utility::collapsableBar('bottomtable', 'bottomtableicon');
     echo "<img id='bottomtableicon' src=" . XOOPS_URL . '/modules/' . $xoopsModule->dirname() . "/assets/images/icon/close12.gif alt=''></a>&nbsp;" . sprintf(_AM_SF_IMPORT_FROM, $importFromModuleName) . '</h3>';
@@ -38,7 +38,7 @@ if ('start' === $op) {
         require_once XOOPS_ROOT_PATH . '/class/xoopstree.php';
 
         $result = $xoopsDB->queryF('SELECT count(*) FROM ' . $xoopsDB->prefix('faqtopics'));
-        list($totalFAQ) = $xoopsDB->fetchRow($result);
+        [$totalFAQ] = $xoopsDB->fetchRow($result);
 
         if (0 == $totalFAQ) {
             echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . sprintf(_AM_SF_IMPORT_MODULE_FOUND_NO_FAQ, $importFromModuleName, $totalCat) . '</span>';
@@ -65,6 +65,7 @@ if ('start' === $op) {
             $form->addElement(new \XoopsFormRadioYN(_AM_SF_IMPORT_AUTOAPPROVE, 'autoaprove', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . ''));
 
             // Submitted and answered by
+            /** @var \XoopsMemberHandler $memberHandler */
             $memberHandler = xoops_getHandler('member');
             $user_select   = new \XoopsFormSelect(_AM_SF_IMPORTED_USER, 'uid', 0);
             $user_select->addOption(0, '----');

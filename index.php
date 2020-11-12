@@ -135,6 +135,7 @@ if ($displaylastfaqs) {
             $userids[$thisanswer->uid()] = 1;
         }
 
+        /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = xoops_getHandler('member');
         $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
         for ($i = 0; $i < $totalQnasOnPage; ++$i) {

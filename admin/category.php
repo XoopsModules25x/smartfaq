@@ -24,7 +24,7 @@ $startcategory = \Xmf\Request::getInt('startcategory', 0, 'GET');
 
 /**
  * @param \XoopsObject|Smartfaq\Category $categoryObj
- * @param int         $level
+ * @param int                            $level
  */
 function displayCategory($categoryObj, $level = 0)
 {
@@ -77,8 +77,8 @@ function displayCategory($categoryObj, $level = 0)
  */
 function editcat($showmenu = false, $categoryid = 0)
 {
-    //$moderators = array(); // just to define the variable
-    //$allmods = array();
+    //$moderators = []; // just to define the variable
+    //$allmods = [];
     $startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
     global $categoryHandler, $xoopsUser, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $_GET;
     /** @var Smartfaq\Helper $helper */
@@ -115,7 +115,7 @@ function editcat($showmenu = false, $categoryid = 0)
         echo "<div id='bottomtable'>";
     }
     // Start category form
-    $sform = new \XoopsThemeForm(_AM_SF_CATEGORY, 'op', xoops_getenv('PHP_SELF'), 'post', true);
+    $sform = new \XoopsThemeForm(_AM_SF_CATEGORY, 'op', xoops_getenv('SCRIPT_NAME'), 'post', true);
     $sform->setExtra('enctype="multipart/form-data"');
 
     // Name
@@ -144,6 +144,7 @@ function editcat($showmenu = false, $categoryid = 0)
     $sform->addElement(new \XoopsFormText(_AM_SF_COLPOSIT, 'weight', 4, 4, $categoryObj->weight()));
 
     // READ PERMISSIONS
+    /** @var \XoopsMemberHandler $memberHandler */
     $memberHandler = xoops_getHandler('member');
     $group_list    = $memberHandler->getGroupList();
 
@@ -162,8 +163,10 @@ function editcat($showmenu = false, $categoryid = 0)
 
     $module_id = $xoopsModule->getVar('mid');
 
-    /*$grouppermHandler = xoops_getHandler('groupperm');
-    $mod_perms = $grouppermHandler->getGroupIds('category_moderation', $categoryid, $module_id);
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+    /*
+    $grouppermHandler = xoops_getHandler('groupperm');
+    $mod_perms        = $grouppermHandler->getGroupIds('category_moderation', $categoryid, $module_id);
 
     $moderators_select = new \XoopsFormSelect('', 'moderators', $moderators, 5, true);
     $moderators_tray->addElement($moderators_select);
@@ -312,12 +315,17 @@ switch ($op) {
             // no confirm: show deletion condition
             $categoryid = \Xmf\Request::getInt('categoryid', 0, 'GET');
             xoops_cp_header();
-            xoops_confirm([
-                              'op'         => 'del',
-                              'categoryid' => $categoryObj->categoryid(),
-                              'confirm'    => 1,
-                              'name'       => $categoryObj->name(),
-                          ], 'category.php', _AM_SF_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_SF_DELETE_CAT_CONFIRM, _AM_SF_DELETE);
+            xoops_confirm(
+                [
+                    'op'         => 'del',
+                    'categoryid' => $categoryObj->categoryid(),
+                    'confirm'    => 1,
+                    'name'       => $categoryObj->name(),
+                ],
+                'category.php',
+                _AM_SF_DELETECOL . " '" . $categoryObj->name() . "'. <br> <br>" . _AM_SF_DELETE_CAT_CONFIRM,
+                _AM_SF_DELETE
+            );
             xoops_cp_footer();
         }
         exit();

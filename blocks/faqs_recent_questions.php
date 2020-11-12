@@ -11,8 +11,6 @@
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 /**
  * @param $options
  * @return array

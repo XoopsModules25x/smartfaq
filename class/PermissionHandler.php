@@ -27,8 +27,8 @@ class PermissionHandler extends \XoopsObjectHandler
     */
 
     /**
-     * @param  string $type
-     * @param  null   $id
+     * @param string $type
+     * @param null   $id
      * @return array
      */
     public function getPermissions($type = 'category', $id = null)
@@ -40,9 +40,9 @@ class PermissionHandler extends \XoopsObjectHandler
             $smartModule = Smartfaq\Utility::getModuleInfo();
             //Get group permissions handler
             /** @var \XoopsGroupPermHandler $grouppermHandler */
-            $grouppermHandler = xoops_getHandler('groupperm');
+            $grouppermHandler = \xoops_getHandler('groupperm');
             //Get user's groups
-            $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : [XOOPS_GROUP_ANONYMOUS];
+            $groups = \is_object($xoopsUser) ? $xoopsUser->getGroups() : [XOOPS_GROUP_ANONYMOUS];
 
             switch ($type) {
                 case 'category':
@@ -53,7 +53,7 @@ class PermissionHandler extends \XoopsObjectHandler
                     break;
                 case 'moderation':
                     $gperm_name = 'category_moderation';
-                    $groups     = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0;
+                    $groups     = \is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0;
             }
 
             //Get all allowed item ids in this module and for this user's groups

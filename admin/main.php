@@ -13,11 +13,10 @@ require_once __DIR__ . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper            = Smartfaq\Helper::getInstance();
 $smartModuleConfig = $helper->getConfig();
-$xoopsModule = $helper->getModule();
-$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
-
+$xoopsModule       = $helper->getModule();
+$pathIcon16        = \Xmf\Module\Admin::iconUrl('', 16);
 
 $faqid = \Xmf\Request::getInt('faqid', 0, 'POST');
 
@@ -33,7 +32,7 @@ $sortsel = isset($_POST['sortsel']) ? $_POST['sortsel'] : $sortsel;
 $ordersel = isset($_GET['ordersel']) ? $_GET['ordersel'] : 'DESC';
 $ordersel = isset($_POST['ordersel']) ? $_POST['ordersel'] : $ordersel;
 
-$module_id        = $xoopsModule->getVar('mid');
+$module_id = $xoopsModule->getVar('mid');
 /** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 $groups           = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
@@ -263,7 +262,7 @@ switch ($statussel) {
 }
 
 /* -- Code to show selected terms -- */
-echo "<form name='pick' id='pick' action='" . $_SERVER['PHP_SELF'] . "' method='POST' style='margin: 0;'>";
+echo "<form name='pick' id='pick' action='" . $_SERVER['SCRIPT_NAME'] . "' method='POST' style='margin: 0;'>";
 
 echo "
     <table width='100%' cellspacing='1' cellpadding='2' border='0' style='border-left: 1px solid silver; border-top: 1px solid silver; border-right: 1px solid silver;'>

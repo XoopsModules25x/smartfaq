@@ -10,8 +10,6 @@
 
 use XoopsModules\Smartfaq;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 /**
  * @param $options
  * @return array
@@ -22,7 +20,7 @@ function b_faqs_recent_show($options)
     $myts = \MyTextSanitizer::getInstance();
 
     /** @var \XoopsModules\Smartfaq\Helper $helper */
-    $helper = \XoopsModules\Smartfaq\Helper::getInstance();
+    $helper            = \XoopsModules\Smartfaq\Helper::getInstance();
     $smartModule       = $helper->getModule();
     $smartModuleConfig = $helper->getConfig();
 
@@ -63,6 +61,7 @@ function b_faqs_recent_show($options)
             $userids[$thisanswer->uid()] = 1;
         }
 
+        /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = xoops_getHandler('member');
         $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
         foreach ($faqsObj as $iValue) {
@@ -72,10 +71,10 @@ function b_faqs_recent_show($options)
             $faqs['categoryname'] = $allcategories[$iValue->categoryid()]->getVar('name');
 
             // Creating the answer object
-            $faqid = $iValue->faqid();
+            $faqid     = $iValue->faqid();
             $answerObj = $allanswers[$faqid];
 
-            $faqs['date'] = $iValue->datesub();
+            $faqs['date']   = $iValue->datesub();
             $faqs['poster'] = '';
             if (null !== $answerObj) {
                 $faqs['poster'] = Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);

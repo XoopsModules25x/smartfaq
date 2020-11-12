@@ -102,6 +102,7 @@ if ($faqsObj) {
         $userids[$thisfaq->uid()] = 1;
     }
 
+    /** @var \XoopsMemberHandler $memberHandler */
     $memberHandler = xoops_getHandler('member');
     $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
     foreach ($faqsObj as $iValue) {

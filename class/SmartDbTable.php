@@ -5,7 +5,7 @@ namespace XoopsModules\Smartfaq;
 /**
  * Detemines if a table exists in the current db
  *
- * @param  string $table the table name (without XOOPS prefix)
+ * @param string $table the table name (without XOOPS prefix)
  * @return bool   True if table exists, false if not
  *
  * @access public
@@ -55,7 +55,6 @@ function smart_TableExists($table)
  * @author  marcan <marcan@smartfactory.ca>
  * @link    http://www.smartfactory.ca The SmartFactory
  */
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Include the language constants for the SmartObjectDBUpdater
@@ -82,42 +81,34 @@ class SmartDbTable
      * @var string $_name name of the table
      */
     private $_name;
-
     /**
      * @var string $_structure structure of the table
      */
     private $_structure;
-
     /**
      * @var array $_data containing valued of each records to be added
      */
     private $_data;
-
     /**
      * @var array $_alteredFields containing fields to be altered
      */
     private $_alteredFields;
-
     /**
      * @var array $_newFields containing new fields to be added
      */
     private $_newFields;
-
     /**
      * @var array $_droppedFields containing fields to be dropped
      */
     private $_droppedFields;
-
     /**
      * @var array $_flagForDrop flag table to drop it
      */
     private $_flagForDrop = false;
-
     /**
      * @var array $_updatedFields containing fields which values will be updated
      */
     private $_updatedFields;
-
     /**
      * @var array $_updatedFields containing fields which values will be updated
      */    //felix
@@ -204,7 +195,7 @@ class SmartDbTable
      */
     public function getStructure()
     {
-        return sprintf($this->_structure, $this->name());
+        return \sprintf($this->_structure, $this->name());
     }
 
     /**
@@ -237,12 +228,12 @@ class SmartDbTable
         global $xoopsDB;
 
         foreach ($this->getData() as $data) {
-            $query = sprintf('INSERT INTO `%s` VALUES ("%s")', $this->name(), $data);
+            $query = \sprintf('INSERT INTO `%s` VALUES ("%s")', $this->name(), $data);
             $ret   = $xoopsDB->queryF($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA_ERR, $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_ADD_DATA_ERR, $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_ADD_DATA, $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_ADD_DATA, $this->name()) . '<br>';
             }
         }
 
@@ -398,9 +389,9 @@ class SmartDbTable
 
         $ret = $xoopsDB->queryF($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE_ERR, $this->name()) . '<br>';
+            echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_CREATE_TABLE_ERR, $this->name()) . '<br>';
         } else {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CREATE_TABLE, $this->name()) . '<br>';
+            echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_CREATE_TABLE, $this->name()) . '<br>';
         }
 
         return $ret;
@@ -415,14 +406,14 @@ class SmartDbTable
     {
         global $xoopsDB;
 
-        $query = sprintf('DROP TABLE `%s`', $this->name());
+        $query = \sprintf('DROP TABLE `%s`', $this->name());
         $ret   = $xoopsDB->queryF($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE_ERR, $this->name()) . '<br>';
+            echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_DROP_TABLE_ERR, $this->name()) . '<br>';
 
             return false;
         }
-        echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROP_TABLE, $this->name()) . '<br>';
+        echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_DROP_TABLE, $this->name()) . '<br>';
 
         return true;
     }
@@ -439,14 +430,14 @@ class SmartDbTable
         $ret = true;
 
         foreach ($this->getAlteredFields() as $alteredField) {
-            $query = sprintf('ALTER TABLE `%s` CHANGE %s %s', $this->name(), $alteredField['name'], $alteredField['properties']);
+            $query = \sprintf('ALTER TABLE `%s` CHANGE %s %s', $this->name(), $alteredField['name'], $alteredField['properties']);
             //echo $query;
             $ret = $ret && $xoopsDB->queryF($query);
             if ($alteredField['showerror']) {
                 if (!$ret) {
-                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD_ERR, $alteredField['name'], $this->name()) . '<br>';
+                    echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_CHGFIELD_ERR, $alteredField['name'], $this->name()) . '<br>';
                 } else {
-                    echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_CHGFIELD, $alteredField['name'], $this->name()) . '<br>';
+                    echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_CHGFIELD, $alteredField['name'], $this->name()) . '<br>';
                 }
             }
         }
@@ -465,13 +456,13 @@ class SmartDbTable
 
         $ret = true;
         foreach ($this->getNewFields() as $newField) {
-            $query = sprintf('ALTER TABLE `%s` ADD %s %s', $this->name(), $newField['name'], $newField['properties']);
+            $query = \sprintf('ALTER TABLE `%s` ADD %s %s', $this->name(), $newField['name'], $newField['properties']);
             //echo $query;
             $ret = $ret && $xoopsDB->queryF($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD_ERR, $newField['name'], $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_NEWFIELD_ERR, $newField['name'], $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_NEWFIELD, $newField['name'], $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_NEWFIELD, $newField['name'], $this->name()) . '<br>';
             }
         }
 
@@ -490,12 +481,12 @@ class SmartDbTable
         $ret = true;
 
         foreach ($this->getUpdatedFields() as $updatedField) {
-            $query = sprintf('UPDATE `%s` SET %s = %s', $this->name(), $updatedField['name'], $updatedField['value']);
+            $query = \sprintf('UPDATE `%s` SET %s = %s', $this->name(), $updatedField['name'], $updatedField['value']);
             $ret   = $ret && $xoopsDB->queryF($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br>';
             }
         }
 
@@ -515,13 +506,13 @@ class SmartDbTable
         $ret = true;
 
         foreach ($this->getUpdatedWhere() as $updatedWhere) {
-            $query = sprintf('UPDATE `%s` SET %s = %s WHERE %s  %s', $this->name(), $updatedWhere['name'], $updatedWhere['value'], $updatedWhere['name'], $updatedWhere['where']);
+            $query = \sprintf('UPDATE `%s` SET %s = %s WHERE %s  %s', $this->name(), $updatedWhere['name'], $updatedWhere['value'], $updatedWhere['name'], $updatedWhere['where']);
             //echo $query."<br>";
             $ret = $ret && $xoopsDB->queryF($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_UPDATE_TABLE_ERR, $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_UPDATE_TABLE, $this->name()) . '<br>';
             }
         }
 
@@ -540,13 +531,13 @@ class SmartDbTable
         $ret = true;
 
         foreach ($this->getDroppedFields() as $droppedField) {
-            $query = sprintf('ALTER TABLE `%s` DROP %s', $this->name(), $droppedField);
+            $query = \sprintf('ALTER TABLE `%s` DROP %s', $this->name(), $droppedField);
 
             $ret = $ret && $xoopsDB->queryF($query);
             if (!$ret) {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD_ERR, $droppedField, $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_DROPFIELD_ERR, $droppedField, $this->name()) . '<br>';
             } else {
-                echo '&nbsp;&nbsp;' . sprintf(_SDU_MSG_DROPFIELD, $droppedField, $this->name()) . '<br>';
+                echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_DROPFIELD, $droppedField, $this->name()) . '<br>';
             }
         }
 

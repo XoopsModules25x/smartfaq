@@ -10,8 +10,6 @@ namespace XoopsModules\Smartfaq;
 
 use XoopsModules\Smartfaq;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 //require_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
 
 /**
@@ -25,26 +23,22 @@ class Faq extends \XoopsObject
      * @access private
      */
     private $category;
-
     /**
      * @var Answer
      * @access private
      */
     private $answer;
-
     /**
      * @var array
      * @access private
      */
     private $_notifications;
     // TODO : Create a seperated class for notifications
-
     /**
      * @var array
      * @access private
      */
     private $groups_read;
-
     /**
      * @var object
      * @access private
@@ -60,28 +54,28 @@ class Faq extends \XoopsObject
     public function __construct($id = null)
     {
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
-        $this->initVar('faqid', XOBJ_DTYPE_INT, -1, false);
-        $this->initVar('categoryid', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('question', XOBJ_DTYPE_TXTBOX, null, true, 100000);
-        $this->initVar('howdoi', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('diduno', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('uid', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('datesub', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('status', XOBJ_DTYPE_INT, -1, false);
-        $this->initVar('counter', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('weight', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('html', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('smiley', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('image', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('linebreak', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('xcodes', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('cancomment', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('comments', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('notifypub', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('modulelink', XOBJ_DTYPE_TXTBOX, 'None', false, 50);
-        $this->initVar('contextpage', XOBJ_DTYPE_TXTBOX, null, false, 255);
-        $this->initVar('exacturl', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('partialview', XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('faqid', \XOBJ_DTYPE_INT, -1, false);
+        $this->initVar('categoryid', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('question', \XOBJ_DTYPE_TXTBOX, null, true, 100000);
+        $this->initVar('howdoi', \XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('diduno', \XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('uid', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('datesub', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('status', \XOBJ_DTYPE_INT, -1, false);
+        $this->initVar('counter', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('weight', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('html', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('smiley', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('image', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('linebreak', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('xcodes', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('cancomment', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('comments', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('notifypub', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('modulelink', \XOBJ_DTYPE_TXTBOX, 'None', false, 50);
+        $this->initVar('contextpage', \XOBJ_DTYPE_TXTBOX, null, false, 255);
+        $this->initVar('exacturl', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('partialview', \XOBJ_DTYPE_INT, 0, false);
 
         if (null !== $id) {
             $faqHandler = new Smartfaq\FaqHandler($this->db);
@@ -98,7 +92,7 @@ class Faq extends \XoopsObject
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
         $this->category    = new Smartfaq\Category($this->getVar('categoryid'));
         $this->groups_read = $grouppermHandler->getGroupIds('item_read', $this->faqid(), $module_id);
@@ -120,7 +114,7 @@ class Faq extends \XoopsObject
         //        $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
 
         $faqsGranted = $smartPermHandler->getPermissions('item');
-        if (in_array($this->categoryid(), $faqsGranted)) {
+        if (\in_array($this->categoryid(), $faqsGranted)) {
             $ret = true;
         }
 
@@ -132,7 +126,7 @@ class Faq extends \XoopsObject
      */
     public function getGroups_read()
     {
-        if (count($this->groups_read) < 1) {
+        if (\count($this->groups_read) < 1) {
             $this->assignOtherProperties();
         }
 
@@ -172,8 +166,8 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  int    $maxLength
-     * @param  string $format
+     * @param int    $maxLength
+     * @param string $format
      * @return mixed|string
      */
     public function question($maxLength = 0, $format = 'S')
@@ -195,7 +189,7 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  string $format
+     * @param string $format
      * @return mixed
      */
     public function howdoi($format = 'S')
@@ -210,7 +204,7 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  string $format
+     * @param string $format
      * @return mixed
      */
     public function diduno($format = 'S')
@@ -233,8 +227,8 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  string $dateFormat
-     * @param  string $format
+     * @param string $dateFormat
+     * @param string $format
      * @return string
      */
     public function datesub($dateFormat = 'none', $format = 'S')
@@ -244,7 +238,7 @@ class Faq extends \XoopsObject
             $dateFormat  = $smartConfig['dateformat'];
         }
 
-        return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
+        return \formatTimestamp($this->getVar('datesub', $format), $dateFormat);
     }
 
     /**
@@ -320,7 +314,7 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  string $format
+     * @param string $format
      * @return mixed
      */
     public function modulelink($format = 'S')
@@ -329,7 +323,7 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  string $format
+     * @param string $format
      * @return mixed
      */
     public function contextpage($format = 'S')
@@ -354,7 +348,7 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  int $realName
+     * @param int $realName
      * @return string
      */
     public function posterName($realName = -1)
@@ -429,7 +423,7 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  bool $force
+     * @param bool $force
      * @return bool
      */
     public function store($force = true)
@@ -460,7 +454,7 @@ class Faq extends \XoopsObject
 
         $myts = \MyTextSanitizer::getInstance();
         /** @var \XoopsNotificationHandler $notificationHandler */
-        $notificationHandler = xoops_getHandler('notification');
+        $notificationHandler = \xoops_getHandler('notification');
         //$categoryObj = $this->category();
 
         $tags                  = [];
@@ -470,7 +464,7 @@ class Faq extends \XoopsObject
         $tags['CATEGORY_URL']  = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/category.php?categoryid=' . $this->categoryid();
         $tags['FAQ_QUESTION']  = $this->question();
         $answerObj             = $this->answer();
-        if (is_object($answerObj)) {
+        if (\is_object($answerObj)) {
             // TODO : Not sure about the 'formpreview' ...
             $tags['FAQ_ANSWER'] = $answerObj->answer('formpreview');
         }
@@ -538,12 +532,12 @@ class Faq extends \XoopsObject
 
     public function setDefaultPermissions()
     {
-        $memberHandler = xoops_getHandler('member');
+        $memberHandler = \xoops_getHandler('member');
         $groups        = $memberHandler->getGroupList();
 
         $j         = 0;
         $group_ids = [];
-        foreach (array_keys($groups) as $i) {
+        foreach (\array_keys($groups) as $i) {
             $group_ids[$j] = $i;
             ++$j;
         }
@@ -556,12 +550,12 @@ class Faq extends \XoopsObject
     public function setPermissions($group_ids)
     {
         if (!isset($group_ids)) {
-            $memberHandler = xoops_getHandler('member');
+            $memberHandler = \xoops_getHandler('member');
             $groups        = $memberHandler->getGroupList();
 
             $j         = 0;
             $group_ids = [];
-            foreach (array_keys($groups) as $i) {
+            foreach (\array_keys($groups) as $i) {
                 $group_ids[$j] = $i;
                 ++$j;
             }
@@ -577,14 +571,14 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  null  $answerObj
-     * @param  array $users
+     * @param null  $answerObj
+     * @param array $users
      * @return string
      */
     public function getWhoAndWhen($answerObj = null, $users = [])
     {
         /** @var Smartfaq\Helper $helper */
-        $helper = Smartfaq\Helper::getInstance();
+        $helper            = Smartfaq\Helper::getInstance();
         $smartModuleConfig = $helper->getConfig();
 
         $requester   = Smartfaq\Utility::getLinkedUnameFromId($this->uid(), $smartModuleConfig['userealname'], $users);
@@ -596,13 +590,13 @@ class Faq extends \XoopsObject
             }
             $submitdate = $answerObj->datesub();
             if ($this->uid() == $answerObj->uid()) {
-                $result = sprintf(_MD_SF_REQUESTEDANDANSWERED, $requester, $submitdate);
+                $result = \sprintf(_MD_SF_REQUESTEDANDANSWERED, $requester, $submitdate);
             } else {
                 $submitter = Smartfaq\Utility::getLinkedUnameFromId($answerObj->uid(), $smartModuleConfig['userealname'], $users);
-                $result    = sprintf(_MD_SF_REQUESTEDBYANDANSWEREDBY, $requester, $submitter, $submitdate);
+                $result    = \sprintf(_MD_SF_REQUESTEDBYANDANSWEREDBY, $requester, $submitter, $submitdate);
             }
         } else {
-            $result = sprintf(_MD_SF_REQUESTEDBY, $requester, $requestdate);
+            $result = \sprintf(_MD_SF_REQUESTEDBY, $requester, $requestdate);
         }
 
         return $result;
@@ -623,9 +617,9 @@ class Faq extends \XoopsObject
     }
 
     /**
-     * @param  array $faq
-     * @param  null  $category
-     * @param  bool  $linkInQuestion
+     * @param array $faq
+     * @param null  $category
+     * @param bool  $linkInQuestion
      * @return array
      */
     public function toArray($faq = [], $category = null, $linkInQuestion = true)
@@ -652,9 +646,9 @@ class Faq extends \XoopsObject
         $faq['comments']   = $this->comments();
         $faq['datesub']    = $this->datesub();
         if (null !== $category) {
-            if (is_object($category) && 'xoopsmodules\smartfaq\category' === mb_strtolower(get_class($category))) {
+            if (\is_object($category) && 'xoopsmodules\smartfaq\category' === mb_strtolower(\get_class($category))) {
                 $categoryObj = $category;
-            } elseif (is_array($category)) {
+            } elseif (\is_array($category)) {
                 $categoryObj = $category[$this->categoryid()];
             }
             $faq['categoryname'] = $categoryObj->getVar('name');

@@ -7,7 +7,6 @@
  * @param $options
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 function b_faqs_context_show($options)
 {

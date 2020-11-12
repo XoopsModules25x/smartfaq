@@ -6,12 +6,10 @@
  * Licence: GNU
  * @param       $db
  * @param       $gperm_modid
- * @param  null $gperm_name
- * @param  null $gperm_itemid
+ * @param null  $gperm_name
+ * @param null  $gperm_itemid
  * @return bool
  */
-
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 function myDeleteByModule(\XoopsDatabase $db, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
 {
@@ -42,6 +40,7 @@ $module        = $moduleHandler->get($modid);
 if (!is_object($module) || !$module->getVar('isactive')) {
     redirect_header(XOOPS_URL . '/admin.php', 1, _MODULENOEXIST);
 }
+/** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
 $group_list    = $memberHandler->getGroupList();
 if (is_array($_POST['perms']) && !empty($_POST['perms'])) {

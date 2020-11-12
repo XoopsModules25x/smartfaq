@@ -10,8 +10,6 @@ namespace XoopsModules\Smartfaq;
 
 use XoopsModules\Smartfaq;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 /**
  * Class Answer
  */
@@ -22,30 +20,30 @@ class Answer extends \XoopsObject
 
     /**
      * constructor
-     * @param null $id
+     * @param int|null|array $id
      */
     public function __construct($id = null)
     {
         $this->db = \XoopsDatabaseFactory::getDatabaseConnection();
-        $this->initVar('answerid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('status', XOBJ_DTYPE_INT, -1, false);
-        $this->initVar('faqid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('answer', XOBJ_DTYPE_TXTAREA, null, true);
-        $this->initVar('uid', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('datesub', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('notifypub', XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('answerid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('status', \XOBJ_DTYPE_INT, -1, false);
+        $this->initVar('faqid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('answer', \XOBJ_DTYPE_TXTAREA, null, true);
+        $this->initVar('uid', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('datesub', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('notifypub', \XOBJ_DTYPE_INT, 0, false);
 
-        $this->initVar('attachment', XOBJ_DTYPE_TXTAREA, '');
+        $this->initVar('attachment', \XOBJ_DTYPE_TXTAREA, '');
 
-        $this->initVar('dohtml', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('doxcode', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('dosmiley', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('doimage', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('dobr', XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('dohtml', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('doxcode', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('dosmiley', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('doimage', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('dobr', \XOBJ_DTYPE_INT, 1, false);
 
         // for backward compatibility
         if (isset($id)) {
-            if (is_array($id)) {
+            if (\is_array($id)) {
                 $this->assignVars($id);
             } else {
                 $answerHandler = new AnswerHandler($this->db);
@@ -65,14 +63,14 @@ class Answer extends \XoopsObject
      */
     public function getAttachment()
     {
-        if (count($this->attachment_array)) {
+        if (\count($this->attachment_array)) {
             return $this->attachment_array;
         }
         $attachment = $this->getVar('attachment');
         if (empty($attachment)) {
             $this->attachment_array = null;
         } else {
-            $this->attachment_array = @unserialize(base64_decode($attachment, true));
+            $this->attachment_array = @\unserialize(\base64_decode($attachment, true));
         }
 
         return $this->attachment_array;
@@ -98,8 +96,8 @@ class Answer extends \XoopsObject
     public function saveAttachment()
     {
         $attachment_save = '';
-        if ($this->attachment_array && is_array($this->attachment_array)) {
-            $attachment_save = base64_encode(serialize($this->attachment_array));
+        if ($this->attachment_array && \is_array($this->attachment_array)) {
+            $attachment_save = \base64_encode(\serialize($this->attachment_array));
         }
         $this->setVar('attachment', $attachment_save);
         $sql = 'UPDATE ' . $GLOBALS['xoopsDB']->prefix('smartfaq_answers') . ' SET attachment=' . $GLOBALS['xoopsDB']->quoteString($attachment_save) . ' WHERE post_id = ' . $this->getVar('answerid');
@@ -112,7 +110,7 @@ class Answer extends \XoopsObject
     }
 
     /**
-     * @param  null $attach_array
+     * @param null $attach_array
      * @return bool
      */
     public function deleteAttachment($attach_array = null)
@@ -121,29 +119,29 @@ class Answer extends \XoopsObject
         $helper = Smartfaq\Helper::getInstance();
 
         $attach_old = $this->getAttachment();
-        if (!is_array($attach_old) || count($attach_old) < 1) {
+        if (!\is_array($attach_old) || \count($attach_old) < 1) {
             return true;
         }
         $this->attachment_array = [];
 
         if (null === $attach_array) {
-            $attach_array = array_keys($attach_old);
+            $attach_array = \array_keys($attach_old);
         } // to delete all!
-        if (!is_array($attach_array)) {
+        if (!\is_array($attach_array)) {
             $attach_array = [$attach_array];
         }
 
         foreach ($attach_old as $key => $attach) {
-            if (in_array($key, $attach_array)) {
-                @unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $attach['name_saved']);
-                @unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/thumbs/' . $attach['name_saved']); // delete thumbnails
+            if (\in_array($key, $attach_array)) {
+                @\unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $attach['name_saved']);
+                @\unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/thumbs/' . $attach['name_saved']); // delete thumbnails
                 continue;
             }
             $this->attachment_array[$key] = $attach;
         }
         $attachment_save = '';
-        if ($this->attachment_array && is_array($this->attachment_array)) {
-            $attachment_save = base64_encode(serialize($this->attachment_array));
+        if ($this->attachment_array && \is_array($this->attachment_array)) {
+            $attachment_save = \base64_encode(\serialize($this->attachment_array));
         }
         $this->setVar('attachment', $attachment_save);
 
@@ -151,10 +149,10 @@ class Answer extends \XoopsObject
     }
 
     /**
-     * @param  string $name_saved
-     * @param  string $name_display
-     * @param  string $mimetype
-     * @param  int    $num_download
+     * @param string $name_saved
+     * @param string $name_display
+     * @param string $mimetype
+     * @param int    $num_download
      * @return bool
      */
     public function setAttachment($name_saved = '', $name_display = '', $mimetype = '', $num_download = 0)
@@ -162,7 +160,7 @@ class Answer extends \XoopsObject
         static $counter = 0;
         $this->attachment_array = $this->getAttachment();
         if ($name_saved) {
-            $key                          = (string)(time() + ($counter++));
+            $key                          = (string)(\time() + ($counter++));
             $this->attachment_array[$key] = [
                 'name_saved'   => $name_saved,
                 'name_display' => isset($name_display) ? $name_display : $name_saved,
@@ -171,8 +169,8 @@ class Answer extends \XoopsObject
             ];
         }
         $attachment_save = null;
-        if (is_array($this->attachment_array)) {
-            $attachment_save = base64_encode(serialize($this->attachment_array));
+        if (\is_array($this->attachment_array)) {
+            $attachment_save = \base64_encode(\serialize($this->attachment_array));
         }
         $this->setVar('attachment', $attachment_save);
 
@@ -181,7 +179,7 @@ class Answer extends \XoopsObject
 
     /**
      * TODO: refactor
-     * @param  bool $asSource
+     * @param bool $asSource
      * @return string
      */
     public function displayAttachment($asSource = false)
@@ -192,7 +190,7 @@ class Answer extends \XoopsObject
 
         $post_attachment = '';
         $attachments     = $this->getAttachment();
-        if ($attachments && is_array($attachments)) {
+        if ($attachments && \is_array($attachments)) {
             $iconHandler = sf_getIconHandler();
             $mime_path   = $iconHandler->getPath('mime');
             require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/include/functions.image.php';
@@ -200,16 +198,16 @@ class Answer extends \XoopsObject
             $post_attachment  .= '<br><strong>' . _MD_ATTACHMENT . '</strong>:';
             $post_attachment  .= '<br><hr size="1" noshade="noshade"><br>';
             foreach ($attachments as $key => $att) {
-                $file_extension = ltrim(mb_strrchr($att['name_saved'], '.'), '.');
+                $file_extension = \ltrim(mb_strrchr($att['name_saved'], '.'), '.');
                 $filetype       = $file_extension;
-                if (file_exists(XOOPS_ROOT_PATH . '/' . $mime_path . '/' . $filetype . '.gif')) {
+                if (\file_exists(XOOPS_ROOT_PATH . '/' . $mime_path . '/' . $filetype . '.gif')) {
                     $icon_filetype = XOOPS_URL . '/' . $mime_path . '/' . $filetype . '.gif';
                 } else {
                     $icon_filetype = XOOPS_URL . '/' . $mime_path . '/unknown.gif';
                 }
-                $file_size = @filesize(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $att['name_saved']);
-                $file_size = number_format($file_size / 1024, 2) . ' KB';
-                if ($helper->getConfig('media_allowed') && in_array(mb_strtolower($file_extension), $image_extensions)) {
+                $file_size = @\filesize(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $att['name_saved']);
+                $file_size = \number_format($file_size / 1024, 2) . ' KB';
+                if ($helper->getConfig('media_allowed') && \in_array(mb_strtolower($file_extension), $image_extensions)) {
                     $post_attachment .= '<br><img src="' . $icon_filetype . '" alt="' . $filetype . '"><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>(' . $file_size . ')</small>';
                     $post_attachment .= '<br>' . sf_attachmentImage($att['name_saved']);
                     $isDisplayed     = true;
@@ -276,7 +274,7 @@ class Answer extends \XoopsObject
     // ////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param  bool $force
+     * @param bool $force
      * @return bool
      */
     public function store($force = true)
@@ -308,7 +306,7 @@ class Answer extends \XoopsObject
     }
 
     /**
-     * @param  string $format
+     * @param string $format
      * @return mixed
      */
     public function answer($format = 'S')
@@ -325,20 +323,20 @@ class Answer extends \XoopsObject
     }
 
     /**
-     * @param  string $dateFormat
-     * @param  string $format
+     * @param string $dateFormat
+     * @param string $format
      * @return string
      */
     public function datesub($dateFormat = 'none', $format = 'S')
     {
         if ('none' === $dateFormat) {
             /** @var Smartfaq\Helper $helper */
-            $helper = Smartfaq\Helper::getInstance();
+            $helper            = Smartfaq\Helper::getInstance();
             $smartModuleConfig = $helper->getConfig();
             $dateFormat        = $smartModuleConfig['dateformat'];
         }
 
-        return formatTimestamp($this->getVar('datesub', $format), $dateFormat);
+        return \formatTimestamp($this->getVar('datesub', $format), $dateFormat);
     }
 
     /**
@@ -366,7 +364,7 @@ class Answer extends \XoopsObject
 
         $myts = \MyTextSanitizer::getInstance();
         /** @var \XoopsNotificationHandler $notificationHandler */
-        $notificationHandler = xoops_getHandler('notification');
+        $notificationHandler = \xoops_getHandler('notification');
 
         $faqObj = new Smartfaq\Faq($this->faqid());
 

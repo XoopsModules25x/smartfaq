@@ -8,8 +8,6 @@
 
 use XoopsModules\Smartfaq\Constants;
 
-// defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName = basename(__DIR__);
@@ -32,7 +30,7 @@ $modversion['modicons32']          = 'assets/images/icons/32';
 $modversion['release_file']        = XOOPS_URL . '/modules/' . $modversion['dirname'] . '/docs/changelog.txt';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['min_php']             = '5.5';
+$modversion['min_php']             = '7.2';
 $modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
@@ -132,7 +130,8 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
         $isAdmin = $xoopsUser->isAdmin($xoopsModule->getVar('mid'));
     }
 
-    if ($smartModule = $xoopsModule) {
+    $smartModule = $xoopsModule;
+    if ($smartModule) {
         $smartConfig = $xoopsModuleConfig;
         // Add the Submit new faq button
         if ($isAdmin
@@ -297,6 +296,7 @@ $modversion['config'][] = [
     'default'     => 0,
 ];
 
+/** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
 $groups        = $memberHandler->getGroupList();
 

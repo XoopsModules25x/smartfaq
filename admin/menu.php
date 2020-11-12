@@ -11,6 +11,8 @@ use XoopsModules\Smartfaq;
 //require_once  dirname(__DIR__) . '/include/common.php';
 /** @var Smartfaq\Helper $helper */
 $helper = Smartfaq\Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 if (is_object($helper->getModule())) {
