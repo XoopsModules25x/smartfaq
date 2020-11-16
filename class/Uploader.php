@@ -2,6 +2,14 @@
 
 namespace XoopsModules\Smartfaq;
 
+use XoopsMediaUploader;
+
+
+
+
+
+
+
 /**
  * CBB, XOOPS forum module
  *
@@ -17,7 +25,7 @@ require_once XOOPS_ROOT_PATH . '/class/uploader.php';
 /**
  * Class Uploader
  */
-class Uploader extends \XoopsMediaUploader
+class Uploader extends XoopsMediaUploader
 {
     /**
      * No admin check for uploads
@@ -39,11 +47,11 @@ class Uploader extends \XoopsMediaUploader
      */
     public function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize = 0, $maxWidth = 0, $maxHeight = 0)
     {
-        if (!\is_array($allowedMimeTypes)) {
+        if (!is_array($allowedMimeTypes)) {
             if (empty($allowedMimeTypes) || '*' === $allowedMimeTypes) {
                 $allowedMimeTypes = [];
             } else {
-                $allowedMimeTypes = \array_filter(\array_map('\trim', \explode('|', mb_strtolower($allowedMimeTypes))));
+                $allowedMimeTypes = array_filter(array_map('\trim', explode('|', mb_strtolower($allowedMimeTypes))));
             }
         }
         $_allowedMimeTypes = [];
@@ -95,7 +103,7 @@ class Uploader extends \XoopsMediaUploader
      */
     public function getExt()
     {
-        $this->ext = mb_strtolower(\ltrim(mb_strrchr($this->getMediaName(), '.'), '.'));
+        $this->ext = mb_strtolower(ltrim(mb_strrchr($this->getMediaName(), '.'), '.'));
 
         return $this->ext;
     }

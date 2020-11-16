@@ -7,6 +7,7 @@
  */
 
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 /**
  * @return array
@@ -19,7 +20,7 @@ function b_faqs_random_how_show()
 
     // Creating the faq handler object
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    $faqHandler = Helper::getInstance()->getHandler('Faq');
 
     // creating the FAQ object
     $faqsObj = $faqHandler->getRandomFaq('howdoi', [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER]);

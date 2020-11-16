@@ -6,27 +6,29 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/admin_header.php';
 
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
 $op = '';
 
 // Getting the operation we are doing
-if (\Xmf\Request::hasVar('op', 'GET')) {
+if (Request::hasVar('op', 'GET')) {
     $op = $_GET['op'];
 }
-if (\Xmf\Request::hasVar('op', 'POST')) {
+if (Request::hasVar('op', 'POST')) {
     $op = $_POST['op'];
 }
 
 // Creating the answer handler object
 /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+$answerHandler = Helper::getInstance()->getHandler('Answer');
 
 /**
  * @param string $faqid
@@ -35,7 +37,7 @@ function editfaq($faqid = '')
 {
     global $answerHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $XOOPS_URL, $myts, $pathIcon16, $smartModuleConfig;
     /** @var Smartfaq\Helper $helper */
-    $helper = Smartfaq\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
@@ -156,14 +158,14 @@ switch ($op) {
         xoops_cp_header();
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
-        $faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
+        $faqid = Request::getInt('faqid', 0, 'GET');
         editfaq($faqid);
         break;
     case 'selectanswer':
         global $xoopsUser, $_GET;
 
-        $faqid    = \Xmf\Request::getInt('faqid', 0, 'GET');
-        $answerid = \Xmf\Request::getInt('answerid', 0, 'GET');
+        $faqid    = Request::getInt('faqid', 0, 'GET');
+        $answerid = Request::getInt('answerid', 0, 'GET');
 
         // Creating the FAQ object
         $faqObj = new Smartfaq\Faq($faqid);
@@ -235,11 +237,11 @@ switch ($op) {
     case 'del':
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB;
 
-        $faqid     = \Xmf\Request::getInt('faqid', 0, 'POST');
-        $faqid     = \Xmf\Request::getInt('faqid', $faqid, 'GET');
-        $answerid  = \Xmf\Request::getInt('answerid', 0, 'POST');
-        $answerid  = \Xmf\Request::getInt('answerid', $answerid, 'GET');
-        $confirm   = \Xmf\Request::getInt('confirm', 0, 'POST');
+        $faqid     = Request::getInt('faqid', 0, 'POST');
+        $faqid     = Request::getInt('faqid', $faqid, 'GET');
+        $answerid  = Request::getInt('answerid', 0, 'POST');
+        $answerid  = Request::getInt('answerid', $answerid, 'GET');
+        $confirm   = Request::getInt('confirm', 0, 'POST');
         $faqObj    = new Smartfaq\Faq($faqid);
         $answerObj = new Smartfaq\Answer($answerid);
         if ($confirm) {
@@ -283,7 +285,7 @@ switch ($op) {
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule;
         /** @var Smartfaq\Helper $helper */
-        $helper = Smartfaq\Helper::getInstance();
+        $helper = Helper::getInstance();
 
         editfaq();
         break;

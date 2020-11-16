@@ -6,21 +6,25 @@
  * Licence: GNU
  */
 
+use Xmf\Module\Admin;
+use Xmf\Request;
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Category;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/admin_header.php';
 
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
-$op = \Xmf\Request::getCmd('op', '');
+$op = Request::getCmd('op', '');
 
 // Where do we start?
-$startcategory = \Xmf\Request::getInt('startcategory', 0, 'GET');
+$startcategory = Request::getInt('startcategory', 0, 'GET');
 
 /**
  * @param \XoopsObject|Smartfaq\Category $categoryObj
@@ -79,15 +83,15 @@ function editcat($showmenu = false, $categoryid = 0)
 {
     //$moderators = []; // just to define the variable
     //$allmods = [];
-    $startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
+    $startfaq = Request::getInt('startfaq', 0, 'GET');
     global $categoryHandler, $xoopsUser, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $_GET;
     /** @var Smartfaq\Helper $helper */
-    $helper = Smartfaq\Helper::getInstance();
+    $helper = Helper::getInstance();
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     // Creating the faq handler object
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    $faqHandler = Helper::getInstance()->getHandler('Faq');
 
     echo '<script type="text/javascript" src="funcs.js"></script>';
     echo '<style>';
@@ -98,7 +102,7 @@ function editcat($showmenu = false, $categoryid = 0)
     // If there is a parameter, and the id exists, retrieve data: we're editing a category
     if (0 != $categoryid) {
         // Creating the category object for the selected category
-        $categoryObj = new  \XoopsModules\Smartfaq\Category($categoryid);
+        $categoryObj = new  Category($categoryid);
 
         echo "<br>\n";
         if ($categoryObj->notLoaded()) {
@@ -231,9 +235,9 @@ function editcat($showmenu = false, $categoryid = 0)
 
 switch ($op) {
     case 'mod':
-        $categoryid  = \Xmf\Request::getInt('categoryid', 0, 'GET');
-        $destList    = \Xmf\Request::getString('destList', '', 'POST');
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $categoryid  = Request::getInt('categoryid', 0, 'GET');
+        $destList    = Request::getString('destList', '', 'POST');
+        $adminObject = Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));
@@ -242,10 +246,10 @@ switch ($op) {
     case 'addcategory':
         global $_POST, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts, $categoryid;
 
-        $categoryid = \Xmf\Request::getInt('categoryid', 0, 'POST');
+        $categoryid = Request::getInt('categoryid', 0, 'POST');
 
         if (0 != $categoryid) {
-            $categoryObj = new Smartfaq\Category($categoryid);
+            $categoryObj = new Category($categoryid);
         } else {
             $categoryObj = $categoryHandler->create();
         }
@@ -253,12 +257,12 @@ switch ($op) {
         //if (\Xmf\Request::hasVar('allmods', 'POST')) $allmods = $_POST['allmods'];
         //if (\Xmf\Request::hasVar('moderators', 'POST')) $moderators = $_POST['moderators'];
 
-        $categoryObj->setVar('parentid', \Xmf\Request::getInt('parentid', 0, 'POST'));
-        $applyall = \Xmf\Request::getInt('applyall', 0, 'POST');
-        $categoryObj->setVar('weight', \Xmf\Request::getInt('weight', 1, 'POST'));
+        $categoryObj->setVar('parentid', Request::getInt('parentid', 0, 'POST'));
+        $applyall = Request::getInt('applyall', 0, 'POST');
+        $categoryObj->setVar('weight', Request::getInt('weight', 1, 'POST'));
 
         // Groups and permissions
-        if (\Xmf\Request::hasVar('groups_read', 'POST')) {
+        if (Request::hasVar('groups_read', 'POST')) {
             $categoryObj->setGroups_read($_POST['groups_read']);
         } else {
             $categoryObj->setGroups_read();
@@ -298,13 +302,13 @@ switch ($op) {
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
-        $categoryid = \Xmf\Request::getInt('categoryid', 0, 'POST');
-        $categoryid = \Xmf\Request::getInt('categoryid', $categoryid, 'GET');
+        $categoryid = Request::getInt('categoryid', 0, 'POST');
+        $categoryid = Request::getInt('categoryid', $categoryid, 'GET');
 
-        $categoryObj = new Smartfaq\Category($categoryid);
+        $categoryObj = new Category($categoryid);
 
-        $confirm = \Xmf\Request::getInt('confirm', 0, 'POST');
-        $name    = \Xmf\Request::getString('name', '', 'POST');
+        $confirm = Request::getInt('confirm', 0, 'POST');
+        $name    = Request::getString('name', '', 'POST');
 
         if ($confirm) {
             if (!$categoryHandler->delete($categoryObj)) {
@@ -313,7 +317,7 @@ switch ($op) {
             redirect_header('category.php', 1, sprintf(_AM_SF_COLISDELETED, $name));
         } else {
             // no confirm: show deletion condition
-            $categoryid = \Xmf\Request::getInt('categoryid', 0, 'GET');
+            $categoryid = Request::getInt('categoryid', 0, 'GET');
             xoops_cp_header();
             xoops_confirm(
                 [
@@ -335,7 +339,7 @@ switch ($op) {
         break;
     case 'default':
     default:
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));

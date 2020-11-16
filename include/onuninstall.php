@@ -9,6 +9,7 @@
  */
 
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Utility;
 
 /**
  * Prepares system prior to attempting to uninstall module
@@ -38,7 +39,7 @@ function xoops_module_uninstall_smartfaq(\XoopsModule $module)
     $helper = Smartfaq\Helper::getInstance();
 
     /** @var \XoopsModules\Smartfaq\Utility $utility */
-    $utility = new \XoopsModules\Smartfaq\Utility();
+    $utility = new Utility();
 
     $success = true;
     $helper->loadLanguage('admin');

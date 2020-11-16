@@ -6,6 +6,7 @@
  */
 
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Helper;
 
 /**
  * @param $module
@@ -23,7 +24,7 @@ function xoops_module_update_smartfaq($module)
 */
     $dbupdater = new Smartfaq\SmartobjectDbupdater();
     /** @var Smartfaq\Helper $helper */
-    $helper = Smartfaq\Helper::getInstance();
+    $helper = Helper::getInstance();
     $helper->loadLanguage('smartdbupdater');
 
     ob_start();
@@ -80,9 +81,9 @@ function xoops_module_update_smartfaq($module)
      * Check for items with categoryid=0
      */ //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-    $smartfaq_faqHandler = $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    $smartfaq_faqHandler = $answerHandler = Helper::getInstance()->getHandler('Faq');
     /** @var \XoopsModules\Smartfaq\CategoryHandler $smartfaq_categoryHandler */
-    $smartfaq_categoryHandler = $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+    $smartfaq_categoryHandler = $answerHandler = Helper::getInstance()->getHandler('Category');
 
     //find a valid categoryid
     $categoriesObj = $smartfaq_categoryHandler->getCategories(1, 0, 0, 'weight', 'ASC', false);

@@ -17,6 +17,7 @@
  * @author       XOOPS Development Team
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Smartfaq;
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
@@ -42,10 +43,10 @@ require_once $path . '/class/xoopsformloader.php';
 require_once dirname(__DIR__) . '/include/common.php';
 /** @var Smartfaq\Helper $helper */
 $helper      = Smartfaq\Helper::getInstance();
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 
-$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16    = Admin::iconUrl('', 16);
+$pathIcon32    = Admin::iconUrl('', 32);
 $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 // Load language files

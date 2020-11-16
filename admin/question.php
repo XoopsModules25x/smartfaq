@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use Xmf\Module\Admin;
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
@@ -26,15 +28,15 @@ $faqHandler = Smartfaq\Helper::getInstance()->getHandler('Faq');
 $categoryHandler = Smartfaq\Helper::getInstance()->getHandler('Category');
 
 $op = '';
-if (\Xmf\Request::hasVar('op', 'GET')) {
+if (Request::hasVar('op', 'GET')) {
     $op = $_GET['op'];
 }
-if (\Xmf\Request::hasVar('op', 'POST')) {
+if (Request::hasVar('op', 'POST')) {
     $op = $_POST['op'];
 }
 
 // Where shall we start?
-$startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
+$startfaq = Request::getInt('startfaq', 0, 'GET');
 
 /**
  * @param bool $showmenu
@@ -190,7 +192,7 @@ switch ($op) {
             }
         }
 
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));
@@ -209,7 +211,7 @@ switch ($op) {
             $uid = $xoopsUser->uid();
         }
 
-        $faqid = \Xmf\Request::getInt('faqid', -1, 'POST');
+        $faqid = Request::getInt('faqid', -1, 'POST');
 
         // Creating the FAQ
         if (-1 != $faqid) {
@@ -220,9 +222,9 @@ switch ($op) {
 
         // Putting the values in the FAQ object
         $faqObj->setGroups_read(isset($_POST['groups']) ? $_POST['groups'] : []);
-        $faqObj->setVar('categoryid', \Xmf\Request::getInt('categoryid', 0, 'POST'));
+        $faqObj->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
         $faqObj->setVar('question', $_POST['question']);
-        $faqObj->setVar('status', \Xmf\Request::getInt('status', Constants::SF_STATUS_ASKED, 'POST'));
+        $faqObj->setVar('status', Request::getInt('status', Constants::SF_STATUS_ASKED, 'POST'));
 
         $notifToDo = null;
 
@@ -269,13 +271,13 @@ switch ($op) {
         /** @var \XoopsGroupPermHandler $grouppermHandler */
         $grouppermHandler = xoops_getHandler('groupperm');
 
-        $faqid = \Xmf\Request::getInt('faqid', 0, 'POST');
-        $faqid = \Xmf\Request::getInt('faqid', $faqid, 'GET');
+        $faqid = Request::getInt('faqid', 0, 'POST');
+        $faqid = Request::getInt('faqid', $faqid, 'GET');
 
         $faqObj = new Smartfaq\Faq($faqid);
 
-        $confirm  = \Xmf\Request::getInt('confirm', 0, 'POST');
-        $question = \Xmf\Request::getString('question', '', 'POST');
+        $confirm  = Request::getInt('confirm', 0, 'POST');
+        $question = Request::getString('question', '', 'POST');
 
         if ($confirm) {
             if (!$faqHandler->delete($faqObj)) {
@@ -285,7 +287,7 @@ switch ($op) {
             redirect_header('question.php', 2, sprintf(_AM_SF_QUESTIONISDELETED, $faqObj->question()));
         } else {
             // no confirm: show deletion condition
-            $faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
+            $faqid = Request::getInt('faqid', 0, 'GET');
             xoops_cp_header();
             xoops_confirm(
                 [
@@ -305,7 +307,7 @@ switch ($op) {
         break;
     case 'default':
     default:
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         xoops_cp_header();
         $adminObject->displayNavigation(basename(__FILE__));
 

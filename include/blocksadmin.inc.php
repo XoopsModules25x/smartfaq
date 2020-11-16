@@ -23,6 +23,8 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
+
 if (!is_object($xoopsUser) || !is_object($xoopsModule) || !$xoopsUser->isAdmin($xoopsModule->mid())) {
     exit('Access Denied');
 }
@@ -36,12 +38,12 @@ if (isset($_POST)) {
     }
 }
 
-if (\Xmf\Request::hasVar('op', 'GET')) {
+if (Request::hasVar('op', 'GET')) {
     if ('edit' === $_GET['op'] || 'delete' === $_GET['op'] || 'delete_ok' === $_GET['op']
         || 'clone' === $_GET['op']
         || 'previewpopup' === $_GET['op']) {
         $op  = $_GET['op'];
-        $bid = \Xmf\Request::getInt('bid', 0, 'GET');
+        $bid = Request::getInt('bid', 0, 'GET');
     }
 }
 

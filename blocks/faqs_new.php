@@ -9,6 +9,7 @@
  */
 
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Helper;
 
 /**
  * @param $options
@@ -32,7 +33,7 @@ function b_faqs_new_show($options)
 
     // Creating the faq handler object
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    $faqHandler = Helper::getInstance()->getHandler('Faq');
     // creating the FAQ objects that belong to the selected category
     $faqsObj = $faqHandler->getAllPublished($limit, 0, $categoryid, $sort);
 

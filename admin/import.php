@@ -6,16 +6,17 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 
 require_once __DIR__ . '/admin_header.php';
 
 $op = 'none';
 
-if (\Xmf\Request::hasVar('op', 'GET')) {
+if (Request::hasVar('op', 'GET')) {
     $op = $_GET['op'];
 }
-if (\Xmf\Request::hasVar('op', 'POST')) {
+if (Request::hasVar('op', 'POST')) {
     $op = $_POST['op'];
 }
 

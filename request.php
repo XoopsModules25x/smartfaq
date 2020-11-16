@@ -6,23 +6,25 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/header.php';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 global $xoopsUser, $xoopsConfig, $xoopsModule;
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 // Creating the FAQ handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // Get the total number of categories
 $totalCategories = count($categoryHandler->getCategories());
@@ -41,7 +43,7 @@ if (!($isAdmin
     redirect_header('index.php', 1, _NOPERM);
 }
 
-$op = \Xmf\Request::getCmd('op', '');
+$op = Request::getCmd('op', '');
 
 switch ($op) {
     case 'post':
@@ -64,7 +66,7 @@ switch ($op) {
         $newFaqObj->setVar('categoryid', $_POST['categoryid']);
         $newFaqObj->setVar('uid', $uid);
         $newFaqObj->setVar('question', $_POST['question']);
-        $notifypub = \Xmf\Request::getInt('notifypub', 0, 'POST');
+        $notifypub = Request::getInt('notifypub', 0, 'POST');
         $newFaqObj->setVar('notifypub', $notifypub);
 
         // Setting the status of the FAQ
@@ -127,7 +129,7 @@ switch ($op) {
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
-        $sectionname = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
+        $sectionname = htmlspecialchars($xoopsModule->getVar('name'));
 
         require_once __DIR__ . '/include/request.inc.php';
 

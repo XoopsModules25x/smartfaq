@@ -6,13 +6,15 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/header.php';
 
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
 global $xoopsConfig, $xoopsModule;
 
@@ -21,7 +23,7 @@ $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';
 
-$categoryid = \Xmf\Request::getInt('categoryid', 0, 'GET');
+$categoryid = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category object for the selected category
 $categoryObj = new Smartfaq\Category($categoryid);
@@ -38,14 +40,14 @@ if (!$categoryObj->checkPermission()) {
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 // At which record shall we start
-$start = \Xmf\Request::getInt('start', 0, 'GET');
+$start = Request::getInt('start', 0, 'GET');
 
 // Creating the faq handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // creating the FAQ objects that belong to the selected category
 $faqsObj = $faqHandler->getFaqs($helper->getConfig('indexperpage'), $start, Constants::SF_STATUS_OPENED, $categoryid);
@@ -78,7 +80,7 @@ $subcatsObj     = &$categoryHandler->getCategories(0, 0, $categoryid);
 $total_subcats  = count($subcatsObj);
 $catQnasWithSub = 0;
 if (0 != $total_subcats) {
-    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    $faqHandler = Helper::getInstance()->getHandler('Faq');
     // Arrays that will hold the informations passed on to smarty variables
     foreach ($subcatsObj as $key => $subcat) {
         $subcat_id = $subcat->getVar('categoryid');
@@ -116,7 +118,7 @@ if ($faqsObj) {
     }
 }
 // Language constants
-$xoopsTpl->assign('whereInSection', $myts->htmlSpecialChars($xoopsModule->getVar('name')) . " > <a href='open_index.php'>" . _MD_SF_OPEN_SECTION . '</a>');
+$xoopsTpl->assign('whereInSection', htmlspecialchars($xoopsModule->getVar('name')) . " > <a href='open_index.php'>" . _MD_SF_OPEN_SECTION . '</a>');
 $xoopsTpl->assign('modulename', $xoopsModule->dirname());
 
 $xoopsTpl->assign('displaylastfaqs', true);
@@ -144,7 +146,7 @@ if (1 == $helper->getConfig('useimagenavpage')) {
 $xoopsTpl->assign('category', $category);
 
 // Page Title Hack by marcan
-$module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
+$module_name = htmlspecialchars($xoopsModule->getVar('name'));
 $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category['name']);
 // End Page Title Hack by marcan
 

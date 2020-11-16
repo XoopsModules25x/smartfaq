@@ -7,6 +7,7 @@
  */
 
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 $moduleDirName      = basename(__DIR__);
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -157,7 +158,7 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
 
         // Creating the FAQ handler object
         /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-        $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+        $faqHandler = Helper::getInstance()->getHandler('Faq');
 
         if ($faqHandler->getFaqsCount(-1, Constants::SF_STATUS_OPENED) > 0) {
             $modversion['sub'][3]['name'] = _MI_SF_SUB_SMNAME3;

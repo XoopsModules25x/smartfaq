@@ -6,26 +6,28 @@
  * Licence: GNU
  */
 
+use Xmf\Module\Admin;
 use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/admin_header.php';
 
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // Creating the faq handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 // Creating the answer handler object
 /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+$answerHandler = Helper::getInstance()->getHandler('Answer');
 
 $op = \Xmf\Request::getCmd('op', '');
 
@@ -42,7 +44,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 {
     global $answerHandler, $faqHandler, $categoryHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $XOOPS_URL, $myts;
     /** @var Smartfaq\Helper $helper */
-    $helper = Smartfaq\Helper::getInstance();
+    $helper = Helper::getInstance();
 
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     // If there is a parameter, and the id exists, retrieve data: we're editing a faq
@@ -368,7 +370,7 @@ switch ($op) {
             }
         }
 
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));
@@ -560,7 +562,7 @@ switch ($op) {
         break;
     case 'default':
     default:
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         xoops_cp_header();
 
         $adminObject->displayNavigation(basename(__FILE__));

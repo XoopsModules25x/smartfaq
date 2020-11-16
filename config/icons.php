@@ -4,7 +4,9 @@
  * @return object
  */
 
-$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
+use Xmf\Module\Admin;
+
+$pathIcon16    = Admin::iconUrl('', 16);
 $moduleDirName = basename(dirname(__DIR__));
 
 return (object)[

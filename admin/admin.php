@@ -17,10 +17,12 @@
  * @author       XOOPS Development Team, Kazumi Ono (AKA onokazu)
  */
 
-if (\Xmf\Request::hasVar('fct', 'POST')) {
+use Xmf\Request;
+
+if (Request::hasVar('fct', 'POST')) {
     $fct = trim($_POST['fct']);
 }
-if (\Xmf\Request::hasVar('fct', 'GET')) {
+if (Request::hasVar('fct', 'GET')) {
     $fct = trim($_GET['fct']);
 }
 if (empty($fct)) {

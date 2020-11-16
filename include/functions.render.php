@@ -9,6 +9,7 @@
  * @package     module::newbb
  */
 
+use XoopsModules\Newbb\IconHandler;
 use XoopsModules\Smartfaq;
 
 defined('NEWBB_FUNCTIONS_INI') || require __DIR__ . '/functions.ini.php';
@@ -152,7 +153,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
                     // require_once  dirname(__DIR__) . '/class/icon.php';
                 }
         */
-        $iconHandler           = \XoopsModules\Newbb\IconHandler::getInstance();
+        $iconHandler           = IconHandler::getInstance();
         $iconHandler->template = $xoTheme->template;
         $iconHandler->init($xoopsConfig['language']);
 

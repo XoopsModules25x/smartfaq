@@ -6,27 +6,39 @@
  * Licence: GNU
  */
 
-use XoopsModules\Smartfaq;
-use XoopsModules\Smartfaq\Constants;
+use Xmf\Request;
+use XoopsModules\Smartfaq\{
+    Constants,
+    Helper,
+    CategoryHandler,
+    FaqHandler,
+    AnswerHandler,
+    Utility
+};
+
+/** @var Helper $helper */
+/** @var Utility $utility */
+/** @var CategoryHandler $categoryHandler */
+/** @var FaqHandler $faqHandler */
+/** @var AnswerHandler $answerHandler */
 
 require_once __DIR__ . '/header.php';
 
-/** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // At which record shall we start for the Categories
-$catstart = \Xmf\Request::getInt('catstart', 0, 'GET');
+$catstart =Request::getInt('catstart', 0, 'GET');
 
 // At which record shall we start for the FAQ
-$start = \Xmf\Request::getInt('start', 0, 'GET');
+$start = Request::getInt('start', 0, 'GET');
 
 // Creating the category handler object
-/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 // Creating the faq handler object
-/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 $totalCategories = $categoryHandler->getCategoriesCount(0);
 
@@ -63,7 +75,7 @@ $qnas = [];
 $subcats = $categoryHandler->getSubCats($categoriesObj);
 //}
 $totalQnas  = $categoryHandler->publishedFaqsCount();
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 if (1 == $helper->getConfig('displaylastfaq')) {
     // Get the last smartfaq in each category
@@ -127,8 +139,8 @@ if ($displaylastfaqs) {
             $faqids[]                 = $thisfaq->getVar('faqid');
             $userids[$thisfaq->uid()] = 1;
         }
-        /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-        $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+
+        $answerHandler = Helper::getInstance()->getHandler('Answer');
         $allanswers    = $answerHandler->getLastPublishedByFaq($faqids);
 
         foreach ($allanswers as $key => $thisanswer) {
@@ -153,7 +165,7 @@ if ($displaylastfaqs) {
             $faq['answer']    = $answerObj->answer();
             $faq['answerid']  = $answerObj->answerid();
             $faq['datesub']   = $faqsObj[$i]->datesub();
-            $faq['adminlink'] = Smartfaq\Utility::getAdminLinks($faqsObj[$i]->faqid());
+            $faq['adminlink'] = Utility::getAdminLinks($faqsObj[$i]->faqid());
 
             $faq['who_when'] = $faqsObj[$i]->getWhoAndWhen($answerObj, $users);
 
@@ -206,7 +218,7 @@ if (1 == $helper->getConfig('useimagenavpage')) {
 }
 
 // Page Title Hack by marcan
-$module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
+$module_name = htmlspecialchars($xoopsModule->getVar('name'));
 $xoopsTpl->assign('xoops_pagetitle', $module_name);
 // End Page Title Hack by marcan
 

@@ -6,14 +6,16 @@
  * Licence: GNU
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 /** @var Smartfaq\Helper $helper */
-$helper            = Smartfaq\Helper::getInstance();
+$helper            = Helper::getInstance();
 $smartModuleConfig = $helper->getConfig();
 $xoopsModule       = $helper->getModule();
-$pathIcon16        = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon16        = Admin::iconUrl('', 16);
 
 global $xoopsUser, $xoopsDB;
 
@@ -66,7 +68,7 @@ if ($totalfaqs > 0) {
 
         //adding name of the Answer Submitter
         /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-        $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+        $answerHandler = Helper::getInstance()->getHandler('Answer');
 
         $criteria = new \CriteriaCompo();
         $criteria->add(new \Criteria('faqid', $iValue->faqid()));

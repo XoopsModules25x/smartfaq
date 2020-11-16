@@ -6,6 +6,7 @@
  * Licence: GNU
  */
 
+use Xmf\Module\Admin;
 use XoopsModules\Smartfaq;
 
 require_once __DIR__ . '/admin_header.php';
@@ -29,7 +30,7 @@ switch ($op) {
     default:
         global $xoopsDB, $xoopsModule;
 
-        $adminObject = \Xmf\Module\Admin::getInstance();
+        $adminObject = Admin::getInstance();
         xoops_cp_header();
         $adminObject->displayNavigation(basename(__FILE__));
         // View Categories permissions

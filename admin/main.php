@@ -6,6 +6,8 @@
  * Licence: GNU
  */
 
+use Xmf\Module\Admin;
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
@@ -16,15 +18,15 @@ $myts = \MyTextSanitizer::getInstance();
 $helper            = Smartfaq\Helper::getInstance();
 $smartModuleConfig = $helper->getConfig();
 $xoopsModule       = $helper->getModule();
-$pathIcon16        = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon16        = Admin::iconUrl('', 16);
 
-$faqid = \Xmf\Request::getInt('faqid', 0, 'POST');
+$faqid = Request::getInt('faqid', 0, 'POST');
 
 //$pick = isset($_GET['pick'])? (int)($_GET['pick']) : 0;
 //$pick = isset($_POST['pick'])? (int)($_POST['pick']) : $_GET['pick'];
 
-$statussel = \Xmf\Request::getInt('statussel', Constants::SF_STATUS_ALL, 'GET');
-$statussel = \Xmf\Request::getInt('statussel', $statussel, 'POST');
+$statussel = Request::getInt('statussel', Constants::SF_STATUS_ALL, 'GET');
+$statussel = Request::getInt('statussel', $statussel, 'POST');
 
 $sortsel = isset($_GET['sortsel']) ? $_GET['sortsel'] : 'faqid';
 $sortsel = isset($_POST['sortsel']) ? $_POST['sortsel'] : $sortsel;
@@ -70,9 +72,9 @@ $categoryHandler = $helper::getInstance()->getHandler('Category');
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
 $faqHandler = $helper::getInstance()->getHandler('Faq');
 
-$startentry = \Xmf\Request::getInt('startentry', 0, 'GET');
+$startentry = Request::getInt('startentry', 0, 'GET');
 
-$adminObject = \Xmf\Module\Admin::getInstance();
+$adminObject = Admin::getInstance();
 xoops_cp_header();
 $adminObject->displayNavigation(basename(__FILE__));
 global $xoopsUser, $xoopsUser, $xoopsDB, $faqid;

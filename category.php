@@ -6,18 +6,20 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/header.php';
 
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
-$categoryid = \Xmf\Request::getInt('categoryid', 0, 'GET');
+$categoryid = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 // Creating the category object for the selected category
 $categoryObj = new Smartfaq\Category($categoryid);
@@ -42,11 +44,11 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';
 
 // At which record shall we start
-$start = \Xmf\Request::getInt('start', 0, 'GET');
+$start = Request::getInt('start', 0, 'GET');
 
 // Creating the faq handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // creating the FAQ objects that belong to the selected category
 if (1 == $helper->getConfig('orderbydate')) {
@@ -109,7 +111,7 @@ if (count($faqsObj) > 0) {
         $userids[$thisfaq->uid()] = 1;
     }
     /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-    $answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+    $answerHandler = Helper::getInstance()->getHandler('Answer');
     $allanswers    = $answerHandler->getLastPublishedByFaq($faqids);
 
     foreach ($allanswers as $key => $thisanswer) {
@@ -180,7 +182,7 @@ if (1 == $helper->getConfig('useimagenavpage')) {
 $xoopsTpl->assign('category', $category);
 
 // Page Title Hack by marcan
-$module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
+$module_name = htmlspecialchars($xoopsModule->getVar('name'));
 $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category['name']);
 // End Page Title Hack by marcan
 

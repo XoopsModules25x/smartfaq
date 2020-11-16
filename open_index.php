@@ -6,30 +6,32 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/header.php';
 
 global $xoopsConfig, $xoopsModule;
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // At which record shall we start for the Categories
-$catstart = \Xmf\Request::getInt('catstart', 0, 'GET');
+$catstart = Request::getInt('catstart', 0, 'GET');
 
 // At which record shall we start for the FAQs
-$start = \Xmf\Request::getInt('start', 0, 'GET');
+$start = Request::getInt('start', 0, 'GET');
 
 // Creating the category handler object
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 // Get the total number of categories
 $totalCategories = count($categoryHandler->getCategories());
 
 // Creating the faq handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // Total number of published FAQ in the module
 $totalFaqs = $faqHandler->getFaqsCount(-1, Constants::SF_STATUS_OPENED);
@@ -60,7 +62,7 @@ $categories = [];
 $subcats    = $categoryHandler->getSubCats($categoriesObj);
 $totalQnas  = $categoryHandler->faqsCount(0, [Constants::SF_STATUS_OPENED]);
 
-$faqHandler  = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler  = Helper::getInstance()->getHandler('Faq');
 $last_qnaObj = $faqHandler->getLastPublishedByCat([Constants::SF_STATUS_OPENED]);
 
 foreach ($categoriesObj as $cat_id => $category) {
@@ -174,7 +176,7 @@ if (1 == $helper->getConfig('useimagenavpage')) {
 }
 
 // Page Title Hack by marcan
-$module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
+$module_name = htmlspecialchars($xoopsModule->getVar('name'));
 $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category->getVar('name'));
 // End Page Title Hack by marcan
 

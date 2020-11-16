@@ -18,6 +18,7 @@
  */
 
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Utility;
 
 //require_once __DIR__ . '/setup.php';
 
@@ -31,7 +32,7 @@ function xoops_module_pre_install_smartfaq(\XoopsModule $module)
 {
     require_once dirname(__DIR__) . '/preloads/autoloader.php';
     /** @var \XoopsModules\Smartfaq\Utility $utility */
-    $utility      = new \XoopsModules\Smartfaq\Utility();
+    $utility      = new Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
 
@@ -59,7 +60,7 @@ function xoops_module_install_smartfaq(\XoopsModule $module)
 
     /** @var Smartfaq\Helper $helper */
     $helper       = Smartfaq\Helper::getInstance();
-    $utility      = new Smartfaq\Utility();
+    $utility      = new Utility();
     $configurator = new Smartfaq\Common\Configurator();
     // Load language files
     $helper->loadLanguage('admin');

@@ -6,11 +6,13 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/header.php';
 
-$faqid = \Xmf\Request::getInt('faqid', 0, 'GET');
+$faqid = Request::getInt('faqid', 0, 'GET');
 
 if (0 == $faqid) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_SF_NOFAQSELECTED);
@@ -18,7 +20,7 @@ if (0 == $faqid) {
 
 // Creating the FAQ handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // Creating the FAQ object for the selected FAQ
 $faqObj = new Smartfaq\Faq($faqid);

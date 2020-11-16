@@ -6,26 +6,28 @@
  * Licence: GNU
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/header.php';
 
 global $xoopsUser, $xoopsConfig, $xoopsModule;
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
 // Creating the category handler object
 /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 // Creating the FAQ handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // Creating the answer handler object
 /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+$answerHandler = Helper::getInstance()->getHandler('Answer');
 
 // Get the total number of categories
 $totalCategories = count($categoryHandler->getCategories());
@@ -47,9 +49,9 @@ if (!($isAdmin
 
 $op = 'form';
 
-if (\Xmf\Request::hasVar('post', 'POST')) {
+if (Request::hasVar('post', 'POST')) {
     $op = 'post';
-} elseif (\Xmf\Request::hasVar('preview', 'POST')) {
+} elseif (Request::hasVar('preview', 'POST')) {
     $op = 'preview';
 }
 
@@ -72,7 +74,7 @@ switch ($op) {
             $uid = $xoopsUser->uid();
         }
 
-        $notifypub = \Xmf\Request::getInt('notifypub', 0, 'POST');
+        $notifypub = Request::getInt('notifypub', 0, 'POST');
 
         // Putting the values about the FAQ in the FAQ object
         $faqObj->setVar('categoryid', $_POST['categoryid']);
@@ -134,7 +136,7 @@ switch ($op) {
             $uid = $xoopsUser->uid();
         }
 
-        $notifypub = \Xmf\Request::getInt('notifypub', 0, 'POST');
+        $notifypub = Request::getInt('notifypub', 0, 'POST');
 
         // Putting the values about the FAQ in the FAQ object
         $newFaqObj->setVar('categoryid', $_POST['categoryid']);
@@ -172,9 +174,9 @@ switch ($op) {
         //====================================================================================
         //TODO post Attachment
         $attachments_tmp = [];
-        if (\Xmf\Request::hasVar('attachments_tmp', 'POST')) {
+        if (Request::hasVar('attachments_tmp', 'POST')) {
             $attachments_tmp = unserialize(base64_decode($_POST['attachments_tmp'], true));
-            if (\Xmf\Request::hasVar('delete_tmp', 'POST') && count($_POST['delete_tmp'])) {
+            if (Request::hasVar('delete_tmp', 'POST') && count($_POST['delete_tmp'])) {
                 foreach ($_POST['delete_tmp'] as $key) {
                     unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $attachments_tmp[$key][0]);
                     unset($attachments_tmp[$key]);

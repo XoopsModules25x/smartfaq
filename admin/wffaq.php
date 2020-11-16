@@ -9,8 +9,10 @@
  * It was tested with WF-FAQ version 1.0.5 and SmartFAQ version 1.0 beta
  */
 
+use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -19,7 +21,7 @@ $scriptname           = 'wffaq.php';
 
 $op = 'start';
 
-if ('go' === \Xmf\Request::getCmd('op', 'start', 'POST')) {
+if ('go' === Request::getCmd('op', 'start', 'POST')) {
     $op = 'go';
 }
 if ('start' === $op) {
@@ -129,9 +131,9 @@ if ('go' === $op) {
     }
 
     /** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
-    $categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
-    $faqHandler      = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
-    $answerHandler   = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+    $categoryHandler = Helper::getInstance()->getHandler('Category');
+    $faqHandler      = Helper::getInstance()->getHandler('Faq');
+    $answerHandler   = Helper::getInstance()->getHandler('Answer');
 
     /*echo "Parent Category ID: $parentId<br>";
     echo "Groups Read: " . implode (",", $groups_read) . "<br>";

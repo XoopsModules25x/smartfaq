@@ -9,11 +9,12 @@
 use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
 require_once __DIR__ . '/header.php';
 
 /** @var Smartfaq\Helper $helper */
-$helper = Smartfaq\Helper::getInstance();
+$helper = Helper::getInstance();
 
 global $xoopsUser, $xoopsConfig, $xoopsModule;
 
@@ -36,11 +37,11 @@ if (0 == $faqid) {
 
 // Creating the FAQ handler object
 /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // Creating the answer handler object
 /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
-$answerHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Answer');
+$answerHandler = Helper::getInstance()->getHandler('Answer');
 
 switch ($op) {
     // The answer is posted

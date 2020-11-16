@@ -1,5 +1,7 @@
 <?php
 
+use XoopsModules\Smartfaq\Helper;
+
 /**
  * Module: SmartFAQ
  * Author: The SmartFactory <www.smartfactory.ca>
@@ -19,7 +21,7 @@ function smartfaq_search($queryarray, $andor, $limit, $offset, $userid)
     $ret = [];
 
     /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
-    $faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
+    $faqHandler = Helper::getInstance()->getHandler('Faq');
 
     $faqsObj = $faqHandler->getFaqsFromSearch($queryarray, $andor, $limit, $offset, $userid);
 

@@ -5,11 +5,14 @@
  * Author: mariuss
  * Licence: GNU
  */
+
+use Xmf\Request;
+
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 $op = 'go'; //'start';
 
-if ('go' === \Xmf\Request::getCmd('op', 'start', 'POST')) {
+if ('go' === Request::getCmd('op', 'start', 'POST')) {
     $op = 'go';
 }
 
