@@ -635,7 +635,7 @@ class sfCategoryHandler extends XoopsObjectHandler
      */
     public function getSubCats($categories)
     {
-        $criteria = new CriteriaCompo(new Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')'), 'IN');
+        $criteria = new CriteriaCompo(new Criteria('parentid', '(' . implode(',', array_keys($categories)) . ')', 'IN'));
         $ret      = array();
         if (!sf_userIsAdmin()) {
             $smartPermHandler = xoops_getModuleHandler('permission', 'smartfaq');
