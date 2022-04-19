@@ -885,10 +885,6 @@ class sfFaqHandler extends XoopsObjectHandler
             return false;
         }
 
-        if (count($result) == 0) {
-            return false;
-        }
-
         while ($myrow = $this->db->fetchArray($result)) {
             $faq = new sfFaq();
             $faq->assignVars($myrow);
