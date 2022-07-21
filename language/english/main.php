@@ -93,7 +93,7 @@ define('_MD_SF_NO_OPEN_QUESTION', 'There is currently no question in the Open Qu
 define('_AM_SF_NO_TOP_PERMISSIONS', 'Sorry, there is no Q&amp;A to display.');
 define('_MD_SF_NONE', 'None');
 define('_MD_SF_NOQUESTIONSYET', 'There is no questions to display.');
-define('_MD_SF_NOTIFY', 'Notify on publish?');
+define('_MD_SF_NOTIFY', 'Notify me when this FAQ is published');
 define('_MD_SF_NOFAQS_INFO', 'There is presently no Q&amp;A to display.');
 define('_MD_SF_NOCATEGORYSELECTED', 'You did not select a valid category!');
 define('_MD_SF_NOFAQSELECTED', 'You did not select a valid Q&amp;A!');
