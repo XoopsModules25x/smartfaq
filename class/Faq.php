@@ -22,24 +22,24 @@ class Faq extends XoopsObject
 {
     public $db;
     /**
-     * @var Smartfaq\Category
+     * @var Smartfaq\Category|null
      */
     private $category;
     /**
-     * @var Answer
+     * @var Answer|null
      */
     private $answer;
     /**
-     * @var array
+     * @var array|null
      */
     private $_notifications;
     // TODO : Create a seperated class for notifications
     /**
-     * @var array
+     * @var array|null
      */
     private $groups_read;
     /**
-     * @var object
+     * @var object|null
      */
     // Is this still usefull??
     private $_smartModule;

@@ -20,13 +20,13 @@ class Category extends XoopsObject
 {
     public $db;
     /**
-     * @var array
+     * @var array|null
      */
-    private $groups_read;
+    private $groups_read = [];
     /**
-     * @var array
+     * @var array|null
      */
-    private $groups_admin;
+    private $groups_admin = [];
 
     /**
      * constructor

@@ -80,7 +80,7 @@ class SmartDbTable
      */
     private $_name;
     /**
-     * @var string $_structure structure of the table
+     * @var string|null $_structure structure of the table
      */
     private $_structure;
     /**
@@ -88,15 +88,15 @@ class SmartDbTable
      */
     private $_data;
     /**
-     * @var array $_alteredFields containing fields to be altered
+     * @var array|null $_alteredFields containing fields to be altered
      */
     private $_alteredFields;
     /**
-     * @var array $_newFields containing new fields to be added
+     * @var array|null $_newFields containing new fields to be added
      */
     private $_newFields;
     /**
-     * @var array $_droppedFields containing fields to be dropped
+     * @var array|null $_droppedFields containing fields to be dropped
      */
     private $_droppedFields;
     /**
@@ -104,11 +104,11 @@ class SmartDbTable
      */
     private $_flagForDrop = false;
     /**
-     * @var array $_updatedFields containing fields which values will be updated
+     * @var array|null $_updatedFields containing fields which values will be updated
      */
     private $_updatedFields;
     /**
-     * @var array $_updatedFields containing fields which values will be updated
+     * @var array|null $_updatedFields containing fields which values will be updated
      */ //felix
     private $_updatedWhere;
 
