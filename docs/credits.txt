@@ -3,7 +3,7 @@ Credits
 
 Originally developed by SmartFactory
 
-Lead developer(s):	marcan [Marc-André Lanciault]
-Contributor(s):	w4z004, hsalazar, Carnuke, Mariuss, Mithrandir, phppp, Predator, GIJOE, outch, rowdie, Xvitry, Xavier & Catzwolf, trabis
+Lead developer(s):  marcan [Marc-André Lanciault]
+Contributor(s): w4z004, hsalazar, Carnuke, Mariuss, Mithrandir, phppp, Predator, GIJOE, outch, rowdie, Xvitry, Xavier & Catzwolf, trabis
 
 Version 1.10 was updated to XOOPS 2.5.0 Standard GUI by Michael Beck (Mamba)

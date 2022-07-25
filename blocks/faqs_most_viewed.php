@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -7,14 +7,20 @@
  * @param $options
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
+use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Helper;
+
+/**
+ * @param $options
+ * @return array
+ */
 function b_faqs_most_viewed_show($options)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $block = array();
-    if ($options[0] == 0) {
+    $block = [];
+    if (0 == $options[0]) {
         $categoryid = -1;
     } else {
         $categoryid = $options[0];
@@ -24,16 +30,17 @@ function b_faqs_most_viewed_show($options)
     $maxQuestionLength = $options[2];
 
     // Creating the faq handler object
-    $faqHandler = sf_gethandler('faq');
+    /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+    $faqHandler = Helper::getInstance()->getHandler('Faq');
     // creating the FAQ objects that belong to the selected category
-    $faqsObj   = $faqHandler->getAllPublished($limit, 0, $categoryid, $sort);
-    $totalfaqs = count($faqsObj);
+    $faqsObj = $faqHandler->getAllPublished($limit, 0, $categoryid, $sort);
+
     if ($faqsObj) {
-        for ($i = 0; $i < $totalfaqs; ++$i) {
-            $newfaqs             = array();
-            $newfaqs['linktext'] = $faqsObj[$i]->question($maxQuestionLength);
-            $newfaqs['id']       = $faqsObj[$i]->faqid();
-            $newfaqs['new']      = $faqsObj[$i]->counter();
+        foreach ($faqsObj as $iValue) {
+            $newfaqs             = [];
+            $newfaqs['linktext'] = $iValue->question($maxQuestionLength);
+            $newfaqs['id']       = $iValue->faqid();
+            $newfaqs['new']      = $iValue->counter();
             $block['newfaqs'][]  = $newfaqs;
         }
     }
@@ -48,12 +55,12 @@ function b_faqs_most_viewed_show($options)
 function b_faqs_most_viewed_edit($options)
 {
     global $xoopsDB, $xoopsModule, $xoopsUser;
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $form = sf_createCategorySelect($options[0]);
+    $form = Smartfaq\Utility::createCategorySelect($options[0]);
 
-    $form .= '&nbsp;<br>' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[1] . "' />&nbsp;" . _MB_SF_FAQS . '';
-    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "' />&nbsp;" . _MB_SF_LENGTH . '';
+    $form .= '&nbsp;<br>' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[1] . "'>&nbsp;" . _MB_SF_FAQS;
+    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "'>&nbsp;" . _MB_SF_LENGTH;
 
     return $form;
 }

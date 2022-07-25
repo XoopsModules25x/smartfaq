@@ -1,0 +1,24 @@
+-
+    categoryid: '1'
+    parentid: '0'
+    name: thdthd
+    description: thdthdt
+    total: '1'
+    weight: '1'
+    created: '1527665778'
+-
+    categoryid: '2'
+    parentid: '0'
+    name: ntsnt
+    description: sntststsnt
+    total: '1'
+    weight: '1'
+    created: '1527665793'
+-
+    categoryid: '3'
+    parentid: '0'
+    name: '-snt-t'
+    description: '-snt-t -snt-st'
+    total: '1'
+    weight: '1'
+    created: '1527665799'

@@ -27,9 +27,11 @@
         margin:3px;"> <{$commentsnav}> <{$lang_notice}></div>
             <div style="margin:3px; padding: 3px;">
                 <!-- start comments loop -->
-                <{if $comment_mode == "flat"}> <{include file="db:system_comments_flat.tpl"}>
-                <{elseif $comment_mode == "thread"}> <{include file="db:system_comments_thread.tpl"}>
-                <{elseif $comment_mode == "nest"}> <{include file="db:system_comments_nest.tpl"}>
+    <{if $comment_mode|default:'' == "flat"}>
+        <{include file="db:system_comments_flat.tpl"}>
+    <{elseif $comment_mode|default:'' == "thread"}>
+        <{include file="db:system_comments_thread.tpl"}>
+    <{elseif $comment_mode|default:'' == "nest"}><{include file="db:system_comments_nest.tpl"}>
                 <{/if}>
                 <!-- end comments loop -->
             </div>

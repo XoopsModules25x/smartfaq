@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -6,76 +6,86 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/header.php';
+use Xmf\Request;
+use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Helper;
 
-$categoryid = isset($_GET['categoryid']) ? (int)$_GET['categoryid'] : 0;
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
+
+require_once __DIR__ . '/header.php';
+
+/** @var Smartfaq\Helper $helper */
+$helper = Helper::getInstance();
+
+$categoryid = Request::getInt('categoryid', 0, 'GET');
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 // Creating the category object for the selected category
-$categoryObj = new sfCategory($categoryid);
+$categoryObj = new Smartfaq\Category($categoryid);
 
 // If the selected category was not found, exit
 if ($categoryObj->notLoaded()) {
-    redirect_header('javascript:history.go(-1)', 1, _MD_SF_NOCATEGORYSELECTED);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _MD_SF_NOCATEGORYSELECTED);
 }
 
 // Check user permissions to access this category
 if (!$categoryObj->checkPermission()) {
-    redirect_header('javascript:history.go(-1)', 1, _NOPERM);
+    redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 $totalQnas = $categoryHandler->publishedFaqsCount($categoryid);
-// If there is no FAQ under this categories or the sub-categories, exit
-if (!isset($totalQnas[$categoryid]) || $totalQnas[$categoryid] == 0) {
+// If there is no FAQ under these categories or the sub-categories, exit
+if (!isset($totalQnas[$categoryid]) || 0 == $totalQnas[$categoryid]) {
     //redirect_header("index.php", 1, _MD_SF_MAINNOFAQS);
 }
-$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 
-include_once XOOPS_ROOT_PATH . '/header.php';
-include_once __DIR__ . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require_once __DIR__ . '/footer.php';
 
 // At which record shall we start
-$start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
+$start = Request::getInt('start', 0, 'GET');
 
 // Creating the faq handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // creating the FAQ objects that belong to the selected category
-if ($xoopsModuleConfig['orderbydate'] == 1) {
+if (1 == $helper->getConfig('orderbydate')) {
     $sort  = 'datesub';
     $order = 'DESC';
 } else {
     $sort  = 'weight';
     $order = 'ASC';
 }
-$faqsObj = $faqHandler->getAllPublished($xoopsModuleConfig['indexperpage'], $start, $categoryid, $sort, $order);
+$faqsObj = $faqHandler->getAllPublished($helper->getConfig('indexperpage'), $start, $categoryid, $sort, $order);
 
 $totalQnasOnPage = 0;
 if ($faqsObj) {
     $totalQnasOnPage = count($faqsObj);
 }
 
-// Arrays that will hold the informations passed on to smarty variables
-$category = array();
-$qnas     = array();
+// Arrays that will hold the information passed on to smarty variables
+$category = [];
+$qnas     = [];
 
-// Populating the smarty variables with informations related to the selected category
+// Populating the smarty variables with information related to the selected category
 $category  = $categoryObj->toArray(null, true);
 $totalQnas = $categoryHandler->publishedFaqsCount();
 
 $category['categoryPath'] = $categoryObj->getCategoryPath();
 
-if ($xoopsModuleConfig['displaylastfaq'] == 1) {
+if (1 == $helper->getConfig('displaylastfaq')) {
     // Get the last smartfaq
     $last_qnaObj = $faqHandler->getLastPublishedByCat();
 }
-$lastfaqsize = (int)$xoopsModuleConfig['lastfaqsize'];
+$lastfaqsize = (int)$helper->getConfig('lastfaqsize');
 // Creating the sub-categories objects that belong to the selected category
-$subcatsObj    = $categoryHandler->getCategories(0, 0, $categoryid);
+$subcatsObj    = &$categoryHandler->getCategories(0, 0, $categoryid);
 $total_subcats = count($subcatsObj);
 $total_faqs    = 0;
-if ($total_subcats != 0) {
+if (0 != $total_subcats) {
     $subcat_keys = array_keys($subcatsObj);
     foreach ($subcat_keys as $i) {
         $subcat_id = $subcatsObj[$i]->getVar('categoryid');
@@ -92,61 +102,59 @@ if ($total_subcats != 0) {
     }
     $xoopsTpl->assign('subcats', $subcats);
 }
-$thiscategory_faqcount = isset($totalQnas[$categoryid]) ? $totalQnas[$categoryid] : 0;
+$thiscategory_faqcount = $totalQnas[$categoryid] ?? 0;
 $category['total']     = $thiscategory_faqcount + $total_faqs;
 
-if (count($faqsObj) > 0) {
-    $userids = array();
+if (is_array($faqsObj) && ($faqsObj) > 0) {
+    $userids = [];
     foreach ($faqsObj as $key => $thisfaq) {
         $faqids[]                 = $thisfaq->getVar('faqid');
         $userids[$thisfaq->uid()] = 1;
     }
-    $answerHandler = sf_gethandler('answer');
+    /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
+    $answerHandler = Helper::getInstance()->getHandler('Answer');
     $allanswers    = $answerHandler->getLastPublishedByFaq($faqids);
 
     foreach ($allanswers as $key => $thisanswer) {
         $userids[$thisanswer->uid()] = 1;
     }
 
+    /** @var \XoopsMemberHandler $memberHandler */
     $memberHandler = xoops_getHandler('member');
-    $users         = $memberHandler->getUsers(new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
+    $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
     // Adding the Q&As of the selected category
-    for ($i = 0; $i < $totalQnasOnPage; ++$i) {
-        $faq = $faqsObj[$i]->toArray(null, $categoryObj);
+    foreach ($faqsObj as $iValue) {
+        $faq = $iValue->toArray(null, $categoryObj);
 
         // Creating the answer object
-        $answerObj = $allanswers[$faqsObj[$i]->faqid()];
+        $answerObj = $allanswers[$iValue->faqid()];
 
-        $answerObj->setVar('dohtml', $faqsObj[$i]->getVar('html'));
-        $answerObj->setVar('doxcode', $faqsObj[$i]->getVar('xcodes'));
-        $answerObj->setVar('dosmiley', $faqsObj[$i]->getVar('smiley'));
-        $answerObj->setVar('doimage', $faqsObj[$i]->getVar('image'));
-        $answerObj->setVar('dobr', $faqsObj[$i]->getVar('linebreak'));
+        $answerObj->setVar('dohtml', $iValue->getVar('html'));
+        $answerObj->setVar('doxcode', $iValue->getVar('xcodes'));
+        $answerObj->setVar('dosmiley', $iValue->getVar('smiley'));
+        $answerObj->setVar('doimage', $iValue->getVar('image'));
+        $answerObj->setVar('dobr', $iValue->getVar('linebreak'));
 
         $faq['answer']    = $answerObj->answer();
         $faq['answerid']  = $answerObj->answerid();
-        $faq['datesub']   = $faqsObj[$i]->datesub();
-        $faq['adminlink'] = sf_getAdminLinks($faqsObj[$i]->faqid());
+        $faq['datesub']   = $iValue->datesub();
+        $faq['adminlink'] = Smartfaq\Utility::getAdminLinks($iValue->faqid());
 
-        $faq['who_when'] = $faqsObj[$i]->getWhoAndWhen($answerObj, $users);
+        $faq['who_when'] = $iValue->getWhoAndWhen($answerObj, $users);
 
         $xoopsTpl->append('faqs', $faq);
     }
 
-    if (isset($last_qnaObj) && $last_qnaObj) {
+    if (!empty($last_qnaObj)) {
         $category['last_faqid']         = $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid');
-        $category['last_question_link'] = "<a href='faq.php?faqid="
-                                          . $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid')
-                                          . "'>"
-                                          . $last_qnaObj[$categoryObj->getVar('categoryid')]->question($lastfaqsize)
-                                          . '</a>';
+        $category['last_question_link'] = "<a href='faq.php?faqid=" . $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid') . "'>" . $last_qnaObj[$categoryObj->getVar('categoryid')]->question($lastfaqsize) . '</a>';
     }
 }
 
 $xoopsTpl->assign('whereInSection', $myts->displayTarea($xoopsModule->getVar('name')));
 $xoopsTpl->assign('displaylastfaqs', true);
 $xoopsTpl->assign('display_categoryname', true);
-$xoopsTpl->assign('displayFull', $xoopsModuleConfig['displaytype'] === 'full');
+$xoopsTpl->assign('displayFull', 'full' === $helper->getConfig('displaytype'));
 
 // Language constants
 $xoopsTpl->assign('lang_index_faqs', _MD_SF_SMARTFAQS);
@@ -164,9 +172,9 @@ $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 $xoopsTpl->assign('lang_comments', _MD_SF_COMMENTS);
 
 // The Navigation Bar
-include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-$pagenav = new XoopsPageNav($thiscategory_faqcount, $xoopsModuleConfig['indexperpage'], $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
-if ($xoopsModuleConfig['useimagenavpage'] == 1) {
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+$pagenav = new \XoopsPageNav($thiscategory_faqcount, $helper->getConfig('indexperpage'), $start, 'start', 'categoryid=' . $categoryObj->getVar('categoryid'));
+if (1 == $helper->getConfig('useimagenavpage')) {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');
@@ -175,15 +183,15 @@ if ($xoopsModuleConfig['useimagenavpage'] == 1) {
 $xoopsTpl->assign('category', $category);
 
 // Page Title Hack by marcan
-$module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
+$module_name = htmlspecialchars($xoopsModule->getVar('name'), ENT_QUOTES | ENT_HTML5);
 $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category['name']);
 // End Page Title Hack by marcan
 
 //code to include smartie
 if (file_exists(XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php')) {
-    include_once XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php';
+    require_once XOOPS_ROOT_PATH . '/modules/smarttie/smarttie_links.php';
     $xoopsTpl->assign('smarttie', 1);
 }
 //end code for smarttie
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

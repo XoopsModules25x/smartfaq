@@ -49,7 +49,7 @@
     </script>
 <{/if}>
 
-<{if $lang_mainintro != ''}>
+<{if $lang_mainintro|default:'' != ''}>
     <span class="sf_infotitle"><{$lang_mainhead}></span>
     <span class="sf_infotext"><{$lang_mainintro}></span>
     <br>
@@ -59,7 +59,7 @@
 <{if $displaycollaps == 1}>
     <div class="sf_collaps_title"><a href='#' onclick="toggle('toptable'); toggleIcon('toptableicon')" ;><img
                     id='toptableicon' src='<{$xoops_url}>/modules/smartfaq/assets/images/icon/close12.gif'
-                    alt=''/></a>&nbsp;<{$lang_categories_summary}></div>
+                    alt=''></a>&nbsp;<{$lang_categories_summary}></div>
 <div id='toptable'>
     <span class="sf_collaps_info"><{$lang_categories_summary_info}></span>
 
@@ -82,11 +82,11 @@
                 <td valign="middle" class="even" align="left">
                     <{if $isAdmin == 1}>
                         <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$category.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif"
-                                    title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/></a>
+                                    title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"></a>
                         &nbsp;
                         <b><{$category.categorylink}></b>
                     <{else}>
-                        <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif" alt=""/>
+                        <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/cat.gif" alt="">
                         &nbsp;
                         <b><{$category.categorylink}></b>
                     <{/if}>
@@ -108,11 +108,11 @@
                             <{if $isAdmin == 1}>
                                 <a href="<{$xoops_url}>/modules/smartfaq/admin/category.php?op=mod&categoryid=<{$subcat.categoryid}>"><img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif"
                                             title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"
-                                            alt="<{$lang_editcategory}>"/></a>
+                                            alt="<{$lang_editcategory}>"></a>
                                 &nbsp;<{$subcat.categorylink}>
                             <{else}>
                                 <img src="<{$xoops_url}>/modules/smartfaq/assets/images/icon/subcat.gif"
-                                     title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>"/>
+                                     title="<{$lang_editcategory}>" alt="<{$lang_editcategory}>">
                                 &nbsp;<{$subcat.categorylink}>
                             <{/if}>
                             <{if $displaysubcatdsc == 1}>

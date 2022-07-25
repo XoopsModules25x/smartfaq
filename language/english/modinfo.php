@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -40,8 +40,7 @@ define('_MI_SF_DISPLAY_COLLAPS', 'Display collapsable bars');
 define('_MI_SF_DISPLAY_COLLAPSDSC', "Select 'Yes' to display the collapsable bar in the index and category page.");
 
 define('_MI_SF_DISPLAYTYPE', "Q&amp;A's display type:");
-define('_MI_SF_DISPLAYTYPEDSC',
-       "If 'Summary View' is selected, only the Question, Date and Hits of each Q&amp;A will be displayed in a selected category. If 'Full View' is selected, each Q&amp;A will be entirely displayed in a selected category.");
+define('_MI_SF_DISPLAYTYPEDSC', "If 'Summary View' is selected, only the Question, Date and Hits of each Q&amp;A will be displayed in a selected category. If 'Full View' is selected, each Q&amp;A will be entirely displayed in a selected category.");
 define('_MI_SF_DISPLAYTYPE_SUMMARY', 'Summary View');
 define('_MI_SF_DISPLAYTYPE_FULL', 'Full View');
 
@@ -79,8 +78,7 @@ define('_MI_SF_USEIMAGENAVPAGE', 'Use the image Page Navigation:');
 define('_MI_SF_USEIMAGENAVPAGEDSC', 'If you set this option to "Yes", the Page Navigation will be displayed with image, otherwise, the original Page Naviagation will be used.');
 
 define('_MI_SF_ALLOWCOMMENTS', 'Control comments at the Q&amp;A level:');
-define('_MI_SF_ALLOWCOMMENTSDSC',
-       'If you set this option to "Yes", you\'ll see comments only on those Q&amp;A that have their comment checkbox marked. <br><br>Select "No" to have comments managed at the global level (look below under the tag "Comment rules".');
+define('_MI_SF_ALLOWCOMMENTSDSC', 'If you set this option to "Yes", you\'ll see comments only on those Q&amp;A that have their comment checkbox marked. <br><br>Select "No" to have comments managed at the global level (look below under the tag "Comment rules".');
 
 define('_MI_SF_ALLOWADMINHITS', 'Admin counter reads:');
 define('_MI_SF_ALLOWADMINHITSDSC', 'Allow admin hits for counter stats?');
@@ -111,29 +109,30 @@ define('_MI_SF_PERPAGEINDEXDSC', 'Maximum number of Q&amp;A  to be displayed per
 
 define('_MI_SF_INDEXWELCOMEMSG', 'Index welcome message:');
 define('_MI_SF_INDEXWELCOMEMSGDSC', 'Welcome message to be displayed in the index page of the module.');
-define('_MI_SF_INDEXWELCOMEMSGDEF',
-       'In this area of our site, you will find the answers to the frequently asked questions, as well as answers to <b>How do I</b> and <b>Did you know</b> questions. Please feel free to post a comment on any Q&amp;A.');
+define('_MI_SF_INDEXWELCOMEMSGDEF', 'In this area of our site, you will find the answers to the frequently asked questions, as well as answers to <b>How do I</b> and <b>Did you know</b> questions. Please feel free to post a comment on any Q&amp;A.');
 
 define('_MI_SF_REQUESTINTROMSG', 'Request introduction message:');
 define('_MI_SF_REQUESTINTROMSGDSC', 'Introduction message to be displayed in the Request a Q&amp;A page of the module.');
-define('_MI_SF_REQUESTINTROMSGDEF',
-       'You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!');
+define(
+    '_MI_SF_REQUESTINTROMSGDEF',
+    'You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!'
+);
 
 define('_MI_SF_OPENINTROMSG', 'Open Questions section introduction message:');
 define('_MI_SF_OPENINTROMSGDSC', 'Introduction message to be displayed in the Open Questions section of the module.');
-define('_MI_SF_OPENINTROMSGDEF',
-       'Here is a list of Open Questions, that is, questions that have been submitted by users of this site but are still without answer. You can click on an open question if you want to help us with an answer.');
+define('_MI_SF_OPENINTROMSGDEF', 'Here is a list of Open Questions, that is, questions that have been submitted by users of this site but are still without answer. You can click on an open question if you want to help us with an answer.');
 
 define('_MI_SF_USEREALNAME', 'Use the Real Name of users');
 define('_MI_SF_USEREALNAMEDSC', 'When displaying a username, use the real name of that user if they have set their real name.');
 
 define('_MI_SF_HELP_PATH_SELECT', "Path of SmartFAQ's help files");
-define('_MI_SF_HELP_PATH_SELECT_DSC',
-       "SELECT FROM where you would LIKE TO access SmartFAQ's help files. If you downloaded the 'SmartFAQ's Help Package' AND uploaded it IN 'modules/smartfaq/doc/', you can SELECT 'Inside the module'. Alternatively, you can access the module's help file directly from docs.xoops.org by chosing this in the selector. You can also select 'Custom Path' and specify yourself the path of the help files in the next config option 'Custom path of SmartFAQ's help files'");
+define(
+    '_MI_SF_HELP_PATH_SELECT_DSC',
+    "SELECT FROM where you would LIKE TO access SmartFAQ's help files. If you downloaded the 'SmartFAQ's Help Package' AND uploaded it IN 'modules/smartfaq/doc/', you can SELECT 'Inside the module'. Alternatively, you can access the module's help file directly from docs.xoops.org by chosing this in the selector. You can also select 'Custom PATH' and specify yourself the path of the help files in the next config option 'Custom PATH OF SmartFAQ's help files'"
+);
 
 define('_MI_SF_HELP_PATH_CUSTOM', "Custom path of SmartFAQ's help files");
-define('_MI_SF_HELP_PATH_CUSTOM_DSC',
-       "If you selected 'Custom path' in the previous option 'Path of SmartFAQ's help files', please specify the URL of SmartFAQ's help files, in that format : http://www.yoursite.com/doc");
+define('_MI_SF_HELP_PATH_CUSTOM_DSC', "If you selected 'Custom path' in the previous option 'Path of SmartFAQ's help files', please specify the URL of SmartFAQ's help files, in that format : https://www.yoursite.com/doc");
 
 define('_MI_SF_HELP_INSIDE', 'Inside the module');
 define('_MI_SF_HELP_CUSTOM', 'Custom Path');
@@ -316,30 +315,37 @@ define('_MI_SF_AUTHOR_WORD', "The Author's Word");
 define('_MI_SF_VERSION_HISTORY', 'Version History');
 
 // Beta
-define('_MI_SF_WARNING_BETA', 'This module comes as is, without any guarantees whatsoever.
+define(
+    '_MI_SF_WARNING_BETA',
+    'This module comes as is, without any guarantees whatsoever.
 This module is BETA, meaning it is still under active development. This release is meant for
 <b>testing purposes only</b> and we <b>strongly</b> recommend that you do not use it on a live
-website or in a production environment.');
+website or in a production environment.'
+);
 
 // RC
-define('_MI_SF_WARNING_RC', 'This module comes as is, without any guarantees whatsoever. This module
-is a Release Candidate and should not be used on a production web site. The module is still under
-active development and its use is under your own responsibility, which means the author is not responsible.');
+define(
+    '_MI_SF_WARNING_RC',
+    'This module comes as is, without any guarantees whatsoever. This module
+is a Release Candidate and should not be used on a production website. The module is still under
+active development and its use is under your own responsibility, which means the author is not responsible.'
+);
 
 // Final
-define('_MI_SF_WARNING_FINAL', 'This module comes as is, without any guarantees whatsoever. Although this
+define(
+    '_MI_SF_WARNING_FINAL',
+    'This module comes as is, without any guarantees whatsoever. Although this
 module is not beta, it is still under active development. This release can be used in a live website
 or a production environment, but its use is under your own responsibility, which means the author
-is not responsible.');
+is not responsible.'
+);
 
 //1.11 RC1
 
 define('_MI_SF_EDITOR', 'Editor to use (admin):');
-define('_MI_SF_EDITORCHOICE',
-       "Select the editor to use for admin side. If you have a 'simple' install (e.g you use only XOOPS core editor class, provided in the standard xoops core package), then you can just select DHTML and Compact");
+define('_MI_SF_EDITORCHOICE', "Select the editor to use for admin side. If you have a 'simple' install (e.g you use only XOOPS core editor class, provided in the standard xoops core package), then you can just select DHTML and Compact");
 define('_MI_SF_EDITORUSER', 'Editor to use (user):');
-define('_MI_SF_EDITORCHOICEUSER',
-       "Select the editor to use for user side. If you have a 'simple' install (e.g you use only XOOPS core editor class, provided in the standard xoops core package), then you can just select DHTML and Compact");
+define('_MI_SF_EDITORCHOICEUSER', "Select the editor to use for user side. If you have a 'simple' install (e.g you use only XOOPS core editor class, provided in the standard xoops core package), then you can just select DHTML and Compact");
 
 //1.11 RC2
 
@@ -352,8 +358,10 @@ define('_MI_SF_AUTO', 'AUTO');
 //------------------------------
 
 define('_MI_SF_DIR_ATTACHMENT', 'Attachments physical path.');
-define('_MI_SF_DIR_ATTACHMENT_DESC',
-       "Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/newbb the path entered would then be '/uploads/newbb' never include a trailing slash '/' the thumbnails path becomes '/uploads/newbb/thumbs'");
+define(
+    '_MI_SF_DIR_ATTACHMENT_DESC',
+    "Physical path only needs to be set from your xoops root and not before, for example you may have attachments uploaded to www.yoururl.com/uploads/newbb the path entered would then be '/uploads/newbb' never include a trailing slash '/' the thumbnails path becomes '/uploads/newbb/thumbs'"
+);
 define('_MI_SF_PATH_MAGICK', 'Path for ImageMagick');
 define('_MI_SF_PATH_MAGICK_DESC', "Usually it is '/usr/bin/X11'. Leave it BLANK if you do not have ImageMagicK installed or for autodetecting.");
 define('_MI_SF_SUBFORUM_DISPLAY', 'Display Mode of subforums on index page');
@@ -368,8 +376,7 @@ define('_MI_SF_PATH_NETPBM_DESC', "Usually it is '/usr/bin'. Leave it BLANK if y
 define('_MI_SF_IMAGELIB', 'Select the Image library to use');
 define('_MI_SF_IMAGELIB_DESC', 'Select which Image library to use for creating Thumbnails. Leave AUTO for automatic choice.');
 define('_MI_SF_MAX_IMG_WIDTH', 'Maximum Image Width');
-define('_MI_SF_MAX_IMG_WIDTH_DESC',
-       'Sets the maximum allowed <strong>Width</strong> size of an uploaded image otherwise thumbnail will be used. <br >Input 0 if you do not want to create thumbnails.');
+define('_MI_SF_MAX_IMG_WIDTH_DESC', 'Sets the maximum allowed <strong>Width</strong> size of an uploaded image otherwise thumbnail will be used. <br >Input 0 if you do not want to create thumbnails.');
 define('_MI_SF_MAX_IMG_HEIGHT', 'Maximum height of an image');
 define('_MI_SF_MAX_IMG_HEIGHT_DESC', 'Sets the maximum allowed height of an uploaded image.');
 define('_MI_SF_MAX_IMAGE_WIDTH', 'Maximum Image Width for creating thumbnail');
@@ -380,8 +387,7 @@ define('_MI_SF_MAX_IMAGE_HEIGHT_DESC', 'Sets the maximum height of an uploaded i
 define('_MI_SF_MAX_IMAGE_SIZE', 'Size in KB');
 define('_MI_SF_MAX_IMAGE_SIZE_DESC', 'Indicate the maximum file size in KB');
 
-define('_AM_SF_ALLOWED_EXTENSIONS',
-       "Allowed Extensions:<span style='font-size: xx-small; font-weight: normal; display: block;'>'*' indicates no limititations.<br> Extensions delimited by '|'</span>");
+define('_AM_SF_ALLOWED_EXTENSIONS', "Allowed Extensions:<span style='font-size: xx-small; font-weight: normal; display: block;'>'*' indicates no limititations.<br> Extensions delimited by '|'</span>");
 
 define('_MI_SF_USERATTACH_ENABLE', 'Display attachments only for registered users');
 define('_MI_SF_USERATTACH_ENABLE_DESC', 'shows attachments in the forum only after logging in.');
@@ -393,8 +399,8 @@ define('_MI_SF_MEDIA_ENABLE_DESC', 'Display attached Images directly in the post
 define('_MI_SF_NAME', _MI_SF_MD_NAME);
 
 //Help
-define('_MI_SF_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_SF_HELP_HEADER', __DIR__.'/help/helpheader.html');
+define('_MI_SF_DIRNAME', basename(dirname(__DIR__, 2)));
+define('_MI_SF_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_SF_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_SF_OVERVIEW', 'Overview');
 
@@ -404,3 +410,7 @@ define('_MI_SF_OVERVIEW', 'Overview');
 define('_MI_SF_DISCLAIMER', 'Disclaimer');
 define('_MI_SF_LICENSE', 'License');
 define('_MI_SF_SUPPORT', 'Support');
+
+define('_MI_SF_HOME', 'Home');
+define('_MI_SF_ABOUT', 'About');
+define('_MI_SF_BLOCKS', 'Block Admin');

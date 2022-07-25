@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -6,56 +6,64 @@
  * Licence: GNU
  */
 
-include_once __DIR__ . '/header.php';
+use Xmf\Request;
+use XoopsModules\Smartfaq;
+use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
 
-global $xoopsConfig, $xoopsModuleConfig, $xoopsModule;
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_index.tpl';
+
+require_once __DIR__ . '/header.php';
+
+global $xoopsConfig, $xoopsModule;
+/** @var Smartfaq\Helper $helper */
+$helper = Helper::getInstance();
 
 // At which record shall we start for the Categories
-$catstart = isset($_GET['catstart']) ? (int)$_GET['catstart'] : 0;
+$catstart = Request::getInt('catstart', 0, 'GET');
 
 // At which record shall we start for the FAQs
-$start = isset($_GET['start']) ? (int)$_GET['start'] : 0;
+$start = Request::getInt('start', 0, 'GET');
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+$categoryHandler = Helper::getInstance()->getHandler('Category');
 
 // Get the total number of categories
 $totalCategories = count($categoryHandler->getCategories());
 
 // Creating the faq handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = Helper::getInstance()->getHandler('Faq');
 
 // Total number of published FAQ in the module
-$totalFaqs = $faqHandler->getFaqsCount(-1, _SF_STATUS_OPENED);
-if ($totalFaqs == 0) {
+$totalFaqs = $faqHandler->getFaqsCount(-1, Constants::SF_STATUS_OPENED);
+if (0 == $totalFaqs) {
     redirect_header('request.php', 2, _MD_SF_NO_OPEN_QUESTION);
 }
 
 // Creating the categories objects
-$categoriesObj = $categoryHandler->getCategories($xoopsModuleConfig['catperpage'], $catstart);
+$categoriesObj = $categoryHandler->getCategories($helper->getConfig('catperpage'), $catstart);
 
 // If no categories are found, exit
 $totalCategoriesOnPage = count($categoriesObj);
-if ($totalCategoriesOnPage == 0) {
-    redirect_header('javascript:history.go(-1)', 2, _AM_SF_NO_CAT_EXISTS);
+if (0 == $totalCategoriesOnPage) {
+    redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_SF_NO_CAT_EXISTS);
 }
 
-$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_index.tpl';
-
-include_once XOOPS_ROOT_PATH . '/header.php';
-include_once __DIR__ . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require_once __DIR__ . '/footer.php';
 
 //get all categories for future reference
 $allcategories = $categoryHandler->getObjects(null, true);
 
-// Arrays that will hold the informations passed on to smarty variables
-$qnas       = array();
-$categories = array();
+// Arrays that will hold the information passed on to smarty variables
+$qnas       = [];
+$categories = [];
 $subcats    = $categoryHandler->getSubCats($categoriesObj);
-$totalQnas  = $categoryHandler->faqsCount(0, array(_SF_STATUS_OPENED));
+$totalQnas  = $categoryHandler->faqsCount(0, [Constants::SF_STATUS_OPENED]);
 
-$faqHandler  = sf_gethandler('faq');
-$last_qnaObj = $faqHandler->getLastPublishedByCat(array(_SF_STATUS_OPENED));
+$faqHandler  = Helper::getInstance()->getHandler('Faq');
+$last_qnaObj = $faqHandler->getLastPublishedByCat([Constants::SF_STATUS_OPENED]);
 
 foreach ($categoriesObj as $cat_id => $category) {
     $total = 0;
@@ -79,7 +87,7 @@ foreach ($categoriesObj as $cat_id => $category) {
     if ($total > 0) {
         $category->setVar('faqcount', $total);
         if (!isset($categories[$cat_id])) {
-            $categories[$cat_id] = array();
+            $categories[$cat_id] = [];
         }
         $categories[$cat_id]                 = $category->toArray($categories[$cat_id], true);
         $categories[$cat_id]['categoryPath'] = $category->getCategoryPath();
@@ -87,25 +95,26 @@ foreach ($categoriesObj as $cat_id => $category) {
 }
 $xoopsTpl->assign('categories', $categories);
 
-$displaylastfaqs = $xoopsModuleConfig['displaylastfaqs'];
+$displaylastfaqs = $helper->getConfig('displaylastfaqs');
 if ($displaylastfaqs) {
     // Creating the last FAQs
-    $faqsObj         = $faqHandler->getFaqs($xoopsModuleConfig['indexperpage'], $start, _SF_STATUS_OPENED);
+    $faqsObj         = $faqHandler->getFaqs($helper->getConfig('indexperpage'), $start, Constants::SF_STATUS_OPENED);
     $totalQnasOnPage = count($faqsObj);
 
     if ($faqsObj) {
-        $userids = array();
+        $userids = [];
         foreach ($faqsObj as $key => $thisfaq) {
             $faqids[]                 = $thisfaq->getVar('faqid');
             $userids[$thisfaq->uid()] = 1;
         }
 
+        /** @var \XoopsMemberHandler $memberHandler */
         $memberHandler = xoops_getHandler('member');
-        $users         = $memberHandler->getUsers(new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
+        $users         = $memberHandler->getUsers(new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN'), true);
         for ($i = 0; $i < $totalQnasOnPage; ++$i) {
             $faq = $faqsObj[$i]->toArray(null, $allcategories);
 
-            $faq['adminlink'] = sf_getAdminLinks($faqsObj[$i]->faqid(), true);
+            $faq['adminlink'] = Smartfaq\Utility::getAdminLinks($faqsObj[$i]->faqid(), true);
 
             $faq['who_when'] = $faqsObj[$i]->getWhoAndWhen(null, $users);
 
@@ -114,19 +123,21 @@ if ($displaylastfaqs) {
     }
 }
 // Language constants
-$moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
-$xoopsTpl->assign(array(
-                      'lang_on'       => _MD_SF_ON,
-                      'lang_postedby' => _MD_SF_POSTEDBY,
-                      'lang_total'    => $totalQnasOnPage,
-                      'lang_faq'      => _MD_SF_FAQ,
-                      'lang_datesub'  => _MD_SF_DATESUB,
-                      'lang_hits'     => _MD_SF_HITS
-                  ));
+$moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
+$xoopsTpl->assign(
+    [
+        'lang_on'       => _MD_SF_ON,
+        'lang_postedby' => _MD_SF_POSTEDBY,
+        'lang_total'    => $totalQnasOnPage,
+        'lang_faq'      => _MD_SF_FAQ,
+        'lang_datesub'  => _MD_SF_DATESUB,
+        'lang_hits'     => _MD_SF_HITS,
+    ]
+);
 
-$moduleName =& $myts->displayTarea($xoopsModule->getVar('name'));
+$moduleName = &$myts->displayTarea($xoopsModule->getVar('name'));
 $xoopsTpl->assign('lang_mainhead', sprintf(_MD_SF_OPEN_WELCOME, $xoopsConfig['sitename']));
-$xoopsTpl->assign('lang_mainintro', $myts->displayTarea($xoopsModuleConfig['openquestionintromsg'], 1));
+$xoopsTpl->assign('lang_mainintro', $myts->displayTarea($helper->getConfig('openquestionintromsg'), 1));
 $xoopsTpl->assign('lang_total', _MD_SF_TOTAL_QUESTIONS);
 $xoopsTpl->assign('lang_home', _MD_SF_HOME);
 $xoopsTpl->assign('lang_description', _MD_SF_DESCRIPTION);
@@ -135,7 +146,7 @@ $xoopsTpl->assign('sectionname', $moduleName);
 $xoopsTpl->assign('whereInSection', "<a href='index.php'>" . $moduleName . '</a> > ' . _MD_SF_OPEN_SECTION);
 
 $xoopsTpl->assign('displayFull', false);
-$xoopsTpl->assign('displaylastfaqs', $xoopsModuleConfig['displaylastfaqs']);
+$xoopsTpl->assign('displaylastfaqs', $helper->getConfig('displaylastfaqs'));
 $xoopsTpl->assign('display_categoryname', true);
 
 $xoopsTpl->assign('lang_reads', _MD_SF_READS);
@@ -148,25 +159,25 @@ $xoopsTpl->assign('lang_index_faqs_info', _MD_SF_INDEX_QUESTIONS_INFO);
 $xoopsTpl->assign('lang_category', _MD_SF_CATEGORY);
 
 // Category Navigation Bar
-include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-$pagenav = new XoopsPageNav($totalCategories, $xoopsModuleConfig['catperpage'], $catstart, 'catstart', '');
-if ($xoopsModuleConfig['useimagenavpage'] == 1) {
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+$pagenav = new \XoopsPageNav($totalCategories, $helper->getConfig('catperpage'), $catstart, 'catstart', '');
+if (1 == $helper->getConfig('useimagenavpage')) {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('catnavbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');
 }
 
 // FAQ Navigation Bar
-$pagenav = new XoopsPageNav($totalFaqs, $xoopsModuleConfig['indexperpage'], $start, 'start', '');
-if ($xoopsModuleConfig['useimagenavpage'] == 1) {
+$pagenav = new \XoopsPageNav($totalFaqs, $helper->getConfig('indexperpage'), $start, 'start', '');
+if (1 == $helper->getConfig('useimagenavpage')) {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderImageNav() . '</div>');
 } else {
     $xoopsTpl->assign('navbar', '<div style="text-align:right;">' . $pagenav->renderNav() . '</div>');
 }
 
 // Page Title Hack by marcan
-$module_name = $myts->htmlSpecialChars($xoopsModule->getVar('name'));
+$module_name = htmlspecialchars($xoopsModule->getVar('name'), ENT_QUOTES | ENT_HTML5);
 $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category->getVar('name'));
 // End Page Title Hack by marcan
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

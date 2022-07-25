@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types=1);
+
+use XoopsModules\Smartfaq\Helper;
 
 /**
  * Module: SmartFAQ
@@ -11,15 +13,14 @@
  * @param $userid
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
-
 function smartfaq_search($queryarray, $andor, $limit, $offset, $userid)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $ret = array();
+    $ret = [];
 
-    $faqHandler = sf_gethandler('faq');
+    /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+    $faqHandler = Helper::getInstance()->getHandler('Faq');
 
     $faqsObj = $faqHandler->getFaqsFromSearch($queryarray, $andor, $limit, $offset, $userid);
 

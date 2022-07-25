@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types=1);
+
+use XoopsModules\Smartfaq\Helper;
 
 /**
  * Module: SmartFAQ
@@ -7,15 +9,13 @@
  * @param $options
  * @return array
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
-
 function b_faqs_context_show($options)
 {
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $block = array();
+    $block = [];
 
-    if ($options[0] == 0) {
+    if (0 == $options[0]) {
         $categoryid = -1;
     } else {
         $categoryid = $options[0];
@@ -24,17 +24,17 @@ function b_faqs_context_show($options)
     $limit = $options[0];
 
     // Creating the faq handler object
-    $faqHandler = sf_gethandler('faq');
+    /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+    $faqHandler = Helper::getInstance()->getHandler('Faq');
 
     // creating the FAQ objects that belong to the selected category
-    $faqsObj   = $faqHandler->getContextualFaqs($limit);
-    $totalfaqs = count($faqsObj);
+    $faqsObj = $faqHandler->getContextualFaqs($limit);
 
     if ($faqsObj) {
-        for ($i = 0; $i < $totalfaqs; ++$i) {
-            $faq             = array();
-            $faq['id']       = $faqsObj[$i]->faqid();
-            $faq['question'] = $faqsObj[$i]->question();
+        foreach ($faqsObj as $iValue) {
+            $faq             = [];
+            $faq['id']       = $iValue->faqid();
+            $faq['question'] = $iValue->question();
             $block['faqs'][] = $faq;
         }
     }
@@ -48,8 +48,8 @@ function b_faqs_context_show($options)
  */
 function b_faqs_context_edit($options)
 {
-    $form = '' . _MB_SF_DISP . '&nbsp;';
-    $form .= "<input type='text' name='options[]' value='" . $options[0] . "' />&nbsp;" . _MB_SF_FAQS . '';
+    $form = _MB_SF_DISP . '&nbsp;';
+    $form .= "<input type='text' name='options[]' value='" . $options[0] . "'>&nbsp;" . _MB_SF_FAQS;
 
     return $form;
 }

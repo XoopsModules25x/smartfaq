@@ -23,8 +23,8 @@ CREATE TABLE `smartfaq_categories` (
   `total`       INT(11)      NOT NULL DEFAULT '0',
   `weight`      INT(11)      NOT NULL DEFAULT '1',
   `created`     INT(11)      NOT NULL DEFAULT '1033141070',
-  PRIMARY KEY (`categoryID`),
-  UNIQUE KEY `categoryID` (`categoryID`)
+  PRIMARY KEY (`categoryid`),
+  UNIQUE KEY `categoryid` (`categoryid`)
 )
   ENGINE = MyISAM
   AUTO_INCREMENT = 1;

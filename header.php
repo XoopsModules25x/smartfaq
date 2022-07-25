@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -6,11 +6,30 @@
  * Licence: GNU
  */
 
-include __DIR__ . '/../../mainfile.php';
+use XoopsModules\Smartfaq\Helper;
 
-include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
-include_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/category.php';
-include_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/faq.php';
-include_once XOOPS_ROOT_PATH . '/modules/smartfaq/class/answer.php';
+/** @var Helper $helper
+ * {@internal $helper defined in ./include/common.php }}
+ */
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
+require XOOPS_ROOT_PATH . '/header.php';
 
-$myts = MyTextSanitizer::getInstance();
+require __DIR__ . '/preloads/autoloader.php';
+
+$moduleDirName = basename(__DIR__);
+
+$helper = Helper::getInstance();
+// Load language files
+$helper->loadLanguage('main');
+
+$myts = \MyTextSanitizer::getInstance();
+
+if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
+    require $GLOBALS['xoops']->path('class/theme.php');
+    $GLOBALS['xoTheme'] = new \xos_opal_Theme();
+}
+
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+    require $GLOBALS['xoops']->path('class/template.php');
+    $xoopsTpl = new XoopsTpl();
+}

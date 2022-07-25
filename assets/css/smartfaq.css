@@ -1,5 +1,5 @@
 /**
-* 
+*
 * Module: SmartFAQ
 * Author: The SmartFactory <www.smartfactory.ca>
 * Licence: GNU
@@ -39,7 +39,7 @@
 }
 
 .sf_faq_head_cat {
-    padding-top: 0px;
+    padding-top: 0;
     text-align: right;
     font-style: normal;
     vertical-align: middle;
@@ -97,6 +97,6 @@
     text-align: center;
     padding-top: 6px;
     font-size: 9px;
-    border-top: 0px solid #ccc;
+    border-top: 0 solid #ccc;
 }
 

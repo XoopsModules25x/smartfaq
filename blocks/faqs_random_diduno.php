@@ -1,23 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-// defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
+use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
+
+/**
+ * @return array
+ */
 function b_faqs_random_diduno_show()
 {
-    include_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
+    //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
-    $block = array();
+    $block = [];
 
     // Creating the faq handler object
-    $faqHandler = sf_gethandler('faq');
+    /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+    $faqHandler = Helper::getInstance()->getHandler('Faq');
 
     // creating the FAQ object
-    $faqsObj = $faqHandler->getRandomFaq('diduno', array(_SF_STATUS_PUBLISHED, _SF_STATUS_NEW_ANSWER));
+    $faqsObj = $faqHandler->getRandomFaq('diduno', [Constants::SF_STATUS_PUBLISHED, Constants::SF_STATUS_NEW_ANSWER]);
 
     if ($faqsObj) {
         $block['content']     = $faqsObj->diduno();

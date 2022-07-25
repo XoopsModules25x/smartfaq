@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-
 define('_MD_SF_ACTION', 'Action');
 define('_MD_SF_ALL', 'All');
 define('_MD_SF_ADMIN_PAGE', ':: Admin Section ::');
@@ -26,8 +25,7 @@ define('_MD_SF_CLEAR', 'Clear');
 define('_MD_SF_COMMENTS', 'Comment(s)');
 define('_MD_SF_CONTEXTMODULELINK', 'Contextually linked to this module');
 define('_MD_SF_CONTEXTMODULELINK_FAQ', 'Contextually linked to this module');
-define('_MD_SF_CONTEXTMODULELINK_FAQ_DSC',
-       "Select the module to which this Q&amp;A will be linked. If the Contextual Q&amp;A block is visible on that module, the 'How do I' statement of this Q&amp;A will be displayed.");
+define('_MD_SF_CONTEXTMODULELINK_FAQ_DSC', "Select the module to which this Q&amp;A will be linked. If the Contextual Q&amp;A block is visible on that module, the 'How do I' statement of this Q&amp;A will be displayed.");
 define('_MD_SF_CONTEXTPAGE', 'Contextually linked to this URL');
 define('_MD_SF_CONTEXTPAGEDEF', 'Contextual Page');
 define('_MD_SF_CONTEXTPAGEDEF_DSC', 'Page for which this Q&amp;A gives explanation <b>Example :</b> modules/newbb');
@@ -48,12 +46,11 @@ define('_MD_SF_DOHTML', 'Enable HTML tags ');
 define('_MD_SF_DOSMILEY', 'Enable smiley icons ');
 define('_MD_SF_DOXCODE', 'Enable XOOPS codes');
 define('_MD_SF_EDIT', 'Edit Q&amp;A');
-define('_MD_SF_ERROR_ANSWER_NOT_SAVED', 'An error occured. The answer was not saved in the database.');
-define('_MD_SF_ERROR_FAQ_NOT_SAVED', 'An error occured. The Q&amp;A was not saved in the database.');
+define('_MD_SF_ERROR_ANSWER_NOT_SAVED', 'An error occurred. The answer was not saved in the database.');
+define('_MD_SF_ERROR_FAQ_NOT_SAVED', 'An error occurred. The Q&amp;A was not saved in the database.');
 define('_MD_SF_ERRORSAVINGDB', 'ERROR: Database has NOT been Updated due to an Error!');
 define('_MD_SF_EXACTURL', 'Exact URL?');
-define('_MD_SF_EXACTURL_DSC',
-       "If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed all pages that match a part of the root of the specific URL.ie modules/newbb/*.php");
+define('_MD_SF_EXACTURL_DSC', "If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed all pages that match a part of the root of the specific URL.ie modules/newbb/*.php");
 define('_MD_SF_FAQ_NEW_ANSWER_NEED_APPROBATION', 'Your answer was submitted successfully and will be reviewed by a moderator.');
 define('_MD_SF_FAQ_NEW_ANSWER_PUBLISHED', 'Your answer was submitted successfully and will be automatically published in the Q&amp;A section, as a replacement of the original answer.');
 define('_MD_SF_FAQCOMEFROM', 'This Q&amp;A was found on ');
@@ -76,10 +73,12 @@ define('_MD_SF_INTARTFOUND', 'Here is an interesting Question and Answer I have 
 define('_MD_SF_INTARTICLE', 'Have a look at this FAQ at %s');
 define('_MD_SF_MAIL', 'Send Q&amp;A');
 define('_MD_SF_MAINHEAD', 'Welcome to the');
-define('_MD_SF_MAININTRO',
-       "In this area of the site, you will find the answers to the frequently asked questions. Each Q&amp;A is placed in a category for easier finding. This is the section from where the random Q&amp;As in the right column of the site come from. Should you not find the answer to a particular question, don't hesitate to <a href='"
-       . XOOPS_URL
-       . "/forms/askus/form.php'>Ask us a Question!</a>");
+define(
+    '_MD_SF_MAININTRO',
+    "In this area of the site, you will find the answers to the frequently asked questions. Each Q&amp;A is placed in a category for easier finding. This is the section from where the random Q&amp;As in the right column of the site come from. Should you not find the answer to a particular question, don't hesitate to <a href='"
+    . XOOPS_URL
+    . "/forms/askus/form.php'>Ask us a Question!</a>"
+);
 define('_MD_SF_MAINNOSELECTCAT', 'You did not select a valid category');
 define('_MD_SF_MAINNOFAQS', 'There are no Q&amp;As in this category');
 define('_MD_SF_MODERATION_MAIN_HEAD', 'Moderation section of ');
@@ -117,9 +116,11 @@ define('_MD_SF_QUESTIONCOMEFROM', 'This Question was found on ');
 define('_MD_SF_QUESTIONS', 'Questions');
 define('_MD_SF_READS', 'reads');
 define('_MD_SF_REQUEST', 'Request a new Q&amp;A');
-define('_MD_SF_REQUEST_ERROR', 'An error occured. Your request was not sent.');
-define('_MD_SF_REQUEST_INTRO',
-       'You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!');
+define('_MD_SF_REQUEST_ERROR', 'An error occurred. Your request was not sent.');
+define(
+    '_MD_SF_REQUEST_INTRO',
+    'You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!'
+);
 define('_MD_SF_REQUEST_RECEIVED_NEED_APPROVAL', 'Your request has been sent and will be published in the Open Questions section upon approval by a moderator.<br>Thank you for your contribution!');
 define('_MD_SF_REQUEST_RECEIVED_AND_PUBLISHED', 'Your request has been sent and automatically published in the Open Questions section. Thank you for your contribution!');
 define('_MD_SF_REQUESTED', 'Requested');
@@ -136,11 +137,10 @@ define('_MD_SF_SPECIFIC_URL_DSC', "If you have set the 'Contextually link to thi
 define('_MD_SF_SUB_INTRO', 'please fill this form to send your Q&amp;A. The site administrator will review it and then publish it as soon as possible. Thank you in advance for your contribution.');
 define('_MD_SF_SUB_SNEWNAME', 'Submit a Q&amp;A');
 define('_MD_SF_SUB_SMNAME', 'Submit a Q&amp;A');
-define('_MD_SF_SUBMIT_ERROR', 'An error occured. Your FAQ was not submitted.');
+define('_MD_SF_SUBMIT_ERROR', 'An error occurred. Your FAQ was not submitted.');
 define('_MD_SF_SUBMITANSWER', 'Submit answer');
 define('_MD_SF_SUBMITANSWERTO', 'Submit an answer to %s');
-define('_MD_SF_SUBMITANSWER_INTRO',
-       'please fill this form to submit an answer for this question. The site adminisrator will review it and then publish it as soon as possible. Thank you in advance for your contribution.');
+define('_MD_SF_SUBMITANSWER_INTRO', 'please fill this form to submit an answer for this question. The site adminisrator will review it and then publish it as soon as possible. Thank you in advance for your contribution.');
 define('_MD_SF_SUBMITANSWERBUTTON', 'Submit the answer');
 define('_MD_SF_SUBMITAPPROVED', 'The answer you sent has been received. Since the auto-approve option is on, the answer has been accepted and the Q&amp;A has been published.');
 define('_MD_SF_SUBMIT_FROM_ADMIN', 'Since you are an admin of the module, the Q&amp;A was automatically published with all permissions.');
@@ -181,3 +181,8 @@ define('_MD_WB_CATEGORY', 'Category');
 define('_MD_WB_ALLOFTHEM', 'All of them');
 define('_MD_WB_TERM', 'Term');
 define('_MD_WB_SEARCH', 'Search');
+
+define('_MD_FILESIZE', 'File Size');
+define('_MD_ATTACHMENT', 'Attach file');
+define('_MD_HITS', 'Hits');
+define('_MD_REMOVE', 'Remove');

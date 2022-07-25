@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -10,27 +10,36 @@
  */
 
 /**
- * @copyright    XOOPS Project (http://xoops.org)
- * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
+ * @copyright    XOOPS Project (https://xoops.org)
+ * @license      GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author       XOOPS Development Team
  */
 
-require_once __DIR__ . '/../../../include/cp_header.php';
+use Xmf\Module\Admin;
+use Xmf\Request;
+use XoopsModules\Smartfaq\Common\TestdataButtons;
+use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
+use XoopsModules\Smartfaq\Utility;
+
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+/** @var Utility $utility */
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 
-$adminObject  = \Xmf\Module\Admin::getInstance();
+$adminObject = \Xmf\Module\Admin::getInstance();
 
 //----------------------
 
 // Creating the category handler object
-$categoryHandler = sf_gethandler('category');
+/** @var \XoopsModules\Smartfaq\CategoryHandler $categoryHandler */
+$categoryHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Category');
 
 // Creating the FAQ handler object
-$faqHandler = sf_gethandler('faq');
+/** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
+$faqHandler = \XoopsModules\Smartfaq\Helper::getInstance()->getHandler('Faq');
 
 // Total FAQs -- includes everything on the table
 $totalfaqs = $faqHandler->getFaqsCount();
@@ -42,31 +51,31 @@ $totalcategories = $categoryHandler->getCategoriesCount(-1);
 $totalfaqbystatus = $faqHandler->getFaqsCountByStatus();
 
 // Total asked FAQs
-$totalasked = isset($totalfaqbystatus[_SF_STATUS_ASKED]) ? $totalfaqbystatus[_SF_STATUS_ASKED] : 0;
+$totalasked = $totalfaqbystatus[Constants::SF_STATUS_ASKED] ?? 0;
 
 // Total opened FAQs
-$totalopened = isset($totalfaqbystatus[_SF_STATUS_OPENED]) ? $totalfaqbystatus[_SF_STATUS_OPENED] : 0;
+$totalopened = $totalfaqbystatus[Constants::SF_STATUS_OPENED] ?? 0;
 
 // Total answered FAQs
-$totalanswered = isset($totalfaqbystatus[_SF_STATUS_ANSWERED]) ? $totalfaqbystatus[_SF_STATUS_ANSWERED] : 0;
+$totalanswered = $totalfaqbystatus[Constants::SF_STATUS_ANSWERED] ?? 0;
 
 // Total submitted FAQs
-$totalsubmitted = isset($totalfaqbystatus[_SF_STATUS_SUBMITTED]) ? $totalfaqbystatus[_SF_STATUS_SUBMITTED] : 0;
+$totalsubmitted = $totalfaqbystatus[Constants::SF_STATUS_SUBMITTED] ?? 0;
 
 // Total published FAQs
-$totalpublished = isset($totalfaqbystatus[_SF_STATUS_PUBLISHED]) ? $totalfaqbystatus[_SF_STATUS_PUBLISHED] : 0;
+$totalpublished = $totalfaqbystatus[Constants::SF_STATUS_PUBLISHED] ?? 0;
 
 // Total offline FAQs
-$totaloffline = isset($totalfaqbystatus[_SF_STATUS_OFFLINE]) ? $totalfaqbystatus[_SF_STATUS_OFFLINE] : 0;
+$totaloffline = $totalfaqbystatus[Constants::SF_STATUS_OFFLINE] ?? 0;
 
 // Total rejected question
-$totalrejectedquestion = isset($totalfaqbystatus[_SF_STATUS_REJECTED_QUESTION]) ? $totalfaqbystatus[_SF_STATUS_REJECTED_QUESTION] : 0;
+$totalrejectedquestion = $totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION] ?? 0;
 
 // Total rejected smartfaq
-$totalrejectedsmartfaq = isset($totalfaqbystatus[_SF_STATUS_REJECTED_SMARTFAQ]) ? $totalfaqbystatus[_SF_STATUS_REJECTED_SMARTFAQ] : 0;
+$totalrejectedsmartfaq = $totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ] ?? 0;
 
 // Total Q&A with new answers
-$totalnewanswers = isset($totalfaqbystatus[_SF_STATUS_NEW_ANSWER]) ? $totalfaqbystatus[_SF_STATUS_NEW_ANSWER] : 0;
+$totalnewanswers = $totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER] ?? 0;
 
 //set info block
 $adminObject->addInfoBox(_AM_SF_INVENTORY);
@@ -105,6 +114,31 @@ if ($totalnewanswers > 0) {
 //----------------------
 
 $adminObject->displayNavigation(basename(__FILE__));
-$adminObject->displayIndex();
 
+//check for latest release
+//$newRelease = $utility->checkVerModule($helper);
+//if (null !== $newRelease) {
+//    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
+//}
+
+//------------- Test Data Buttons ----------------------------
+if ($helper->getConfig('displaySampleButton')) {
+    TestdataButtons::loadButtonConfig($adminObject);
+    $adminObject->displayButton('left', '');
+}
+$op = Request::getString('op', 0, 'GET');
+switch ($op) {
+    case 'hide_buttons':
+        TestdataButtons::hideButtons();
+        break;
+    case 'show_buttons':
+        TestdataButtons::showButtons();
+        break;
+}
+//------------- End Test Data Buttons ----------------------------
+
+$adminObject->displayIndex();
+echo $utility::getServerStats();
+
+//codeDump(__FILE__);
 require_once __DIR__ . '/admin_footer.php';

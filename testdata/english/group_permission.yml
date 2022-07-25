@@ -1,0 +1,100 @@
+-
+    gperm_groupid: '3'
+    gperm_itemid: '1'
+    gperm_modid: '91'
+    gperm_name: category_read
+-
+    gperm_groupid: '2'
+    gperm_itemid: '2'
+    gperm_modid: '91'
+    gperm_name: category_read
+-
+    gperm_groupid: '2'
+    gperm_itemid: '1'
+    gperm_modid: '91'
+    gperm_name: category_read
+-
+    gperm_groupid: '1'
+    gperm_itemid: '3'
+    gperm_modid: '91'
+    gperm_name: category_read
+-
+    gperm_groupid: '1'
+    gperm_itemid: '2'
+    gperm_modid: '91'
+    gperm_name: category_read
+-
+    gperm_groupid: '1'
+    gperm_itemid: '1'
+    gperm_modid: '91'
+    gperm_name: category_read
+-
+    gperm_groupid: '4'
+    gperm_itemid: '1'
+    gperm_modid: '91'
+    gperm_name: category_read
+-
+    gperm_groupid: '5'
+    gperm_itemid: '1'
+    gperm_modid: '91'
+    gperm_name: category_read
+-
+    gperm_groupid: '6'
+    gperm_itemid: '1'
+    gperm_modid: '91'
+    gperm_name: category_read
+-
+    gperm_groupid: '8'
+    gperm_itemid: '3'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '9'
+    gperm_itemid: '3'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '3'
+    gperm_itemid: '3'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '2'
+    gperm_itemid: '3'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '1'
+    gperm_itemid: '3'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '7'
+    gperm_itemid: '4'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '8'
+    gperm_itemid: '4'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '7'
+    gperm_itemid: '3'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '9'
+    gperm_itemid: '4'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '3'
+    gperm_itemid: '4'
+    gperm_modid: '91'
+    gperm_name: item_read
+-
+    gperm_groupid: '2'
+    gperm_itemid: '4'
+    gperm_modid: '91'
+    gperm_name: item_read
