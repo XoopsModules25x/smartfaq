@@ -781,8 +781,8 @@ class FaqHandler extends \XoopsObjectHandler
 
         if (\count($randomFaqs) > $limit) {
             $rand_keys = \array_rand($randomFaqs, $limit);
-            for ($j = 0, $jMax = \count($rand_keys); $j < $jMax; ++$j) {
-                $ret[] = &$randomFaqs[$rand_keys[$j]];
+            foreach ($rand_keys as $jValue) {
+                $ret[] = &$randomFaqs[$jValue];
             }
         } else {
             $ret = &$randomFaqs;
