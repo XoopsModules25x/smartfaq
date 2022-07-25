@@ -88,30 +88,29 @@ class FaqHandler extends \XoopsObjectHandler
     /**
      * insert a new faq in the database
      *
-     * @param \XoopsObject $faq reference to the {@link Smartfaq\Faq}
-     *                          object
+     * @param \XoopsObject $object reference to the {@link Smartfaq\Faq} object
      * @param bool         $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(\XoopsObject $faq, $force = false)
+    public function insert(\XoopsObject $object, $force = false)
     {
-        if ('xoopsmodules\smartfaq\faq' !== \mb_strtolower(\get_class($faq))) {
+        if ('xoopsmodules\smartfaq\faq' !== \mb_strtolower(\get_class($object))) {
             return false;
         }
 
-        if (!$faq->isDirty()) {
+        if (!$object->isDirty()) {
             return true;
         }
 
-        if (!$faq->cleanVars()) {
+        if (!$object->cleanVars()) {
             return false;
         }
 
-        foreach ($faq->cleanVars as $k => $v) {
+        foreach ($object->cleanVars as $k => $v) {
             ${$k} = $v;
         }
 
-        if ($faq->isNew()) {
+        if ($object->isNew()) {
             $sql = \sprintf(
                 'INSERT INTO `%s` (faqid, categoryid, question, howdoi, diduno, uid, datesub, status, counter, weight, html, smiley, xcodes, cancomment, comments, notifypub, modulelink, contextpage, exacturl, partialview) VALUES (NULL, %u, %s, %s, %s, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %u, %s, %s, %u, %u)',
                 $this->db->prefix('smartfaq_faq'),
@@ -158,7 +157,7 @@ class FaqHandler extends \XoopsObjectHandler
                 $this->db->quoteString($contextpage),
                 $exacturl,
                 $partialview,
-                $faqid
+                $objectid
             );
         }
         if (false !== $force) {
@@ -168,7 +167,7 @@ class FaqHandler extends \XoopsObjectHandler
         }
 
         if (!$result) {
-            $faq->setErrors('Could not store data in the database.<br >' . $this->db->error() . ' (' . $this->db->errno() . ')<br >' . $sql);
+            $object->setErrors('Could not store data in the database.<br >' . $this->db->error() . ' (' . $this->db->errno() . ')<br >' . $sql);
 
             $logger = \XoopsLogger::getInstance();
             $logger->handleError(\E_USER_WARNING, $sql, __FILE__, __LINE__);
@@ -178,20 +177,20 @@ class FaqHandler extends \XoopsObjectHandler
             $helper = Smartfaq\Helper::getInstance();
             $helper->addLog($this->db->error());
 
-            /** @var \XoopsObject $faq */
-            //            $faq->setError($this->db->error());
+            /** @var \XoopsObject $object */
+            //            $object->setError($this->db->error());
 
-            \trigger_error('Class ' . $faq . ' could not be saved ' . __FILE__ . ' at line ' . __LINE__, \E_USER_WARNING);
+            \trigger_error('Class ' . $object . ' could not be saved ' . __FILE__ . ' at line ' . __LINE__, \E_USER_WARNING);
 
             return false;
         }
 
-        if ($faq->isNew()) {
-            $faq->assignVar('faqid', $this->db->getInsertId());
+        if ($object->isNew()) {
+            $object->assignVar('faqid', $this->db->getInsertId());
         }
 
         // Saving permissions
-        Smartfaq\Utility::saveItemPermissions($faq->getGroups_read(), $faq->faqid());
+        Smartfaq\Utility::saveItemPermissions($object->getGroups_read(), $object->faqid());
 
         return true;
     }
@@ -199,28 +198,28 @@ class FaqHandler extends \XoopsObjectHandler
     /**
      * delete an FAQ from the database
      *
-     * @param \XoopsObject $faq reference to the FAQ to delete
+     * @param \XoopsObject $object reference to the FAQ to delete
      * @param bool         $force
      * @return bool        FALSE if failed.
      */
-    public function delete(\XoopsObject $faq, $force = false)
+    public function delete(\XoopsObject $object, $force = false)
     {
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        //        if ('XoopsModules\Smartfaq\Faq' !== \mb_strtolower(get_class($faq))) {
-        if (Faq::class !== \get_class($faq)) {
+        //        if ('XoopsModules\Smartfaq\Faq' !== \mb_strtolower(get_class($object))) {
+        if (Faq::class !== \get_class($object)) {
             return false;
         }
 
         // Deleting the answers
         $answerHandler = new Smartfaq\AnswerHandler($this->db);
-        if (!$answerHandler->deleteFaqAnswers($faq)) {
+        if (!$answerHandler->deleteFaqAnswers($object)) {
             // error msg...
             echo 'error while deleteing an answer';
         }
 
-        $sql = \sprintf('DELETE FROM `%s` WHERE faqid = %u', $this->db->prefix('smartfaq_faq'), $faq->getVar('faqid'));
+        $sql = \sprintf('DELETE FROM `%s` WHERE faqid = %u', $this->db->prefix('smartfaq_faq'), $object->getVar('faqid'));
 
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -231,7 +230,7 @@ class FaqHandler extends \XoopsObjectHandler
             return false;
         }
 
-        \xoops_groupperm_deletebymoditem($module_id, 'item_read', $faq->faqid());
+        \xoops_groupperm_deletebymoditem($module_id, 'item_read', $object->faqid());
 
         return true;
     }

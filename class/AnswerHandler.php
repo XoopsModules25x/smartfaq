@@ -89,27 +89,27 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     /**
      * insert a new answer in the database
      *
-     * @param \XoopsObject $answerObj reference to the <a href='psi_element://sfAnswer'>sfAnswer</a> object
+     * @param \XoopsObject $object reference to the <a href='psi_element://sfAnswer'>sfAnswer</a> object
      * @param bool         $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(XoopsObject $answerObj, $force = false)
+    public function insert(XoopsObject $object, $force = false)
     {
-        if ('xoopsmodules\smartfaq\answer' !== \mb_strtolower(\get_class($answerObj))) {
+        if ('xoopsmodules\smartfaq\answer' !== \mb_strtolower(\get_class($object))) {
             return false;
         }
-        if (!$answerObj->isDirty()) {
+        if (!$object->isDirty()) {
             return true;
         }
-        if (!$answerObj->cleanVars()) {
+        if (!$object->cleanVars()) {
             return false;
         }
 
-        foreach ($answerObj->cleanVars as $k => $v) {
+        foreach ($object->cleanVars as $k => $v) {
             ${$k} = $v;
         }
 
-        if ($answerObj->isNew()) {
+        if ($object->isNew()) {
             $sql = \sprintf('INSERT INTO `%s` (answerid, `status`, faqid, answer, uid, datesub, notifypub) VALUES (NULL, %u, %u, %s, %u, %u, %u)', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, \time(), $notifypub);
         } else {
             $sql = \sprintf('UPDATE `%s` SET STATUS = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
@@ -125,10 +125,10 @@ class AnswerHandler extends XoopsPersistableObjectHandler
             return false;
         }
 
-        if ($answerObj->isNew()) {
-            $answerObj->assignVar('answerid', $this->db->getInsertId());
+        if ($object->isNew()) {
+            $object->assignVar('answerid', $this->db->getInsertId());
         } else {
-            $answerObj->assignVar('answerid', $answerid);
+            $object->assignVar('answerid', $answerid);
         }
 
         return true;
@@ -137,16 +137,16 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     /**
      * delete an answer from the database
      *
-     * @param \XoopsObject $answer reference to the answer to delete
+     * @param \XoopsObject $object reference to the answer to delete
      * @param bool         $force
      * @return bool        FALSE if failed.
      */
-    public function delete(XoopsObject $answer, $force = false)
+    public function delete(XoopsObject $object, $force = false)
     {
-        if ('xoopsmodules\smartfaq\answer' !== \mb_strtolower(\get_class($answer))) {
+        if ('xoopsmodules\smartfaq\answer' !== \mb_strtolower(\get_class($object))) {
             return false;
         }
-        $sql = \sprintf('DELETE FROM `%s` WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $answer->getVar('answerid'));
+        $sql = \sprintf('DELETE FROM `%s` WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $object->getVar('answerid'));
 
         //echo "<br>" . $sql . "<br>";
 

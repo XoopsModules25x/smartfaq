@@ -87,28 +87,28 @@ class CategoryHandler extends \XoopsObjectHandler
     /**
      * insert a new category in the database
      *
-     * @param \XoopsObject $category reference to the {@link Smartfaq\Category}
+     * @param \XoopsObject $object reference to the {@link Smartfaq\Category}
      *                               object
      * @param bool         $force
      * @return bool        FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(\XoopsObject $category, $force = false)
+    public function insert(\XoopsObject $object, $force = false)
     {
-        if ('xoopsmodules\smartfaq\category' !== \mb_strtolower(\get_class($category))) {
+        if ('xoopsmodules\smartfaq\category' !== \mb_strtolower(\get_class($object))) {
             return false;
         }
-        if (!$category->isDirty()) {
+        if (!$object->isDirty()) {
             return true;
         }
-        if (!$category->cleanVars()) {
+        if (!$object->cleanVars()) {
             return false;
         }
 
-        foreach ($category->cleanVars as $k => $v) {
+        foreach ($object->cleanVars as $k => $v) {
             ${$k} = $v;
         }
 
-        if ($category->isNew()) {
+        if ($object->isNew()) {
             $sql = \sprintf('INSERT INTO `%s` (parentid, name, description, total, weight, created) VALUES (%u, %s, %s, %u, %u, %u)', $this->db->prefix('smartfaq_categories'), $parentid, $this->db->quoteString($name), $this->db->quoteString($description), $total, $weight, \time());
         } else {
             $sql = \sprintf(
@@ -120,7 +120,7 @@ class CategoryHandler extends \XoopsObjectHandler
                 $total,
                 $weight,
                 $created,
-                $categoryid
+                $objectid
             );
         }
         if (false !== $force) {
@@ -131,10 +131,10 @@ class CategoryHandler extends \XoopsObjectHandler
         if (!$result) {
             return false;
         }
-        if ($category->isNew()) {
-            $category->assignVar('categoryid', $this->db->getInsertId());
+        if ($object->isNew()) {
+            $object->assignVar('categoryid', $this->db->getInsertId());
         } else {
-            $category->assignVar('categoryid', $categoryid);
+            $object->assignVar('categoryid', $objectid);
         }
 
         return true;
@@ -143,29 +143,29 @@ class CategoryHandler extends \XoopsObjectHandler
     /**
      * delete a category from the database
      *
-     * @param \XoopsObject $category reference to the category to delete
+     * @param \XoopsObject $object reference to the category to delete
      * @param bool         $force
      * @return bool        FALSE if failed.
      */
-    public function delete(\XoopsObject $category, $force = false)
+    public function delete(\XoopsObject $object, $force = false)
     {
-        if ('xoopsmodules\smartfaq\category' !== \mb_strtolower(\get_class($category))) {
+        if ('xoopsmodules\smartfaq\category' !== \mb_strtolower(\get_class($object))) {
             return false;
         }
 
         // Deleting the FAQs
         $faqHandler = new Smartfaq\FaqHandler($this->db);
-        if (!$faqHandler->deleteAll(new \Criteria('categoryid', $category->categoryid()))) {
+        if (!$faqHandler->deleteAll(new \Criteria('categoryid', $object->categoryid()))) {
             return false;
         }
 
         // Deleteing the sub categories
-        $subcats = &$this->getCategories(0, 0, $category->categoryid());
+        $subcats = &$this->getCategories(0, 0, $object->categoryid());
         foreach ($subcats as $subcat) {
             $this->delete($subcat);
         }
 
-        $sql = \sprintf('DELETE FROM `%s` WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $category->getVar('categoryid'));
+        $sql = \sprintf('DELETE FROM `%s` WHERE categoryid = %u', $this->db->prefix('smartfaq_categories'), $object->getVar('categoryid'));
 
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
@@ -176,8 +176,8 @@ class CategoryHandler extends \XoopsObjectHandler
             $result = $this->db->query($sql);
         }
 
-        \xoops_groupperm_deletebymoditem($module_id, 'category_read', $category->categoryid());
-        //xoops_groupperm_deletebymoditem ($module_id, "category_admin", $categoryObj->categoryid());
+        \xoops_groupperm_deletebymoditem($module_id, 'category_read', $object->categoryid());
+        //xoops_groupperm_deletebymoditem ($module_id, "category_admin", $objectObj->categoryid());
 
         if (!$result) {
             return false;
