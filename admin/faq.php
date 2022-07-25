@@ -235,14 +235,14 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $sform->addElement(new \XoopsFormText(_AM_SF_SPECIFIC_URL, 'contextpage', 50, 60, $faqObj->contextpage()), false);
 
     // EXACT URL?
-    $excaturl_radio = new \XoopsFormRadioYN(_AM_SF_EXACTURL, 'exacturl', $faqObj->exacturl(), ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+    $excaturl_radio = new \XoopsFormRadioYN(_AM_SF_EXACTURL, 'exacturl', $faqObj->exacturl(), ' ' . _AM_SF_YES, ' ' . _AM_SF_NO);
     $sform->addElement($excaturl_radio);
     // WEIGHT
     $sform->addElement(new \XoopsFormText(_AM_SF_WEIGHT, 'weight', 5, 5, $faqObj->weight()), true);
 
     // COMMENTS
     // Code to allow comments
-    $addcomments_radio = new \XoopsFormRadioYN(_AM_SF_ALLOWCOMMENTS, 'cancomment', $faqObj->cancomment(), ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+    $addcomments_radio = new \XoopsFormRadioYN(_AM_SF_ALLOWCOMMENTS, 'cancomment', $faqObj->cancomment(), ' ' . _AM_SF_YES, ' ' . _AM_SF_NO);
     $sform->addElement($addcomments_radio);
 
     // PER ITEM PERMISSIONS
@@ -257,7 +257,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     }
     $sform->addElement($groups_checkbox);
 
-    $partial_view = new \XoopsFormRadioYN(_AM_SF_PARTIALVIEW, 'partialview', $faqObj->partialview(), ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+    $partial_view = new \XoopsFormRadioYN(_AM_SF_PARTIALVIEW, 'partialview', $faqObj->partialview(), ' ' . _AM_SF_YES, ' ' . _AM_SF_NO);
     $sform->addElement($partial_view);
 
     // VARIOUS OPTIONS
@@ -280,7 +280,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     // OFFLINE
     if (Constants::SF_STATUS_OFFLINE == $faqObj->status()) {
         // Back OnLine
-        $offline_radio = new \XoopsFormRadioYN(_AM_SF_OFFLINE_FIELD, 'offline', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+        $offline_radio = new \XoopsFormRadioYN(_AM_SF_OFFLINE_FIELD, 'offline', 1, ' ' . _AM_SF_YES, ' ' . _AM_SF_NO);
         $sform->addElement($offline_radio);
     }
 

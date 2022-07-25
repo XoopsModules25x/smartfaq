@@ -124,7 +124,7 @@ class Utility extends Common\SysUtility
      */
     public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true)
     {
-        $ret = '' . \_MB_SF_SELECTCAT . "&nbsp;<select name='options[]'>";
+        $ret = \_MB_SF_SELECTCAT . "&nbsp;<select name='options[]'>";
         if ($allCatOption) {
             $ret .= "<option value='0'";
             $ret .= '>' . \_MB_SF_ALLCAT . "</option>\n";
@@ -196,7 +196,7 @@ class Utility extends Common\SysUtility
     {
         $smartModule = self::getModuleInfo();
 
-        $modfootertxt = 'Module ' . $smartModule->getInfo('name') . ' - Version ' . $smartModule->getInfo('version') . '';
+        $modfootertxt = 'Module ' . $smartModule->getInfo('name') . ' - Version ' . $smartModule->getInfo('version');
 
         $modfooter = "<a href='" . $smartModule->getInfo('support_site_url') . "' target='_blank'><img src='" . XOOPS_URL . "/modules/smartfaq/assets/images/sfcssbutton.gif' title='" . $modfootertxt . "' alt='" . $modfootertxt . "'></a>";
 

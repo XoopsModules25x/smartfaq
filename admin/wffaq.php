@@ -65,7 +65,7 @@ if ('start' === $op) {
             $form->addElement(new \XoopsFormLabel(_AM_SF_IMPORT_PARENT_CATEGORY, ob_get_clean()));
 
             // Auto-Approve
-            $form->addElement(new \XoopsFormRadioYN(_AM_SF_IMPORT_AUTOAPPROVE, 'autoaprove', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . ''));
+            $form->addElement(new \XoopsFormRadioYN(_AM_SF_IMPORT_AUTOAPPROVE, 'autoaprove', 1, ' ' . _AM_SF_YES, ' ' . _AM_SF_NO));
 
             // Submitted and answered by
             /** @var \XoopsMemberHandler $memberHandler */
@@ -79,7 +79,7 @@ if ('start' === $op) {
             $form->addElement($user_select);
 
             // Q&As can be commented?
-            $form->addElement(new \XoopsFormRadioYN(_AM_SF_IMPORT_ALLOWCOMMENTS, 'cancomment', 1, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . ''));
+            $form->addElement(new \XoopsFormRadioYN(_AM_SF_IMPORT_ALLOWCOMMENTS, 'cancomment', 1, ' ' . _AM_SF_YES, ' ' . _AM_SF_NO));
             $group_list      = $memberHandler->getGroupList();
             $groups_selected = [];
             $groups_checkbox = new \XoopsFormCheckBox(_AM_SF_IMPORT_PERMISSIONS, 'groups_read');

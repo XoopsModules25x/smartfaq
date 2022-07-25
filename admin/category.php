@@ -160,7 +160,7 @@ function editcat($showmenu = false, $categoryid = 0): void
     }
     $sform->addElement($groups_read_checkbox);
     // Apply permissions on all faqs
-    $addapplyall_radio = new \XoopsFormRadioYN(_AM_SF_PERMISSIONS_APPLY_ON_FAQS, 'applyall', 0, ' ' . _AM_SF_YES . '', ' ' . _AM_SF_NO . '');
+    $addapplyall_radio = new \XoopsFormRadioYN(_AM_SF_PERMISSIONS_APPLY_ON_FAQS, 'applyall', 0, ' ' . _AM_SF_YES, ' ' . _AM_SF_NO);
     $sform->addElement($addapplyall_radio);
     // MODERATORS
     //$moderators_tray = new \XoopsFormElementTray(_AM_SF_MODERATORS_DEF, '');

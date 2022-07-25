@@ -90,8 +90,8 @@ function b_faqs_new_edit($options)
 
     $form .= "</select>\n";
 
-    $form .= '&nbsp;' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "'>&nbsp;" . _MB_SF_FAQS . '';
-    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[3] . "'>&nbsp;" . _MB_SF_LENGTH . '';
+    $form .= '&nbsp;' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "'>&nbsp;" . _MB_SF_FAQS;
+    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[3] . "'>&nbsp;" . _MB_SF_LENGTH;
 
     $form .= '<br>' . _MB_SF_SHOW_DATE . "&nbsp;<input type='radio' id='options[]' name='options[]' value='1'";
     if (1 == $options[4]) {
@@ -101,7 +101,7 @@ function b_faqs_new_edit($options)
     if (0 == $options[4]) {
         $form .= ' checked';
     }
-    $form .= '>&nbsp;' . _NO . '';
+    $form .= '>&nbsp;' . _NO;
 
     return $form;
 }

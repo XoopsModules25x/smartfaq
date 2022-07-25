@@ -87,7 +87,7 @@ class Tree
     {
         $selectId = (int)$selectId;
         $idarray  = [];
-        $result   = $this->db->query('SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . '');
+        $result   = $this->db->query('SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId);
         $count    = $this->db->getRowsNum($result);
         if (0 == $count) {
             return $idarray;
@@ -111,7 +111,7 @@ class Tree
     public function getAllChildId($selectId, $order = '', array $idarray = [])
     {
         $selectId = (int)$selectId;
-        $sql      = 'SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId . '';
+        $sql      = 'SELECT ' . $this->id . ' FROM ' . $this->table . ' WHERE ' . $this->pid . '=' . $selectId;
         if ('' !== $order) {
             $sql .= " ORDER BY $order";
         }
@@ -140,7 +140,7 @@ class Tree
     public function getAllParentId($selectId, $order = '', array $idarray = [])
     {
         $selectId = (int)$selectId;
-        $sql      = 'SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' . $selectId . '';
+        $sql      = 'SELECT ' . $this->pid . ' FROM ' . $this->table . ' WHERE ' . $this->id . '=' . $selectId;
         if ('' !== $order) {
             $sql .= " ORDER BY $order";
         }
@@ -175,7 +175,7 @@ class Tree
         [$parentid, $name] = $this->db->fetchRow($result);
         $myts = \MyTextSanitizer::getInstance();
         $name = \htmlspecialchars($name, ENT_QUOTES | ENT_HTML5);
-        $path = '/' . $name . $path . '';
+        $path = '/' . $name . $path;
         if (0 == $parentid) {
             return $path;
         }
@@ -258,7 +258,7 @@ class Tree
         [$parentid, $name] = $this->db->fetchRow($result);
         $myts = \MyTextSanitizer::getInstance();
         $name = \htmlspecialchars($name, ENT_QUOTES | ENT_HTML5);
-        $path = "<li><a href='" . $funcURL . '&amp;' . $this->id . '=' . $selectId . "'>" . $name . '</a></li>' . $path . '';
+        $path = "<li><a href='" . $funcURL . '&amp;' . $this->id . '=' . $selectId . "'>" . $name . '</a></li>' . $path;
         if (0 == $parentid) {
             return $path;
         }
@@ -284,7 +284,7 @@ class Tree
             return $path;
         }
         [$parentid] = $this->db->fetchRow($result);
-        $path = '/' . $selectId . $path . '';
+        $path = '/' . $selectId . $path;
         if (0 == $parentid) {
             return $path;
         }

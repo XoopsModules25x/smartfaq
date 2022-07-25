@@ -59,8 +59,8 @@ function b_faqs_most_viewed_edit($options)
 
     $form = Smartfaq\Utility::createCategorySelect($options[0]);
 
-    $form .= '&nbsp;<br>' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[1] . "'>&nbsp;" . _MB_SF_FAQS . '';
-    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "'>&nbsp;" . _MB_SF_LENGTH . '';
+    $form .= '&nbsp;<br>' . _MB_SF_DISP . "&nbsp;<input type='text' name='options[]' value='" . $options[1] . "'>&nbsp;" . _MB_SF_FAQS;
+    $form .= '&nbsp;<br>' . _MB_SF_CHARS . "&nbsp;<input type='text' name='options[]' value='" . $options[2] . "'>&nbsp;" . _MB_SF_LENGTH;
 
     return $form;
 }
