@@ -123,7 +123,7 @@ class CategoryHandler extends \XoopsObjectHandler
                 $objectid
             );
         }
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -170,7 +170,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);

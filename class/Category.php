@@ -162,7 +162,7 @@ class Category extends XoopsObject
     public function getCategoryPath($withAllLink = false, $open = false)
     {
         $filename = 'category.php';
-        if (false !== $open) {
+        if ($open) {
             $filename = 'open_category.php';
         }
         if ($withAllLink) {
@@ -252,7 +252,7 @@ class Category extends XoopsObject
     {
         $category['categoryid'] = $this->categoryid();
         $category['name']       = $this->name();
-        if (false !== $open) {
+        if ($open) {
             $category['categorylink'] = "<a href='" . XOOPS_URL . '/modules/smartfaq/open_category.php?categoryid=' . $this->categoryid() . "'>" . $this->name() . '</a>';
         } else {
             $category['categorylink'] = "<a href='" . XOOPS_URL . '/modules/smartfaq/category.php?categoryid=' . $this->categoryid() . "'>" . $this->name() . '</a>';

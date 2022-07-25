@@ -160,7 +160,7 @@ class FaqHandler extends \XoopsObjectHandler
                 $objectid
             );
         }
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -221,7 +221,7 @@ class FaqHandler extends \XoopsObjectHandler
 
         $sql = \sprintf('DELETE FROM `%s` WHERE faqid = %u', $this->db->prefix('smartfaq_faq'), $object->getVar('faqid'));
 
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);

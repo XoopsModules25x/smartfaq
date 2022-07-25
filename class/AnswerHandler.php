@@ -115,7 +115,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
             $sql = \sprintf('UPDATE `%s` SET STATUS = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
         }
 
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
@@ -150,7 +150,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
 
         //echo "<br>" . $sql . "<br>";
 
-        if (false !== $force) {
+        if ($force) {
             $result = $this->db->queryF($sql);
         } else {
             $result = $this->db->query($sql);
