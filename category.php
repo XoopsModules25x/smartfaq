@@ -145,7 +145,7 @@ if (is_array($faqsObj) && ($faqsObj) > 0) {
         $xoopsTpl->append('faqs', $faq);
     }
 
-    if (isset($last_qnaObj) && $last_qnaObj) {
+    if (!empty($last_qnaObj)) {
         $category['last_faqid']         = $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid');
         $category['last_question_link'] = "<a href='faq.php?faqid=" . $last_qnaObj[$categoryObj->getVar('categoryid')]->getVar('faqid') . "'>" . $last_qnaObj[$categoryObj->getVar('categoryid')]->question($lastfaqsize) . '</a>';
     }
