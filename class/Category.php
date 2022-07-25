@@ -123,7 +123,7 @@ class Category extends XoopsObject
     }
 
     /**
-     * @param string $format
+     * @param  string $format
      * @return mixed
      */
     public function name($format = 'S')
@@ -138,7 +138,7 @@ class Category extends XoopsObject
     }
 
     /**
-     * @param string $format
+     * @param  string $format
      * @return mixed
      */
     public function description($format = 'S')
@@ -155,8 +155,8 @@ class Category extends XoopsObject
     }
 
     /**
-     * @param bool $withAllLink
-     * @param bool $open
+     * @param  bool $withAllLink
+     * @param  bool $open
      * @return mixed|string
      */
     public function getCategoryPath($withAllLink = false, $open = false)
@@ -170,7 +170,7 @@ class Category extends XoopsObject
         } else {
             $ret = $this->name();
         }
-        $parentid = $this->parentid();
+        $parentid        = $this->parentid();
         /** @var Smartfaq\CategoryHandler $categoryHandler */
         $categoryHandler = Smartfaq\Helper::getInstance()->getHandler('Category');
         if (0 != $parentid) {
@@ -207,8 +207,8 @@ class Category extends XoopsObject
     }
 
     /**
-     * @param bool $sendNotifications
-     * @param bool $force
+     * @param  bool $sendNotifications
+     * @param  bool $force
      * @return bool
      */
     public function store($sendNotifications = true, $force = true)
@@ -230,7 +230,7 @@ class Category extends XoopsObject
     {
         $smartModule = Smartfaq\Utility::getModuleInfo();
 
-        $myts = MyTextSanitizer::getInstance();
+        $myts                = MyTextSanitizer::getInstance();
         /** @var \XoopsNotificationHandler $notificationHandler */
         $notificationHandler = \xoops_getHandler('notification');
 
@@ -244,8 +244,8 @@ class Category extends XoopsObject
     }
 
     /**
-     * @param array $category
-     * @param bool  $open
+     * @param  array $category
+     * @param  bool  $open
      * @return array
      */
     public function toArray($category = [], $open = false)

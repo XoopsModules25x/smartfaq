@@ -111,7 +111,7 @@ WORK IN PROGRESS
 
 - A preview function has been added when Submitting a Q&A from the user side
 - In the FAQ template, the question has a link to the same page. This has been fixed
-- When no Opened Questions exists or the user don't have access to any Open Questions, he does not see the Open Question link anymore
+- When no Opened Questions exists or the user doesn't have access to any Open Questions, they do not see the Open Question link anymore
 - A new config option has been added to allow or not the submission of new answer for already published FAQ
 - The 'New answer' icon at the bottom of an FAQ is not displayed anymore when the user does not have the right to submit new answer
 - A bug was fixed regarding the get_class function used in the SmartFAQ's classes (thanks to BigDDave)
