@@ -473,6 +473,7 @@ class Utility extends Common\SysUtility
         if ($userid > 0) {
             if ($users == []) {
                 //fetching users
+                /** @var \XoopsMemberHandler $memberHandler */
                 $memberHandler = \xoops_getHandler('member');
                 $user          = $memberHandler->getUser($userid);
             } else {
