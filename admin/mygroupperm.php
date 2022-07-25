@@ -6,10 +6,10 @@ use Xmf\Request;
  * Module: SmartFAQ
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
- * @param       $db
- * @param       $gperm_modid
- * @param null  $gperm_name
- * @param null  $gperm_itemid
+ * @param \XoopsDatabase $db
+ * @param                $gperm_modid
+ * @param null           $gperm_name
+ * @param null           $gperm_itemid
  * @return bool
  */
 function myDeleteByModule(\XoopsDatabase $db, $gperm_modid, $gperm_name = null, $gperm_itemid = null)

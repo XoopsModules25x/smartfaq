@@ -24,7 +24,7 @@ class FaqHandler extends \XoopsObjectHandler
     protected $helper;
 
     /**
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase|null                $db
      * @param \XoopsModules\Smartfaq\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
@@ -238,9 +238,9 @@ class FaqHandler extends \XoopsObjectHandler
     /**
      * retrieve FAQs from the database
      *
-     * @param \CriteriaElement $criteria  {@link CriteriaElement} conditions to be met
-     * @param bool             $id_as_key use the faqid as key for the array?
-     * @param string           $notNullFields
+     * @param \CriteriaElement|null $criteria  {@link CriteriaElement} conditions to be met
+     * @param bool                  $id_as_key use the faqid as key for the array?
+     * @param string                $notNullFields
      * @return false|array  array of <a href='psi_element://Smartfaq\Faq'>Smartfaq\Faq</a> objects
      */
     public function getObjects(\CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')

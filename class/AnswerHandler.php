@@ -28,7 +28,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     public $helper;
 
     /**
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase|null                $db
      * @param \XoopsModules\Smartfaq\Helper|null $helper
      */
     public function __construct(XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
@@ -188,9 +188,9 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     /**
      * retrieve answers from the database
      *
-     * @param \CriteriaElement $criteria  {@link CriteriaElement} conditions to be met
-     * @param bool             $id_as_key use the answerid as key for the array?
-     * @param bool             $as_object
+     * @param \CriteriaElement|null $criteria  {@link CriteriaElement} conditions to be met
+     * @param bool                  $id_as_key use the answerid as key for the array?
+     * @param bool                  $as_object
      * @return array           array of <a href='psi_element://sfAnswer'>sfAnswer</a> objects
      */
     public function &getObjects(CriteriaElement $criteria = null, $id_as_key = false, $as_object = true)
@@ -292,7 +292,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     /**
      * count answers matching a condition
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement} to match
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement} to match
      * @return int             count of answers
      */
     public function getCount(CriteriaElement $criteria = null)
@@ -341,9 +341,9 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     /**
      * delete answers matching a set of conditions
      *
-     * @param \CriteriaElement $criteria {@link CriteriaElement}
-     * @param bool             $force
-     * @param bool             $asObject
+     * @param \CriteriaElement|null $criteria {@link CriteriaElement}
+     * @param bool                  $force
+     * @param bool                  $asObject
      * @return bool            FALSE if deletion failed
      */
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false)
@@ -362,10 +362,10 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     /**
      * Change a value for answers with a certain criteria
      *
-     * @param string           $fieldname  Name of the field
-     * @param string           $fieldvalue Value to write
-     * @param \CriteriaElement $criteria   {@link CriteriaElement}
-     * @param bool             $force
+     * @param string                $fieldname  Name of the field
+     * @param string                $fieldvalue Value to write
+     * @param \CriteriaElement|null $criteria   {@link CriteriaElement}
+     * @param bool                  $force
      * @return bool
      */
     public function updateAll($fieldname, $fieldvalue, CriteriaElement $criteria = null, $force = false)

@@ -22,7 +22,7 @@ class CategoryHandler extends \XoopsObjectHandler
     protected $helper;
 
     /**
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase|null                $db
      * @param \XoopsModules\Smartfaq\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
@@ -457,12 +457,12 @@ class CategoryHandler extends \XoopsObjectHandler
     /**
      * Change a value for categories with a certain criteria
      *
-     * @param string           $fieldname  Name of the field
-     * @param string           $fieldvalue Value to write
-     * @param \CriteriaElement $criteria   {@link CriteriaElement}
+     * @param string                $fieldname  Name of the field
+     * @param string                $fieldvalue Value to write
+     * @param \CriteriaElement|null $criteria   {@link CriteriaElement}
      *
      * @return bool
-     **/
+     */
     public function updateAll($fieldname, $fieldvalue, \CriteriaElement $criteria = null)
     {
         $set_clause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);

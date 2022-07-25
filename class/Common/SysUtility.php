@@ -186,8 +186,9 @@ class SysUtility
     }
 
     /**
-     * @param $fieldname
-     * @param $table
+     * @param string $fieldname
+     * @param string $table
+     * @return bool
      */
     public static function fieldExists(string $fieldname, string $table): bool
     {
