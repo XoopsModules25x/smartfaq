@@ -125,7 +125,7 @@ define('_MI_SF_OPENINTROMSGDEF',
        'Here is a list of Open Questions, that is, questions that have been submitted by users of this site but are still without answer. You can click on an open question if you want to help us with an answer.');
 
 define('_MI_SF_USEREALNAME', 'Use the Real Name of users');
-define('_MI_SF_USEREALNAMEDSC', 'When displaying a username, use the real name of that user if he has a set his real name.');
+define('_MI_SF_USEREALNAMEDSC', 'When displaying a username, use the real name of that user if they have set their real name.');
 
 define('_MI_SF_HELP_PATH_SELECT', "Path of SmartFAQ's help files");
 define('_MI_SF_HELP_PATH_SELECT_DSC',
