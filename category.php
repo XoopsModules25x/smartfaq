@@ -36,7 +36,7 @@ if (!$categoryObj->checkPermission()) {
     redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
 }
 $totalQnas = $categoryHandler->publishedFaqsCount($categoryid);
-// If there is no FAQ under this categories or the sub-categories, exit
+// If there is no FAQ under these categories or the sub-categories, exit
 if (!isset($totalQnas[$categoryid]) || 0 == $totalQnas[$categoryid]) {
     //redirect_header("index.php", 1, _MD_SF_MAINNOFAQS);
 }
@@ -66,11 +66,11 @@ if ($faqsObj) {
     $totalQnasOnPage = count($faqsObj);
 }
 
-// Arrays that will hold the informations passed on to smarty variables
+// Arrays that will hold the information passed on to smarty variables
 $category = [];
 $qnas     = [];
 
-// Populating the smarty variables with informations related to the selected category
+// Populating the smarty variables with information related to the selected category
 $category  = $categoryObj->toArray(null, true);
 $totalQnas = $categoryHandler->publishedFaqsCount();
 

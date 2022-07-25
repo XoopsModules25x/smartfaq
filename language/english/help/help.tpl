@@ -8,7 +8,7 @@
         for XOOPS 2.x websites. Compared to XoopsFaq or WF-FAQ, SmartFAQ offers
         exciting new functionality that will help communities to quickly and easily build a complete FAQ system for
         their sites.<br> <br>
-        Here is some of the features of SmartFAQ :<br> <br>
+        Here are some of the features of SmartFAQ :<br> <br>
 
         - Users can request a Q&A<br> <br>
         - Accepted requests are published in the Open Questions section.<br> <br>

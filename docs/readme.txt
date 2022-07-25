@@ -7,7 +7,7 @@
 What is SmartFAQ?
 =================
 
-SmartFAQ, as you would probably have guessed it by the name, is a Frequently Asked Questions system for XOOPS 2.x websites. Compared to XoopsFaq or WF-FAQ, SmartFAQ offers exciting new functionnalities that will help communities to quickly and easily build a complete FAQ system for their sites. Here is some of the features of SmartFAQ :
+SmartFAQ, as you would probably have guessed it by the name, is a Frequently Asked Questions system for XOOPS 2.x websites. Compared to XoopsFaq or WF-FAQ, SmartFAQ offers exciting new functionnalities that will help communities to quickly and easily build a complete FAQ system for their sites. Here are some of the features of SmartFAQ :
 
 => Users can request a Q&A
 => Accepted requests are published in the Open Questions section.
@@ -27,14 +27,14 @@ http://demo.smartfactory.ca
 How to install SmartFAQ
 =======================
 
-SmartFAQ is installed as a regular XOOPS module, which means you should copy the complete /smartfaq folder into the /modules directory of your website. Then, log in to your site as administrator, go to System Admin > Modules, look for the SmartFAQ icon in the list of uninstalled modules and click in the install icon. Follow the directions in the screen and you'll be ready to go.
+SmartFAQ is installed as a regular XOOPS module, which means you should copy the complete /smartfaq folder into the /modules directory of your website. Then, log in to your site as administrator, go to System Admin > Modules, look for the SmartFAQ icon in the list of uninstalled modules and click in the install icon. Follow the directions on the screen and you'll be ready to go.
 
 Feedback
 ========
 
 As usual, feedback is very welcomed ! I would like to know if you like the module, if is has bugs or if it can be in any way improved ! Since SmartFAQ is the Developpers XOOPS Forge for its developpement, you can easily :
 
-=> Post any bug you may found here : http://dev.xoops.org/modules/xfmod/tracker/?func=add&group_id=1026&atid=205
+=> Post any bug you may find here : http://dev.xoops.org/modules/xfmod/tracker/?func=add&group_id=1026&atid=205
 
 => Post any feature request here : http://dev.xoops.org/modules/xfmod/tracker/?func=add&group_id=1026&atid=208
 

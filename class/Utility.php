@@ -208,7 +208,7 @@ class Utility extends Common\SysUtility
      *
      * self::userIsAdmin()
      *
-     * @return bool : array with userids and uname
+     * @return bool array with userids and uname
      */
     public static function userIsAdmin()
     {
@@ -235,9 +235,9 @@ class Utility extends Common\SysUtility
      * self::faqAccessGranted()
      *
      * @param $faqObj
-     * @return int : -1 if no access, 0 if partialview and 1 if full access
-     * @internal param int $faqid : faqid on which we are setting permissions
-     * @internal param $integer $ categoryid : categoryid of the faq
+     * @return int -1 if no access, 0 if partialview and 1 if full access
+     * @internal param int $faqid faqid on which we are setting permissions
+     * @internal param int $categoryid categoryid of the faq
      */
 
     // TODO : Move this function to Smartfaq\Faq class
@@ -280,9 +280,9 @@ class Utility extends Common\SysUtility
      *
      *   self::overrideFaqsPermissions()
      *
-     * @param array $groups     : group with granted permission
-     * @param int   $categoryid :
-     * @return bool|array : TRUE if the no errors occured
+     * @param array $groups     group with granted permission
+     * @param int   $categoryid
+     * @return bool|array TRUE if the no errors occurred
      */
     public static function overrideFaqsPermissions($groups, $categoryid)
     {
@@ -318,9 +318,9 @@ class Utility extends Common\SysUtility
      *
      *   self::saveItemPermissions()
      *
-     * @param array $groups : group with granted permission
-     * @param int   $itemID : faqid on which we are setting permissions
-     * @return bool : TRUE if the no errors occured
+     * @param array $groups group with granted permission
+     * @param int   $itemID faqid on which we are setting permissions
+     * @return bool TRUE if the no errors occurred
      */
     public static function saveItemPermissions($groups, $itemID)
     {
@@ -346,10 +346,10 @@ class Utility extends Common\SysUtility
      *
      *   self::saveCategoryPermissions()
      *
-     * @param array  $groups     : group with granted permission
-     * @param int    $categoryid : categoryid on which we are setting permissions
-     * @param string $perm_name  : name of the permission
-     * @return bool : TRUE if the no errors occured
+     * @param array  $groups      group with granted permission
+     * @param int    $categoryid  categoryid on which we are setting permissions
+     * @param string $perm_name   name of the permission
+     * @return bool  TRUE if the no errors occurred
      */
     public static function saveCategoryPermissions($groups, $categoryid, $perm_name)
     {
@@ -375,9 +375,9 @@ class Utility extends Common\SysUtility
      *
      *   self::saveModerators()
      *
-     * @param array $moderators : moderators uids
-     * @param int   $categoryid : categoryid on which we are setting permissions
-     * @return bool : TRUE if the no errors occured
+     * @param array $moderators moderators uids
+     * @param int   $categoryid categoryid on which we are setting permissions
+     * @return bool TRUE if the no errors occurred
      */
     public static function saveModerators($moderators, $categoryid)
     {

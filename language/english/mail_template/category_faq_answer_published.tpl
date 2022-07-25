@@ -12,7 +12,7 @@ You can view the new answer here :
 
 You are receiving this message because you selected to be notified when new answer are published in the category "{CATEGORY_NAME}" of the {MODULE_NAME} module of our site.
 
-If this is an error or you wish not to receive further such notifications, please update your subscriptions by visiting the link below:
+If this is an error, or if you wish not to receive further such notifications, please update your subscriptions by visiting the link below:
 {X_UNSUBSCRIBE_URL}
 
 Please do not reply to this message.

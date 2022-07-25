@@ -199,7 +199,7 @@ function editcat($showmenu = false, $categoryid = 0): void
     */
     $hidden = new \XoopsFormHidden('op', 'addcategory');
     $buttonTray->addElement($hidden);
-    // No ID for category -- then it's new category, button says 'Create'
+    // No ID for category -- then it is new category, button says 'Create'
     if ($categoryid) {
         // button says 'Update'
         $butt_create = new \XoopsFormButton('', '', _AM_SF_MODIFY, 'submit');

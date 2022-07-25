@@ -62,7 +62,7 @@ if ($faqsObj) {
     redirect_header("javascript:history.go(-1)", 2, _AM_SF_NO_TOP_PERMISSIONS);
 }*/
 
-// Arrays that will hold the informations passed on to smarty variables
+// Arrays that will hold the information passed on to smarty variables
 $category    = [];
 $qnas        = [];
 $last_qnaObj = $faqHandler->getLastPublishedByCat([Constants::SF_STATUS_OPENED]);
@@ -70,7 +70,7 @@ if (isset($last_qnaObj[$categoryid])) {
     $categoryObj->setVar('last_faqid', $last_qnaObj[$categoryid]->getVar('faqid'));
     $categoryObj->setVar('last_question_link', "<a href='faq.php?faqid=" . $last_qnaObj[$categoryid]->getVar('faqid') . "'>" . $last_qnaObj[$categoryid]->question(50) . '</a>');
 }
-// Populating the smarty variables with informations related to the selected category
+// Populating the smarty variables with information related to the selected category
 $category                 = $categoryObj->toArray(null, true);
 $totalQnas                = $categoryHandler->faqsCount(0, [Constants::SF_STATUS_OPENED]);
 $category['categoryPath'] = $categoryObj->getCategoryPath(false, true);
@@ -81,7 +81,7 @@ $total_subcats  = count($subcatsObj);
 $catQnasWithSub = 0;
 if (0 != $total_subcats) {
     $faqHandler = Helper::getInstance()->getHandler('Faq');
-    // Arrays that will hold the informations passed on to smarty variables
+    // Arrays that will hold the information passed on to smarty variables
     foreach ($subcatsObj as $key => $subcat) {
         $subcat_id = $subcat->getVar('categoryid');
         if (isset($totalQnas[$subcat_id]) && $totalQnas[$subcat_id] > 0) {

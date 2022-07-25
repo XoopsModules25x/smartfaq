@@ -59,7 +59,7 @@ require_once __DIR__ . '/footer.php';
 
 $faq = $faqObj->toArray(null, $categoryObj, false);
 
-// Populating the smarty variables with informations related to the selected FAQ
+// Populating the smarty variables with information related to the selected FAQ
 /*$faq['questionlink'] = $faqObj->question($helper->getConfig('questionsize'));
 $faq['question'] = $faqObj->question();
 
@@ -74,7 +74,7 @@ $faq['cancomment'] = $faqObj->cancomment();
 $faq['categoryPath'] = $categoryObj->getCategoryPath(true);
 $faq['answer']       = $answerObj->answer();
 
-// Check to see if we need to display partial answer. This should probably be in a the FAQ class...
+// Check to see if we need to display partial answer. This should probably be in the FAQ class...
 if (0 == $faqAccessGrantedResult) {
     $faq['answer'] = xoops_substr($faq['answer'], 0, 150);
 }

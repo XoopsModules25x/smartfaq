@@ -18,7 +18,7 @@ define('_AM_SF_ANSWER_APPROVED_PUBLISHED', 'The answer has been approved and the
 define('_AM_SF_ANSWER_OFFICIAL', 'Official answer');
 define('_AM_SF_ANSWER_REJECTED', 'The answer was rejected.');
 define('_AM_SF_ANSWER_REJECTED_OPEN_QUESTION', 'The answer was rejected and the question is now displayed in the Open Question section for another user to answer it.');
-define('_AM_SF_ANSWER_DELETE_ERROR', 'An error occured while deleting this answer.');
+define('_AM_SF_ANSWER_DELETE_ERROR', 'An error occurred while deleting this answer.');
 define('_AM_SF_ANSWERED_APPROVE_SUCCESS', 'The answer has been reviewed and the Q&amp;A <br>has been published in the public section of the site.');
 define('_AM_SF_ANSWERED_BY', 'Question answered by : ');
 define('_AM_SF_ANSWERED_TITLE', 'Answered Opened Question');
@@ -66,7 +66,7 @@ define('_AM_SF_CATEGORY', 'Category');
 define('_AM_SF_CATEGORY_CREATE', 'Create a category');
 define('_AM_SF_CATEGORY_FAQ', "Category<span style='font-size: xx-small; font-weight: normal; display: block;'>Select a category for this Q&amp;A.</span>");
 define('_AM_SF_CATEGORY_QUESTION', "Category<pan style='font-size: xx-small; font-weight: normal; display: block;'>Select a category for this question.</span>");
-define('_AM_SF_CATEGORY_SAVE_ERROR', 'An error occured while saving the category. Here is a list of error(s) :');
+define('_AM_SF_CATEGORY_SAVE_ERROR', 'An error occurred while saving the category. Here is a list of error(s) :');
 define('_AM_SF_CLEAR', 'Clear');
 define('_AM_SF_COLDESCRIPT', 'Category description');
 define('_AM_SF_COLISDELETED', 'Category %s has been deleted');
@@ -94,7 +94,7 @@ define('_AM_SF_CREATEFAQ', 'Create a new Q&amp;A');
 define('_AM_SF_DELETE', 'Delete');
 define('_AM_SF_DELETEART', 'Delete Q&amp;A');
 define('_AM_SF_DELETE_CAT_CONFIRM', 'Please note that by deleting a category, all the sub-categories and the Q&amp;A of this category will be deleted as well, along with any comments that may have been posted related to these Q&amp;A. Are you sure you wish to delete this category?');
-define('_AM_SF_DELETE_CAT_ERROR', 'An error occured while deleting this category.');
+define('_AM_SF_DELETE_CAT_ERROR', 'An error occurred while deleting this category.');
 define('_AM_SF_DELETECOL', 'Delete category');
 define('_AM_SF_DELETESUBM', 'Delete submission');
 define('_AM_SF_DELETETHISARTICLE', 'Delete this Q&amp;A?');
@@ -116,8 +116,8 @@ define('_AM_SF_EDITING_INFO', 'You can edit this question. Modifications will im
 define('_AM_SF_EDITQUES', 'Edit an opened question');
 define('_AM_SF_EDITSUBM', 'Edit submission');
 define('_AM_SF_ERROR', ' An error has occurred.');
-define('_AM_SF_ERROR_ANSWER_NOT_SAVED', 'An error occured. The answer was not saved in the database.');
-define('_AM_SF_ERROR_FAQ_NOT_SAVED', 'An error occured. The Q&amp;A was not saved in the database.');
+define('_AM_SF_ERROR_ANSWER_NOT_SAVED', 'An error occurred. The answer was not saved in the database.');
+define('_AM_SF_ERROR_FAQ_NOT_SAVED', 'An error occurred. The Q&amp;A was not saved in the database.');
 define(
     '_AM_SF_EXACTURL',
     "Exact URL?<span style='font-size: xx-small; font-weight: normal; display: block;'>If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed in all pages that match a part of the root of the specific URL. ie; modules/newbb/*.php</span>"
@@ -144,7 +144,7 @@ define('_AM_SF_IMPORT_CATEGORY_ERROR', 'An error occurred while importing catego
 define('_AM_SF_IMPORT_CATEGORY_SUCCESS', 'Category <em>%s</em> imported successfully.');
 define('_AM_SF_IMPORT_CATEGORIES', '%s Categories');
 define('_AM_SF_IMPORT_CATEGORY_FAQ', 'An error occurred while importing FAQ <em>%s</em>.');
-define('_AM_SF_IMPORT_ERROR', 'An error occured while importing the Q&amp;A.');
+define('_AM_SF_IMPORT_ERROR', 'An error occurred while importing the Q&amp;A.');
 define('_AM_SF_IMPORT_FILE_NOT_FOUND', 'Import file not found at <b>%s</b>');
 define('_AM_SF_IMPORT_FROM', 'Importing from %s');
 define('_AM_SF_IMPORT_INFO', "You can import sets of Q&amp;A directly in the module. Simply choose the set you would like to import and click on the 'Import' button.");
@@ -287,7 +287,7 @@ define('_AM_SF_SUBMITTED_ANSWER_INFO', 'Here is a list of submitted answers for 
 define('_AM_SF_SUBMITTED_INFO', 'This Q&amp;A has been submitted by a member. You can make some modifications if you like. Upon approval, this Q&amp;A will be displayed in the Q&amp;A section of this site.');
 define('_AM_SF_SUBMITTED_APPROVE_SUCCESS', 'The submitted Q&amp;A has been published in the Q&amp;A section.');
 define('_AM_SF_SUBMITTED_TITLE', 'Approving a submitted Q&amp;A');
-define('_AM_SF_FAQ_DELETE_ERROR', 'An error occured while deleting this Q&amp;A.');
+define('_AM_SF_FAQ_DELETE_ERROR', 'An error occurred while deleting this Q&amp;A.');
 define('_AM_SF_TOTALPUBLISHED', "Published: <span style='font-weight: bold;'> %s </span>");
 define('_AM_SF_TOTALCAT', "Categories:  <span style='font-weight: bold;'> %s </span>");
 define('_AM_SF_TOTALNEWANSWERS', "New answer:  <span style='font-weight: bold;'> %s </span>");

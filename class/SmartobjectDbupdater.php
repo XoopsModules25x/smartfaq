@@ -32,7 +32,7 @@ class SmartobjectDbupdater
      * @param string $goodmsg message displayed on success
      * @param string $badmsg  message displayed on error
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */
     public function runQuery($query, $goodmsg, $badmsg)
     {
@@ -54,7 +54,7 @@ class SmartobjectDbupdater
      * @param string $from name of the table to rename
      * @param string $to   new name of the renamed table
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */
     public function renameTable($from, $to)
     {
@@ -80,7 +80,7 @@ class SmartobjectDbupdater
      *
      * @param Smartfaq\SmartDbTable $table {@link SmartDbTable} that will be updated
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      * @see DbTable
      */
     public function updateTable($table)

@@ -102,7 +102,7 @@ WORK IN PROGRESS
 
 1.04 RC 2 (Release Date : 2005-01-11)
 ================================================
-- A fatal error was found in xoops_version that prevented a fresh install of the module. Thanks to Xavier !
+- A fatal error was found in xoops_version that prevented a fresh installation of the module. Thanks to Xavier !
 - Enable HTML tags - not working #bug 1645 was fixed, thanks to Marius
 - When an admin submit a Q&A from the user side, it is now automatically published
 
@@ -111,7 +111,7 @@ WORK IN PROGRESS
 
 - A preview function has been added when Submitting a Q&A from the user side
 - In the FAQ template, the question has a link to the same page. This has been fixed
-- When no Opened Questions exists or the user doesn't have access to any Open Questions, they do not see the Open Question link anymore
+- When no Opened Questions exist or the user doesn't have access to any Open Questions, they do not see the Open Question link anymore
 - A new config option has been added to allow or not the submission of new answer for already published FAQ
 - The 'New answer' icon at the bottom of an FAQ is not displayed anymore when the user does not have the right to submit new answer
 - A bug was fixed regarding the get_class function used in the SmartFAQ's classes (thanks to BigDDave)
@@ -123,7 +123,7 @@ WORK IN PROGRESS
 ==================================================
 - Layout and efficiency improvments in the template
 - Add a config option to display or not the last Q&As in the index page
-- Add a config option to display or not the top categories description
+- Add a config option to display or not the top categories' description
 - Add a config option to display or not the sub-categories in the index page
 - Add a block for Most Viewed Q&As
 - All form now uses templates
@@ -163,11 +163,11 @@ WORK IN PROGRESS
 
 1.02 Beta 1 (Release Date : 2004-10-10)
 ==================================================
-- Addition of a config option to let the admin display or not the last Q&A for each categories
+- Addition of a config option to let the admin display or not the last Q&A for each category
 - Addition of a config option to set the size of the last Q&A for each category
 - Addition of a config option to let the admin display or not the sub-categories description
 - Correction of some undefined offset on index, request and category page
-- Fix of the french translation
+- Fix of the French translation
 
 1.01 Beta 2 (Release Date : 2004-10-08)
 ==================================================
@@ -190,7 +190,7 @@ WORK IN PROGRESS
 - An new feature has been implemented for importing FAQs from XoopsFAQ and WF-FAQ.
 - Printing an FAQ was not working. It has been fixed.
 - When the category decsription was too long, the category could not be created. This has been fixed.
-- Deleting a category was causing an Fatal Error. It has been fixed.
+- Deleting a category was causing a Fatal Error. It has been fixed.
 - The search function was not working. It has been fixed.
 - When editing an FAQ, the uid was changed for the one editing it. This has been fixed.
 - On a clean install, without adding any content, cliking on SmartFAQ in the main menu was causing an infinite loop of redirect message. This has been fixed.

@@ -67,7 +67,7 @@ $totalCategoriesOnPage = count($categoriesObj);
 if (0 == $totalCategoriesOnPage) {
     redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_SF_NO_CAT_EXISTS);
 }
-// Arrays that will hold the informations passed on to smarty variables
+// Arrays that will hold the information passed on to smarty variables
 
 $qnas = [];
 

@@ -46,8 +46,8 @@ define('_MD_SF_DOHTML', 'Enable HTML tags ');
 define('_MD_SF_DOSMILEY', 'Enable smiley icons ');
 define('_MD_SF_DOXCODE', 'Enable XOOPS codes');
 define('_MD_SF_EDIT', 'Edit Q&amp;A');
-define('_MD_SF_ERROR_ANSWER_NOT_SAVED', 'An error occured. The answer was not saved in the database.');
-define('_MD_SF_ERROR_FAQ_NOT_SAVED', 'An error occured. The Q&amp;A was not saved in the database.');
+define('_MD_SF_ERROR_ANSWER_NOT_SAVED', 'An error occurred. The answer was not saved in the database.');
+define('_MD_SF_ERROR_FAQ_NOT_SAVED', 'An error occurred. The Q&amp;A was not saved in the database.');
 define('_MD_SF_ERRORSAVINGDB', 'ERROR: Database has NOT been Updated due to an Error!');
 define('_MD_SF_EXACTURL', 'Exact URL?');
 define('_MD_SF_EXACTURL_DSC', "If set to 'Yes', the Q&amp;A will only display in the'Specific URL set above'. If set to 'No', the Q&amp;A will be displayed all pages that match a part of the root of the specific URL.ie modules/newbb/*.php");
@@ -116,7 +116,7 @@ define('_MD_SF_QUESTIONCOMEFROM', 'This Question was found on ');
 define('_MD_SF_QUESTIONS', 'Questions');
 define('_MD_SF_READS', 'reads');
 define('_MD_SF_REQUEST', 'Request a new Q&amp;A');
-define('_MD_SF_REQUEST_ERROR', 'An error occured. Your request was not sent.');
+define('_MD_SF_REQUEST_ERROR', 'An error occurred. Your request was not sent.');
 define(
     '_MD_SF_REQUEST_INTRO',
     'You did not find the answer to the question you were looking for? No problem! Simply fill the following form in order to request the answer for a new question. The site administrator will review your request and publish this new question in the Open Questions section for someone to answer it!'
@@ -137,7 +137,7 @@ define('_MD_SF_SPECIFIC_URL_DSC', "If you have set the 'Contextually link to thi
 define('_MD_SF_SUB_INTRO', 'please fill this form to send your Q&amp;A. The site administrator will review it and then publish it as soon as possible. Thank you in advance for your contribution.');
 define('_MD_SF_SUB_SNEWNAME', 'Submit a Q&amp;A');
 define('_MD_SF_SUB_SMNAME', 'Submit a Q&amp;A');
-define('_MD_SF_SUBMIT_ERROR', 'An error occured. Your FAQ was not submitted.');
+define('_MD_SF_SUBMIT_ERROR', 'An error occurred. Your FAQ was not submitted.');
 define('_MD_SF_SUBMITANSWER', 'Submit answer');
 define('_MD_SF_SUBMITANSWERTO', 'Submit an answer to %s');
 define('_MD_SF_SUBMITANSWER_INTRO', 'please fill this form to submit an answer for this question. The site adminisrator will review it and then publish it as soon as possible. Thank you in advance for your contribution.');

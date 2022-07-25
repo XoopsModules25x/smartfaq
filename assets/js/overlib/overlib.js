@@ -745,8 +745,8 @@ function parseTokens(pf, ar) {
 
     for (i = 0; i < ar.length; i++) {
         if (mode < 0) {
-            // Arg is maintext,unless its a number between pmStart and pmUpper
-            // then its a command.
+            // Arg is maintext,unless it's a number between pmStart and pmUpper
+            // then it's a command.
             if (typeof ar[i] == 'number' && ar[i] > pmStart && ar[i] < pmUpper) {
                 fnMark = (par ? 1 : 0);
                 i--;   // backup one so that the next block can parse it

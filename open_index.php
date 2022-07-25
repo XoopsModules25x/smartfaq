@@ -56,7 +56,7 @@ require_once __DIR__ . '/footer.php';
 //get all categories for future reference
 $allcategories = $categoryHandler->getObjects(null, true);
 
-// Arrays that will hold the informations passed on to smarty variables
+// Arrays that will hold the information passed on to smarty variables
 $qnas       = [];
 $categories = [];
 $subcats    = $categoryHandler->getSubCats($categoriesObj);

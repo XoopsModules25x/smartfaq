@@ -8,7 +8,7 @@
 
 // ------------------------------------------------------------------------- //
 //                            myblocksadmin.php                              //
-//                - XOOPS block admin for each modules -                     //
+//                - XOOPS block admin for each module -                      //
 //                          GIJOE <https://www.peak.ne.jp>                   //
 // ------------------------------------------------------------------------- //
 

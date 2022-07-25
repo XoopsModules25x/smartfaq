@@ -83,7 +83,7 @@ switch ($op) {
         // Get the cateopry object related to that FAQ
         // If autoapprove_requested
         if (1 == $helper->getConfig('autoapprove_request')) {
-            // We do not not subscribe user to notification on publish since we publish it right away
+            // We do not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
             $newFaqObj->sendNotifications([Constants::SF_NOT_QUESTION_PUBLISHED]);

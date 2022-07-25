@@ -50,7 +50,7 @@ switch ($op) {
     case 'post':
         global $faqObj, $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsModuleConfig, $xoopsDB;
 
-        // If user is anonymous and we don't allow anonymous posting, exit; else, get the uid
+        // If user is anonymous,and we don't allow anonymous posting, exit; else, get the uid
         if ($xoopsUser) {
             $uid = $xoopsUser->uid();
         } else {
@@ -80,7 +80,7 @@ switch ($op) {
         $newAnswerObj->setVar('answer', $_POST['answer']);
         $newAnswerObj->setVar('uid', $uid);
 
-        // Depending of the status of the FAQ, some values need to be set
+        // Depending on the status of the FAQ, some values need to be set
         $original_status = $faqObj->status();
         switch ($original_status) {
             // This is an Open Question

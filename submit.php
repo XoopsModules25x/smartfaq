@@ -241,14 +241,14 @@ switch ($op) {
 
         // If autoapprove_submitted_faq
         if ($isAdmin) {
-            // We do not not subscribe user to notification on publish since we publish it right away
+            // We do not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
             $newFaqObj->sendNotifications([Constants::SF_NOT_FAQ_PUBLISHED]);
 
             $redirect_msg = _MD_SF_SUBMIT_FROM_ADMIN;
         } elseif (1 == $helper->getConfig('autoapprove_submitted_faq')) {
-            // We do not not subscribe user to notification on publish since we publish it right away
+            // We do not subscribe user to notification on publish since we publish it right away
 
             // Send notifications
             $newFaqObj->sendNotifications([Constants::SF_NOT_FAQ_PUBLISHED]);

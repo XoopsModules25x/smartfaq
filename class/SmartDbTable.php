@@ -219,7 +219,7 @@ class SmartDbTable
     /**
      * Use to insert data in a table
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */
     public function addData()
     {
@@ -377,7 +377,7 @@ class SmartDbTable
     /**
      * Use to create a table
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */
     public function createTable()
     {
@@ -398,7 +398,7 @@ class SmartDbTable
     /**
      * Use to drop a table
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */
     public function dropTable()
     {
@@ -419,7 +419,7 @@ class SmartDbTable
     /**
      * Use to alter a table
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */
     public function alterTable()
     {
@@ -446,7 +446,7 @@ class SmartDbTable
     /**
      * Use to add new fileds in the table
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */
     public function addNewFields()
     {
@@ -470,7 +470,7 @@ class SmartDbTable
     /**
      * Use to update fields values
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */
     public function updateFieldsValues()
     {
@@ -494,7 +494,7 @@ class SmartDbTable
     /**
      * Use to update fields values
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */ //felix
 
     public function updateWhereValues()
@@ -520,7 +520,7 @@ class SmartDbTable
     /**
      * Use to drop fields
      *
-     * @return bool true if success, false if an error occured
+     * @return bool true if success, false if an error occurred
      */
     public function dropFields()
     {
