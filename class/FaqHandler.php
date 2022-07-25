@@ -774,7 +774,7 @@ class FaqHandler extends \XoopsObjectHandler
                         break;
                 }
                 if ($display) {
-                    $randomFaqs[] = &$faqsObj[$i];
+                    $randomFaqs[] = &$iValue;
                 }
             }
         }
