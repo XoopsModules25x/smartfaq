@@ -708,7 +708,7 @@ class FaqHandler extends \XoopsObjectHandler
 
         if ($totalFaqs > 0) {
             --$totalFaqs;
-            $entrynumber = \mt_rand(0, $totalFaqs);
+            $entrynumber = \random_int(0, $totalFaqs);
             $faq         = $this->getFaqs(1, $entrynumber, $status, -1, 'datesub', 'DESC', $notNullFields);
             if ($faq) {
                 $ret = &$faq[0];
