@@ -152,14 +152,14 @@ class Utility extends Common\SysUtility
     public static function getStatusArray()
     {
         $result = [
-            '1' => \_AM_SF_STATUS1,
-            '2' => \_AM_SF_STATUS2,
-            '3' => \_AM_SF_STATUS3,
-            '4' => \_AM_SF_STATUS4,
-            '5' => \_AM_SF_STATUS5,
-            '6' => \_AM_SF_STATUS6,
-            '7' => \_AM_SF_STATUS7,
-            '8' => \_AM_SF_STATUS8,
+            1 => \_AM_SF_STATUS1,
+            2 => \_AM_SF_STATUS2,
+            3 => \_AM_SF_STATUS3,
+            4 => \_AM_SF_STATUS4,
+            5 => \_AM_SF_STATUS5,
+            6 => \_AM_SF_STATUS6,
+            7 => \_AM_SF_STATUS7,
+            8 => \_AM_SF_STATUS8,
         ];
 
         return $result;
