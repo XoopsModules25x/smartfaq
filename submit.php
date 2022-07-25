@@ -118,7 +118,6 @@ switch ($op) {
         require_once XOOPS_ROOT_PATH . '/footer.php';
 
         exit();
-        break;
     case 'post':
         global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsDB;
 

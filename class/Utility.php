@@ -60,13 +60,10 @@ class Utility extends Common\SysUtility
         switch ($smartConfig['helppath_select']) {
             case 'docs.xoops.org':
                 return 'https://docs.xoops.org/help/sfaqh/index.htm';
-                break;
             case 'inside':
                 return XOOPS_URL . '/modules/smartfaq/doc/';
-                break;
             case 'custom':
                 return $smartConfig['helppath_custom'];
-                break;
         }
     }
 

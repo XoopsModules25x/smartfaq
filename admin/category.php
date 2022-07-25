@@ -333,7 +333,6 @@ switch ($op) {
             xoops_cp_footer();
         }
         exit();
-        break;
     case 'cancel':
         redirect_header('category.php', 1, sprintf(_AM_SF_BACK2IDX, ''));
         break;

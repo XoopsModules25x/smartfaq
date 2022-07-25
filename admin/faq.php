@@ -557,7 +557,6 @@ switch ($op) {
         }
 
         exit();
-        break;
     case 'default':
     default:
         $adminObject = Admin::getInstance();
