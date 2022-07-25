@@ -764,12 +764,10 @@ class FaqHandler extends \XoopsObjectHandler
                     default:
                         if (false === mb_strpos($currenturl, XOOPS_URL . '/modules/')) {
                             $display = false;
-                        } else {
-                            if (false === mb_strpos($currenturl, $iValue->modulelink())) {
+                        } elseif (false === mb_strpos($currenturl, $iValue->modulelink())) {
                                 $display = false;
                             } else {
                                 $display = true;
-                            }
                         }
                         break;
                 }

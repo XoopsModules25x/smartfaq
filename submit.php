@@ -218,12 +218,10 @@ switch ($op) {
                     $uploader->setPrefix($prefix);
                     if (!$uploader->upload()) {
                         $error_message[] = $error_upload = &$uploader->getErrors();
-                    } else {
-                        if (is_file($uploader->getSavedDestination())) {
+                    } elseif (is_file($uploader->getSavedDestination())) {
                             if (rename(XOOPS_CACHE_PATH . '/' . $uploader->getSavedFileName(), XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $uploader->getSavedFileName())) {
                                 $post_obj->setAttachment($uploader->getSavedFileName(), $uploader->getMediaName(), $uploader->getMediaType());
                             }
-                        }
                     }
                 } else {
                     $error_message[] = $error_upload = &$uploader->getErrors();
