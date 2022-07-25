@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -11,27 +11,20 @@
 
 /**
  * @copyright    XOOPS Project (https://xoops.org)
- * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
+ * @license      GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author       XOOPS Development Team
  */
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use Xmf\Yaml;
-use XoopsModules\Smartfaq\{
-    Common,
-    Constants,
-    Helper,
-    Utility
-};
+use XoopsModules\Smartfaq\Common\TestdataButtons;
+use XoopsModules\Smartfaq\Constants;
+use XoopsModules\Smartfaq\Helper;
+use XoopsModules\Smartfaq\Utility;
 
 /** @var Admin $adminObject */
 /** @var Helper $helper */
 /** @var Utility $utility */
-
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
@@ -58,31 +51,31 @@ $totalcategories = $categoryHandler->getCategoriesCount(-1);
 $totalfaqbystatus = $faqHandler->getFaqsCountByStatus();
 
 // Total asked FAQs
-$totalasked = isset($totalfaqbystatus[Constants::SF_STATUS_ASKED]) ? $totalfaqbystatus[Constants::SF_STATUS_ASKED] : 0;
+$totalasked = $totalfaqbystatus[Constants::SF_STATUS_ASKED] ?? 0;
 
 // Total opened FAQs
-$totalopened = isset($totalfaqbystatus[Constants::SF_STATUS_OPENED]) ? $totalfaqbystatus[Constants::SF_STATUS_OPENED] : 0;
+$totalopened = $totalfaqbystatus[Constants::SF_STATUS_OPENED] ?? 0;
 
 // Total answered FAQs
-$totalanswered = isset($totalfaqbystatus[Constants::SF_STATUS_ANSWERED]) ? $totalfaqbystatus[Constants::SF_STATUS_ANSWERED] : 0;
+$totalanswered = $totalfaqbystatus[Constants::SF_STATUS_ANSWERED] ?? 0;
 
 // Total submitted FAQs
-$totalsubmitted = isset($totalfaqbystatus[Constants::SF_STATUS_SUBMITTED]) ? $totalfaqbystatus[Constants::SF_STATUS_SUBMITTED] : 0;
+$totalsubmitted = $totalfaqbystatus[Constants::SF_STATUS_SUBMITTED] ?? 0;
 
 // Total published FAQs
-$totalpublished = isset($totalfaqbystatus[Constants::SF_STATUS_PUBLISHED]) ? $totalfaqbystatus[Constants::SF_STATUS_PUBLISHED] : 0;
+$totalpublished = $totalfaqbystatus[Constants::SF_STATUS_PUBLISHED] ?? 0;
 
 // Total offline FAQs
-$totaloffline = isset($totalfaqbystatus[Constants::SF_STATUS_OFFLINE]) ? $totalfaqbystatus[Constants::SF_STATUS_OFFLINE] : 0;
+$totaloffline = $totalfaqbystatus[Constants::SF_STATUS_OFFLINE] ?? 0;
 
 // Total rejected question
-$totalrejectedquestion = isset($totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION]) ? $totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION] : 0;
+$totalrejectedquestion = $totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION] ?? 0;
 
 // Total rejected smartfaq
-$totalrejectedsmartfaq = isset($totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ]) ? $totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ] : 0;
+$totalrejectedsmartfaq = $totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ] ?? 0;
 
 // Total Q&A with new answers
-$totalnewanswers = isset($totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER]) ? $totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER] : 0;
+$totalnewanswers = $totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER] ?? 0;
 
 //set info block
 $adminObject->addInfoBox(_AM_SF_INVENTORY);
@@ -124,77 +117,28 @@ $adminObject->displayNavigation(basename(__FILE__));
 
 //check for latest release
 //$newRelease = $utility->checkVerModule($helper);
-//if (!empty($newRelease)) {
+//if (null !== $newRelease) {
 //    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
 //}
 
-//------------- Test Data ----------------------------
-
+//------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {
-    $yamlFile            = dirname(__DIR__) . '/config/admin.yml';
-    $config              = loadAdminConfig($yamlFile);
-    $displaySampleButton = $config['displaySampleButton'];
-
-    if (1 == $displaySampleButton) {
-        xoops_loadLanguage('admin/modulesadmin', 'system');
-        require_once dirname(__DIR__) . '/testdata/index.php';
-
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=load', 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), '__DIR__ . /../../testdata/index.php?op=save', 'add');
-        //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), '__DIR__ . /../../testdata/index.php?op=exportschema', 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS'), '?op=hide_buttons', 'delete');
-    } else {
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS'), '?op=show_buttons', 'add');
-        $displaySampleButton = $config['displaySampleButton'];
-    }
+    TestdataButtons::loadButtonConfig($adminObject);
     $adminObject->displayButton('left', '');
 }
-
-//------------- End Test Data ----------------------------
-
-$adminObject->displayIndex();
-
-/**
- * @param $yamlFile
- * @return array|bool
- */
-function loadAdminConfig($yamlFile)
-{
-    $config = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
-    return $config;
-}
-
-/**
- * @param $yamlFile
- */
-function hideButtons($yamlFile)
-{
-    $app['displaySampleButton'] = 0;
-    Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
-}
-
-/**
- * @param $yamlFile
- */
-function showButtons($yamlFile)
-{
-    $app['displaySampleButton'] = 1;
-    Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
-}
-
 $op = Request::getString('op', 0, 'GET');
-
 switch ($op) {
     case 'hide_buttons':
-        hideButtons($yamlFile);
+        TestdataButtons::hideButtons();
         break;
     case 'show_buttons':
-        showButtons($yamlFile);
+        TestdataButtons::showButtons();
         break;
 }
+//------------- End Test Data Buttons ----------------------------
 
+$adminObject->displayIndex();
 echo $utility::getServerStats();
 
-require __DIR__ . '/admin_footer.php';
+//codeDump(__FILE__);
+require_once __DIR__ . '/admin_footer.php';
