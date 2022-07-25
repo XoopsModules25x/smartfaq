@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
@@ -7,16 +7,14 @@ namespace XoopsModules\Smartfaq;
  *
  * Class performing the database update for the module
  *
- * @package SmartObject
  * @author  marcan <marcan@smartfactory.ca>
- * @link    http://www.smartfactory.ca The SmartFactory
+ * @link    https://www.smartfactory.ca The SmartFactory
  */
 
 use XoopsModules\Smartfaq;
 
 /**
  * Class SmartobjectDbupdater
- * @package XoopsModules\Smartfaq
  */
 class SmartobjectDbupdater
 {
@@ -68,11 +66,11 @@ class SmartobjectDbupdater
         $query = \sprintf('ALTER TABLE `%s` RENAME %s', $from, $to);
         $ret   = $xoopsDB->queryF($query);
         if (!$ret) {
-            echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br>';
+            echo '&nbsp;&nbsp;' . \sprintf(\_SDU_MSG_RENAME_TABLE_ERR, $from) . '<br>';
 
             return false;
         }
-        echo '&nbsp;&nbsp;' . \sprintf(_SDU_MSG_RENAME_TABLE, $from, $to) . '<br>';
+        echo '&nbsp;&nbsp;' . \sprintf(\_SDU_MSG_RENAME_TABLE, $from, $to) . '<br>';
 
         return true;
     }
@@ -84,7 +82,6 @@ class SmartobjectDbupdater
      *
      * @return bool true if success, false if an error occured
      * @see DbTable
-     *
      */
     public function updateTable($table)
     {

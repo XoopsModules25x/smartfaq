@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -18,7 +18,7 @@ $myts = \MyTextSanitizer::getInstance();
 $helper            = Smartfaq\Helper::getInstance();
 $smartModuleConfig = $helper->getConfig();
 $xoopsModule       = $helper->getModule();
-$pathIcon16        = Admin::iconUrl('', 16);
+$pathIcon16        = Admin::iconUrl('', '16');
 
 $faqid = Request::getInt('faqid', 0, 'POST');
 
@@ -28,18 +28,18 @@ $faqid = Request::getInt('faqid', 0, 'POST');
 $statussel = Request::getInt('statussel', Constants::SF_STATUS_ALL, 'GET');
 $statussel = Request::getInt('statussel', $statussel, 'POST');
 
-$sortsel = isset($_GET['sortsel']) ? $_GET['sortsel'] : 'faqid';
-$sortsel = isset($_POST['sortsel']) ? $_POST['sortsel'] : $sortsel;
+$sortsel = $_GET['sortsel'] ?? 'faqid';
+$sortsel = $_POST['sortsel'] ?? $sortsel;
 
-$ordersel = isset($_GET['ordersel']) ? $_GET['ordersel'] : 'DESC';
-$ordersel = isset($_POST['ordersel']) ? $_POST['ordersel'] : $ordersel;
+$ordersel = $_GET['ordersel'] ?? 'DESC';
+$ordersel = $_POST['ordersel'] ?? $ordersel;
 
 $module_id = $xoopsModule->getVar('mid');
 /** @var \XoopsGroupPermHandler $grouppermHandler */
 $grouppermHandler = xoops_getHandler('groupperm');
 $groups           = $xoopsUser ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 
-function buildTable()
+function buildTable(): void
 {
     /** @var Smartfaq\Helper $helper */
     $helper = Smartfaq\Helper::getInstance();
@@ -77,7 +77,7 @@ $startentry = Request::getInt('startentry', 0, 'GET');
 $adminObject = Admin::getInstance();
 xoops_cp_header();
 $adminObject->displayNavigation(basename(__FILE__));
-global $xoopsUser, $xoopsUser, $xoopsDB, $faqid;
+global $xoopsUser, $xoopsDB, $faqid;
 
 // Total FAQs -- includes everything on the table
 $totalfaqs = $faqHandler->getFaqsCount();
@@ -89,31 +89,31 @@ $totalcategories = $categoryHandler->getCategoriesCount(-1);
 $totalfaqbystatus = $faqHandler->getFaqsCountByStatus();
 
 // Total asked FAQs
-$totalasked = isset($totalfaqbystatus[Constants::SF_STATUS_ASKED]) ? $totalfaqbystatus[Constants::SF_STATUS_ASKED] : 0;
+$totalasked = $totalfaqbystatus[Constants::SF_STATUS_ASKED] ?? 0;
 
 // Total opened FAQs
-$totalopened = isset($totalfaqbystatus[Constants::SF_STATUS_OPENED]) ? $totalfaqbystatus[Constants::SF_STATUS_OPENED] : 0;
+$totalopened = $totalfaqbystatus[Constants::SF_STATUS_OPENED] ?? 0;
 
 // Total answered FAQs
-$totalanswered = isset($totalfaqbystatus[Constants::SF_STATUS_ANSWERED]) ? $totalfaqbystatus[Constants::SF_STATUS_ANSWERED] : 0;
+$totalanswered = $totalfaqbystatus[Constants::SF_STATUS_ANSWERED] ?? 0;
 
 // Total submitted FAQs
-$totalsubmitted = isset($totalfaqbystatus[Constants::SF_STATUS_SUBMITTED]) ? $totalfaqbystatus[Constants::SF_STATUS_SUBMITTED] : 0;
+$totalsubmitted = $totalfaqbystatus[Constants::SF_STATUS_SUBMITTED] ?? 0;
 
 // Total published FAQs
-$totalpublished = isset($totalfaqbystatus[Constants::SF_STATUS_PUBLISHED]) ? $totalfaqbystatus[Constants::SF_STATUS_PUBLISHED] : 0;
+$totalpublished = $totalfaqbystatus[Constants::SF_STATUS_PUBLISHED] ?? 0;
 
 // Total offline FAQs
-$totaloffline = isset($totalfaqbystatus[Constants::SF_STATUS_OFFLINE]) ? $totalfaqbystatus[Constants::SF_STATUS_OFFLINE] : 0;
+$totaloffline = $totalfaqbystatus[Constants::SF_STATUS_OFFLINE] ?? 0;
 
 // Total rejected question
-$totalrejectedquestion = isset($totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION]) ? $totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION] : 0;
+$totalrejectedquestion = $totalfaqbystatus[Constants::SF_STATUS_REJECTED_QUESTION] ?? 0;
 
 // Total rejected smartfaq
-$totalrejectedsmartfaq = isset($totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ]) ? $totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ] : 0;
+$totalrejectedsmartfaq = $totalfaqbystatus[Constants::SF_STATUS_REJECTED_SMARTFAQ] ?? 0;
 
 // Total Q&A with new answers
-$totalnewanswers = isset($totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER]) ? $totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER] : 0;
+$totalnewanswers = $totalfaqbystatus[Constants::SF_STATUS_NEW_ANSWER] ?? 0;
 
 // -- //
 //Smartfaq\Utility::collapsableBar('toptable', 'toptableicon');

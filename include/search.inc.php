@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use XoopsModules\Smartfaq\Helper;
 
@@ -13,7 +13,6 @@ use XoopsModules\Smartfaq\Helper;
  * @param $userid
  * @return array
  */
-
 function smartfaq_search($queryarray, $andor, $limit, $offset, $userid)
 {
     //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';

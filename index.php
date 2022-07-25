@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -8,11 +8,11 @@
 
 use Xmf\Request;
 use XoopsModules\Smartfaq\{
-    Constants,
-    Helper,
-    CategoryHandler,
-    FaqHandler,
     AnswerHandler,
+    CategoryHandler,
+    Constants,
+    FaqHandler,
+    Helper,
     Utility
 };
 
@@ -22,12 +22,14 @@ use XoopsModules\Smartfaq\{
 /** @var FaqHandler $faqHandler */
 /** @var AnswerHandler $answerHandler */
 
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_index.tpl';
+
 require_once __DIR__ . '/header.php';
 
 $helper = Helper::getInstance();
 
 // At which record shall we start for the Categories
-$catstart =Request::getInt('catstart', 0, 'GET');
+$catstart = Request::getInt('catstart', 0, 'GET');
 
 // At which record shall we start for the FAQ
 $start = Request::getInt('start', 0, 'GET');
@@ -54,8 +56,6 @@ if (0 == $totalFaqs) {
         redirect_header('../../index.php', 2, _AM_SF_NO_TOP_PERMISSIONS);
     }
 }
-
-$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_index.tpl';
 
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';

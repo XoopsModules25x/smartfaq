@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -9,15 +9,18 @@
 // ------------------------------------------------------------------------- //
 //                            myblocksadmin.php                              //
 //                - XOOPS block admin for each modules -                     //
-//                          GIJOE <http://www.peak.ne.jp>                   //
+//                          GIJOE <https://www.peak.ne.jp>                   //
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 
-require_once __DIR__ . '/admin_header.php';
+require __DIR__ . '/admin_header.php';
 xoops_cp_header();
+
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 $helper->loadLanguage('admin');
 
@@ -35,10 +38,10 @@ if (!file_exists("$xoops_system_path/language/$language/admin/blocksadmin.php"))
 
 // to prevent from notice that constants already defined
 $error_reporting_level = error_reporting(0);
-require_once dirname(dirname(__DIR__)) . '/system/constants.php';
+require_once \dirname(__DIR__, 2) . '/system/constants.php';
 require_once __DIR__ . "/../../language/$language/admin.php";
 require_once __DIR__ . "/../../language/$language/admin/blocksadmin.php";
-//require_once  dirname(__DIR__) . '/include/functions.php';
+//require_once  \dirname(__DIR__) . '/include/functions.php';
 error_reporting($error_reporting_level);
 
 $group_defs = file("$xoops_system_path/language/$language/admin/groups.php");
@@ -91,23 +94,23 @@ while (false !== ($myrow = $db->fetchArray($result))) {
     $block_arr[] = new \XoopsBlock($myrow);
 }
 
-function list_blocks()
+function list_blocks(): void
 {
     global $query4redirect, $block_arr;
 
     // cachetime options
     $cachetimes = [
-        '0'       => _NOCACHE,
-        '30'      => sprintf(_SECONDS, 30),
-        '60'      => _MINUTE,
-        '300'     => sprintf(_MINUTES, 5),
-        '1800'    => sprintf(_MINUTES, 30),
-        '3600'    => _HOUR,
-        '18000'   => sprintf(_HOURS, 5),
-        '86400'   => _DAY,
-        '259200'  => sprintf(_DAYS, 3),
-        '604800'  => _WEEK,
-        '2592000' => _MONTH,
+        0       => _NOCACHE,
+        30      => sprintf(_SECONDS, 30),
+        60      => _MINUTE,
+        300     => sprintf(_MINUTES, 5),
+        1800    => sprintf(_MINUTES, 30),
+        3600    => _HOUR,
+        18000   => sprintf(_HOURS, 5),
+        86400   => _DAY,
+        259200  => sprintf(_DAYS, 3),
+        604800  => _WEEK,
+        2592000 => _MONTH,
     ];
 
     // displaying TH
@@ -120,12 +123,12 @@ function list_blocks()
     <form action='admin.php' name='blockadmin' method='post'>
         <table width='100%' class='outer' cellpadding='4' cellspacing='1'>
         <tr valign='middle'>
-            <th>" . _AM_TITLE . "</th>
+            <th>" . _AM_SYSTEM_BLOCKS_TITLE . "</th>
             <th align='center' nowrap='nowrap'>" . _AM_SF_POSITION . "</th>
-            <th align='center'>" . _AM_WEIGHT . "</th>
-            <th align='center'>" . _AM_VISIBLEIN . "</th>
-            <th align='center'>" . _AM_BCACHETIME . "</th>
-            <th align='center'>" . _AM_ACTION . "</th>
+            <th align='center'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'WEIGHT') . "</th>
+            <th align='center'>" . _AM_SYSTEM_BLOCKS_VISIBLEIN . "</th>
+            <th align='center'>" . _AM_SYSTEM_BLOCKS_BCACHETIME . "</th>
+            <th align='center'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'ACTION') . "</th>
         </tr>\n";
 
     // blocks displaying loop
@@ -197,20 +200,20 @@ function list_blocks()
         $db            = \XoopsDatabaseFactory::getDatabaseConnection();
         $result        = $db->query('SELECT module_id FROM ' . $db->prefix('block_module_link') . " WHERE block_id='$bid'");
         $selected_mids = [];
-        while (list($selected_mid) = $db->fetchRow($result)) {
+        while ([$selected_mid] = $db->fetchRow($result)) {
             $selected_mids[] = (int)$selected_mid;
         }
         /** @var \XoopsModuleHandler $moduleHandler */
         $moduleHandler = xoops_getHandler('module');
         $criteria      = new \CriteriaCompo(new \Criteria('hasmain', 1));
         $criteria->add(new \Criteria('isactive', 1));
-        $module_list     = $moduleHandler->getList($criteria);
-        $module_list[-1] = _AM_TOPPAGE;
-        $module_list[0]  = _AM_ALLPAGES;
+        $module_list    = $moduleHandler->getList($criteria);
+        $moduleList[-1] = _AM_SYSTEM_BLOCKS_TOPPAGE;
+        $moduleList[0]  = _AM_SYSTEM_BLOCKS_ALLPAGES;
         ksort($module_list);
         $module_options = '';
         foreach ($module_list as $mid => $mname) {
-            if (in_array($mid, $selected_mids)) {
+            if (in_array($mid, $selected_mids, true)) {
                 $module_options .= "<option value='$mid' selected>$mname</option>\n";
             } else {
                 $module_options .= "<option value='$mid'>$mname</option>\n";
@@ -320,9 +323,9 @@ function get_block_configs()
 {
     $error_reporting_level = error_reporting(0);
     if (preg_match('/^[.0-9a-zA-Z_-]+$/', @$_GET['dirname'])) {
-        require_once dirname(dirname(__DIR__)) . '/' . $_GET['dirname'] . '/xoops_version.php';
+        require_once \dirname(__DIR__, 2) . '/' . $_GET['dirname'] . '/xoops_version.php';
     } else {
-        require_once dirname(__DIR__) . '/xoops_version.php';
+        require_once \dirname(__DIR__) . '/xoops_version.php';
     }
     error_reporting($error_reporting_level);
     if (empty($modversion['blocks'])) {
@@ -332,7 +335,7 @@ function get_block_configs()
     return $modversion['blocks'];
 }
 
-function list_groups()
+function list_groups(): void
 {
     global $target_mid, $target_mname, $block_arr;
     lx_collapsableBar('groups', 'groupIcon');
@@ -345,8 +348,8 @@ function list_groups()
 
     $form = new Smartfaq\GroupPermForm(_MD_AM_ADGS, 1, 'block_read', '');
     if ($target_mid > 1) {
-        $form->addAppendix('module_admin', $target_mid, $target_mname . ' ' . _AM_ACTIVERIGHTS);
-        $form->addAppendix('module_read', $target_mid, $target_mname . ' ' . _AM_ACCESSRIGHTS);
+        $form->addAppendix('module_admin', $target_mid, $target_mname . ' ' . constant('CO_' . $moduleDirNameUpper . '_' . 'ACTIVERIGHTS'));
+        $form->addAppendix('module_read', $target_mid, $target_mname . ' ' . constant('CO_' . $moduleDirNameUpper . '_' . 'ACCESSRIGHTS'));
     }
     foreach ($item_list as $item_id => $item_name) {
         $form->addItem($item_id, $item_name);
@@ -368,7 +371,7 @@ xoops_cp_header();
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->dirname() . '/admin/functions.php';
 
 if (!empty($block_arr)) {
-    echo "<h4 style='text-align:left;'>$target_mname : " . _AM_BADMIN . "</h4>\n";
+    echo "<h4 style='text-align:left;'>$target_mname : " . constant('CO_' . $moduleDirNameUpper . '_' . 'BADMIN') . "</h4>\n";
     list_blocks();
 }
 

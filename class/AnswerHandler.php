@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
@@ -16,28 +16,19 @@ use XoopsModules\Smartfaq;
 use XoopsObject;
 use XoopsPersistableObjectHandler;
 
-
-
-
-
-
-
-
-
 /**
  * Answers handler class.
  * This class is responsible for providing data access mechanisms to the data source
  * of Answer class objects.
  *
  * @author  marcan <marcan@smartfactory.ca>
- * @package SmartFAQ
  */
 class AnswerHandler extends XoopsPersistableObjectHandler
 {
     public $helper;
 
     /**
-     * @param \XoopsDatabase                     $db
+     * @param \XoopsDatabase $db
      * @param \XoopsModules\Smartfaq\Helper|null $helper
      */
     public function __construct(XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
@@ -104,7 +95,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
      */
     public function insert(XoopsObject $answerObj, $force = false)
     {
-        if ('xoopsmodules\smartfaq\answer' !== mb_strtolower(get_class($answerObj))) {
+        if ('xoopsmodules\smartfaq\answer' !== \mb_strtolower(\get_class($answerObj))) {
             return false;
         }
         if (!$answerObj->isDirty()) {
@@ -119,9 +110,9 @@ class AnswerHandler extends XoopsPersistableObjectHandler
         }
 
         if ($answerObj->isNew()) {
-            $sql = sprintf('INSERT INTO `%s` (answerid, `status`, faqid, answer, uid, datesub, notifypub) VALUES (NULL, %u, %u, %s, %u, %u, %u)', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, time(), $notifypub);
+            $sql = \sprintf('INSERT INTO `%s` (answerid, `status`, faqid, answer, uid, datesub, notifypub) VALUES (NULL, %u, %u, %s, %u, %u, %u)', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, \time(), $notifypub);
         } else {
-            $sql = sprintf('UPDATE `%s` SET STATUS = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
+            $sql = \sprintf('UPDATE `%s` SET STATUS = %u, faqid = %s, answer = %s, uid = %u, datesub = %u, notifypub = %u WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $status, $faqid, $this->db->quoteString($answer), $uid, $datesub, $notifypub, $answerid);
         }
 
         if (false !== $force) {
@@ -152,10 +143,10 @@ class AnswerHandler extends XoopsPersistableObjectHandler
      */
     public function delete(XoopsObject $answer, $force = false)
     {
-        if ('xoopsmodules\smartfaq\answer' !== mb_strtolower(get_class($answer))) {
+        if ('xoopsmodules\smartfaq\answer' !== \mb_strtolower(\get_class($answer))) {
             return false;
         }
-        $sql = sprintf('DELETE FROM `%s` WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $answer->getVar('answerid'));
+        $sql = \sprintf('DELETE FROM `%s` WHERE answerid = %u', $this->db->prefix('smartfaq_answers'), $answer->getVar('answerid'));
 
         //echo "<br>" . $sql . "<br>";
 
@@ -180,7 +171,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
      */
     public function deleteFaqAnswers($faqObj)
     {
-        if ('xoopsmodules\smartfaq\faq' !== mb_strtolower(get_class($faqObj))) {
+        if ('xoopsmodules\smartfaq\faq' !== \mb_strtolower(\get_class($faqObj))) {
             return false;
         }
         $answers = $this->getAllAnswers($faqObj->faqid());
@@ -207,7 +198,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
         $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_answers');
-        if (isset($criteria) && $criteria instanceof CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -217,18 +208,17 @@ class AnswerHandler extends XoopsPersistableObjectHandler
         }
         //echo "<br>" . $sql . "<br>";
         $result = $this->db->query($sql, $limit, $start);
-        if (!$result) {
-            return $ret;
-        }
-        while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $answer = new Smartfaq\Answer();
-            $answer->assignVars($myrow);
-            if (!$id_as_key) {
-                $ret[] = &$answer;
-            } else {
-                $ret[$myrow['answerid']] = $answer;
+        if ($this->db->isResultSet($result)) {
+            while (false !== ($myrow = $this->db->fetchArray($result))) {
+                $answer = new Smartfaq\Answer();
+                $answer->assignVars($myrow);
+                if (!$id_as_key) {
+                    $ret[] = &$answer;
+                } else {
+                    $ret[$myrow['answerid']] = $answer;
+                }
+                unset($answer);
             }
-            unset($answer);
         }
 
         return $ret;
@@ -244,7 +234,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     {
         $theaAnswers = $this->getAllAnswers($faqid, Constants::SF_AN_STATUS_APPROVED, 1, 0);
         $ret         = false;
-        if (1 == count($theaAnswers)) {
+        if (1 == \count($theaAnswers)) {
             $ret = $theaAnswers[0];
         }
 
@@ -272,7 +262,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     ) {
         $hasStatusCriteria = false;
         $criteriaStatus    = new CriteriaCompo();
-        if (is_array($status)) {
+        if (\is_array($status)) {
             $hasStatusCriteria = true;
             foreach ($status as $v) {
                 $criteriaStatus->add(new Criteria('status', $v), 'OR');
@@ -308,7 +298,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     public function getCount(CriteriaElement $criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('smartfaq_answers');
-        if (isset($criteria) && $criteria instanceof CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         $result = $this->db->query($sql);
@@ -329,7 +319,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     public function getCountByFAQ($criteria = null)
     {
         $sql = 'SELECT faqid, COUNT(*) FROM ' . $this->db->prefix('smartfaq_answers');
-        if (isset($criteria) && $criteria instanceof CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
             $sql .= ' ' . $criteria->getGroupby();
         }
@@ -341,7 +331,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
             return [];
         }
         $ret = [];
-        while (list($id, $count) = $this->db->fetchRow($result)) {
+        while ([$id, $count] = $this->db->fetchRow($result)) {
             $ret[$id] = $count;
         }
 
@@ -359,7 +349,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     public function deleteAll(CriteriaElement $criteria = null, $force = true, $asObject = false)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix('smartfaq_answers');
-        if (isset($criteria) && $criteria instanceof CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->query($sql)) {
@@ -380,9 +370,9 @@ class AnswerHandler extends XoopsPersistableObjectHandler
      */
     public function updateAll($fieldname, $fieldvalue, CriteriaElement $criteria = null, $force = false)
     {
-        $set_clause = is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
+        $set_clause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_answers') . ' SET ' . $set_clause;
-        if (isset($criteria) && $criteria instanceof CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         //echo "<br>" . $sql . "<br>";
@@ -401,7 +391,7 @@ class AnswerHandler extends XoopsPersistableObjectHandler
     {
         $ret    = [];
         $sql    = 'SELECT faqid, answer, uid, datesub FROM ' . $this->db->prefix('smartfaq_answers') . '
-               WHERE faqid IN (' . implode(',', $faqids) . ') AND status = ' . Constants::SF_AN_STATUS_APPROVED . ' GROUP BY faqid';
+               WHERE faqid IN (' . \implode(',', $faqids) . ') AND status = ' . Constants::SF_AN_STATUS_APPROVED . ' GROUP BY faqid';
         $result = $this->db->query($sql);
         if (!$result) {
             return $ret;

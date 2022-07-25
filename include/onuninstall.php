@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * uninstall.php - cleanup on module uninstall
  *
  * @author          XOOPS Module Development Team
  * @copyright       {@link https://xoops.org 2001-2016 XOOPS Project}
- * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @license         {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2.0 or later}
  * @link            https://xoops.org XOOPS
  */
 
@@ -33,8 +34,8 @@ function xoops_module_uninstall_smartfaq(\XoopsModule $module)
 {
     //    return true;
 
-    $moduleDirName      = basename(dirname(__DIR__));
-    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+    $moduleDirName      = \basename(\dirname(__DIR__));
+    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
     /** @var Smartfaq\Helper $helper */
     $helper = Smartfaq\Helper::getInstance();
 
@@ -44,22 +45,18 @@ function xoops_module_uninstall_smartfaq(\XoopsModule $module)
     $success = true;
     $helper->loadLanguage('admin');
 
-    //------------------------------------------------------------------
-    // Remove uploads folder (and all subfolders) if they exist
-    //------------------------------------------------------------------
-
-    $old_directories = [$GLOBALS['xoops']->path("uploads/{$moduleDirName}")];
-    foreach ($old_directories as $old_dir) {
-        $dirInfo = new \SplFileInfo($old_dir);
-        if ($dirInfo->isDir()) {
-            // The directory exists so delete it
-            if (false === $utility::rrmdir($old_dir)) {
-                $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_DEL_PATH'), $old_dir));
-                $success = false;
-            }
+    // Rename uploads folder to BAK and add date to name
+    $uploadDirectory = $GLOBALS['xoops']->path("uploads/$moduleDirName");
+    $dirInfo = new \SplFileInfo($uploadDirectory);
+    if ($dirInfo->isDir()) {
+        // The directory exists so rename it
+        $date = date('Y-m-d');
+        if (!rename($uploadDirectory, $uploadDirectory . "_bak_$date")) {
+            $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_DEL_PATH'), $uploadDirectory));
+            $success = false;
         }
-        unset($dirInfo);
     }
+    unset($dirInfo);
     /*
     //------------ START ----------------
     //------------------------------------------------------------------

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
@@ -16,14 +16,13 @@ use XoopsModules\Smartfaq;
  * of Category class objects.
  *
  * @author  marcan <marcan@smartfactory.ca>
- * @package SmartFAQ
  */
 class CategoryHandler extends \XoopsObjectHandler
 {
     protected $helper;
 
     /**
-     * @param \XoopsDatabase                     $db
+     * @param \XoopsDatabase $db
      * @param \XoopsModules\Smartfaq\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
@@ -95,7 +94,7 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function insert(\XoopsObject $category, $force = false)
     {
-        if ('xoopsmodules\smartfaq\category' !== mb_strtolower(\get_class($category))) {
+        if ('xoopsmodules\smartfaq\category' !== \mb_strtolower(\get_class($category))) {
             return false;
         }
         if (!$category->isDirty()) {
@@ -150,7 +149,7 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function delete(\XoopsObject $category, $force = false)
     {
-        if ('xoopsmodules\smartfaq\category' !== mb_strtolower(\get_class($category))) {
+        if ('xoopsmodules\smartfaq\category' !== \mb_strtolower(\get_class($category))) {
             return false;
         }
 
@@ -199,7 +198,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_categories');
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -209,19 +208,17 @@ class CategoryHandler extends \XoopsObjectHandler
         }
         //echo "<br>" . $sql . "<br>";
         $result = $this->db->query($sql, $limit, $start);
-        if (!$result) {
-            return $ret;
-        }
-
-        while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $category = new Smartfaq\Category();
-            $category->assignVars($myrow);
-            if (!$id_as_key) {
-                $ret[] = $category;
-            } else {
-                $ret[$myrow['categoryid']] = $category;
+        if ($this->db->isResultSet($result)) {
+            while (false !== ($myrow = $this->db->fetchArray($result))) {
+                $category = new Smartfaq\Category();
+                $category->assignVars($myrow);
+                if (!$id_as_key) {
+                    $ret[] = $category;
+                } else {
+                    $ret[$myrow['categoryid']] = $category;
+                }
+                unset($category);
             }
-            unset($category);
         }
 
         return $ret;
@@ -308,7 +305,7 @@ class CategoryHandler extends \XoopsObjectHandler
         $ret   = [];
         $limit = $start = 0;
         $sql   = 'SELECT DISTINCT c.categoryid, c.parentid, c.name, c.description, c.total, c.weight, c.created FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -318,15 +315,13 @@ class CategoryHandler extends \XoopsObjectHandler
         }
         //echo "<br>" . $sql . "<br>";
         $result = $this->db->query($sql, $limit, $start);
-        if (!$result) {
-            return $ret;
-        }
-
-        while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $category = new Smartfaq\Category();
-            $category->assignVars($myrow);
-            $ret[] = $category;
-            unset($category);
+        if ($this->db->isResultSet($result)) {
+            while (false !== ($myrow = $this->db->fetchArray($result))) {
+                $category = new Smartfaq\Category();
+                $category->assignVars($myrow);
+                $ret[] = $category;
+                unset($category);
+            }
         }
 
         return $ret;
@@ -341,7 +336,7 @@ class CategoryHandler extends \XoopsObjectHandler
     public function getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('smartfaq_categories');
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         $result = $this->db->query($sql);
@@ -402,7 +397,7 @@ class CategoryHandler extends \XoopsObjectHandler
 
         $sql = 'SELECT COUNT(c.categoryid) FROM ' . $this->db->prefix('smartfaq_categories') . ' AS c INNER JOIN ' . $this->db->prefix('smartfaq_faq') . ' AS f ON c.categoryid = f.categoryid';
 
-        if (isset($criteria) && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
 
@@ -421,7 +416,7 @@ class CategoryHandler extends \XoopsObjectHandler
      */
     public function getSubCats($categories)
     {
-        $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . \implode(',', \array_keys($categories)) . ')'), 'IN');
+        $criteria = new \CriteriaCompo(new \Criteria('parentid', '(' . \implode(',', \array_keys($categories)) . ')', 'IN'));
         $ret      = [];
         if (!Smartfaq\Utility::userIsAdmin()) {
             /** @var Smartfaq\PermissionHandler $smartPermHandler */
@@ -447,7 +442,7 @@ class CategoryHandler extends \XoopsObjectHandler
     public function deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix('smartfaq_categories');
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->query($sql)) {
@@ -472,7 +467,7 @@ class CategoryHandler extends \XoopsObjectHandler
     {
         $set_clause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_categories') . ' SET ' . $set_clause;
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->queryF($sql)) {

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -47,7 +47,6 @@ $op = Request::getCmd('op', '');
 
 switch ($op) {
     case 'post':
-
         global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsDB;
 
         $newFaqObj = $faqHandler->create();
@@ -109,7 +108,6 @@ switch ($op) {
         break;
     case 'form':
     default:
-
         global $xoopsUser, $myts;
 
         $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -9,17 +9,18 @@
 use XoopsModules\Smartfaq\Constants;
 use XoopsModules\Smartfaq\Helper;
 
+/** @var FaqHandler $faqHandler */
+require __DIR__ . '/preloads/autoloader.php';
+
 $moduleDirName      = basename(__DIR__);
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
-$moduleDirName = basename(__DIR__);
-
-$modversion['version']             = 1.20;
-$modversion['module_status']       = 'Beta 2';
-$modversion['release_date']        = '2019/08/17';
+$modversion['version']             = '1.20.0-Beta.2';
+$modversion['module_status']       = 'NOT RELEASED';
+$modversion['release_date']        = '2022/07/25';
 $modversion['name']                = _MI_SF_MD_NAME;
 $modversion['description']         = _MI_SF_MD_DESC;
-$modversion['author']              = 'The SmartFactory | Xuups';
+$modversion['author']              = 'The SmartFactory | XOOPS';
 $modversion['credits']             = 'w4z004, hsalazar, Carnuke, Mariuss, Mithrandir, phppp, Predator, GIJOE, outch, rowdie, Xvitry, Xavier & Catzwolf, trabis, Mamba';
 $modversion['help']                = 'page=help';
 $modversion['license']             = 'GNU GPL 2.0 or later';
@@ -32,7 +33,7 @@ $modversion['modicons32']          = 'assets/images/icons/32';
 $modversion['release_file']        = XOOPS_URL . '/modules/' . $modversion['dirname'] . '/docs/changelog.txt';
 $modversion['module_website_url']  = 'www.xoops.org';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['min_php']             = '7.2';
+$modversion['min_php']             = '7.4';
 $modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
@@ -40,8 +41,8 @@ $modversion['min_db']              = ['mysql' => '5.5'];
 // Added by marcan for the About page in admin section
 $modversion['developer_lead']         = 'marcan [Marc-André Lanciault]';
 $modversion['developer_contributor']  = 'w4z004, hsalazar, Carnuke, Mariuss, Mithrandir, phppp, Predator, GIJOE, outch, rowdie, Xvitry, Xavier & Catzwolf, trabis';
-$modversion['developer_website_url']  = 'http://www.xuups.com';
-$modversion['developer_website_name'] = 'Xuups';
+$modversion['developer_website_url']  = 'https://xoops.org';
+$modversion['developer_website_name'] = 'XOOPS';
 $modversion['developer_email']        = 'lusopoemas@gmail.com';
 $modversion['status_version']         = 'RC 2';
 $modversion['status']                 = 'RC 2';
@@ -49,12 +50,12 @@ $modversion['date']                   = '2017-02-25';
 
 $modversion['warning'] = _MI_SF_WARNING_FINAL;
 
-$modversion['demo_site_url']     = 'http://www.xuups.com/modules/smartfaq';
-$modversion['demo_site_name']    = 'Xuups';
-$modversion['support_site_url']  = 'http://www.xuups.com';
-$modversion['support_site_name'] = 'Xuups';
-$modversion['submit_bug']        = 'http://www.xuups.com/modules/xhelp';
-$modversion['submit_feature']    = 'http://www.xuups.com/modules/xhelp';
+$modversion['demo_site_url']     = 'https://xoops.org/modules/smartfaq';
+$modversion['demo_site_name']    = 'XOOPS';
+$modversion['support_site_url']  = 'https://xoops.org';
+$modversion['support_site_name'] = 'XOOPS';
+$modversion['submit_bug']        = 'https://xoops.org/modules/xhelp';
+$modversion['submit_feature']    = 'https://xoops.org/modules/xhelp';
 
 $modversion['author_word'] = "
 <b>SmartFAQ</b> is the result of multiple ideas from multiple people and a work of outstanding
@@ -157,7 +158,6 @@ if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirn
         //        require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';
 
         // Creating the FAQ handler object
-        /** @var \XoopsModules\Smartfaq\FaqHandler $faqHandler */
         $faqHandler = Helper::getInstance()->getHandler('Faq');
 
         if ($faqHandler->getFaqsCount(-1, Constants::SF_STATUS_OPENED) > 0) {
@@ -241,25 +241,15 @@ $modversion['blocks'][] = [
     'template'    => 'faqs_most_viewed.tpl',
 ];
 
-// Templates
-$modversion['templates'][1]['file']        = 'smartfaq_singlefaq.tpl';
-$modversion['templates'][1]['description'] = 'Display a single FAQ';
-
-$modversion['templates'][2]['file']        = 'smartfaq_lastfaqs.tpl';
-$modversion['templates'][2]['description'] = 'Display the last faqs';
-
-$modversion['templates'][3]['file']        = 'smartfaq_category.tpl';
-$modversion['templates'][3]['description'] = 'Display a category';
-
-$modversion['templates'][4]['file']        = 'smartfaq_index.tpl';
-$modversion['templates'][4]['description'] = 'Display index';
-
-$modversion['templates'][5]['file']        = 'smartfaq_faq.tpl';
-$modversion['templates'][5]['description'] = 'Display faq';
-
-$modversion['templates'][6]['file']        = 'smartfaq_submit.tpl';
-$modversion['templates'][6]['description'] = 'Form to submit request or answer a question';
-
+// ------------------- Templates ------------------- //
+$modversion['templates'] = [
+    ['file' => 'smartfaq_singlefaq.tpl', 'description' => 'Display a single FAQ'],
+    ['file' => 'smartfaq_lastfaqs.tpl', 'description' => 'Display the last faqs'],
+    ['file' => 'smartfaq_category.tpl', 'description' => 'Display a category'],
+    ['file' => 'smartfaq_index.tpl', 'description' => 'Display index'],
+    ['file' => 'smartfaq_faq.tpl', 'description' => 'Display faq'],
+    ['file' => 'smartfaq_submit.tpl', 'description' => 'Form to submit request or answer a question'],
+];
 // Config Settings (only for modules that need config settings generated automatically)
 
 $modversion['config'][] = [
@@ -792,8 +782,6 @@ $modversion['config'][] = [
     'default'     => 'odd',
 ];
 
-
-
 //mb ------------- end --------------------------
 
 // Comments
@@ -1099,4 +1087,3 @@ $modversion['notification']['event'][] = [
     'mail_template' => 'question_answer_rejected',
     'mail_subject'  => _MI_SF_QUESTION_ANSWER_REJECTED_NOTIFY_SBJ,
 ];
-

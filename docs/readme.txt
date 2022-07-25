@@ -7,7 +7,7 @@
 What is SmartFAQ?
 =================
 
-SmartFAQ, as you would probably have guessed it by the name, is a Frequently Asked Questions system for XOOPS 2.x web sites. Compared to XoopsFaq or WF-FAQ, SmartFAQ offers exciting new functionnalities that will help communities to quickly and easily build a complete FAQ system for their sites. Here is some of the features of SmartFAQ :
+SmartFAQ, as you would probably have guessed it by the name, is a Frequently Asked Questions system for XOOPS 2.x websites. Compared to XoopsFaq or WF-FAQ, SmartFAQ offers exciting new functionnalities that will help communities to quickly and easily build a complete FAQ system for their sites. Here is some of the features of SmartFAQ :
 
 => Users can request a Q&A
 => Accepted requests are published in the Open Questions section.

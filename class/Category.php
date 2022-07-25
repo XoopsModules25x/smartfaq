@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
@@ -13,29 +13,18 @@ use XoopsDatabaseFactory;
 use XoopsModules\Smartfaq;
 use XoopsObject;
 
-
-
-
-
-
-
-
-
 /**
  * Class Category
- * @package XoopsModules\Smartfaq
  */
 class Category extends XoopsObject
 {
     public $db;
     /**
      * @var array
-     * @access private
      */
     private $groups_read;
     /**
      * @var array
-     * @access private
      */
     private $groups_admin;
 
@@ -46,22 +35,22 @@ class Category extends XoopsObject
     public function __construct($id = null)
     {
         $this->db = XoopsDatabaseFactory::getDatabaseConnection();
-        $this->initVar('categoryid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('parentid', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('name', XOBJ_DTYPE_TXTBOX, null, true, 100);
-        $this->initVar('description', XOBJ_DTYPE_TXTAREA, null, false, 255);
-        $this->initVar('total', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('weight', XOBJ_DTYPE_INT, 1, false);
-        $this->initVar('created', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('last_faq', XOBJ_DTYPE_INT);
+        $this->initVar('categoryid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('parentid', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('name', \XOBJ_DTYPE_TXTBOX, null, true, 100);
+        $this->initVar('description', \XOBJ_DTYPE_TXTAREA, null, false, 255);
+        $this->initVar('total', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('weight', \XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('created', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('last_faq', \XOBJ_DTYPE_INT);
 
         //not persistent values
-        $this->initVar('faqcount', XOBJ_DTYPE_INT, 0, false);
-        $this->initVar('last_faqid', XOBJ_DTYPE_INT);
-        $this->initVar('last_question_link', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('faqcount', \XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('last_faqid', \XOBJ_DTYPE_INT);
+        $this->initVar('last_question_link', \XOBJ_DTYPE_TXTBOX);
 
         if (null !== $id) {
-            if (is_array($id)) {
+            if (\is_array($id)) {
                 $this->assignVars($id);
             } else {
                 /** @var Smartfaq\CategoryHandler $categoryHandler */
@@ -83,13 +72,13 @@ class Category extends XoopsObject
         return (-1 == $this->getVar('categoryid'));
     }
 
-    public function assignOtherProperties()
+    public function assignOtherProperties(): void
     {
         global $xoopsUser;
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */
-        $grouppermHandler = xoops_getHandler('groupperm');
+        $grouppermHandler = \xoops_getHandler('groupperm');
 
         $this->groups_read = $grouppermHandler->getGroupIds('category_read', $this->categoryid(), $module_id);
     }
@@ -110,7 +99,7 @@ class Category extends XoopsObject
         $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
         $categoriesGranted = $smartPermHandler->getPermissions('category');
-        if (in_array($this->categoryid(), $categoriesGranted)) {
+        if (\in_array($this->categoryid(), $categoriesGranted, true)) {
             $ret = true;
         }
 
@@ -202,7 +191,7 @@ class Category extends XoopsObject
     public function getGroups_read()
     {
         //        if(count($this->groups_read) < 1) {
-        if (!is_array($this->groups_read)) {
+        if (!\is_array($this->groups_read)) {
             $this->assignOtherProperties();
         }
 
@@ -212,7 +201,7 @@ class Category extends XoopsObject
     /**
      * @param array $groups_read
      */
-    public function setGroups_read($groups_read = ['0'])
+    public function setGroups_read($groups_read = ['0']): void
     {
         $this->groups_read = $groups_read;
     }
@@ -237,20 +226,20 @@ class Category extends XoopsObject
         return $ret;
     }
 
-    public function sendNotifications()
+    public function sendNotifications(): void
     {
         $smartModule = Smartfaq\Utility::getModuleInfo();
 
         $myts = MyTextSanitizer::getInstance();
         /** @var \XoopsNotificationHandler $notificationHandler */
-        $notificationHandler = xoops_getHandler('notification');
+        $notificationHandler = \xoops_getHandler('notification');
 
         $tags                  = [];
-        $tags['MODULE_NAME']   = htmlspecialchars($smartModule->getVar('name'));
+        $tags['MODULE_NAME']   = \htmlspecialchars($smartModule->getVar('name'));
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/category.php?categoryid=' . $this->categoryid();
 
-        $notificationHandler = xoops_getHandler('notification');
+        $notificationHandler = \xoops_getHandler('notification');
         $notificationHandler->triggerEvent('global_faq', 0, 'category_created', $tags);
     }
 

@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * CBB 4.0, or newbb, the forum module for XOOPS project
  *
  * @copyright   XOOPS Project (https://xoops.org)
- * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @license     GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author      Taiwen Jiang (phppp or D.J.) <phppp@users.sourceforge.net>
  * @since       4.00
- * @package     module::newbb
  */
 
 use XoopsModules\Newbb\IconHandler;
@@ -15,7 +15,7 @@ use XoopsModules\Smartfaq;
 defined('NEWBB_FUNCTIONS_INI') || require __DIR__ . '/functions.ini.php';
 define('NEWBB_FUNCTIONS_RENDER_LOADED', true);
 
-if (!defined('NEWBB_FUNCTIONS_RENDER')):
+if (!defined('NEWBB_FUNCTIONS_RENDER')) :
     define('NEWBB_FUNCTIONS_RENDER', 1);
 
     /*
@@ -31,12 +31,12 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
     }
 
     /**
-     * @param        $text
-     * @param int    $html
-     * @param int    $smiley
-     * @param int    $xcode
-     * @param int    $image
-     * @param int    $br
+     * @param int   $html
+     * @param int   $smiley
+     * @param int   $xcode
+     * @param int   $image
+     * @param int   $br
+     * @param mixed $text
      * @return mixed
      */
     function &sf_displayTarea(&$text, $html = 0, $smiley = 1, $xcode = 1, $image = 1, $br = 1)
@@ -150,7 +150,7 @@ if (!defined('NEWBB_FUNCTIONS_RENDER')):
         }
         /*
                 if (!class_exists('NewbbIconHandler')) {
-                    // require_once  dirname(__DIR__) . '/class/icon.php';
+                    // require_once  \dirname(__DIR__) . '/class/icon.php';
                 }
         */
         $iconHandler           = IconHandler::getInstance();

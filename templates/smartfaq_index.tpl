@@ -49,7 +49,7 @@
     </script>
 <{/if}>
 
-<{if $lang_mainintro != ''}>
+<{if $lang_mainintro|default:'' != ''}>
     <span class="sf_infotitle"><{$lang_mainhead}></span>
     <span class="sf_infotext"><{$lang_mainintro}></span>
     <br>

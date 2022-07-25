@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
@@ -13,7 +13,6 @@ use XoopsModules\Smartfaq;
 
 /**
  * Class PermissionHandler
- * @package XoopsModules\Smartfaq
  */
 class PermissionHandler extends \XoopsObjectHandler
 {
@@ -62,6 +61,6 @@ class PermissionHandler extends \XoopsObjectHandler
         }
 
         //Return the permission array
-        return isset($permissions[$type]) ? $permissions[$type] : [];
+        return $permissions[$type] ?? [];
     }
 }

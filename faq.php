@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -9,6 +9,8 @@
 use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Helper;
+
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_faq.tpl';
 
 require_once __DIR__ . '/header.php';
 
@@ -51,7 +53,7 @@ if (!$xoopsUser || ($xoopsUser->isAdmin($xoopsModule->mid()) && 1 == $helper->ge
         && !$xoopsUser->isAdmin($xoopsModule->mid()))) {
     $faqObj->updateCounter();
 }
-$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_faq.tpl';
+
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';
 
@@ -109,7 +111,7 @@ $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $categoryObj->name()
 
 // Include the comments if the selected FAQ supports comments
 if (1 == $faqObj->cancomment()) {
-    require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
+    require XOOPS_ROOT_PATH . '/include/comment_view.php';
 }
 
 //code to include smartie

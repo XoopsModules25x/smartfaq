@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -9,6 +9,8 @@
 use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Helper;
+
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 
 require_once __DIR__ . '/header.php';
 
@@ -38,7 +40,6 @@ $totalQnas = $categoryHandler->publishedFaqsCount($categoryid);
 if (!isset($totalQnas[$categoryid]) || 0 == $totalQnas[$categoryid]) {
     //redirect_header("index.php", 1, _MD_SF_MAINNOFAQS);
 }
-$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';
@@ -101,10 +102,10 @@ if (0 != $total_subcats) {
     }
     $xoopsTpl->assign('subcats', $subcats);
 }
-$thiscategory_faqcount = isset($totalQnas[$categoryid]) ? $totalQnas[$categoryid] : 0;
+$thiscategory_faqcount = $totalQnas[$categoryid] ?? 0;
 $category['total']     = $thiscategory_faqcount + $total_faqs;
 
-if (count($faqsObj) > 0) {
+if (is_array($faqsObj) && ($faqsObj) > 0) {
     $userids = [];
     foreach ($faqsObj as $key => $thisfaq) {
         $faqids[]                 = $thisfaq->getVar('faqid');

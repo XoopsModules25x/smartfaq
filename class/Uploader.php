@@ -1,25 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
 use XoopsMediaUploader;
 
-
-
-
-
-
-
 /**
  * CBB, XOOPS forum module
  *
- * @copyright   The XOOPS Project http://xoops.sf.net
- * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
+ * @copyright   XOOPS Project (https://xoops.org)
+ * @license     GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author      Taiwen Jiang (phppp or D.J.) <phppp@users.sourceforge.net>
  * @since       4.00
- * @package     module::newbb
  */
-
 require_once XOOPS_ROOT_PATH . '/class/uploader.php';
 
 /**
@@ -47,11 +39,11 @@ class Uploader extends XoopsMediaUploader
      */
     public function __construct($uploadDir, $allowedMimeTypes = 0, $maxFileSize = 0, $maxWidth = 0, $maxHeight = 0)
     {
-        if (!is_array($allowedMimeTypes)) {
+        if (!\is_array($allowedMimeTypes)) {
             if (empty($allowedMimeTypes) || '*' === $allowedMimeTypes) {
                 $allowedMimeTypes = [];
             } else {
-                $allowedMimeTypes = array_filter(array_map('\trim', explode('|', mb_strtolower($allowedMimeTypes))));
+                $allowedMimeTypes = \array_filter(\array_map('\trim', \explode('|', \mb_strtolower($allowedMimeTypes))));
             }
         }
         $_allowedMimeTypes = [];
@@ -72,7 +64,7 @@ class Uploader extends XoopsMediaUploader
      *
      * @param bool|string $value
      */
-    public function setCheckMediaTypeByExt($value = true)
+    public function setCheckMediaTypeByExt($value = true): void
     {
     }
 
@@ -82,7 +74,7 @@ class Uploader extends XoopsMediaUploader
      *
      * @param string $value
      */
-    public function setImageSizeCheck($value)
+    public function setImageSizeCheck($value): void
     {
     }
 
@@ -92,7 +84,7 @@ class Uploader extends XoopsMediaUploader
      *
      * @param string $value
      */
-    public function setFileSizeCheck($value)
+    public function setFileSizeCheck($value): void
     {
     }
 
@@ -103,7 +95,7 @@ class Uploader extends XoopsMediaUploader
      */
     public function getExt()
     {
-        $this->ext = mb_strtolower(ltrim(mb_strrchr($this->getMediaName(), '.'), '.'));
+        $this->ext = \mb_strtolower(\ltrim(mb_strrchr($this->getMediaName(), '.'), '.'));
 
         return $this->ext;
     }

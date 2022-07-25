@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -11,6 +11,8 @@ use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 use XoopsModules\Smartfaq\Helper;
 
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
+
 require_once __DIR__ . '/header.php';
 
 /** @var Smartfaq\Helper $helper */
@@ -18,13 +20,13 @@ $helper = Helper::getInstance();
 
 global $xoopsUser, $xoopsConfig, $xoopsModule;
 
-// If user is anonymous and we don't allow anonymous posting, exit; else, get the uid
+// If user is anonymous, and we don't allow anonymous posting, exit; else, get the uid
 if (!$xoopsUser && (1 != $helper->getConfig('anonpost'))) {
     redirect_header('index.php', 3, _NOPERM);
 }
 
 // Getting the operation we are doing
-$op = \Xmf\Request::getCmd('op', 'form');
+$op = Request::getCmd('op', 'form');
 
 // Getting the faqid
 $faqid = Request::getInt('faqid', 0, 'GET');
@@ -46,7 +48,6 @@ $answerHandler = Helper::getInstance()->getHandler('Answer');
 switch ($op) {
     // The answer is posted
     case 'post':
-
         global $faqObj, $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsModuleConfig, $xoopsDB;
 
         // If user is anonymous and we don't allow anonymous posting, exit; else, get the uid
@@ -142,14 +143,14 @@ switch ($op) {
         switch ($notifCase) {
             case 1:
                 // Question submitted, auto-approved; became Q&A, auto-approved
-                // We do not not subscribe user to notification on publish since we publish it right away
+                // We do not subscribe user to notification on publish since we publish it right away
 
                 // Send notifications
                 $faqObj->sendNotifications([Constants::SF_NOT_FAQ_PUBLISHED]);
                 break;
             case 2:
                 // Answer for an open question submitted, auto-approved; became Q&A, need approbation
-                if (\Xmf\Request::hasVar('notifypub', 'POST') && 1 == $_POST['notifypub']) {
+                if (Request::hasVar('notifypub', 'POST') && 1 == $_POST['notifypub']) {
                     require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('faq', $faqObj->faqid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
@@ -158,7 +159,7 @@ switch ($op) {
                 break;
             case 3:
                 // Answer submitted, needs approbation
-                if (\Xmf\Request::hasVar('notifypub', 'POST') && 1 == $_POST['notifypub']) {
+                if (Request::hasVar('notifypub', 'POST') && 1 == $_POST['notifypub']) {
                     require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('question', $newAnswerObj->answerid(), 'approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
@@ -172,7 +173,7 @@ switch ($op) {
             case 5:
                 // New answer submitted for a published Q&A, need approbation
                 // Send notifications
-                if (\Xmf\Request::hasVar('notifypub', 'POST') && 1 == $_POST['notifypub']) {
+                if (Request::hasVar('notifypub', 'POST') && 1 == $_POST['notifypub']) {
                     require_once XOOPS_ROOT_PATH . '/include/notification_constants.php';
                     $notificationHandler->subscribe('faq', $newAnswerObj->answerid(), 'answer_approved', XOOPS_NOTIFICATION_MODE_SENDONCETHENDELETE);
                 }
@@ -185,7 +186,6 @@ switch ($op) {
         break;
     case 'form':
     default:
-
         global $xoopsUser, $xoopsModule, $_SERVER;
 
         // Creating the FAQ object for the selected FAQ
@@ -207,7 +207,6 @@ switch ($op) {
             redirect_header('<script>javascript:history.go(-1)</script>', 1, _NOPERM);
         }
 
-        $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
         require_once XOOPS_ROOT_PATH . '/header.php';
         require_once __DIR__ . '/footer.php';
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -29,10 +29,10 @@ $categoryHandler = Helper::getInstance()->getHandler('Category');
 /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
 $answerHandler = Helper::getInstance()->getHandler('Answer');
 
-$op = \Xmf\Request::getCmd('op', '');
+$op = Request::getCmd('op', '');
 
 // Where shall we start?
-$startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
+$startfaq = Request::getInt('startfaq', 0, 'GET');
 
 /**
  * @param bool $showmenu
@@ -40,9 +40,9 @@ $startfaq = \Xmf\Request::getInt('startfaq', 0, 'GET');
  * @param int  $answerid
  * @param bool $merge
  */
-function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
+function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false): void
 {
-    global $answerHandler, $faqHandler, $categoryHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $XOOPS_URL, $myts;
+    global $answerHandler, $faqHandler, $categoryHandler, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $XOOPS_URL, $myts;
     /** @var Smartfaq\Helper $helper */
     $helper = Helper::getInstance();
 
@@ -217,7 +217,7 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $sform->addElement(new \XoopsFormTextArea(_AM_SF_DIDUNO_FAQ, 'diduno', $faqObj->diduno('e'), 3, 60));
 
     // CONTEXT MODULE LINK
-    // Retreive the list of module currently installed. The key value is the dirname
+    // Retrieve the list of module currently installed. The key value is the dirname
     /** @var \XoopsModuleHandler $moduleHandler */
     $moduleHandler           = xoops_getHandler('module');
     $modules_array           = $moduleHandler->getList(null, true);
@@ -343,9 +343,8 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 /* -- Available operations -- */
 switch ($op) {
     case 'merge':
-
-        $faqid    = isset($_GET['faqid']) ? $_GET['faqid'] : -1;
-        $answerid = isset($_GET['answerid']) ? $_GET['answerid'] : -1;
+        $faqid    = $_GET['faqid'] ?? -1;
+        $answerid = $_GET['answerid'] ?? -1;
         if (-1 == $faqid) {
             $totalcategories = $categoryHandler->getCategoriesCount(-1);
             if (0 == $totalcategories) {
@@ -359,10 +358,9 @@ switch ($op) {
         editfaq(true, $faqid, $answerid, true);
         break;
     case 'mod':
-
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
-        $faqid    = isset($_GET['faqid']) ? $_GET['faqid'] : -1;
-        $answerid = isset($_GET['answerid']) ? $_GET['answerid'] : -1;
+        global $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
+        $faqid    = $_GET['faqid'] ?? -1;
+        $answerid = $_GET['answerid'] ?? -1;
         if (-1 == $faqid) {
             $totalcategories = $categoryHandler->getCategoriesCount(-1);
             if (0 == $totalcategories) {
@@ -399,7 +397,7 @@ switch ($op) {
         }
 
         // Putting the values in the FAQ object
-        //        if (\Xmf\Request::hasVar('groups', 'POST')) {
+        //        if (Request::hasVar('groups', 'POST')) {
         //            $faqObj->setGroups_read($_POST['groups']);
         //        } else {
         //            $faqObj->setGroups_read();
@@ -520,7 +518,7 @@ switch ($op) {
         redirect_header('faq.php', 2, $redirect_msg);
         break;
     case 'del':
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $_GET;
+        global $xoopsUser, $xoopsConfig, $xoopsDB, $_GET;
 
         $module_id = $xoopsModule->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */

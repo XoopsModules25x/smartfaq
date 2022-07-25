@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -132,7 +132,7 @@ define(
 );
 
 define('_MI_SF_HELP_PATH_CUSTOM', "Custom path of SmartFAQ's help files");
-define('_MI_SF_HELP_PATH_CUSTOM_DSC', "If you selected 'Custom path' in the previous option 'Path of SmartFAQ's help files', please specify the URL of SmartFAQ's help files, in that format : http://www.yoursite.com/doc");
+define('_MI_SF_HELP_PATH_CUSTOM_DSC', "If you selected 'Custom path' in the previous option 'Path of SmartFAQ's help files', please specify the URL of SmartFAQ's help files, in that format : https://www.yoursite.com/doc");
 
 define('_MI_SF_HELP_INSIDE', 'Inside the module');
 define('_MI_SF_HELP_CUSTOM', 'Custom Path');
@@ -327,7 +327,7 @@ website or in a production environment.'
 define(
     '_MI_SF_WARNING_RC',
     'This module comes as is, without any guarantees whatsoever. This module
-is a Release Candidate and should not be used on a production web site. The module is still under
+is a Release Candidate and should not be used on a production website. The module is still under
 active development and its use is under your own responsibility, which means the author is not responsible.'
 );
 
@@ -399,7 +399,7 @@ define('_MI_SF_MEDIA_ENABLE_DESC', 'Display attached Images directly in the post
 define('_MI_SF_NAME', _MI_SF_MD_NAME);
 
 //Help
-define('_MI_SF_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_SF_DIRNAME', basename(dirname(__DIR__, 2)));
 define('_MI_SF_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_SF_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_SF_OVERVIEW', 'Overview');

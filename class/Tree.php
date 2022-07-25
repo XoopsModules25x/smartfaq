@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
@@ -9,19 +9,15 @@ namespace XoopsModules\Smartfaq;
  * of supporting developers from this source code or any supporting source code
  * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * PHP version 5
  *
  * @category        Module
- * @package         SmartFaq
  * @author          XOOPS Development Team
  * @author          Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
  * @copyright       2001-2016 XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
+ * @license         GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @link            https://xoops.org/
  * @since           1.0.6
  */
-
-use XoopsModules\Smartfaq;
 
 /**
  * Abstract base class for forms
@@ -29,8 +25,6 @@ use XoopsModules\Smartfaq;
  * @author    Kazumi Ono <onokazu@xoops.org>
  * @author    John Neill <catzwolf@xoops.org>
  * @copyright copyright (c) XOOPS.org
- * @package   SmartFaq
- * @access    public
  */
 class Tree
 {
@@ -73,12 +67,10 @@ class Tree
             $sql .= " ORDER BY $order";
         }
         $result = $this->db->query($sql);
-        $count  = $this->db->getRowsNum($result);
-        if (0 == $count) {
-            return $arr;
-        }
-        while (false !== ($myrow = $this->db->fetchArray($result))) {
-            $arr[] = $myrow;
+        if ($this->db->isResultSet($result)) {
+            while (false !== ($myrow = $this->db->fetchArray($result))) {
+                $arr[] = $myrow;
+            }
         }
 
         return $arr;
@@ -100,7 +92,7 @@ class Tree
         if (0 == $count) {
             return $idarray;
         }
-        while (list($id) = $this->db->fetchRow($result)) {
+        while ([$id] = $this->db->fetchRow($result)) {
             $idarray[] = $id;
         }
 
@@ -128,7 +120,7 @@ class Tree
         if (0 == $count) {
             return $idarray;
         }
-        while (list($r_id) = $this->db->fetchRow($result)) {
+        while ([$r_id] = $this->db->fetchRow($result)) {
             $idarray[] = $r_id;
             $idarray   = $this->getAllChildId($r_id, $order, $idarray);
         }
@@ -182,7 +174,7 @@ class Tree
         }
         [$parentid, $name] = $this->db->fetchRow($result);
         $myts = \MyTextSanitizer::getInstance();
-        $name = htmlspecialchars($name);
+        $name = \htmlspecialchars($name);
         $path = '/' . $name . $path . '';
         if (0 == $parentid) {
             return $path;
@@ -204,7 +196,7 @@ class Tree
      * @param string $sel_name
      * @param string $onchange
      */
-    public function makeMySelBox($title, $order = '', $preset_id = 0, $none = 0, $sel_name = '', $onchange = '')
+    public function makeMySelBox($title, $order = '', $preset_id = 0, $none = 0, $sel_name = '', $onchange = ''): void
     {
         if ('' === $sel_name) {
             $sel_name = $this->id;
@@ -223,7 +215,7 @@ class Tree
         if ($none) {
             echo "<option value='0'>----</option>\n";
         }
-        while (list($catid, $name) = $this->db->fetchRow($result)) {
+        while ([$catid, $name] = $this->db->fetchRow($result)) {
             $sel = '';
             if ($catid == $preset_id) {
                 $sel = " selected='selected'";
@@ -233,7 +225,7 @@ class Tree
             $arr = $this->getChildTreeArray($catid, $order);
             foreach ($arr as $option) {
                 $option['prefix'] = \str_replace('.', '--', $option['prefix']);
-                $catpath          = $option['prefix'] . '&nbsp;' . htmlspecialchars($option[$title]);
+                $catpath          = $option['prefix'] . '&nbsp;' . \htmlspecialchars($option[$title]);
                 if ($option[$this->id] == $preset_id) {
                     $sel = " selected='selected'";
                 }
@@ -265,7 +257,7 @@ class Tree
         }
         [$parentid, $name] = $this->db->fetchRow($result);
         $myts = \MyTextSanitizer::getInstance();
-        $name = htmlspecialchars($name);
+        $name = \htmlspecialchars($name);
         $path = "<li><a href='" . $funcURL . '&amp;' . $this->id . '=' . $selectId . "'>" . $name . '</a></li>' . $path . '';
         if (0 == $parentid) {
             return $path;

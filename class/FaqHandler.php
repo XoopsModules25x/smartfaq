@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
@@ -18,14 +18,13 @@ use XoopsModules\Smartfaq;
  * of Q&A class objects.
  *
  * @author  marcan <marcan@smartfactory.ca>
- * @package SmartFAQ
  */
 class FaqHandler extends \XoopsObjectHandler
 {
     protected $helper;
 
     /**
-     * @param \XoopsDatabase                     $db
+     * @param \XoopsDatabase $db
      * @param \XoopsModules\Smartfaq\Helper|null $helper
      */
     public function __construct(\XoopsDatabase $db = null, \XoopsModules\Smartfaq\Helper $helper = null)
@@ -96,7 +95,7 @@ class FaqHandler extends \XoopsObjectHandler
      */
     public function insert(\XoopsObject $faq, $force = false)
     {
-        if ('xoopsmodules\smartfaq\faq' !== mb_strtolower(\get_class($faq))) {
+        if ('xoopsmodules\smartfaq\faq' !== \mb_strtolower(\get_class($faq))) {
             return false;
         }
 
@@ -209,7 +208,7 @@ class FaqHandler extends \XoopsObjectHandler
         $smartModule = Smartfaq\Utility::getModuleInfo();
         $module_id   = $smartModule->getVar('mid');
 
-        //        if ('XoopsModules\Smartfaq\Faq' !== mb_strtolower(get_class($faq))) {
+        //        if ('XoopsModules\Smartfaq\Faq' !== \mb_strtolower(get_class($faq))) {
         if (Faq::class !== \get_class($faq)) {
             return false;
         }
@@ -251,7 +250,7 @@ class FaqHandler extends \XoopsObjectHandler
         $limit = $start = 0;
         $sql   = 'SELECT * FROM ' . $this->db->prefix('smartfaq_faq');
 
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $whereClause = $criteria->renderWhere();
 
             if ('WHERE ()' !== $whereClause) {
@@ -300,8 +299,8 @@ class FaqHandler extends \XoopsObjectHandler
 
     /**
      * @param \CriteriaElement|null $criteria
-     * @param bool                  $id_as_key
-     * @param string                $notNullFields
+     * @param bool   $id_as_key
+     * @param string $notNullFields
      * @return array|bool
      */
     public function getObjectsAdminSide(\CriteriaElement $criteria = null, $id_as_key = false, $notNullFields = '')
@@ -332,7 +331,7 @@ class FaqHandler extends \XoopsObjectHandler
                             faq.exacturl AS exacturl
                 FROM ' . $this->db->prefix('smartfaq_faq') . ' AS faq INNER JOIN ' . $this->db->prefix('smartfaq_categories') . ' AS category ON faq.categoryid = category.categoryid ';
 
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $whereClause = $criteria->renderWhere();
 
             if ('WHERE ()' !== $whereClause) {
@@ -399,7 +398,7 @@ class FaqHandler extends \XoopsObjectHandler
     public function getCount($criteria = null, $notNullFields = '')
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db->prefix('smartfaq_faq');
-        if (null !== $criteria && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $whereClause = $criteria->renderWhere();
             if ('WHERE ()' !== $whereClause) {
                 $sql .= ' ' . $criteria->renderWhere();
@@ -502,7 +501,7 @@ class FaqHandler extends \XoopsObjectHandler
             return [];
         }
         $ret = [];
-        while (list($status, $count) = $this->db->fetchRow($result)) {
+        while ([$status, $count] = $this->db->fetchRow($result)) {
             $ret[$status] = $count;
         }
 
@@ -738,7 +737,7 @@ class FaqHandler extends \XoopsObjectHandler
             foreach ($faqsObj as $i => $iValue) {
                 $display = false;
 
-                $http        = (false === mb_strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
+                $http        = (false === mb_strpos(XOOPS_URL, 'https://')) ? 'https://' : 'https://';
                 $phpself     = $_SERVER['SCRIPT_NAME'];
                 $httphost    = $_SERVER['HTTP_HOST'];
                 $querystring = $_SERVER['QUERY_STRING'];
@@ -849,7 +848,7 @@ class FaqHandler extends \XoopsObjectHandler
     public function deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db->prefix('smartfaq_faq');
-        if (isset($criteria) && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->query($sql)) {
@@ -873,7 +872,7 @@ class FaqHandler extends \XoopsObjectHandler
     {
         $set_clause = \is_numeric($fieldvalue) ? $fieldname . ' = ' . $fieldvalue : $fieldname . ' = ' . $this->db->quoteString($fieldvalue);
         $sql        = 'UPDATE ' . $this->db->prefix('smartfaq_faq') . ' SET ' . $set_clause;
-        if (isset($criteria) && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$this->db->queryF($sql)) {
@@ -931,7 +930,8 @@ class FaqHandler extends \XoopsObjectHandler
     {
         global $xoopsUser;
 
-        $ret = [];
+        $ret              = [];
+        $criteriaKeywords = null;
 
         $userIsAdmin = Smartfaq\Utility::userIsAdmin();
 
@@ -1015,7 +1015,7 @@ class FaqHandler extends \XoopsObjectHandler
 
         $sql = 'SELECT faq.faqid, faq.question, faq.datesub, faq.uid FROM ' . $this->db->prefix('smartfaq_faq') . ' AS faq INNER JOIN ' . $this->db->prefix('smartfaq_answers') . ' AS answer ON faq.faqid = answer.faqid';
 
-        if (isset($criteria) && $criteria instanceof \CriteriaElement) {
+        if (($criteria instanceof \CriteriaCompo) || ($criteria instanceof \Criteria)) {
             $whereClause = $criteria->renderWhere();
 
             if ('WHERE ()' !== $whereClause) {

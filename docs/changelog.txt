@@ -1,10 +1,11 @@
-<h5>1.20.xx Beta 1  [NOT RELEASED]</h5>  Dev: Xoops 2.5.9, PHP 7.2.3
+<h5>1.20.xx Beta 1  [NOT RELEASED]</h5>  Dev: Dev: XOOPS 2.5.11, PHP 7.4.30, PHP 8.0.21, PHP 8.1.8, PHP 8.2.0 Alpha3
 <hr>
 + namespaces, autoloading (mamba)
 * moved functions to Utility (mamba)
 + added Constants class (mamba)
 + added Tree class (mamba)
 + cosmetics
++ Fixed query in sfCategoryHandler::getSubCats() (Andrew-Staves-Activ)
 
 WORK IN PROGRESS
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -8,7 +8,7 @@
 
 use XoopsModules\Smartfaq;
 
-$categoryID = isset($categoryID) ? $categoryID : 0;
+$categoryID = $categoryID ?? 0;
 $type       = isset($type) ? (int)$type : 3;
 $term       = isset($term) ? $type : '';
 
@@ -28,7 +28,7 @@ if (1 == $helper->getConfig('multicats')) {
 
     $resultcat = $xoopsDB->queryF('SELECT categoryID, name FROM ' . $xoopsDB->prefix('wbcategories') . ' ORDER BY categoryID');
 
-    while (list($categoryID, $name) = $xoopsDB->fetchRow($resultcat)) {
+    while ([$categoryID, $name] = $xoopsDB->fetchRow($resultcat)) {
         $searchcat->addOption('categoryID', "$categoryID : $name");
     }
     $sform->addElement($searchcat, true);

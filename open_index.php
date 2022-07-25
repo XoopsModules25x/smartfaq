@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -10,6 +10,8 @@ use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 use XoopsModules\Smartfaq\Helper;
+
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_index.tpl';
 
 require_once __DIR__ . '/header.php';
 
@@ -47,8 +49,6 @@ $totalCategoriesOnPage = count($categoriesObj);
 if (0 == $totalCategoriesOnPage) {
     redirect_header('<script>javascript:history.go(-1)</script>', 2, _AM_SF_NO_CAT_EXISTS);
 }
-
-$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_index.tpl';
 
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';

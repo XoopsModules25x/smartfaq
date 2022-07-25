@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -42,7 +42,7 @@ $startfaq = Request::getInt('startfaq', 0, 'GET');
  * @param bool $showmenu
  * @param int  $faqid
  */
-function editfaq($showmenu = false, $faqid = -1)
+function editfaq($showmenu = false, $faqid = -1): void
 {
     global $faqHandler, $categoryHandler, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $XOOPS_URL, $myts;
     /** @var Smartfaq\Helper $helper */
@@ -181,9 +181,8 @@ function editfaq($showmenu = false, $faqid = -1)
 /* -- Available operations -- */
 switch ($op) {
     case 'mod':
-
         global $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
-        $faqid = isset($_GET['faqid']) ? $_GET['faqid'] : -1;
+        $faqid = $_GET['faqid'] ?? -1;
 
         if (-1 == $faqid) {
             $totalcategories = $categoryHandler->getCategoriesCount(-1);
@@ -221,7 +220,7 @@ switch ($op) {
         }
 
         // Putting the values in the FAQ object
-        $faqObj->setGroups_read(isset($_POST['groups']) ? $_POST['groups'] : []);
+        $faqObj->setGroups_read($_POST['groups'] ?? []);
         $faqObj->setVar('categoryid', Request::getInt('categoryid', 0, 'POST'));
         $faqObj->setVar('question', $_POST['question']);
         $faqObj->setVar('status', Request::getInt('status', Constants::SF_STATUS_ASKED, 'POST'));

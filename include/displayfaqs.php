@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -15,7 +15,7 @@ use XoopsModules\Smartfaq\Helper;
 $helper            = Helper::getInstance();
 $smartModuleConfig = $helper->getConfig();
 $xoopsModule       = $helper->getModule();
-$pathIcon16        = Admin::iconUrl('', 16);
+$pathIcon16        = Admin::iconUrl('', '16');
 
 global $xoopsUser, $xoopsDB;
 

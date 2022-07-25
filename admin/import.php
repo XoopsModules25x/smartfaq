@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -24,8 +24,7 @@ global $xoopsDB;
 
 switch ($op) {
     case 'importExecute':
-
-        $importfile      = isset($_POST['importfile']) ? $_POST['importfile'] : 'nonselected';
+        $importfile      = $_POST['importfile'] ?? 'nonselected';
         $importfile_path = XOOPS_ROOT_PATH . '/modules/smartfaq/admin/' . $importfile . '.php';
         if (!file_exists($importfile_path)) {
             $errs[] = sprintf(_AM_SF_IMPORT_FILE_NOT_FOUND, $importfile_path);
@@ -49,7 +48,6 @@ switch ($op) {
         break;
     case 'default':
     default:
-
         $importfile = 'none';
 
         xoops_cp_header();
@@ -59,7 +57,7 @@ switch ($op) {
         echo "<div id='bottomtable'>";
         echo '<span style="color: #567; margin: 3px 0 12px 0; font-size: small; display: block; ">' . _AM_SF_IMPORT_INFO . '</span>';
 
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts;
+        global $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModuleConfig, $xoopsModule, $XOOPS_URL, $myts;
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 

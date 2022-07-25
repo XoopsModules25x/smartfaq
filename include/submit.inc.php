@@ -114,13 +114,14 @@ if (!empty($attachments_tmp) && is_array($attachments_tmp) && count($attachments
 //************************************************
 
 // CONTEXT MODULE LINK
-// Retreive the list of module currently installed. The key value is the dirname
-/*/** @var \XoopsModuleHandler $moduleHandler */
+// Retrieve the list of module currently installed. The key value is the dirname
+/** @var \XoopsModuleHandler $moduleHandler */
+/*
 $moduleHandler           = xoops_getHandler('module');
 $modules_array           = $moduleHandler->getList(null, true);
-$modulelink_select_array = ["url" => _MD_SF_SPECIFIC_URL_SELECT];
+$modulelink_select_array = ['url' => _MD_SF_SPECIFIC_URL_SELECT];
 $modulelink_select_array = array_merge($modules_array, $modulelink_select_array);
-$modulelink_select_array = array_merge(["None" => _MD_SF_NONE, "All" => _MD_SF_ALL], $modulelink_select_array);
+$modulelink_select_array = array_merge(['None' => _MD_SF_NONE, 'All' => _MD_SF_ALL], $modulelink_select_array);
 
 $modulelink_select = new \XoopsFormSelect('', 'modulelink', '');
 $modulelink_select->addOptionArray($modulelink_select_array);
@@ -128,6 +129,7 @@ $modulelink_tray = new \XoopsFormElementTray(_MD_SF_CONTEXTMODULELINK_FAQ, '&nbs
 $modulelink_tray->addElement($modulelink_select);
 $form->addElement($modulelink_tray);
 */
+
 // CONTEXTPAGE
 //$form->addElement(new \XoopsFormText(_MD_SF_SPECIFIC_URL, 'contextpage', 50, 60, ''), false);
 

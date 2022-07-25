@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -30,7 +30,7 @@ $startcategory = Request::getInt('startcategory', 0, 'GET');
  * @param \XoopsObject|Smartfaq\Category $categoryObj
  * @param int                            $level
  */
-function displayCategory($categoryObj, $level = 0)
+function displayCategory($categoryObj, $level = 0): void
 {
     global $xoopsModule, $categoryHandler, $pathIcon16;
     $description = $categoryObj->description();
@@ -79,12 +79,12 @@ function displayCategory($categoryObj, $level = 0)
  * @param bool $showmenu
  * @param int  $categoryid
  */
-function editcat($showmenu = false, $categoryid = 0)
+function editcat($showmenu = false, $categoryid = 0): void
 {
     //$moderators = []; // just to define the variable
     //$allmods = [];
     $startfaq = Request::getInt('startfaq', 0, 'GET');
-    global $categoryHandler, $xoopsUser, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $_GET;
+    global $categoryHandler, $xoopsUser, $myts, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $_GET;
     /** @var Smartfaq\Helper $helper */
     $helper = Helper::getInstance();
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -102,7 +102,7 @@ function editcat($showmenu = false, $categoryid = 0)
     // If there is a parameter, and the id exists, retrieve data: we're editing a category
     if (0 != $categoryid) {
         // Creating the category object for the selected category
-        $categoryObj = new  Category($categoryid);
+        $categoryObj = new Category($categoryid);
 
         echo "<br>\n";
         if ($categoryObj->notLoaded()) {
@@ -244,7 +244,7 @@ switch ($op) {
         editcat(true, $categoryid);
         break;
     case 'addcategory':
-        global $_POST, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts, $categoryid;
+        global $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts, $categoryid;
 
         $categoryid = Request::getInt('categoryid', 0, 'POST');
 
@@ -254,8 +254,8 @@ switch ($op) {
             $categoryObj = $categoryHandler->create();
         }
 
-        //if (\Xmf\Request::hasVar('allmods', 'POST')) $allmods = $_POST['allmods'];
-        //if (\Xmf\Request::hasVar('moderators', 'POST')) $moderators = $_POST['moderators'];
+        //if (Request::hasVar('allmods', 'POST')) $allmods = $_POST['allmods'];
+        //if (Request::hasVar('moderators', 'POST')) $moderators = $_POST['moderators'];
 
         $categoryObj->setVar('parentid', Request::getInt('parentid', 0, 'POST'));
         $applyall = Request::getInt('applyall', 0, 'POST');
@@ -296,7 +296,7 @@ switch ($op) {
         redirect_header($redirect_to, 2, $redirect_msg);
         break;
     case 'del':
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $_GET;
+        global $xoopsUser, $xoopsConfig, $xoopsDB;
 
         $module_id = $xoopsModule->getVar('mid');
         /** @var \XoopsGroupPermHandler $grouppermHandler */

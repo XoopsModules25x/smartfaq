@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -12,8 +12,6 @@
 /**
  * @copyright      {@link https://xoops.org/ XOOPS Project}
  * @license        {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
  * @author         XOOPS Development Team, phppp (D.J., infomax@gmail.com)
  */
 
@@ -131,7 +129,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
                 $new_file_im = @escapeshellarg($new_file);
             }
             $path           = empty($helper->getConfig('path_magick')) ? '' : $helper->getConfig('path_magick') . '/';
-            $magick_command = $path . 'convert -quality 85 -antialias -sample ' . $newWidth . 'x' . $newHeight . ' ' . $src_file_im . ' +profile "*" ' . str_replace('\\', '/', $new_file_im) . '';
+            $magick_command = $path . 'convert -auto-orient -quality 85 -antialias -sample ' . $newWidth . 'x' . $newHeight . ' ' . $src_file_im . ' +profile "*" ' . str_replace('\\', '/', $new_file_im) . '';
 
             @passthru($magick_command);
             if (file_exists($new_file)) {
@@ -141,11 +139,11 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
 
         if (2 == $helper->getConfig('image_lib') || 0 == $helper->getConfig('image_lib')) {
             $path = empty($helper->getConfig('path_netpbm')) ? '' : $helper->getConfig('path_netpbm') . '/';
-            if (preg_match("/\.png$/i", $source)) {
+            if (preg_match('/\.png$/i', $source)) {
                 $cmd = $path . "pngtopnm $src_file | " . $path . "pnmscale -xysize $newWidth $newHeight | " . $path . "pnmtopng > $new_file";
-            } elseif (preg_match("/\.(jpg|jpeg)$/i", $source)) {
+            } elseif (preg_match('/\.(jpg|jpeg)$/i', $source)) {
                 $cmd = $path . "jpegtopnm $src_file | " . $path . "pnmscale -xysize $newWidth $newHeight | " . $path . "ppmtojpeg -quality=90 > $new_file";
-            } elseif (preg_match("/\.gif$/i", $source)) {
+            } elseif (preg_match('/\.gif$/i', $source)) {
                 $cmd = $path . "giftopnm $src_file | " . $path . "pnmscale -xysize $newWidth $newHeight | ppmquant 256 | " . $path . "ppmtogif > $new_file";
             }
 
@@ -173,7 +171,7 @@ if (!defined('NEWBB_FUNCTIONS_IMAGE')) :
 
         $imageCreateFunction = function_exists('imagecreatetruecolor') ? 'imagecreatetruecolor' : 'imagecreate';
 
-        if (in_array($type, $supported_types)) {
+        if (in_array($type, $supported_types, true)) {
             switch ($type) {
                 case 1:
                     if (!function_exists('imagecreatefromgif')) {

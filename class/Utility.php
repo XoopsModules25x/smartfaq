@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
 use XoopsModules\Smartfaq;
-use XoopsModules\Smartfaq\Common;
-use XoopsModules\Smartfaq\Constants;
 
 /**
  * Class Utility
@@ -44,8 +42,9 @@ class Utility extends Common\SysUtility
                 $smartConfig = $xoopsModuleConfig;
             } else {
                 $smartModule = self::getModuleInfo();
-                $hModConfig  = \xoops_getHandler('config');
-                $smartConfig = $hModConfig->getConfigsByCat(0, $smartModule->getVar('mid'));
+                /** @var \XoopsConfigHandler $configHandler */
+                $configHandler  = \xoops_getHandler('config');
+                $smartConfig = $configHandler->getConfigsByCat(0, $smartModule->getVar('mid'));
             }
         }
 
@@ -60,7 +59,7 @@ class Utility extends Common\SysUtility
         $smartConfig = self::getModuleConfig();
         switch ($smartConfig['helppath_select']) {
             case 'docs.xoops.org':
-                return 'http://docs.xoops.org/help/sfaqh/index.htm';
+                return 'https://docs.xoops.org/help/sfaqh/index.htm';
                 break;
             case 'inside':
                 return XOOPS_URL . '/modules/smartfaq/doc/';
@@ -128,10 +127,10 @@ class Utility extends Common\SysUtility
      */
     public static function createCategorySelect($selectedid = 0, $parentcategory = 0, $allCatOption = true)
     {
-        $ret = '' . _MB_SF_SELECTCAT . "&nbsp;<select name='options[]'>";
+        $ret = '' . \_MB_SF_SELECTCAT . "&nbsp;<select name='options[]'>";
         if ($allCatOption) {
             $ret .= "<option value='0'";
-            $ret .= '>' . _MB_SF_ALLCAT . "</option>\n";
+            $ret .= '>' . \_MB_SF_ALLCAT . "</option>\n";
         }
 
         // Creating the category handler object
@@ -156,14 +155,14 @@ class Utility extends Common\SysUtility
     public static function getStatusArray()
     {
         $result = [
-            '1' => _AM_SF_STATUS1,
-            '2' => _AM_SF_STATUS2,
-            '3' => _AM_SF_STATUS3,
-            '4' => _AM_SF_STATUS4,
-            '5' => _AM_SF_STATUS5,
-            '6' => _AM_SF_STATUS6,
-            '7' => _AM_SF_STATUS7,
-            '8' => _AM_SF_STATUS8,
+            '1' => \_AM_SF_STATUS1,
+            '2' => \_AM_SF_STATUS2,
+            '3' => \_AM_SF_STATUS3,
+            '4' => \_AM_SF_STATUS4,
+            '5' => \_AM_SF_STATUS5,
+            '6' => \_AM_SF_STATUS6,
+            '7' => \_AM_SF_STATUS7,
+            '8' => \_AM_SF_STATUS8,
         ];
 
         return $result;
@@ -225,7 +224,7 @@ class Utility extends Common\SysUtility
 
         if (!empty($xoopsUser)) {
             $groups = &$xoopsUser->getGroups();
-            $result = \in_array(XOOPS_GROUP_ADMIN, $groups) || $xoopsUser->isAdmin($module_id);
+            $result = \in_array(XOOPS_GROUP_ADMIN, $groups, true) || $xoopsUser->isAdmin($module_id);
         }
 
         return $result;
@@ -302,7 +301,7 @@ class Utility extends Common\SysUtility
         $result = $xoopsDB->queryF($sql);
 
         if ($GLOBALS['xoopsDB']->getRowsNum($result) > 0) {
-            while (list($faqid) = $xoopsDB->fetchRow($result)) {
+            while ([$faqid] = $xoopsDB->fetchRow($result)) {
                 // First, if the permissions are already there, delete them
                 $grouppermHandler->deleteByModule($module_id, 'item_read', $faqid);
                 // Save the new permissions
@@ -437,22 +436,22 @@ class Utility extends Common\SysUtility
         $page       = $open ? 'question.php' : 'faq.php';
         if ($xoopsUser && $xoopsUser->isAdmin($xoopsModule->getVar('mid'))) {
             // Edit button
-            $adminLinks .= "<a href='" . $modulePath . "admin/$page?op=mod&amp;faqid=" . $faqid . "'><img src='" . $modulePath . "assets/images/links/edit.gif'" . " title='" . _MD_SF_EDIT . "' alt='" . _MD_SF_EDIT . "'></a>";
+            $adminLinks .= "<a href='" . $modulePath . "admin/$page?op=mod&amp;faqid=" . $faqid . "'><img src='" . $modulePath . "assets/images/links/edit.gif'" . " title='" . \_MD_SF_EDIT . "' alt='" . \_MD_SF_EDIT . "'></a>";
             $adminLinks .= ' ';
             // Delete button
-            $adminLinks .= "<a href='" . $modulePath . "admin/$page?op=del&amp;faqid=" . $faqid . "'><img src='" . $modulePath . "assets/images/links/delete.gif'" . " title='" . _MD_SF_DELETE . "' alt='" . _MD_SF_DELETE . "'></a>";
+            $adminLinks .= "<a href='" . $modulePath . "admin/$page?op=del&amp;faqid=" . $faqid . "'><img src='" . $modulePath . "assets/images/links/delete.gif'" . " title='" . \_MD_SF_DELETE . "' alt='" . \_MD_SF_DELETE . "'></a>";
             $adminLinks .= ' ';
         }
         // Print button
-        $adminLinks .= "<a href='" . $modulePath . 'print.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/print.gif' title='" . _MD_SF_PRINT . "' alt='" . _MD_SF_PRINT . "'></a>";
+        $adminLinks .= "<a href='" . $modulePath . 'print.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/print.gif' title='" . \_MD_SF_PRINT . "' alt='" . \_MD_SF_PRINT . "'></a>";
         $adminLinks .= ' ';
         // Email button
-        $maillink   = 'mailto:?subject=' . \sprintf(_MD_SF_INTARTICLE, $xoopsConfig['sitename']) . '&amp;body=' . \sprintf(_MD_SF_INTARTFOUND, $xoopsConfig['sitename']) . ':  ' . $modulePath . 'faq.php?faqid=' . $faqid;
-        $adminLinks .= '<a href="' . $maillink . "\"><img src='" . $modulePath . "assets/images/links/friend.gif' title='" . _MD_SF_MAIL . "' alt='" . _MD_SF_MAIL . "'></a>";
+        $maillink   = 'mailto:?subject=' . \sprintf(\_MD_SF_INTARTICLE, $xoopsConfig['sitename']) . '&amp;body=' . \sprintf(\_MD_SF_INTARTFOUND, $xoopsConfig['sitename']) . ':  ' . $modulePath . 'faq.php?faqid=' . $faqid;
+        $adminLinks .= '<a href="' . $maillink . "\"><img src='" . $modulePath . "assets/images/links/friend.gif' title='" . \_MD_SF_MAIL . "' alt='" . \_MD_SF_MAIL . "'></a>";
         $adminLinks .= ' ';
         // Submit New Answer button
         if ($helper->getConfig('allownewanswer') && (\is_object($xoopsUser) || $helper->getConfig('anonpost'))) {
-            $adminLinks .= "<a href='" . $modulePath . 'answer.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/newanswer.gif' title='" . _MD_SF_SUBMITANSWER . "' alt='" . _MD_SF_SUBMITANSWER . "'></a>";
+            $adminLinks .= "<a href='" . $modulePath . 'answer.php?faqid=' . $faqid . "'><img src='" . $modulePath . "assets/images/links/newanswer.gif' title='" . \_MD_SF_SUBMITANSWER . "' alt='" . \_MD_SF_SUBMITANSWER . "'></a>";
             $adminLinks .= ' ';
         }
 
@@ -533,7 +532,7 @@ class Utility extends Common\SysUtility
      * @param string $tablename
      * @param string $iconname
      */
-    public static function collapsableBar($tablename = '', $iconname = '')
+    public static function collapsableBar($tablename = '', $iconname = ''): void
     {
         ?>
         <script type="text/javascript"><!--

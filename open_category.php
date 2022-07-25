@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -11,14 +11,14 @@ use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 use XoopsModules\Smartfaq\Helper;
 
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
+
 require_once __DIR__ . '/header.php';
 
 /** @var Smartfaq\Helper $helper */
 $helper = Helper::getInstance();
 
 global $xoopsConfig, $xoopsModule;
-
-$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_category.tpl';
 
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once __DIR__ . '/footer.php';

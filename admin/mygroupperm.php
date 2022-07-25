@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use Xmf\Request;
 
@@ -12,7 +12,6 @@ use Xmf\Request;
  * @param null  $gperm_itemid
  * @return bool
  */
-
 function myDeleteByModule(\XoopsDatabase $db, $gperm_modid, $gperm_name = null, $gperm_itemid = null)
 {
     $criteria = new \CriteriaCompo(new \Criteria('gperm_modid', (int)$gperm_modid));
@@ -30,7 +29,7 @@ function myDeleteByModule(\XoopsDatabase $db, $gperm_modid, $gperm_name = null, 
     return true;
 }
 
-// require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php'; GIJ
+// require_once  \dirname(__DIR__, 3) . '/include/cp_header.php'; GIJ
 $modid = Request::getInt('modid', 1, 'POST');
 // we dont want system module permissions to be changed here ( 1 -> 0 GIJ)
 if ($modid <= 0 || !is_object($xoopsUser) || !$xoopsUser->isAdmin($modid)) {
@@ -60,13 +59,13 @@ if (is_array($_POST['perms']) && !empty($_POST['perms'])) {
                 }
                 foreach ($perm_data['groups'] as $group_id => $item_ids) {
                     //              foreach ($item_ids as $item_id => $selected) {
-                    $selected = isset($item_ids[$item_id]) ? $item_ids[$item_id] : 0;
+                    $selected = $item_ids[$item_id] ?? 0;
                     if (1 == $selected) {
                         // make sure that all parent ids are selected as well
                         if ('' != $perm_data['parents'][$item_id]) {
                             $parent_ids = explode(':', $perm_data['parents'][$item_id]);
                             foreach ($parent_ids as $pid) {
-                                if (0 != $pid && !in_array($pid, array_keys($item_ids))) {
+                                if (0 != $pid && !in_array($pid, array_keys($item_ids), true)) {
                                     // one of the parent items were not selected, so skip this item
                                     $msg[] = sprintf(_MD_AM_PERMADDNG, '<b>' . $perm_name . '</b>', '<b>' . $perm_data['itemname'][$item_id] . '</b>', '<b>' . $group_list[$group_id] . '</b>') . ' (' . _MD_AM_PERMADDNGP . ')';
                                     continue 2;

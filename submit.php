@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -10,6 +10,8 @@ use Xmf\Request;
 use XoopsModules\Smartfaq;
 use XoopsModules\Smartfaq\Constants;
 use XoopsModules\Smartfaq\Helper;
+
+$GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
 
 require_once __DIR__ . '/header.php';
 
@@ -57,7 +59,6 @@ if (Request::hasVar('post', 'POST')) {
 
 switch ($op) {
     case 'preview':
-
         global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsDB;
 
         $faqObj      = $faqHandler->create();
@@ -92,7 +93,6 @@ switch ($op) {
 
         global $xoopsUser, $myts;
 
-        $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
         require_once XOOPS_ROOT_PATH . '/header.php';
         require_once __DIR__ . '/footer.php';
 
@@ -120,7 +120,6 @@ switch ($op) {
         exit();
         break;
     case 'post':
-
         global $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsDB;
 
         $newFaqObj    = $faqHandler->create();
@@ -276,14 +275,12 @@ switch ($op) {
         break;
     case 'form':
     default:
-
         global $xoopsUser, $myts;
 
         $faqObj      = $faqHandler->create();
         $answerObj   = $answerHandler->create();
         $categoryObj = $categoryHandler->create();
 
-        $GLOBALS['xoopsOption']['template_main'] = 'smartfaq_submit.tpl';
         require_once XOOPS_ROOT_PATH . '/header.php';
         require_once __DIR__ . '/footer.php';
 

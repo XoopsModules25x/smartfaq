@@ -1,16 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
-/**
- * @return object
- */
+/** @return object */
 
 //function getPaths()
 //{
-$moduleDirName = basename(dirname(__DIR__));
-//    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirName = \basename(\dirname(__DIR__));
+//    $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 return (object)[
-    //        'name'          => mb_strtoupper($moduleDirName) . ' PathConfigurator',
+    //        'name'          => \mb_strtoupper($moduleDirName) . ' PathConfigurator',
     //        'paths'         => [
     'dirname'    => $moduleDirName,
     'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',

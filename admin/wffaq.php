@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /**
  * Module: SmartFAQ
  * Author: Marius Scurtescu <mariuss@romanians.bc.ca>
@@ -52,7 +53,7 @@ if ('start' === $op) {
             // Categories to be imported
             $cat_cbox = new \XoopsFormCheckBox(sprintf(_AM_SF_IMPORT_CATEGORIES, $importFromModuleName), 'import_category', -1);
             $result   = $xoopsDB->queryF('SELECT c.catID, c.name, count(t.topicID) FROM ' . $xoopsDB->prefix('faqcategories') . ' AS c, ' . $xoopsDB->prefix('faqtopics') . ' AS t WHERE c.catID=t.catID GROUP BY t.catID ORDER BY c.weight');
-            while (list($cid, $cat_title, $count) = $xoopsDB->fetchRow($result)) {
+            while ([$cid, $cat_title, $count] = $xoopsDB->fetchRow($result)) {
                 $cat_cbox->addOption($cid, "$cat_title ($count)<br\>");
             }
             $form->addElement($cat_cbox);
@@ -84,7 +85,7 @@ if ('start' === $op) {
             $groups_checkbox = new \XoopsFormCheckBox(_AM_SF_IMPORT_PERMISSIONS, 'groups_read');
             foreach ($group_list as $group_id => $group_name) {
                 if (XOOPS_GROUP_ADMIN != $group_id) {
-                    $groups_selected [] = $group_id;
+                    $groups_selected[] = $group_id;
                     $groups_checkbox->addOption($group_id, $group_name);
                 }
             }
@@ -102,7 +103,7 @@ if ('start' === $op) {
 }
 
 if ('go' === $op) {
-    $import_category = (isset($_POST['import_category']) ? $_POST['import_category'] : null);
+    $import_category = ($_POST['import_category'] ?? null);
     if (!$import_category) {
         redirect_header($scriptname, 2, _AM_SF_NOCATSELECTED);
     }
@@ -119,7 +120,7 @@ if ('go' === $op) {
     $cnt_imported_faq = 0;
 
     $parentId    = $_POST['parent_category'];
-    $groups_read = isset($_POST['groups_read']) ? $_POST['groups_read'] : [];
+    $groups_read = $_POST['groups_read'] ?? [];
     $uid         = !empty($_POST['uid']) ? $_POST['uid'] : 0;
     $cancomment  = $_POST['cancomment'];
     $autoaprove  = $_POST['autoaprove'];
@@ -165,7 +166,7 @@ if ('go' === $op) {
 
         ++$cnt_imported_cat;
 
-        echo sprintf(_AM_SF_IMPORT_CATEGORY_SUCCESS, $wfc_name) . "<br\>";
+        echo sprintf(_AM_SF_IMPORT_CATEGORY_SUCCESS, $wfc_name) . '<br>';
 
         $resultFAQ = $xoopsDB->queryF('select * from ' . $xoopsDB->prefix('faqtopics') . " where catID=$wfc_catID order by weight");
         while (false !== ($arrFAQ = $xoopsDB->fetchArray($resultFAQ))) {
@@ -208,7 +209,7 @@ if ('go' === $op) {
             $answerObj->setVar('status', Constants::SF_AN_STATUS_APPROVED);
 
             if (!$answerObj->store()) {
-                echo sprintf('  ' . _AM_SF_IMPORT_FAQ_ERROR) . '<br>';
+                echo '  ' . _AM_SF_IMPORT_FAQ_ERROR . '<br>';
                 continue;
             }
             echo '&nbsp;&nbsp;' . sprintf(_AM_SF_IMPORTED_QUESTION, $faqObj->question(50)) . '<br>';

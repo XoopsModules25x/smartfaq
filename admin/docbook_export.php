@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -8,7 +8,7 @@
 
 use Xmf\Request;
 
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
 
 $op = 'go'; //'start';
 
@@ -31,7 +31,7 @@ if ('go' === $op) {
     header('Content-Type: text/xml; name=smartfaq.xml');
 
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
-    echo "<!DOCTYPE qandaset PUBLIC \"-//OASIS//DTD DocBook XML V4.2//EN\" \"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd\">\r\n";
+    echo "<!DOCTYPE qandaset PUBLIC \"-//OASIS//DTD DocBook XML V4.2//EN\" \"https://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd\">\r\n";
     echo "<qandaset defaultlabel=\"qanda\" Conformance=\"1.0 {module version}\">\r\n";
 
     echo "  <blockinfo>\r\n";

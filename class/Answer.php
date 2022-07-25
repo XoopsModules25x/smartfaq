@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Smartfaq;
 
@@ -132,7 +132,7 @@ class Answer extends \XoopsObject
         }
 
         foreach ($attach_old as $key => $attach) {
-            if (\in_array($key, $attach_array)) {
+            if (\in_array($key, $attach_array, true)) {
                 @\unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $attach['name_saved']);
                 @\unlink(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/thumbs/' . $attach['name_saved']); // delete thumbnails
                 continue;
@@ -163,7 +163,7 @@ class Answer extends \XoopsObject
             $key                          = (string)(\time() + ($counter++));
             $this->attachment_array[$key] = [
                 'name_saved'   => $name_saved,
-                'name_display' => isset($name_display) ? $name_display : $name_saved,
+                'name_display' => $name_display ?? $name_saved,
                 'mimetype'     => $mimetype,
                 'num_download' => isset($num_download) ? (int)$num_download : 0,
             ];
@@ -191,7 +191,7 @@ class Answer extends \XoopsObject
         $post_attachment = '';
         $attachments     = $this->getAttachment();
         if ($attachments && \is_array($attachments)) {
-            $iconHandler = sf_getIconHandler();
+            $iconHandler = \sf_getIconHandler();
             $mime_path   = $iconHandler->getPath('mime');
             require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname', 'n') . '/include/functions.image.php';
             $image_extensions = ['jpg', 'jpeg', 'gif', 'png', 'bmp']; // need improve !!!
@@ -207,9 +207,9 @@ class Answer extends \XoopsObject
                 }
                 $file_size = @\filesize(XOOPS_ROOT_PATH . '/' . $helper->getConfig('dir_attachments') . '/' . $att['name_saved']);
                 $file_size = \number_format($file_size / 1024, 2) . ' KB';
-                if ($helper->getConfig('media_allowed') && \in_array(mb_strtolower($file_extension), $image_extensions)) {
+                if ($helper->getConfig('media_allowed') && \in_array(mb_strtolower($file_extension), $image_extensions, true)) {
                     $post_attachment .= '<br><img src="' . $icon_filetype . '" alt="' . $filetype . '"><strong>&nbsp; ' . $att['name_display'] . '</strong> <small>(' . $file_size . ')</small>';
-                    $post_attachment .= '<br>' . sf_attachmentImage($att['name_saved']);
+                    $post_attachment .= '<br>' . \sf_attachmentImage($att['name_saved']);
                     $isDisplayed     = true;
                 } else {
                     global $xoopsUser;
@@ -260,7 +260,7 @@ class Answer extends \XoopsObject
                                             . ': '
                                             . $att['num_download'];
                     } else {
-                        $post_attachment .= _MD_NEWBB_SEENOTGUEST;
+                        $post_attachment .= \_MD_NEWBB_SEENOTGUEST;
                     }
                 }
                 $post_attachment .= '<br>';
@@ -358,7 +358,7 @@ class Answer extends \XoopsObject
     /**
      * @param array $notifications
      */
-    public function sendNotifications($notifications = [])
+    public function sendNotifications($notifications = []): void
     {
         $smartModule = Smartfaq\Utility::getModuleInfo();
 

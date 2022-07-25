@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use XoopsModules\Smartfaq\Helper;
 
@@ -9,7 +9,6 @@ use XoopsModules\Smartfaq\Helper;
  * @param $options
  * @return array
  */
-
 function b_faqs_context_show($options)
 {
     //    require_once XOOPS_ROOT_PATH . '/modules/smartfaq/include/functions.php';

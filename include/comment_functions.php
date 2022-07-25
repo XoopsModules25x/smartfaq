@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -7,7 +7,7 @@
  * @param $faq_id
  * @param $total_num
  */
-function smartfaq_com_update($faq_id, $total_num)
+function smartfaq_com_update($faq_id, $total_num): void
 {
     $db  = \XoopsDatabaseFactory::getDatabaseConnection();
     $sql = 'UPDATE ' . $db->prefix('smartfaq_faq') . ' SET comments = ' . $total_num . ' WHERE faqid = ' . $faq_id;
@@ -17,7 +17,7 @@ function smartfaq_com_update($faq_id, $total_num)
 /**
  * @param $comment
  */
-function smartfaq_com_approve(&$comment)
+function smartfaq_com_approve(&$comment): void
 {
     // notification mail here
 }

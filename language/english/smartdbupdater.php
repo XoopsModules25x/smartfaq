@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartContent
  * Author: The SmartFactory <www.smartfactory.ca>
  * Licence: GNU
  */
-
 define('_SDU_IMPORT', 'Import');
 define('_SDU_CURRENTVER', "Current version: <span class='currentVer'>%s</span>");
 define('_SDU_DBVER', 'Database Version %s');

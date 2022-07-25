@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -16,15 +16,7 @@ require_once __DIR__ . '/admin_header.php';
 /** @var Smartfaq\Helper $helper */
 $helper = Helper::getInstance();
 
-$op = '';
-
-// Getting the operation we are doing
-if (Request::hasVar('op', 'GET')) {
-    $op = $_GET['op'];
-}
-if (Request::hasVar('op', 'POST')) {
-    $op = $_POST['op'];
-}
+$op = Request::getCmd('op', Request::getCmd('op', '', 'GET'), 'POST');
 
 // Creating the answer handler object
 /** @var \XoopsModules\Smartfaq\AnswerHandler $answerHandler */
@@ -33,11 +25,12 @@ $answerHandler = Helper::getInstance()->getHandler('Answer');
 /**
  * @param string $faqid
  */
-function editfaq($faqid = '')
+function editfaq(string $faqid = ''): void
 {
-    global $answerHandler, $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $XOOPS_URL, $myts, $pathIcon16, $smartModuleConfig;
+    global $answerHandler, $xoopsUser, $xoopsConfig, $xoopsDB, $modify, $xoopsModule, $XOOPS_URL, $myts, $pathIcon16;
     /** @var Smartfaq\Helper $helper */
     $helper = Helper::getInstance();
+    $smartModuleConfig = $helper->getConfig();
 
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
@@ -81,7 +74,7 @@ function editfaq($faqid = '')
 
     $proposed_answers = $answerHandler->getAllAnswers($faqid, Constants::SF_AN_STATUS_PROPOSED);
 
-    if (0 == count($proposed_answers)) {
+    if (0 === count($proposed_answers)) {
         redirect_header('index.php', 1, _AM_SF_NOANSWERS);
     }
 
@@ -152,17 +145,20 @@ function editfaq($faqid = '')
     echo "</table>\n<br>";
 }
 
+$redirect_msg  = '';
+$redirect_page = '';
+
 /* -- Available operations -- */
 switch ($op) {
     case 'mod':
         xoops_cp_header();
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
+        global $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule, $modify, $myts;
         $faqid = Request::getInt('faqid', 0, 'GET');
         editfaq($faqid);
         break;
     case 'selectanswer':
-        global $xoopsUser, $_GET;
+        global $xoopsUser;
 
         $faqid    = Request::getInt('faqid', 0, 'GET');
         $answerid = Request::getInt('answerid', 0, 'GET');
@@ -189,7 +185,7 @@ switch ($op) {
         switch ($faqObj->status()) {
             // This was an Open Question that became a Submitted FAQ
             case Constants::SF_STATUS_ANSWERED:
-                if (1 == $helper->getConfig('autoapprove_submitted_faq')) {
+                if (1 === $helper->getConfig('autoapprove_submitted_faq')) {
                     // We automatically approve Submitted Q&A
                     $redirect_msg = _AM_SF_ANSWER_APPROVED_PUBLISHED;
                     $faqObj->setVar('status', Constants::SF_STATUS_PUBLISHED);
@@ -235,7 +231,7 @@ switch ($op) {
         redirect_header('index.php', 2, $redirect_msg);
         break;
     case 'del':
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB;
+        global $xoopsUser, $xoopsConfig, $xoopsDB;
 
         $faqid     = Request::getInt('faqid', 0, 'POST');
         $faqid     = Request::getInt('faqid', $faqid, 'GET');
@@ -283,8 +279,7 @@ switch ($op) {
         xoops_cp_header();
 
         require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-        global $xoopsUser, $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule;
-        /** @var Smartfaq\Helper $helper */
+        global $xoopsUser, $xoopsConfig, $xoopsDB, $xoopsModule;
         $helper = Helper::getInstance();
 
         editfaq();

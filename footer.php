@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Module: SmartFAQ
@@ -39,6 +39,6 @@ $xoopsTpl->assign('display_hits_col', $helper->getConfig('display_hits_col'));
 
 $xoopsTpl->assign('displaytopcatdsc', $helper->getConfig('displaytopcatdsc'));
 
-$xoopsTpl->assign('ref_smartfaq', 'SmartFAQ is developed by The SmartFactory (http://www.smartfactory.ca), a division of InBox Solutions (http://www.inboxsolutions.net)');
+$xoopsTpl->assign('ref_smartfaq', 'SmartFAQ is developed by The SmartFactory (https://www.smartfactory.ca), a division of InBox Solutions (https://www.inboxsolutions.net)');
 
 $xoopsTpl->assign('xoops_module_header', "<link rel='stylesheet' type='text/css' href='" . XOOPS_URL . "/modules/smartfaq/assets/css/smartfaq.css'>");
