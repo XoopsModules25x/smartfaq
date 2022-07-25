@@ -17,7 +17,7 @@ namespace XoopsModules\Smartfaq\Common;
 
 /**
  * @license      GNU GPL 2.0 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @copyright    https://xoops.org 2000-2020 &copy; XOOPS Project
+ * @copyright    XOOPS Project (https://xoops.org)
  * @author       ZySpec <zyspec@yahoo.com>
  * @author       Mamba <mambax7@gmail.com>
  */
