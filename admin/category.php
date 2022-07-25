@@ -200,22 +200,22 @@ function editcat($showmenu = false, $categoryid = 0): void
     $hidden = new \XoopsFormHidden('op', 'addcategory');
     $buttonTray->addElement($hidden);
     // No ID for category -- then it's new category, button says 'Create'
-    if (!$categoryid) {
+    if ($categoryid) {
+        // button says 'Update'
+        $butt_create = new \XoopsFormButton('', '', _AM_SF_MODIFY, 'submit');
+        $butt_create->setExtra('onclick="this.form.elements.op.value=\'addcategory\'"');
+        $buttonTray->addElement($butt_create);
+
+        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
+        $butt_cancel->setExtra('onclick="history.go(-1)"');
+        $buttonTray->addElement($butt_cancel);
+    } else {
         $butt_create = new \XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
         $butt_create->setExtra('onclick="this.form.elements.op.value=\'addcategory\'"');
         $buttonTray->addElement($butt_create);
 
         $butt_clear = new \XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
         $buttonTray->addElement($butt_clear);
-
-        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
-        $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $buttonTray->addElement($butt_cancel);
-    } else {
-        // button says 'Update'
-        $butt_create = new \XoopsFormButton('', '', _AM_SF_MODIFY, 'submit');
-        $butt_create->setExtra('onclick="this.form.elements.op.value=\'addcategory\'"');
-        $buttonTray->addElement($butt_create);
 
         $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');

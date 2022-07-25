@@ -212,10 +212,10 @@ class AnswerHandler extends XoopsPersistableObjectHandler
             while (false !== ($myrow = $this->db->fetchArray($result))) {
                 $answer = new Smartfaq\Answer();
                 $answer->assignVars($myrow);
-                if (!$id_as_key) {
-                    $ret[] = &$answer;
-                } else {
+                if ($id_as_key) {
                     $ret[$myrow['answerid']] = $answer;
+                } else {
+                    $ret[] = &$answer;
                 }
                 unset($answer);
             }

@@ -309,7 +309,17 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
     $status_tray->addElement($status_select);
     $sform->addElement($status_tray);
     */
-    if (!$faqid) {
+    if ($faqid) {
+        // else, we're editing an existing faq
+        // $buttonTray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_MODIFY, 'submit' ) );
+        $butt_create = new \XoopsFormButton('', '', $button_caption, 'submit');
+        $butt_create->setExtra('onclick="this.form.elements.op.value=\'addfaq\'"');
+        $buttonTray->addElement($butt_create);
+
+        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
+        $butt_cancel->setExtra('onclick="history.go(-1)"');
+        $buttonTray->addElement($butt_cancel);
+    } else {
         // there's no faqid? Then it's a new faq
         // $buttonTray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_CREATE, 'submit' ) );
         $butt_create = new \XoopsFormButton('', '', _AM_SF_CREATE, 'submit');
@@ -318,16 +328,6 @@ function editfaq($showmenu = false, $faqid = -1, $answerid = -1, $merge = false)
 
         $butt_clear = new \XoopsFormButton('', '', _AM_SF_CLEAR, 'reset');
         $buttonTray->addElement($butt_clear);
-
-        $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
-        $butt_cancel->setExtra('onclick="history.go(-1)"');
-        $buttonTray->addElement($butt_cancel);
-    } else {
-        // else, we're editing an existing faq
-        // $buttonTray -> addElement( new \XoopsFormButton( '', 'mod', _AM_SF_MODIFY, 'submit' ) );
-        $butt_create = new \XoopsFormButton('', '', $button_caption, 'submit');
-        $butt_create->setExtra('onclick="this.form.elements.op.value=\'addfaq\'"');
-        $buttonTray->addElement($butt_create);
 
         $butt_cancel = new \XoopsFormButton('', '', _AM_SF_CANCEL, 'button');
         $butt_cancel->setExtra('onclick="history.go(-1)"');

@@ -51,14 +51,14 @@ switch ($op) {
         global $faqObj, $xoopsUser, $xoopsConfig, $xoopsModule, $xoopsModuleConfig, $xoopsDB;
 
         // If user is anonymous and we don't allow anonymous posting, exit; else, get the uid
-        if (!$xoopsUser) {
+        if ($xoopsUser) {
+            $uid = $xoopsUser->uid();
+        } else {
             if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
             }
-        } else {
-            $uid = $xoopsUser->uid();
         }
 
         // Creating the FAQ object for the selected FAQ

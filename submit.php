@@ -65,14 +65,14 @@ switch ($op) {
         $answerObj   = $answerHandler->create();
         $categoryObj = $categoryHandler->get($_POST['categoryid']);
 
-        if (!$xoopsUser) {
+        if ($xoopsUser) {
+            $uid = $xoopsUser->uid();
+        } else {
             if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
             }
-        } else {
-            $uid = $xoopsUser->uid();
         }
 
         $notifypub = Request::getInt('notifypub', 0, 'POST');
@@ -124,14 +124,14 @@ switch ($op) {
         $newFaqObj    = $faqHandler->create();
         $newAnswerObj = $answerHandler->create();
 
-        if (!$xoopsUser) {
+        if ($xoopsUser) {
+            $uid = $xoopsUser->uid();
+        } else {
             if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
             }
-        } else {
-            $uid = $xoopsUser->uid();
         }
 
         $notifypub = Request::getInt('notifypub', 0, 'POST');

@@ -51,14 +51,14 @@ switch ($op) {
 
         $newFaqObj = $faqHandler->create();
 
-        if (!$xoopsUser) {
+        if ($xoopsUser) {
+            $uid = $xoopsUser->uid();
+        } else {
             if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
             }
-        } else {
-            $uid = $xoopsUser->uid();
         }
 
         // Putting the values about the FAQ in the FAQ object

@@ -200,14 +200,14 @@ switch ($op) {
         editfaq(true, $faqid);
         break;
     case 'addfaq':
-        if (!$xoopsUser) {
+        if ($xoopsUser) {
+            $uid = $xoopsUser->uid();
+        } else {
             if (1 == $helper->getConfig('anonpost')) {
                 $uid = 0;
             } else {
                 redirect_header('index.php', 3, _NOPERM);
             }
-        } else {
-            $uid = $xoopsUser->uid();
         }
 
         $faqid = Request::getInt('faqid', -1, 'POST');

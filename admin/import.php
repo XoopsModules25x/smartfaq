@@ -26,11 +26,11 @@ switch ($op) {
     case 'importExecute':
         $importfile      = $_POST['importfile'] ?? 'nonselected';
         $importfile_path = XOOPS_ROOT_PATH . '/modules/smartfaq/admin/' . $importfile . '.php';
-        if (!file_exists($importfile_path)) {
+        if (file_exists($importfile_path)) {
+            require_once $importfile_path;
+        } else {
             $errs[] = sprintf(_AM_SF_IMPORT_FILE_NOT_FOUND, $importfile_path);
             $error  = true;
-        } else {
-            require_once $importfile_path;
         }
         foreach ($msgs as $m) {
             echo $m . '<br>';

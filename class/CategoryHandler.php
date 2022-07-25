@@ -212,10 +212,10 @@ class CategoryHandler extends \XoopsObjectHandler
             while (false !== ($myrow = $this->db->fetchArray($result))) {
                 $category = new Smartfaq\Category();
                 $category->assignVars($myrow);
-                if (!$id_as_key) {
-                    $ret[] = $category;
-                } else {
+                if ($id_as_key) {
                     $ret[$myrow['categoryid']] = $category;
+                } else {
+                    $ret[] = $category;
                 }
                 unset($category);
             }

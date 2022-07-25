@@ -172,9 +172,7 @@ class Utility extends Common\SysUtility
     {
         global $xoopsUser;
 
-        if (!$xoopsUser) {
-            $result = false;
-        } else {
+        if ($xoopsUser) {
             /** @var Smartfaq\PermissionHandler $smartPermHandler */
             $smartPermHandler = Smartfaq\Helper::getInstance()->getHandler('Permission');
 
@@ -184,6 +182,8 @@ class Utility extends Common\SysUtility
             } else {
                 $result = true;
             }
+        } else {
+            $result = false;
         }
 
         return $result;

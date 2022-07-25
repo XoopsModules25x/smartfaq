@@ -285,10 +285,10 @@ class FaqHandler extends \XoopsObjectHandler
             $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
 
-            if (!$id_as_key) {
-                $ret[] = &$faq;
-            } else {
+            if ($id_as_key) {
                 $ret[$myrow['faqid']] = &$faq;
+            } else {
+                $ret[] = &$faq;
             }
             unset($faq);
         }
@@ -364,10 +364,10 @@ class FaqHandler extends \XoopsObjectHandler
             $faq = new Smartfaq\Faq();
             $faq->assignVars($myrow);
 
-            if (!$id_as_key) {
-                $ret[] = &$faq;
-            } else {
+            if ($id_as_key) {
                 $ret[$myrow['faqid']] = &$faq;
+            } else {
+                $ret[] = &$faq;
             }
             unset($faq);
         }
