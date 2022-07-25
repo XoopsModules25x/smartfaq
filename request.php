@@ -127,7 +127,7 @@ switch ($op) {
 
         $name = $xoopsUser ? ucwords($xoopsUser->getVar('uname')) : 'Anonymous';
 
-        $sectionname = htmlspecialchars($xoopsModule->getVar('name'));
+        $sectionname = htmlspecialchars($xoopsModule->getVar('name'), ENT_QUOTES | ENT_HTML5);
 
         require_once __DIR__ . '/include/request.inc.php';
 

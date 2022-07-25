@@ -235,7 +235,7 @@ class Category extends XoopsObject
         $notificationHandler = \xoops_getHandler('notification');
 
         $tags                  = [];
-        $tags['MODULE_NAME']   = \htmlspecialchars($smartModule->getVar('name'));
+        $tags['MODULE_NAME']   = \htmlspecialchars($smartModule->getVar('name'), ENT_QUOTES | ENT_HTML5);
         $tags['CATEGORY_NAME'] = $this->name();
         $tags['CATEGORY_URL']  = XOOPS_URL . '/modules/' . $smartModule->getVar('dirname') . '/category.php?categoryid=' . $this->categoryid();
 

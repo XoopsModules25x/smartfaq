@@ -88,7 +88,7 @@ function b_faqs_recent_show($options)
         $block['lang_category'] = _MB_SF_CATEGORY;
         $block['lang_poster']   = _MB_SF_ANSWEREDBY;
         $block['lang_date']     = _MB_SF_DATE;
-        $modulename             = htmlspecialchars($smartModule->getVar('name'));
+        $modulename             = htmlspecialchars($smartModule->getVar('name'), ENT_QUOTES | ENT_HTML5);
         $block['lang_visitfaq'] = _MB_SF_VISITFAQ . ' ' . $modulename;
     }
 

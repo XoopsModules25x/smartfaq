@@ -176,7 +176,7 @@ if (1 == $helper->getConfig('useimagenavpage')) {
 }
 
 // Page Title Hack by marcan
-$module_name = htmlspecialchars($xoopsModule->getVar('name'));
+$module_name = htmlspecialchars($xoopsModule->getVar('name'), ENT_QUOTES | ENT_HTML5);
 $xoopsTpl->assign('xoops_pagetitle', $module_name . ' - ' . $category->getVar('name'));
 // End Page Title Hack by marcan
 
