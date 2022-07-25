@@ -2,8 +2,6 @@
 
 namespace XoopsModules\Smartfaq;
 
-use XoopsMediaUploader;
-
 /**
  * CBB, XOOPS forum module
  *
@@ -17,7 +15,7 @@ require_once XOOPS_ROOT_PATH . '/class/uploader.php';
 /**
  * Class Uploader
  */
-class Uploader extends XoopsMediaUploader
+class Uploader extends \XoopsMediaUploader
 {
     /**
      * No admin check for uploads
